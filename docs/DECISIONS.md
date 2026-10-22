@@ -78,6 +78,13 @@ Full findings in `docs/data/QUALITY.md`; sources per file in `data/raw/<carrier>
   applied to UPS as a proxy and flagged; the UI slider overrides it. USPS has none.
 - **Announced increases:** FedEx and USPS from primary sources; UPS from
   trade press, marked secondary.
-- **Raw files:** small, parse-ready sources are committed (about 35 MB).
-  Full-guide PDFs are gitignored with their URLs recorded, and re-fetched by
-  the pipeline when absent.
+- **Raw files:** only spreadsheets, CSV zips and small HTML snapshots are
+  committed (about 8 MB). All PDFs are gitignored and restored by
+  `data/fetch_raw.py` from `data/raw/manifest.csv` (URL, SHA-256, size),
+  fetched one at a time with a pause between requests.
+- **Citations:** every curated row carries file, page and verbatim quote,
+  and a test checks the quote against the document.
+- **USPS dimensional weight** verified in the DMM: divisor 166, then 139 from
+  2026-07-12, above 1,728 cubic inches, all zones.
+- **Schema** for all processed tables and the parcel CSV is fixed in
+  `docs/data/SCHEMA.md` before any parser is written.
