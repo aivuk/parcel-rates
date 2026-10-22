@@ -1,0 +1,9 @@
+# Full-guide PDFs are too large to ship with the repo (over 100 MB together).
+# URLs and retrieval methods are recorded in each carrier's SOURCES.md;
+# the pipeline download step re-fetches them when absent.
+ups/*/ups-*-rate-and-service-guide-daily-rates*.pdf
+fedex/*/Service_Guide_*.pdf
+usps/*/notice123_*-07-*.pdf
+usps/*/notice123_*-10-*.pdf
+usps/*/notice123_*-04-*.pdf
+!usps/2023/notice123_2023-07-09.pdf

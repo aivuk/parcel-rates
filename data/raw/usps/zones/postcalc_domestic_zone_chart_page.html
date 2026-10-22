@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Domestic Zone Chart </title>
+	<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<meta name="viewport" content="width=device-width" />
+
+	
+	<link href="/Content/themes/base/css?v=dTzABYrUJItGr8xilE5wN5D0a4brIbttX9jHLrrbpbE1" rel="stylesheet"/>
+
+
+	<link href="/Content/css?v=xAq_1lXmVPiUmMb-K0CJQdmgc1f4DJH7xXqjlGEPSXw1" rel="stylesheet"/>
+
+	<script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
+
+	<script src="/bundles/sitejs?v=tQx6yUyn7orNCgMzfh3POxk-Aapb0zE3ytw0158-WRY1"></script>
+
+</head>
+<body>
+	
+<!-- Google Tag Manager -->
+<noscript>
+	<iframe src="//www.googletagmanager.com/ns.html?id=GTM-MVCC8H" height="0" width="0" style="display: none; visibility: hidden"></iframe>
+</noscript>
+
+<script type="text/javascript">
+	(function (w, d, s, l, i) {
+		w[l] = w[l] || [];
+		w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+		var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+	})(window, document, 'script', 'dataLayer', 'GTM-MVCC8H');
+</script>
+
+<!-- End Google Tag Manager -->
+
+		<div id="utility-bar">
+		<div class="container">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+					<div id="navbar" class="navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Domestic <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="/Calculator/Index">Retail Calculator</a></li><li><a href="/Business/Index">Business Calculator</a></li><li><a href="/MilitaryRestrictions/Index">APO/FPO/DPO Restrictions</a></li><li><a href="/DomesticZoneChart/Index">Zone Chart</a></li><li><a href="https://tools.usps.com/locations/" target="_blank">Locate a Post Office</a></li><li><a href="https://tools.usps.com/zip-code-lookup.htm" target="_blank">ZIP Code Lookup</a></li><li><a href="/ServiceCommitments/Index">Service Commitments</a></li></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">International <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="/Calculator/Index?country=10440">Retail Calculator</a></li><li><a href="/Business/Index?country=10440">Business Calculator</a></li><li><a href="/CustomsForm/Index">Customs Form Indicator</a></li><li><a href="/CountryPriceGroup/Index">Country Max Limits and Price Groups</a></li></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pricing <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="https://pe.usps.com/text/dmm300/Notice123.htm" target="">Price Charts HTML</a></li><li><a href="https://pe.usps.com/cpim/ftp/manuals/dmm300/Notice123.pdf" target="">Price Charts PDF</a></li></ul></li><li><a href="https://pe.usps.com" target="">Postal Explorer</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+
+
+	<div id="wrap">
+		<div class="container">
+			
+<!--googleoff: index-->
+<div id="skip-content" style="height: 0px; overflow: hidden;">
+	<a id="skip-nav" style="height: 0.1rem;" href="#maincontent">Skip navigation</a>
+</div>
+<div class="header-usps row" style="vertical-align: text-bottom;">
+			<a href="https://www.usps.com" class="logo-usps"><img alt="USPS.com home" src="/images/logo-sb.png"></a>
+		<span class="logo-pcalc" style="padding-right: 2em;">
+			<a class="hidden-xs" href="/DomesticZoneChart">Domestic Zone Chart</a>
+			<a class="visible-xs" href="/DomesticZoneChart">Domestic Zone Chart</a>
+		</span>
+        <span style="float: right; ">
+            <a href="#" onclick="OpenVideoLibrary('https://pe.usps.com/VideoLibrary');" target="_blank">
+                <img alt="Video Library" src="/Images/VideoLibraryIcon_Small.png">
+            </a>
+			<a href="#" onclick="OpenVideoLibrary('https://pe.usps.com/VideoLibrary');">Video Library</a>
+        </span>
+</div>
+<script>
+	function OpenVideoLibrary(url) {
+		newWindow = window.open(url, 'VideoLibrary', 'resizable = yes, scrollbars = yes, toolbar = no, menubar = no, location = no, status = no');
+		return false;
+	}
+</script>
+<!--googleon: index-->
+
+			
+
+			
+
+			<div id="maincontent" class="content-wrap-pcalc">
+				
+
+
+<div class="panel-body">
+	<div class="text-right">
+		<a href="https://postalpro.usps.com/operations/zone-charts">Postal Zone Charts</a>
+	</div>
+	<ul id="search-tabs" class="nav nav-tabs nav-tabs-pe">
+		<li class="active" role="presentation"><a href="#zone-chart-1" data-toggle="tab" tabindex="1">Get Zone Chart</a></li>
+		<li role="presentation"><a href="#zone-chart-2" data-toggle="tab" tabindex="2">Get Zone for ZIP Code Pair</a></li>
+	</ul>
+	<div class="tab-content">
+		<div id="zone-chart-1" class="tab-pane active">
+			<div class="content">
+				<div class="text-right">Effective Date: <span id="effective-date-3-digit">October 1, 2026</span></div>
+				<div class="row hidden-print">
+					<div class="col-md-4 col-xs-12">
+						<div class="form-group">
+							<label for="ZIPCode3Digit">Enter a 3-digits ZIP Code</label>
+							<input class="form-control numeric-only" id="ZIPCode3Digit" maxlength="3" name="ZIPCode3Digit" placeholder="3-Digit ZIP Code" tabindex="3" type="text" value="" />
+							<div><span id="zip-3-error" class="field-validation-valid"></span></div>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12">
+						<div class="form-group">
+							<label class="control-label" for="ShippingDate3Digit">Enter the Zone Chart Date?</label>
+							<input class="form-control datepicker" data-val="true" data-val-date="The field Enter the Zone Chart Date? must be a date." data-val-required="The Enter the Zone Chart Date? field is required." id="ShippingDate3Digit" name="ShippingDate3Digit" placeholder="Shipping Date" tabindex="2" type="text" value="10/22/2026" />
+							<span id="shipping-date-3-error" class="field-validation-valid"></span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group hidden-print">
+					<input type='button' class='btn btn-pcalc' value='Submit' onclick="GetZoneChart();" tabindex="5" />
+					<div><input type="checkbox" id="ExcelFormat" tabindex="4" /> <label for="ExcelFormat">Display as an EXCEL Formatted Table</label></div>
+					<p>Use the "Get Zone for ZIP Code Pair" tab for all inbound APO/FPO/DPO.</p>
+				</div>
+				<div><span id="page-error-1" class="field-validation-valid"></span></div>
+
+				<div id="ajaxBusy1" style="display: none;"><img src="/Images/ajax-loader.gif" /></div>
+
+				<div id="zone-chart" style="margin-top: 10px; display: none;">
+					<p>The first 3-digits of your destination ZIP Code determine the zone.</p>
+					<div>* Indicates ZIP Code range within the same NDC as the origin ZIP Code</div>
+					<div>+ Indicates ZIP Code range has 5-Digit Exceptions</div>
+					<div id="chart-nonresponsive">
+						<table class="table table-bordered table-condensed">
+							<thead>
+								<tr>
+									<th>ZIP Code</th>
+									<th>Zone</th>
+									<th>ZIP Code</th>
+									<th>Zone</th>
+									<th>ZIP Code</th>
+									<th>Zone</th>
+									<th>ZIP Code</th>
+									<th>Zone</th>
+								</tr>
+							</thead>
+							<tbody id="chart-nonresponsive-tbody"></tbody>
+						</table>
+					</div>
+
+					<div id="chart-responsive">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="row">
+									<div class="col-xs-12 col-md-6 col-p-6">
+										<div class="row">
+											<div id="zone-chart-col-0-zip" class="col-xs-6" style="padding-right: 0px;"></div>
+											<div id="zone-chart-col-0-zone" class="col-xs-6 zone-chart-col-zone"></div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-md-6 col-p-6">
+										<div class="row">
+											<div id="zone-chart-col-1-zip" class="col-xs-6 zone-chart-col-zip zone-chart-col-zip-md"></div>
+											<div id="zone-chart-col-1-zone" class="col-xs-6 zone-chart-col-zone"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="row">
+									<div class="col-xs-12 col-md-6 col-p-6">
+										<div class="row">
+											<div id="zone-chart-col-2-zip" class="col-xs-6 zone-chart-col-zip zone-chart-col-zip-sm"></div>
+											<div id="zone-chart-col-2-zone" class="col-xs-6 zone-chart-col-zone"></div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-md-6 col-p-6">
+										<div class="row">
+											<div id="zone-chart-col-3-zip" class="col-xs-6 zone-chart-col-zip zone-chart-col-zip-sm"></div>
+											<div id="zone-chart-col-3-zone" class="col-xs-6 zone-chart-col-zone"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<h4>[+] 5-Digit Exceptions</h4>
+					<table class="table table-bordered table-condensed table-hover">
+						<thead>
+							<tr>
+								<th>ZIP Code</th>
+								<th>Zone</th>
+								<th>Specific To</th>
+							</tr>
+						</thead>
+						<tbody id="digit-tbody"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div id="zone-chart-2" class="tab-pane">
+			<div class="content">
+				<div class="text-right">Effective Date: <span id="effective-date">October 1, 2026</span></div>
+				<div class="row">
+					<div class="col-xs-12 col-md-4">
+						<div class="form-group">
+							<label for="Origin">What ZIP Code are you mailing from?</label>
+							<input class="form-control numeric-only" id="Origin" maxlength="5" name="Origin" placeholder="5-Digit ZIP Code" tabindex="6" type="text" value="" />
+							<span id="origin-error" class="field-validation-valid"></span>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-4">
+						<div class="form-group">
+							<label for="Destination">What ZIP Code are you mailing to?</label>
+							<input class="form-control numeric-only" id="Destination" maxlength="5" name="Destination" placeholder="5-Digit ZIP Code" tabindex="7" type="text" value="" />
+							<span id="destination-error" class="field-validation-valid"></span>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-4">
+						<div class="form-group">
+							<label class="control-label" for="ShippingDate">What&#39;s the Shipping Date?</label>
+							<input class="form-control datepicker" data-val="true" data-val-date="The field What&#39;s the Shipping Date? must be a date." data-val-required="The What&#39;s the Shipping Date? field is required." id="ShippingDate" name="ShippingDate" placeholder="Shipping Date" tabindex="8" type="text" value="10/22/2026" />
+							<span id="shipping-date-error" class="field-validation-valid"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group hidden-print">
+					<input type="button" class="btn btn-pcalc" value="Submit" onclick="GetZone();" tabindex="9">
+				</div>
+				<div id="ajaxBusy2" style="display: none;"><img src="/Images/ajax-loader.gif" /></div>
+				<div><span id="page-error-2" class="field-validation-valid"></span></div>
+				<div id="zone"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+			</div>
+		</div>
+	</div>
+
+	<!--googleoff: index-->
+    <div class="global-footer-wrap hidden-print" id="global-footer-wrap">
+        <div class="container">
+            <footer>
+                <a href="https://www.usps.com/" class="global-footer--logo-link"></a>
+
+                <div class="row"><div class="col-xs-6"><div class="col-xs-12 col-sm-6"><h3>HELPFUL LINKS</h3><ul><li><a href="https://www.usps.com/help/contact-us.htm" >Contact Us</a></li><li><a href="https://www.usps.com/globals/site-index.htm" >Site Index</a></li><li><a href="https://faq.usps.com/s/" >FAQs</a></li></ul><h3>USPS JOBS</h3><ul><li><a href="http://about.usps.com/careers/welcome.htm" >Careers</a></li></ul></div><div class="col-xs-12 col-sm-6"><h3>ON ABOUT.USPS.COM</h3><ul><li><a href="http://about.usps.com/" >About USPS Home</a></li><li><a href="http://about.usps.com/news/welcome.htm" >Newsroom</a></li><li><a href="http://about.usps.com/news/service-alerts/welcome.htm" >USPS Service Updates</a></li><li><a href="http://about.usps.com/forms-publications/welcome.htm" >Forms & Publications</a></li><li><a href="https://www.usps.com/gov-services/gov-services.htm" >Government Services</a></li></ul></div></div><div class="col-xs-6"><div class="col-xs-12 col-sm-6"><h3>Other USPS Sites</h3><ul><li><a href="https://gateway.usps.com/" >Business Customer Gateway</a></li><li><a href="https://postalinspectors.uspis.gov/" >Postal Inspectors</a></li><li><a href="http://www.uspsoig.gov/" >Inspector General</a></li><li><a href="https://pe.usps.com/" >Postal Explorer</a></li><li><a href="http://www.postalmuseum.si.edu/" >National Postal Museum</a></li><li><a href="https://www.usps.com/webtools/welcome.htm" >Resources for Developers</a></li><li><a href="https://postalpro.usps.com" >PostalPro</a></li></ul></div><div class="col-xs-12 col-sm-6"><h3>Legal Information</h3><ul><li><a href="http://about.usps.com/who-we-are/privacy-policy/privacy-policy-highlights.htm" >Privacy Policy</a></li><li><a href="http://about.usps.com/termsofuse.htm" >Terms of Use</a></li><li><a href="http://about.usps.com/who-we-are/foia/welcome.htm" >FOIA</a></li><li><a href="http://about.usps.com/who-we-are/no-fear-act/welcome.htm" >No FEAR Act/EEO Contacts</a></li><li><a href="https://about.usps.com/who/legal/fair-chance-act/?_gl=1*1gyqb3b*_gcl_au*ODk5NDA4MDczLjE3MTk4NDczMjI.*_ga*NjQ3NjAxNjcwLjE3MTk4NDczMjI.*_ga_3NXP3C8S9V*MTcyMTIyNjE2Mi4xMS4xLjE3MjEyMjYxNzMuMC4wLjA." >Fair Chance Act</a></li><li><a href="https://about.usps.com/who/legal/accessibility-statement/" >Accessibility Statement</a></li></ul></div></div></div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+
+
+                        <div class="global-footer--copyright">
+                            Copyright &copy;
+                            <script type="text/javascript">document.write(new Date().getFullYear());</script> USPS.  All Rights Reserved.
+                        </div>
+
+                        <ul class="global-footer--social">
+                            <li>
+                                <a target="_blank" style="text-decoration: none;" href="https://www.facebook.com/USPS?rf=108501355848630">
+                                    <img alt="Image of Facebook social media icon." src="/images/facebook_logo.png">
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" style="text-decoration: none;" href="https://www.instagram.com/uspostalservice/?hl=en">
+                                    <img alt="Image of instagram social media icon." src="/images/instagram_logo.png">
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" style="text-decoration: none;" href="http://www.pinterest.com/uspsstamps/">
+                                    <img alt="Image of Pinterest social media icon." src="/images/pinterest_logo.png">
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" style="text-decoration: none;" href="https://www.threads.net/%40uspostalservice?hl=en">
+                                    <img alt="Image of Threads social media icon." src="/images/threads_logo.png">
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" target="_blank" style="text-decoration: none;" href="https://twitter.com/usps">
+                                    <img alt="Image of X social media icon." src="/images/x_logo.png">
+                                </a>
+                            </li>
+
+                            <li>
+                                <a target="_blank" style="text-decoration: none;" href="https://www.youtube.com/usps">
+                                    <img alt="Image of Youtube social media icon." src="/images/youtube_logo.png">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--<div class="col-sm-3">
+                        <div id="footer-social">
+                            <ul class="social-links">
+                                <li><a class="social-fb" href="http://www.facebook.com/usps" target="_blank">Follow USPS on facebook.com </a></li>
+                                <li><a class="social-twitter" href="http://twitter.com/usps" target="_blank">Follow USPS on twitter.com </a></li>
+                                <li><a class="social-pinterest" href="http://pinterest.com/uspsstamps/" target="_blank">Follow USPS on pinterest.com </a></li>
+                                <li><a class="social-youtube" href="http://www.youtube.com/usps" target="_blank">Follow USPS on YouTube.com </a></li>
+                            </ul>
+                        </div>
+                    </div>-->
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!--googleon: index-->
+
+
+	
+
+
+	<script src="/bundles/jquery?v=1TkcX-vEVh6UCeVy7DNstd19ff6r78VCOfFxITvg10Y1"></script>
+
+	<script src="/bundles/bootstrapjs?v=PUqaedup64PH8VdweqgShq_XMYohRFsuGs8V_dRXYMo1"></script>
+
+
+	
+	<script src="/bundles/jqueryui?v=EqKlUEwb5a6QnKK9APLpZeOKZkAYzlO2YiCGDkzKK6c1"></script>
+
+
+	<script type="text/javascript">
+		$(document).ajaxStart(function () {
+			$('#ajaxBusy1').show();
+			$('#ajaxBusy2').show();
+		});
+
+		$(document).ajaxStop(function () {
+			$('#ajaxBusy1').hide();
+			$('#ajaxBusy2').hide();
+		});
+
+		$(document).ready(function ($) {
+			$.ajaxSetup({ cache: false });
+			HideDVI();
+		});
+
+		function GetZoneChart() {
+			$.getJSON("/DomesticZoneChart/GetZoneChart",
+				{
+					zipCode3Digit: $('#ZIPCode3Digit').val(),
+					shippingDate: $('#ShippingDate3Digit').val()
+				}, function (data) {
+					var has_error = false;
+
+					// error
+					if (data.ZIPCodeError != "") {
+						$('#zip-3-error').removeClass('field-validation-valid').addClass('field-validation-error').html(data.ZIPCodeError);
+						$('#ZIPCode3Digit').addClass('input-validation-error');
+						has_error = true;
+					}
+					else {
+						$('#zip-3-error').removeClass('field-validation-error').addClass('field-validation-valid');
+						$('#ZIPCode3Digit').removeClass('input-validation-error');
+					}
+
+					if (data.ShippingDateError != "") {
+						$('#shipping-date-3-error').removeClass('field-validation-valid').addClass('field-validation-error').html(data.ShippingDateError);
+						$('#ShippingDate3Digit').addClass('input-validation-error');
+						has_error = true;
+					}
+					else {
+						$('#shipping-date-3-error').removeClass('field-validation-error').addClass('field-validation-valid');
+						$('#ShippingDate3Digit').removeClass('input-validation-error');
+					}
+
+					if (data.PageError != "") {
+						$('#page-error-1').removeClass('field-validation-valid').addClass('field-validation-error').html(data.PageError);
+						has_error = true;
+					}
+					else {
+						$('#page-error-1').removeClass('field-validation-error').addClass('field-validation-valid');
+					}
+
+					if (has_error == false) {
+						$('#effective-date-3-digit').html(data.EffectiveDate);
+
+						if ($('#ExcelFormat').prop('checked') == false) {
+
+							AddZoneChartRowsResponsive(data.Column0, '#zone-chart-col-0-zip', '#zone-chart-col-0-zone', 0);
+							AddZoneChartRowsResponsive(data.Column1, '#zone-chart-col-1-zip', '#zone-chart-col-1-zone', 1);
+							AddZoneChartRowsResponsive(data.Column2, '#zone-chart-col-2-zip', '#zone-chart-col-2-zone', 2);
+							AddZoneChartRowsResponsive(data.Column3, '#zone-chart-col-3-zip', '#zone-chart-col-3-zone', 3);
+
+							$('#chart-nonresponsive').hide();
+							$('#chart-responsive').show();
+						}
+						else {
+							var table = $('#chart-nonresponsive-tbody');
+							$(table).find("tr").remove();
+							AddZoneChartRowsNonresponsive(data.Column0, 0, table);
+							AddZoneChartRowsNonresponsive(data.Column1, 1, table);
+							AddZoneChartRowsNonresponsive(data.Column2, 2, table);
+							AddZoneChartRowsNonresponsive(data.Column3, 3, table);
+
+							$('#chart-nonresponsive').show();
+							$('#chart-responsive').hide();
+						}
+
+						var table_5_digit = $('#digit-tbody');
+						$(table_5_digit).find("tr").remove();
+						$.each(data.Zip5Digit, function (number, cell) {
+							$(table_5_digit).append('<tr><td>' + cell.ZipCodes + '</td><td>' + cell.Zone + '</td><td>' + cell.MailService + '</td></tr>');
+						});
+
+						$('#zone-chart').show();
+					}
+					else {
+						$('#zone-chart').hide();
+					}
+				})
+			.fail(function (jqxhr, textStatus, error) {
+				alert(error);
+			});
+		}
+
+		function AddZoneChartRowsNonresponsive(dataColumn, colIndex, table) {
+			$.each(dataColumn, function (number, cell) {
+				if (colIndex == 0) {
+					$(table).append('<tr>' +
+						'<td style="background-color: rgb(238, 238, 238);"></td><td style="background-color: rgb(238, 238, 238);"></td>' +
+						'<td></td><td></td>' +
+						'<td style="background-color: rgb(238, 238, 238);"></td><td style="background-color: rgb(238, 238, 238);"></td>' +
+						'<td></td><td></td></tr>');
+				}
+
+				var rows = $(table).children('tr');
+				var all_cells = $(rows[number]).children();
+				var cell_index = (colIndex * 2);
+				$(all_cells[cell_index]).html(cell.ZipCodes);
+				$(all_cells[cell_index + 1]).html(cell.Zone);
+			});
+		}
+
+		function AddZoneChartRowsResponsive(dataColumn, divZIP, divZone, colIndex) {
+			var zip_codes = [];
+			var zones = [];
+			var div_class = " class='zone-chart-header'";
+			if (colIndex == 1)
+				div_class = " class='hidden-xs hidden-sm visible-print-pcalc zone-chart-header'";
+			else if (colIndex == 3)
+				div_class = " class='hidden-xs hidden-sm zone-chart-header'";
+			else if (colIndex == 2)
+				div_class = " class='hidden-xs zone-chart-header'";
+
+			zip_codes.push("<div" + div_class + ">ZIP Code</div>");
+			zones.push("<div" +  div_class + ">Zone</div>");
+
+			$.each(dataColumn, function (number, cell) {
+				zip_codes.push("<div class='zone-chart-cell'>" + cell.ZipCodes + "</div>");
+				zones.push("<div class='zone-chart-cell'>" + cell.Zone + "</div>");
+			});
+
+			$(divZIP).html(zip_codes.join(""));
+			$(divZone).html(zones.join(""));
+		}
+
+		function GetZone() {
+			$.getJSON("/DomesticZoneChart/GetZone",
+				{
+					origin: $('#Origin').val(),
+					destination: $('#Destination').val(),
+					shippingDate: $('#ShippingDate').val()
+				}, function (data) {
+					var has_error = false;
+
+					if (data.OriginError != "") {
+						$('#origin-error').removeClass('field-validation-valid').addClass('field-validation-error').html(data.OriginError);
+						$('#Origin').addClass('input-validation-error');
+						has_error = true;
+					}
+					else {
+						$('#origin-error').removeClass('field-validation-error').addClass('field-validation-valid');
+						$('#Origin').removeClass('input-validation-error');
+					}
+
+					if (data.DestinationError != "") {
+						$('#destination-error').removeClass('field-validation-valid').addClass('field-validation-error').html(data.DestinationError);
+						$('#Destination').addClass('input-validation-error');
+						has_error = true;
+					}
+					else {
+						$('#destination-error').removeClass('field-validation-error').addClass('field-validation-valid');
+						$('#Destination').removeClass('input-validation-error');
+					}
+
+					if (data.ShippingDateError != "") {
+						$('#shipping-date-error').removeClass('field-validation-valid').addClass('field-validation-error').html(data.ShippingDateError);
+						$('#ShippingDate').addClass('input-validation-error');
+						has_error = true;
+					}
+					else {
+						$('#shipping-date-error').removeClass('field-validation-error').addClass('field-validation-valid');
+						$('#ShippingDate').removeClass('input-validation-error');
+					}
+
+					if (data.PageError != "") {
+						$('#page-error-2').removeClass('field-validation-valid').addClass('field-validation-error').html(data.PageError);
+						has_error = true;
+					}
+					else {
+						$('#page-error-2').removeClass('field-validation-error').addClass('field-validation-valid');
+					}
+
+					if (has_error == false) {
+						$('#effective-date').html(data.EffectiveDate);
+						$('#zone').html(data.ZoneInformation);
+					}
+					else {
+						$('#zone').html("");
+					}
+				})
+			.fail(function (jqxhr, textStatus, error) {
+				alert(error);
+			});
+		}
+
+		$(function () {
+			$('.datepicker').datepicker();
+		});
+	</script>
+
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('.numeric-only').keypress(function (e) { NumberOnly(e); });
+			$('.decimal-only').keypress(function (e) { DecimalOnly(e); });
+
+		});
+
+		function NumberOnly(e) {
+			var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+			if (verified) { e.preventDefault();
+			}
+		}
+
+		function DecimalOnly(e) {
+			var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[0-9]|[.]/);
+			if (!verified) { e.preventDefault(); }
+		}
+	</script>
+<script type="text/javascript"  src="/z9oQJYLm8mEZl_UNcgRUMGIK/EcG70QYYDaYJrh/XgdUa3RMAg/BC/47RQYZRCA"></script></body>
+</html>
