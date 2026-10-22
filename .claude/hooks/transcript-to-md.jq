@@ -67,13 +67,13 @@ def is_tool_result_only:
 def role:
   if is_tool_result_only then "assistant" else .type end;
 
-def label:
+def role_label:
   if .type == "user" then "User"
   elif .type == "assistant" then "Assistant"
   else "System" end;
 
 def heading:
-  "\($h) \(label) <sub>\(ts)</sub>";
+  "\($h) \(role_label) <sub>\(ts)</sub>";
 
 def body:
   if .type == "system" then

@@ -7,7 +7,7 @@
 # Can also be run by hand with the same JSON on stdin.
 #
 # Dependencies: bash, jq, git.
-set -uo pipefail
+set -euo pipefail
 
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 filter="$here/transcript-to-md.jq"
@@ -31,6 +31,7 @@ fi
 outdir="$root/docs/agent-log"
 out="$outdir/$sid.md"
 mkdir -p "$outdir"
+trap 'rm -f "$out.tmp"' EXIT
 
 render() { # render <heading-prefix> ; records on stdin
   jq -rs --arg h "$1" -f "$filter"
@@ -77,7 +78,8 @@ meta() { # meta <jq expr> over the main transcript
     echo
     jq -c --arg a "$agent" 'select(.isSidechain == true and ((.agentId // "sidechain") == $a))' "$tp" | render "###"
   done
-} > "$out.tmp" && mv "$out.tmp" "$out"
+} > "$out.tmp"
+mv "$out.tmp" "$out"
 
 echo "export-session: wrote ${out#$root/}" >&2
 
