@@ -78,7 +78,7 @@ meta() { # meta <jq expr> over the main transcript
     echo
     jq -c --arg a "$agent" 'select(.isSidechain == true and ((.agentId // "sidechain") == $a))' "$tp" | render "###"
   done
-} > "$out.tmp"
+} | sed -e "s|${HOME}|~|g" > "$out.tmp"   # redact the home directory path
 mv "$out.tmp" "$out"
 
 echo "export-session: wrote ${out#$root/}" >&2
