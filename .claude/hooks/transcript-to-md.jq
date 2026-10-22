@@ -93,7 +93,7 @@ def renderable:
 map(select(renderable))
 | reduce .[] as $r ({prev: null, out: []};
     ($r | role) as $role
-    | .out += (if $role != .prev then [($r | heading)] else [] end) + [($r | body)]
+    | .out += (if $role != .prev then [($r | heading)] else [] end) + ([($r | body)] | map(select(length > 0)))
     | .prev = $role)
 | .out
 | join("\n\n")
