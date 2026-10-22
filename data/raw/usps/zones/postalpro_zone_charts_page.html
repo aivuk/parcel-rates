@@ -1,0 +1,4464 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="/themes/custom/rdi/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="canonical" href="https://postalpro.usps.com/operations/zone-charts" />
+<link rel="shortlink" href="https://postalpro.usps.com/node/1120" />
+
+    <title>Zone Charts | PostalPro</title>
+    <link rel="stylesheet" media="all" href="/storages/css/css_ql780RePoFNtrrvq7Tf-4GIfhXeCx8ThxUEKihIx-O8.css?delta=0&amp;language=en&amp;theme=rdi&amp;include=eJxVj0EOwjAMBD-U4j-AxAGJN1Su45ZAElexQ9vfI9QKhdt6PIddksLgS50xnvCJq0uqBGpbZDeLGsa5SO-F-nfghQtQVZN0Ub1pI_BqnD38QLeDxhiZ_YD0gusRztVMcmMknjBxrnA_QvPLYmEMhBYkK_xdjaWMhR5Nix244gNMUQaM3XdZyJPTTY0TDKj8AUWJZuQ" />
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700" />
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300" />
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<link rel="stylesheet" media="all" href="/storages/css/css_VSNsISbHDQeY3ynKcqMpLhy73DnfDxcLfARA7gCc0V4.css?delta=4&amp;language=en&amp;theme=rdi&amp;include=eJxVj0EOwjAMBD-U4j-AxAGJN1Su45ZAElexQ9vfI9QKhdt6PIddksLgS50xnvCJq0uqBGpbZDeLGsa5SO-F-nfghQtQVZN0Ub1pI_BqnD38QLeDxhiZ_YD0gusRztVMcmMknjBxrnA_QvPLYmEMhBYkK_xdjaWMhR5Nix244gNMUQaM3XdZyJPTTY0TDKj8AUWJZuQ" />
+<link rel="stylesheet" media="all" href="/storages/css/css_dRfjBIPVe9rgwC1JYFcJ_W0cmVaomYcgRjAiLL99bjw.css?delta=5&amp;language=en&amp;theme=rdi&amp;include=eJxVj0EOwjAMBD-U4j-AxAGJN1Su45ZAElexQ9vfI9QKhdt6PIddksLgS50xnvCJq0uqBGpbZDeLGsa5SO-F-nfghQtQVZN0Ub1pI_BqnD38QLeDxhiZ_YD0gusRztVMcmMknjBxrnA_QvPLYmEMhBYkK_xdjaWMhR5Nix244gNMUQaM3XdZyJPTTY0TDKj8AUWJZuQ" />
+
+    
+  </head>
+
+  
+  <body class="path-node node--type-resources-curated">
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    <!-- PAGE.HTML.TWIG (PostalPro) -->
+<div class="body-wrapper HelveticaNeue-normal">
+
+  <!-- GRID -->
+  <div id="grid" class="container">
+  <div class="row">
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <div class="col-xs-1 col-1"></div>
+    <style>
+      #grid {
+      	display: none;
+      	position: fixed;
+      	top: 0;
+      	left: 0;
+      	right: 0;
+      	bottom: 0;
+      	z-index: 9999;
+      	margin: 0px auto;
+      	pointer-events:none;
+        background: rgba(128, 0, 128, 0.15);
+      }
+
+    	#grid div {
+    		height: 100%;
+    		pointer-events: none;
+    	}
+
+    	#grid .row div:after,
+    	#grid .row div:before {
+    		content: '\0020';
+    		display: block;
+    		height: 100%;
+    		background: rgba(255, 0, 0, 0.15);
+    		position: absolute;
+    		right: 15px;
+    		left: 15px;
+    	}
+    </style>
+  </div>
+</div>
+
+  <!-- PAGE BODY -->
+  <div class="body-page">
+
+    <!-- HEADER -->
+    <header class="header-postal">
+  <div class="header-inner">
+    <nav class="navbar p-0">
+
+      <div class="container d-block">
+        <div class="row align-items-center">
+
+          <div class="col-8 col-md-6 col-lg-5 my-2 me-auto mr-auto">
+                          
+    
+
+<!-- block.html.twig (PostalPro) -->
+<div id="block-rdi-branding" style="" class="site-branding">
+
+        <div class="col block-content contextual-region">
+        
+                
+
+          <!-- BLOCK--SYSTEM-BRANDING-BLOCK.HTML.TWIG -->
+<h1 class="site-title m-0 mw-100">
+  <a href="/" title="Home" rel="home" class="mw-100 site-branding-logo d-inline-block">
+          <img src="/themes/custom/rdi/logo.svg" alt="PostalPro" class="mw-100 logo-site" />
+      </a>
+</h1>
+        </div>
+
+</div>
+
+
+                      </div>
+
+                    <div class="col-2 col-md-4 col-lg-5 d-none d-sm-flex align-items-center justify-content-end p-0">
+            <a class="searchBtn d-md-none" href="/searchresults?keywords=" alt=""></a>
+            <div class="col d-none d-md-flex align-items-center justify-content-end">
+                            <a href="/site-index" class="d-none d-lg-inline-block mr-3 text-nowrap">Site Index</a>
+                            <div class="w-100">
+                <!-- block--postalpro_search_block.html.twig (PostalPro) -->
+<div id="block-postalprosearch" style="">
+  <div class="block-content contextual-region">
+  
+    
+
+      <form class="postalpro-search-form" data-drupal-selector="postalpro-search-form" method="get" action="/searchresults">
+  <div class="input-group">
+    <div class="js-form-item form-item js-form-type-textfield form-item-keywords js-form-item-keywords form-no-label">
+        <input placeholder="Search PostalPro" class="form-control autoCompleteSearchInputBox ui-autocomplete-input m-0 form-text" data-drupal-selector="edit-keywords" type="text" id="edit-keywords" name="keywords" value="" size="60" maxlength="128" />
+
+        </div>
+
+    <div class="input-group-append">
+      <button type="submit" class="btn input-group-text searchBtn"><i class="fa fa-search"></i></button>
+    </div>
+  </div>
+</form>
+
+    </div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          
+                      <!-- THEME -->
+<div class="d-lg-none" style="flex-basis: 0;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#block-mainmenu-target" aria-controls="block-mainmenu-target" aria-expanded="false" aria-label="Toggle navigation" tabindex="-1">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</div>
+
+<div id="block-mainmenu" style="" class="block block-menu block-megamenu navigation menu--main-menu col-12">
+              
+    <h5 class="visually-hidden block-title" id="block-mainmenu-menu">Main Menu</h5>
+  
+  <div id="block-mainmenu-target" class="content collapse">
+          
+
+
+    
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="menu navbar-nav">
+
+  
+  
+                  
+        
+        
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="nav-item menu-item menu-item-level-0 menu-item-has-children menu-item-megamenu menu-col">
+
+      
+        
+                
+                        <a href="" class="menu-link menu-text toggle" id="f55c9e9f-d27b-46e6-91e6-159dee6bf3d1">Mailing and Shipping<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu px-lg-3 menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-1 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu py-lg-3 menu-row menu-nowrap menu-flex-auto menu-justify-start static open">
+
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing" class="menu-link menu-text font-weight-bold text-uppercase toggle" id="a6313427-729d-4cf2-a713-099e30a841d4" data-drupal-link-system-path="node/66">Mailing<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing#cat-subsection-2" class="menu-link menu-text" id="972d1562-59c3-4eb4-8fe6-e6315e9e866f" data-drupal-link-system-path="node/66">Intelligent Mail Barcodes (IMb and IMcb)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing#cat-subsection-1" class="menu-link menu-text" id="ae7f41e6-c0e7-4af7-b676-4c96e506d13f" data-drupal-link-system-path="node/66">Full-Service</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing/service-type-identifiers" class="menu-link menu-text" id="a5a6c82a-7b76-43ff-8d29-4d978d479cee" data-drupal-link-system-path="node/867">Service Type Identifiers (STIDs)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing/einduction" class="menu-link menu-text" id="5e7dbf3d-603f-47ab-bd00-e99bddd6fcc6" data-drupal-link-system-path="node/338">eInduction</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing/seamless-acceptance" class="menu-link menu-text" id="6ea46c5c-a515-4588-ada5-e30799348eb9" data-drupal-link-system-path="node/339">Seamless Acceptance</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing/secure-destruction" class="menu-link menu-text" id="a86172ff-75fc-438f-aa2d-644adcd4956b" data-drupal-link-system-path="node/426">Secure Destruction</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/EPS" class="menu-link menu-text" id="feccb690-01c2-4d45-a1ae-d557e85da2fd" data-drupal-link-system-path="node/4024">Enterprise Payment System (EPS)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/solutions" class="menu-link menu-text" id="8d769ad5-7a1c-4960-a270-4c59e6c37959" data-drupal-link-system-path="node/8341">Mailing and Shipping Solutions Center</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing/mailpiece-design-analyst-mda-customer-service-help-desk" class="menu-link menu-text" id="1c513d6d-191e-496a-b1f1-97ea70910b19" data-drupal-link-system-path="node/1341">Mailpiece Design Support</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/shipping" class="menu-link menu-text font-weight-bold text-uppercase toggle" id="37d2e394-09f4-4877-bbfb-2dd7fa7f8507" data-drupal-link-system-path="node/69">Shipping<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/BusinessPortal" class="menu-link menu-text" id="77d6c193-82ab-4cb4-8c2d-61d80b5546d4" data-drupal-link-system-path="node/14092">Business Portal (Formerly Customer Onboarding Portal)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-item-has-children menu-item-dropdown menu-align-parent-center menu-col">
+
+      
+        
+                
+                        <a href="/operations#cat-subsection-1" class="menu-link menu-text toggle" id="b0c2ebf1-7f70-4b7b-a747-7bf603c951b8" data-drupal-link-system-path="node/63">Hazardous, Restricted, and Perishable Mail Instructions<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/node/2438" class="menu-link menu-text" id="5983fc87-7e80-4f21-aa7c-997d4b1e464f" data-drupal-link-system-path="node/2438">Adult Birds</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/product-classification/infectious-substances" class="menu-link menu-text" id="cd696bd2-5ce1-46e2-a9d7-49d0bd172c4a" data-drupal-link-system-path="node/8474">Category B Infectious Substances</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/product-classification/tobacco" class="menu-link menu-text" id="03e7cd5f-33c5-4dd7-b2ac-67faf06dd387" data-drupal-link-system-path="node/8476">Cigarettes, Smokeless Tobacco, and Electronic Nicotine Delivery Systems</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/product-classification/drug-mailback" class="menu-link menu-text" id="fc1ac55b-5ac7-4d79-9673-3350c13331e3" data-drupal-link-system-path="node/8482">Drug Mailback Program</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/product-classification/ethanol" class="menu-link menu-text" id="2d96c1b3-dc72-4bcf-9f1a-5d54e076a9c7" data-drupal-link-system-path="node/8447">Ethanol Based Flammable Liquids &amp; Solids</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/product-classification/lighters" class="menu-link menu-text" id="9a6ff4e9-ee1a-411a-b8fc-3b7baf7ecfee" data-drupal-link-system-path="node/8446">Lighters</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="https://pe.usps.com/text/pub52/welcome.htm" class="menu-link menu-text" id="f8122c31-8476-4d78-856e-0e817cf3275f">Publication 52 - Hazardous, Restricted, and Perishable Mail</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/product-classification/safety-fuse" class="menu-link menu-text" id="51bb6cd3-263d-464f-b5e5-cb562c6750d7" data-drupal-link-system-path="node/8445">Safety Fuse</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/product-classification/sharps" class="menu-link menu-text" id="71f63184-2ef0-493a-bb84-60ff8b5cf636" data-drupal-link-system-path="node/8475">Sharps and Regulated Medical Waste</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations/toy-propellant-devices" class="menu-link menu-text" id="89716a01-c9ca-4976-a64b-cd4e7dc6fe1f" data-drupal-link-system-path="node/2455">Toy Propellant Devices</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/immb" class="menu-link menu-text" id="7507598c-2c08-4ca6-8fb9-4a1b62a7d909" data-drupal-link-system-path="node/12405">Intelligent Mail Matrix Barcode (IMmb)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col">
+
+      
+        
+                
+                        <a href="/shipping/impb" class="menu-link menu-text toggle" id="2ba235e8-076b-4da4-a751-8948d31a807a" data-drupal-link-system-path="node/104">Intelligent Mail Package Barcode (IMpb)<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/shipping/impb/BarcodePackageIMSpec" class="menu-link menu-text" id="97d05f97-0280-4481-8cc5-ca864c0cde7c" data-drupal-link-system-path="node/780">IMpb Specification</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/node/324" class="menu-link menu-text" id="8fd4bd6a-cf3c-4488-9f4c-a2fd6f0e8f50" data-drupal-link-system-path="node/324">Parcel Data Exchange (PDX) API Customer Guide</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations#cat-subsection-1" class="menu-link menu-text" id="29912e11-d3b2-437f-8a56-674850c83f3e" data-drupal-link-system-path="node/63">Product Classification (Pub 52)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/pub199" class="menu-link menu-text" id="1b410ac6-e98e-41ad-ac83-c5949c969f65" data-drupal-link-system-path="node/5645">Publication 199</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/pub205" class="menu-link menu-text" id="a9c6dda4-91f0-49e0-bff7-1e3b9d129d00" data-drupal-link-system-path="node/7271">Publication 205</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/tech-sheets" class="menu-link menu-text" id="4dab797e-5607-4b2d-819d-204b68cfef6f" data-drupal-link-system-path="node/12168">Tech Sheets</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col">
+
+      
+        
+                
+                        <a href="/shipping/ppc" class="menu-link menu-text toggle" id="58b9c9e1-041c-45cd-876c-465b3f91cfc0" data-drupal-link-system-path="node/9487">USPS Ship<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/pub199" class="menu-link menu-text" id="d70dfdbb-04b0-48d0-a442-6de90d919147" data-drupal-link-system-path="node/5645">Publication 199</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/PackagePlatformDataDictionary" class="menu-link menu-text" id="feeb7257-70d0-4e04-be3a-2bf4a3fd622e" data-drupal-link-system-path="node/6305">USPS Ship Data Dictionary</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/informedvisibility/PPCDataDelegationForm" class="menu-link menu-text" id="98e18876-cdb4-44a6-9ef3-5fabf82b45c3" data-drupal-link-system-path="node/6679">USPS Ship through IV-MTR® Data Delegation Request</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/Guide_to_USPS_Ship" class="menu-link menu-text" id="0945fcd0-e33b-40a7-96da-04240ae1c631" data-drupal-link-system-path="node/12180">USPS Ship Guide</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/address-quality" class="menu-link menu-text font-weight-bold text-uppercase toggle" id="363ccb52-6200-4d4a-8835-8c773f6a08df" data-drupal-link-system-path="node/4">Address Quality Solutions<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/address-quality#cat-subsection-0" class="menu-link menu-text" id="1500f96f-3dd2-4b91-ac3b-b1b36f11a7ad" data-drupal-link-system-path="node/4">Correct and Standardize Your Address List</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/address-quality#cat-subsection-1" class="menu-link menu-text" id="6991fa1b-7005-406b-86bf-768d2b94ac9b" data-drupal-link-system-path="node/4">Verify Your Address List</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/address-quality#cat-subsection-2" class="menu-link menu-text" id="941d4f01-b8b1-49e3-822d-9513e4205cad" data-drupal-link-system-path="node/4">Enrich Your Data</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/address-quality#cat-subsection-3" class="menu-link menu-text" id="6618d7e5-5cc0-4157-a667-1922155c9f89" data-drupal-link-system-path="node/4">Stay Compliant with Move Update</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/address-quality-solutions/undeliverable-addressed-uaa-mail" class="menu-link menu-text" id="b97e1d3b-c7fb-4235-b90b-cfb62b651c40" data-drupal-link-system-path="node/2089">Undeliverable-as-Addressed (UAA) Mail Statistics</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start static open">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/roc-data" class="menu-link menu-text font-weight-bold text-uppercase" id="f3e6139e-59e2-44fc-a018-aa56f4ef6f65" data-drupal-link-system-path="roc-data">Commerce Applications Release and Outage Calendar</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="https://postalpro.usps.com/election-ballot-stid-finder" class="menu-link menu-text font-weight-bold text-uppercase" id="42708593-849d-4e6e-96a9-553877050177">Election Mail and Ballot Mail STID Finder</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/growth-incentive-faqs" class="menu-link menu-text font-weight-bold text-uppercase" id="c26e3dbc-a525-4519-ad1e-62bffda16f56" data-drupal-link-system-path="node/12396">First-Class Mail and Marketing Mail Growth Incentives</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col">
+
+      
+        
+                
+                        <a href="https://postalpro.usps.com/id" class="menu-link menu-text font-weight-bold text-uppercase toggle" id="2efed9b9-199a-4767-804a-29ce0bcd1872">Informed Delivery®<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="https://www.usps.com/business/informed-delivery.htm" class="menu-link menu-text" id="0fc1a764-4d01-469b-95d6-628b2565f8b3">Informed Delivery® for Business Mailers</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/idapi" class="menu-link menu-text" id="fa5d0497-4d48-4bc5-9dda-bdae54d2ee33" data-drupal-link-system-path="node/9574">Informed Delivery® API</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailings/idedocspecs" class="menu-link menu-text" id="cf47135c-1e84-4a57-b706-cb95fc01572b" data-drupal-link-system-path="node/7031">Informed Delivery® PostalOne! eDoc Technical Support for Mailers</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing/mailer-scorecard" class="menu-link menu-text font-weight-bold text-uppercase" id="c6c8e4dd-e00c-46b3-be08-43614f73bc8c" data-drupal-link-system-path="node/687">Mailer Scorecard</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/marriage-mail" class="menu-link menu-text font-weight-bold text-uppercase" id="023b8e18-2ba0-4219-b9ee-ad88f8eb5044" data-drupal-link-system-path="node/12278">Marriage Mail Incentive</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mailing#cat-subsection-3" class="menu-link menu-text font-weight-bold text-uppercase" id="b7dcb1e9-2f86-416b-831f-1b10ed96fdb2" data-drupal-link-system-path="node/66">Major and Minor Releases</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/pcsc" class="menu-link menu-text font-weight-bold text-uppercase" id="40df19ee-c9c9-4692-8458-b8268a483907" data-drupal-link-system-path="node/13302">Pricing and Classification Service Center (PCSC)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions" class="menu-link menu-text font-weight-bold text-uppercase" id="deb49068-cab2-456b-bf83-3d3a9d150c3b" data-drupal-link-system-path="node/108">Promotions and Incentives</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col">
+
+      
+        
+                
+                        <a href="/special-services" class="menu-link menu-text font-weight-bold text-uppercase toggle" id="06447b56-bf55-4777-9349-0020e8971d01" data-drupal-link-system-path="node/14284">Special Services<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/node/13113" class="menu-link menu-text" id="d323a2b8-efce-4e61-bf91-713507a75f38" data-drupal-link-system-path="node/13113">Business Reply Mail</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/com" class="menu-link menu-text" id="9dd25e8f-4d6b-48ca-942b-454861b51f20" data-drupal-link-system-path="node/13138">Certificate of Mailing</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/certified-mail-guidebook" class="menu-link menu-text" id="448816a2-ecb9-45a8-bc7e-cb2307c58d2e" data-drupal-link-system-path="node/12991">Certified Mail®</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/epobol" class="menu-link menu-text" id="838f7f2c-9328-4f46-ba35-fa84a2508a7e" data-drupal-link-system-path="node/7562">Enterprise Post Office Boxes Online (ePOBOL)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/premium_forwarding_commercial" class="menu-link menu-text" id="d6068d49-8e87-437c-ac33-a44f155c0507" data-drupal-link-system-path="node/7277">Premium Forwarding Service Commercial®</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col">
+
+      
+        
+                
+                        <a href="/spm-exclusions" class="menu-link menu-text font-weight-bold text-uppercase toggle" id="eca1b315-d579-4ab0-ad80-a9b040290504" data-drupal-link-system-path="node/10927">SPM Mail Exclusions<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/SPM-Factsheet" class="menu-link menu-text" id="71b56e69-c547-448d-8228-ce3cde9132cb" data-drupal-link-system-path="node/8682">Fact Sheet</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/How-to-Access-the-SPM-Exclusions-by-CRID-Application" class="menu-link menu-text" id="8edddf17-be01-4c92-97dd-722d8da35368" data-drupal-link-system-path="node/10896">How to Access the Exclusions Application</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/visibility-and-tracking" class="menu-link menu-text font-weight-bold text-uppercase" id="9911811a-26c1-4423-a566-2c419c550768" data-drupal-link-system-path="node/344">Visibility and Tracking</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-1 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu py-lg-3 menu-row menu-nowrap menu-flex-equal menu-justify-start static open" style="border-top: 1px solid #d8d8d8;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/address-quality-solutions/addressing-requirements" class="menu-link menu-text" id="6399cad1-989f-4313-8a24-c650a1a8b031" data-drupal-link-system-path="node/1129"><i class="fas fa-envelope" style="font-size: 1.25em; padding-right: 0.5em;"></i>Addressing Requirements</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/certifications" class="menu-link menu-text" id="0c9a24a0-4ac9-4ecb-9f89-a1e1bd4e9e29" data-drupal-link-system-path="node/60"><i class="fas fa-envelope" style="font-size: 1.25em; padding-right: 0.5em;"></i>Find Certified Vendors and Providers</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/ppro-tools/business-mail-entry" class="menu-link menu-text" id="def31f75-f339-4831-ba3d-32d2af33c7d0" data-drupal-link-system-path="entitypro/1"><span class="fa-stack" style="font-size: 0.75em; padding-right: 0.5em;">
+<i class="fas fa-certificate fa-stack-2x"></i>
+<i class="fas fa-check fa-stack-1x fa-inverse"></i>
+</span>Find Your Local Business Mail Entry Unit</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+        
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="nav-item menu-item menu-item-level-0 menu-item-has-children menu-item-megamenu menu-col">
+
+      
+        
+                
+                        <a href="" class="menu-link menu-text toggle" id="d3694ba5-0b63-49fa-a51a-c2865751a739">Promotions &amp; Incentives<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu px-lg-3 menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-1 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-row menu-nowrap menu-flex-initial menu-justify-start static open">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-content menu-align-parent-top menu-col">
+
+      
+              <div class="menu-custom-content"><div class="h5 m-0 px-3 pt-3">
+<p class="mb-2"><b>USPS Mailing Services team provides strategic incentives, offering various benefits and advantages to businesses and individuals.</b></p>
+
+<p class="mb-2"><u><a href="/msi"><b>All&nbsp;Mail&nbsp;Incentives</b></a></u></p>
+
+<p class="mb-2"><u><strong><a href="/mgi">Mail Growth Incentive</a></strong></u></p>
+
+<p class="mb-2">&nbsp;</p>
+
+<p class="mb-0"><b>USPS Mailing Promotions seek to increase engagement and response rates for Mailers by leveraging high value mailpieces.</b></p>
+</div>
+</div>
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-1 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu my-lg-3 flex-lg-row-reverse menu-row menu-nowrap menu-flex-initial menu-justify-start static open">
+
+  
+  
+                  
+        
+                                            
+                                    
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-content menu-align-parent-top menu-col-5">
+
+      
+              <div class="menu-custom-content"><img alt="Promotions" class="w-100" data-entity-type="file" data-entity-uuid="7a3aa2ef-f291-4b4a-a012-5fec98958aa2" src="/storages/inline-images/Picture1.jpg" /></div>
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+                                    
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-content menu-align-parent-top menu-col-7">
+
+      
+              <div class="menu-custom-content"><div class="h5 m-0 px-3 py-0">
+<p class="pb-3">&nbsp;</p>
+
+<ul style="list-style: disc; padding-left: 20px;">
+	<li class="pb-3"><u><a href="/promotions/2026Cal">2026 Promotions Calendar&nbsp;and Technical Guide</a></u></li>
+	<li class="pb-3"><a href="/promotions"><u>2026 Promotions</u></a></li>
+	<li class="pb-3">For ideas on new or existing Promotions, please fill out <a href="/promotions/suggestionform"><u>this form</u></a>.</li>
+	<li class="pb-3">Looking to implement tech in your mail? Visit the <a href="/promotions/promotions_resources/tech_directory/directory"><u>Tech Directory</u></a>.</li>
+</ul>
+</div>
+</div>
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-1 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu d-none menu-row menu-wrap menu-flex-initial menu-justify-start static open">
+
+  
+  
+                  
+        
+                                      
+                                    
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-content menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col-4">
+
+      
+              <div class="menu-custom-content"><div class="h5 mb-3 d-flex align-items-center"><img alt="Emerging and Advanced Technology" data-entity-type="file" data-entity-uuid="4da9e8ec-ca40-4134-9a34-21462e329231" src="/storages/inline-images/P1.png" style="border-radius: 50%; object-fit: cover; width: 85px; height: 85px; border: solid 2px #339cc5;" /> <a href="/promotions/2022-emerging-tech" class="px-3"><u>Emerging and Advanced Technology</u></a></div>
+</div>
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start" style="margin-top: -2em; left: 95px; width: 70%; min-height: auto;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-emerging-tech/requirements" class="menu-link menu-text" id="a780867f-d838-4978-8771-f2bd262fe983" data-drupal-link-system-path="node/10284">Guidebook</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-emerging-tech/new" class="menu-link menu-text" id="124021b3-f170-46f1-a361-43c67bd025b1" data-drupal-link-system-path="node/10348">What’s New</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-emerging-tech/slides" class="menu-link menu-text" id="8c408591-5353-4515-80ae-491128486eb9" data-drupal-link-system-path="node/10612">Webinar Slides</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-emerging-tech/webinar" class="menu-link menu-text" id="8725065e-aaa1-4911-b6c3-30734af8eaec" data-drupal-link-system-path="node/10613">Webinar Recording​</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/promotions_resources/tech_directory/directory" class="menu-link menu-text" id="e7952f76-5128-4a02-88d2-60634e3a1834" data-drupal-link-system-path="node/8483">Tech Directory</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+                                    
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-content menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col-4">
+
+      
+              <div class="menu-custom-content"><div class="h5 mb-3 d-flex align-items-center"><img alt="Personalized Color Transpromo Promotion Guidebook" data-entity-type="file" data-entity-uuid="84f03645-12da-4db4-b4ee-17e223b2d855" src="/storages/inline-images/P2.png" style="border-radius: 50%; object-fit: cover; width: 85px; height: 85px; border: solid 2px #339cc5;" /> <a href="/promotions/2022-transpromo" class="px-3"><u>Personalized Color Transpromo</u></a></div>
+</div>
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start" style="margin-top: -2em; left: 95px; width: 70%; min-height: auto;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-transpromo/requirements" class="menu-link menu-text" id="e7adedc0-8a7e-4d47-8f4c-0d38c80082a6" data-drupal-link-system-path="node/10370">Guidebook</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+                                    
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-content menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col-4">
+
+      
+              <div class="menu-custom-content"><div class="h5 mb-3 d-flex align-items-center"><img alt="Tactile, Sensory and Interactive Promotion Guidebook" data-entity-type="file" data-entity-uuid="b1a84b89-464f-4890-82c6-788eb1b3bf9a" src="/storages/inline-images/P3.png" style="border-radius: 50%; object-fit: cover; width: 85px; height: 85px; border: solid 2px #339cc5;" /> <a href="/promotions/2022-tactile-sensory" class="px-3"><u>Tactile, Sensory and Interactive</u></a></div>
+</div>
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start" style="margin-top: -2em; left: 95px; width: 70%; min-height: auto;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-tactile-sensory/requirements" class="menu-link menu-text" id="3be2a6dd-ce7d-4dfc-b633-89f50f3ff037" data-drupal-link-system-path="node/10443">Guidebook</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-tactile-sensory/webinar" class="menu-link menu-text" id="281be93b-261f-4ddf-9730-03c4acd820df" data-drupal-link-system-path="node/10654">Webinar Recording</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+                                    
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-content menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col-4">
+
+      
+              <div class="menu-custom-content"><div class="h5 mb-3 d-flex align-items-center"><img alt="Mobile Shopping Promotion Guidebook" data-entity-type="file" data-entity-uuid="bbdd17dd-3606-436b-86f3-bc6bf5ee7d8a" src="/storages/inline-images/P4.png" style="border-radius: 50%; object-fit: cover; width: 85px; height: 85px; border: solid 2px #339cc5;" /> <a href="/promotions/2022-mobile-shopping" class="px-3"><u>Mobile Shopping</u></a></div>
+</div>
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start" style="margin-top: -2em; left: 95px; width: 70%; min-height: auto;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-mobile-shopping/requirements" class="menu-link menu-text" id="6f7b725e-b785-4d19-a51c-e12bc275adaa" data-drupal-link-system-path="node/10444">Guidebook</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+                                    
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-content menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col-4">
+
+      
+              <div class="menu-custom-content"><div class="h5 mb-3 d-flex align-items-center"><img alt="Earned Value Promotion Guidebook" data-entity-type="file" data-entity-uuid="e186c214-8024-483a-8094-888eb98b959d" src="/storages/inline-images/P5.png" style="border-radius: 50%; object-fit: cover; width: 85px; height: 85px; border: solid 2px #339cc5;" /> <a href="/promotions/2022-earned-value" class="px-3"><u>Earned Value</u></a></div>
+</div>
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start" style="margin-top: -3em; left: 95px; width: 70%; min-height: auto;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-earned-value/requirements" class="menu-link menu-text" id="91b5396c-6785-4276-8816-016ec472ec25" data-drupal-link-system-path="node/10441">Guidebook</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-earned-value/slides" class="menu-link menu-text" id="d9c559fc-7fb8-40a9-93b1-ec50c4d3dd69" data-drupal-link-system-path="node/10648">Webinar Slides</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-earned-value/webinar" class="menu-link menu-text" id="40b6d7bb-0996-4a32-94c5-fba5ca828ad2" data-drupal-link-system-path="node/10647">Webinar Recording</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+                                    
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-content menu-item-has-children menu-item-dropdown menu-align-parent-left menu-col-4">
+
+      
+              <div class="menu-custom-content"><div class="h5 mb-3 d-flex align-items-center"><img alt="Informed Delivery Promotion Guidebook" data-entity-type="file" data-entity-uuid="2936db09-9e68-4a41-97e8-a5c7875bbd90" src="/storages/inline-images/P6.png" style="border-radius: 50%; object-fit: cover; width: 85px; height: 85px; border: solid 2px #339cc5;" /> <a href="/promotions/2022-informed-delivery" class="px-3"><u>Informed Delivery</u></a></div>
+</div>
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start" style="margin-top: -3em; left: 95px; width: 70%; min-height: auto;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/promotions/2022-informed-delivery/requirements" class="menu-link menu-text" id="6537fa86-40d7-4e1d-a905-acb213eacc65" data-drupal-link-system-path="node/10442">Guidebook</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                      
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="nav-item menu-item menu-item-level-0 menu-item-has-children menu-item-dropdown menu-align-parent-center menu-col">
+
+      
+        
+                
+                        <a href="" class="menu-link menu-text toggle" id="58fe7b60-8cdc-44e0-bd55-f776cbedc796">Industry Forum<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-1 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-row menu-nowrap menu-flex-initial menu-justify-start static open">
+
+  
+  
+                  
+        
+                                            
+                                                              
+                          
+                  
+                  
+    
+                  
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-children menu-item-static menu-align-parent-top menu-col-set" style="width: 17rem">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-auto menu-justify-start static open">
+
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+        
+                
+                                          <a href="/mtac" class="menu-link menu-text font-weight-bold text-uppercase border-bottom mx-2 pl-1 toggle" id="4c0cde82-5473-4a93-95c7-8deb00d7f00c" style="white-space: normal;" data-drupal-link-system-path="node/616">Mailers&#039; Technical Advisory Committee (MTAC)<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu pb-lg-3 menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                                          
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-item-has-children menu-item-flyout-right menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mtac#anchor-4" class="menu-link menu-text toggle" id="aea48805-6a27-444e-bac2-c490f00f041a" data-drupal-link-system-path="node/616">MTAC Meeting Agendas, Presentations and Webinars<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start" style="width: 14rem; border-radius: 5px;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-5 menu-align-parent-top menu-col">
+
+      
+        
+                
+                                          <a href="/mtac#anchor-7" class="menu-link menu-text" id="d6f6668b-69d9-4622-9d91-07a432b05a1c" style="white-space: normal;" data-drupal-link-system-path="node/616">Focus Group Presentations and Notes</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-5 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mtac#anchor-4" class="menu-link menu-text" id="a2d71bf4-366f-4800-9350-c03b1e9ababc" data-drupal-link-system-path="node/616">MTAC Agendas</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-5 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mtac#anchor-6" class="menu-link menu-text" id="368a0f62-cd6a-4785-8153-d6f3c05b50ef" data-drupal-link-system-path="node/616">MTAC Meeting Presentations</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-5 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mtac#anchor-5" class="menu-link menu-text" id="b60a6855-271f-47f4-b7ff-11ef38d40aa6" data-drupal-link-system-path="node/616">Pre MTAC Webinars</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                                          
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-item-has-children menu-item-flyout-right menu-align-parent-middle menu-col">
+
+      
+        
+                
+                        <a href="/mtac#anchor-1" class="menu-link menu-text toggle" id="dbfcc6af-5369-4e5b-95cb-835e4f01ca0d" data-drupal-link-system-path="node/616">MTAC Meeting Dates<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-auto menu-justify-start" style="width: 14rem; border-radius: 5px;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-5 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mtac#anchor-1" class="menu-link menu-text" id="922ab6b8-9ffa-485f-b242-80b41306efcf" data-drupal-link-system-path="node/616">Meeting Dates</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                                          <a href="/mtac#anchor-9" class="menu-link menu-text" id="7266563e-6481-4017-819e-f3ae42aed964" style="white-space: normal;" data-drupal-link-system-path="node/616">User Group, Work Group, and Task Team Information</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                                          <a href="/industryoutreach/alert_and_notices" class="menu-link menu-text font-weight-bold text-uppercase border-bottom mx-2 pl-1" id="3cefa6b6-ada3-4b40-a2d3-b7cf9da80c1f" style="white-space: normal;" data-drupal-link-system-path="node/6448">Industry Alerts and Notices</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                                          <a href="/industry-events" class="menu-link menu-text font-weight-bold text-uppercase border-bottom mx-2 pl-1" id="1a70eac4-aac4-429c-9494-c579b5564e59" style="white-space: normal;" data-drupal-link-system-path="node/14300">Industry Events</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                                          <a href="/LeadersConnect" class="menu-link menu-text font-weight-bold text-uppercase border-bottom mx-2 pl-1" id="1b4aeeb2-d593-49e6-b415-39a23f5343ee" style="white-space: normal;" data-drupal-link-system-path="node/13545">Leaders Connect</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                                          <a href="/market-research" class="menu-link menu-text font-weight-bold text-uppercase border-bottom mx-2 pl-1" id="f7b42cc2-ff39-4c82-b355-17a91bb3293b" style="white-space: normal;" data-drupal-link-system-path="node/8065">Marketing Research and Insights</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+                                                              
+                          
+                  
+                  
+    
+                  
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-children menu-item-static menu-align-parent-top menu-col-set" style="width: 17rem">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-auto menu-justify-start static open">
+
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/npf" class="menu-link menu-text font-weight-bold text-uppercase border-bottom mx-2 pl-1 toggle" id="bbd89fe9-8738-406c-a6c3-3965fc73a221" data-drupal-link-system-path="node/12121">National Postal Forum (NPF)<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-row menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="https://registration.npf.org/login" class="menu-link menu-text" id="7eb284c3-879e-4f70-a61b-2182e594d0ac">Registration</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/pcc" class="menu-link menu-text font-weight-bold text-uppercase border-bottom mx-2 pl-1" id="062bbbfd-7dd2-4841-862c-acbc00ad761e" data-drupal-link-system-path="node/2272">Postal Customer Council® (PCC)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/aim" class="menu-link menu-text font-weight-bold text-uppercase border-bottom mx-2 pl-1 toggle" id="635de8e5-216d-40cd-aa25-5c0cb0c2c3b5" data-drupal-link-system-path="node/2295">Areas Inspiring Mail (AIM)<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu pb-lg-3 menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/node/9887" class="menu-link menu-text" id="a498f7ef-a4ba-44c1-a09a-cc56c1b8a851" data-drupal-link-system-path="node/9887">Video Presentation</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/AreasInspiringMailing/Calendar" class="menu-link menu-text" id="6545d1e4-7c49-4721-b10c-a719e5d88dd5" data-drupal-link-system-path="node/3684">Calendar of Events</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-4 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/industry-focus-groups/national-aim-july-2021" class="menu-link menu-text" id="72fd2148-926d-4531-8b53-ad4df7426c5c" data-drupal-link-system-path="node/9888">Slide Presentation</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/webinars" class="menu-link menu-text font-weight-bold text-uppercase border-bottom mx-2 pl-1" id="1242e0fb-5bac-4349-a4f7-fdd523939e31" data-drupal-link-system-path="node/14878">USPS Informational Webinars</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+        
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="nav-item menu-item menu-item-level-0 menu-item-has-children menu-item-megamenu menu-col">
+
+      
+        
+                
+                        <a href="" class="menu-link menu-text toggle" id="fbc9ddfb-ae1a-4086-a189-4acbe332d909">Operations<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu px-lg-3 menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-1 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu py-lg-3 menu-row menu-nowrap menu-flex-auto menu-justify-start static open">
+
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations" class="menu-link menu-text font-weight-bold text-uppercase toggle" id="d9a667b6-c572-4afd-8538-dd642be3259d" data-drupal-link-system-path="node/63">Mail Preparation<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations/polywrap-and-polywrap-manufacturers-0" class="menu-link menu-text" id="ae430f23-9599-4e5c-a98b-8514041447c8" data-drupal-link-system-path="node/2453">Polywrap and Polywrap Manufacturers</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations/mteor" class="menu-link menu-text" id="1d29130e-6385-4e47-b62d-79a13c3c024f" data-drupal-link-system-path="node/1205">Order Mail Transport Equipment (MTEOR)</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations/labeling-lists" class="menu-link menu-text" id="540a36ef-224c-4185-98e7-13f4e3656c78" data-drupal-link-system-path="node/99">Labeling Lists</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations#cat-subsection-1" class="menu-link menu-text font-weight-bold text-uppercase toggle" id="724da1f4-d9b5-41a5-b5c3-b2e9a6011daa" data-drupal-link-system-path="node/63">Facilities<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations/dsms" class="menu-link menu-text" id="1795791f-33ed-467e-874e-5812d3a253e6" data-drupal-link-system-path="node/1113">Drop Shipment Management</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations/service-hubs-and-facilities" class="menu-link menu-text" id="5868bc77-f0e5-4635-bd01-eb575cf43297" data-drupal-link-system-path="node/2207">Service Hubs and Facilities</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="" class="menu-link menu-text font-weight-bold text-uppercase toggle" id="fb6704d2-f7e4-4f96-bd24-25b4765e2ad3">Important Resources<span class="arrow"></span></a>
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu menu-column menu-nowrap menu-flex-initial menu-justify-start">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/mail-move-file" class="menu-link menu-text" id="cc58405c-8178-4da5-a848-f65b92dd16ee" data-drupal-link-system-path="node/9993">Mail Move File</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="http://about.usps.com/news/service-alerts/welcome.htm" class="menu-link menu-text" id="fcd6fcba-def3-406a-9b10-9484fe56ebc5">Service Alerts</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations/service-standards" class="menu-link menu-text" id="68a7ec7b-8c2a-4099-9355-ec957f5a829b" data-drupal-link-system-path="node/1498">Service Standards</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-3 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations/zone-charts" class="menu-link menu-text is-active" id="d68396bf-99df-49e4-97d5-08ce6f9dc122" data-drupal-link-system-path="node/1120" aria-current="page">Zone Charts</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+                  
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-1 menu-item-has-children menu-item-static menu-align-parent-top menu-col">
+
+      
+      
+              
+
+          
+  
+          
+  
+          
+  <ul megamenu="block-mainmenu" class="submenu py-lg-3 menu-row menu-nowrap menu-flex-equal menu-justify-start static open" style="border-top: 1px solid #d8d8d8;">
+
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/ppro-tools/business-mail-entry" class="menu-link menu-text" id="ab0c8e0f-def3-44e1-a4d4-7a25814837f5" data-drupal-link-system-path="entitypro/1"><i class="fas fa-envelope" style="font-size: 1.25em; padding-right: 0.5em;"></i>Find Your Local Business Mail Entry Unit</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="submenu-item menu-item-level-2 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/operations/FAST" class="menu-link menu-text" id="2b641524-237d-4a63-940e-b1708793388a" data-drupal-link-system-path="node/1145"><i class="fas fa-map-marker-alt" style="font-size: 1.25em; padding-right: 0.5em;"></i>Make a FAST (Facility Access and Shipment Tracking) Appointment</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  </ul>
+
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="nav-item menu-item menu-item-level-0 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/certifications" class="menu-link menu-text" id="7c2e08d4-c3c1-4301-934e-7cd4760ba085" data-drupal-link-system-path="node/60">Certifications</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="nav-item menu-item menu-item-level-0 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/resources" class="menu-link menu-text" id="8b15d8be-39d6-4ace-8911-cbd7d97954c7" data-drupal-link-system-path="node/4375">Resources</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  
+                  
+        
+                                            
+            
+    
+        
+                  
+    
+        
+    <li megamenu="block-mainmenu" class="nav-item menu-item menu-item-level-0 menu-align-parent-top menu-col">
+
+      
+        
+                
+                        <a href="/support" class="menu-link menu-text" id="680b5af9-0abe-4ed4-9cb8-63f8b42164f5" data-drupal-link-system-path="node/342">Contact</a>
+
+      
+      
+      
+    </li>
+
+  
+  
+  </ul>
+
+
+
+      </div>
+</div>
+
+
+          
+        </div>
+      </div>
+
+    </nav>
+  </div>
+</header>
+
+        <!-- BREADCRUMBS -->
+        <div class="breadcrumbs mb-2 d-none d-md-block">
+      <div class="breadcrumb-inner">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col px-0">
+              
+    
+
+<!-- block.html.twig (PostalPro) -->
+<div id="block-rdi-breadcrumbs" style="">
+
+        <div class="col block-content contextual-region">
+        
+                
+
+                  
+<!-- BREADCRUMB.HTML.TWIG -->
+<nav aria-label="breadcrumb">
+  <h2 id="system-breadcrumb" class="visually-hidden">Breadcrumb</h2>
+  <ol class="breadcrumb breadcrumb-postal bg-transparent m-0 col">
+          <li class="breadcrumb-item"">
+                              <a href="/">Home</a>
+                        </li>
+          <li class="breadcrumb-item"">
+                              <a href="/operations">Operations</a>
+                        </li>
+          <li class="breadcrumb-item active"">
+                  Zone Charts
+              </li>
+      </ol>
+</nav>
+
+                </div>
+
+</div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <!-- MAIN -->
+    <div role="main" class="main main-page has-breadcrumb">
+      <div class="main-page-inner">
+
+        
+                <!-- REGION MAIN_CONTENT -->
+        <div id="content" class="area main-content">
+          <div class="content-inner">
+            <div data-drupal-messages-fallback class="hidden"></div>
+    
+
+<!-- block.html.twig (PostalPro) -->
+<div id="block-rdi-content" class="system_main_block" style="">
+
+        <div class="col block-content contextual-region">
+        
+                
+
+                  
+
+<!-- NODE--RESOURCES-CURATED--FULL.HTML.TWIG -->
+<div data-history-node-id="1120" class="node node--type-resources-curated node--promoted node--view-mode-full clearfix">
+  
+    
+
+          <style>.half-banner-img:before { background-image: url(https://postalpro.usps.com/storages/2016-08/iStock_000018152977_Medium_0.jpg);}</style>
+
+  <div class="node__content clearfix">
+
+    <div class="row-wrapper bg-primary text-white">
+      <div class="row-inner py-5 half-banner-img">
+
+        <div class="container">
+          <div class="row">
+
+            <div class="column col-11 col-sm-12 col-lg-6 offset-1 offset-sm-0 pr-lg-5">
+              <div class="column-inner">
+
+                <div class="row">
+                  <div class="col-12">
+                    <h2 class="mb-2">Zone Charts</h2>
+                    <p>The National Zone Charts Matrix was developed to assist mailers in applying the proper postage rates to a mail piece. Postage rates for zoned mail are based on mail piece weight and the distance the mail piece travels using these zone assignments. The matrix is used to determine the distance that a mailpiece travels based on the ZIP Code where the mailpiece enters the mailstream (origination) and the ZIP Code™ that will deliver the mailpiece to the addressee (destination). The origination and destination of a mailpiece is refered to as “ZIP™ pairing”. Zones are designated as "local" or 1 through 9. Please be advised that the matrix does not include postage rate information.</p>
+
+<p>Current postage rate charts for all classes of mail are located on-line at <span><span><span><a href="https://gcc02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpostcalc.usps.com%2Fbusiness%2F&amp;data=05%7C02%7CMichael.V.Filipski%40usps.gov%7Cf4652c6548d24e919b3b08ddd38a52d2%7Cf9aa5788eb334a498ad076101910cac3%7C0%7C0%7C638899313224921907%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=kTK8Fh9TiulkfzPQfybHE8ht9JZjybzwmVCkex5iD6g%3D&amp;reserved=0">https://postcalc.usps.com/business/</a></span></span></span></p>
+
+<p><a href="https://postcalc.usps.com/DomesticZoneChart">Please click here for the Domestic Zone Chart</a></p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row-wrapper">
+      <div class="row-inner py-5">
+
+        <div class="container">
+          <div class="row">
+
+            <div class="column col">
+              <div class="column-inner">
+                                <div class="row">
+                  <div class="col-12">
+                    <h2 class="mb-2">Featured Resources</h2>
+                  </div>
+                  <div class="col-12">
+
+                                                                                <div class="block-list col-12 mb-2 p-0 my-3 rounded border border-top-0 overflow-hidden">
+                                                                <div class="row border-top resource_list_item d-none">
+                        <div class="col-md-3 col-12 pr-md-0 border-right">
+
+                          <div class="px-3 pt-4 pb-2 text-md-center">
+                            <span class="text-uppercase text-xs font-weight-bold">Data Files</span>
+                            <br class="d-none d-md-block" />
+                            <span class="text-sm">03/20/2024</span>
+                          </div>
+
+                        </div>
+                        <div class="col-md-9 col-12 pl-md-0">
+
+                          <div class="px-3 pt-md-4 pb-2">
+                            <h6><a href="/Zone10_Test_file">Zone Chart and Exceptions Test Files for Zone 10</a></h6>
+                            <p></p>
+                          </div>
+
+                        </div>
+                      </div>
+                                                                                                        <div class="row border-top resource_list_item d-none">
+                        <div class="col-md-3 col-12 pr-md-0 border-right">
+
+                          <div class="px-3 pt-4 pb-2 text-md-center">
+                            <span class="text-uppercase text-xs font-weight-bold">Presentations</span>
+                            <br class="d-none d-md-block" />
+                            <span class="text-sm">09/22/2022</span>
+                          </div>
+
+                        </div>
+                        <div class="col-md-9 col-12 pl-md-0">
+
+                          <div class="px-3 pt-md-4 pb-2">
+                            <h6><a href="/NZCM_Overview">National Zone Charts Matrix Overview</a></h6>
+                            <p></p>
+                          </div>
+
+                        </div>
+                      </div>
+                                                                                                        <div class="row border-top resource_list_item d-none">
+                        <div class="col-md-3 col-12 pr-md-0 border-right">
+
+                          <div class="px-3 pt-4 pb-2 text-md-center">
+                            <span class="text-uppercase text-xs font-weight-bold">Tech Guides</span>
+                            <br class="d-none d-md-block" />
+                            <span class="text-sm">06/01/2024</span>
+                          </div>
+
+                        </div>
+                        <div class="col-md-9 col-12 pl-md-0">
+
+                          <div class="px-3 pt-md-4 pb-2">
+                            <h6><a href="/national-zone-charts-matrix/ZoneChartsMatrixTechnicalGuide">Zone Charts Matrix Technical Guide (Effective - June 2024)</a></h6>
+                            <p></p>
+                          </div>
+
+                        </div>
+                      </div>
+                                                                                                        <div class="row border-top resource_list_item d-none">
+                        <div class="col-md-3 col-12 pr-md-0 border-right">
+
+                          <div class="px-3 pt-4 pb-2 text-md-center">
+                            <span class="text-uppercase text-xs font-weight-bold">Applications/ Forms</span>
+                            <br class="d-none d-md-block" />
+                            <span class="text-sm">07/12/2026</span>
+                          </div>
+
+                        </div>
+                        <div class="col-md-9 col-12 pl-md-0">
+
+                          <div class="px-3 pt-md-4 pb-2">
+                            <h6><a href="/Zone_Charts_Order_Form">Zone Charts Order Form</a></h6>
+                            <p></p>
+                          </div>
+
+                        </div>
+                      </div>
+                                                                                                        <div class="row border-top resource_list_item d-none">
+                        <div class="col-md-3 col-12 pr-md-0 border-right">
+
+                          <div class="px-3 pt-4 pb-2 text-md-center">
+                            <span class="text-uppercase text-xs font-weight-bold">Applications/ Forms</span>
+                            <br class="d-none d-md-block" />
+                            <span class="text-sm">06/30/2026</span>
+                          </div>
+
+                        </div>
+                        <div class="col-md-9 col-12 pl-md-0">
+
+                          <div class="px-3 pt-md-4 pb-2">
+                            <h6><a href="/PS5116">Electronic Product Fulfillment (EPF) Web Access Request Form (PS 5116)</a></h6>
+                            <p></p>
+                          </div>
+
+                        </div>
+                      </div>
+                                                                                                        <div class="row border-top resource_list_item d-none">
+                        <div class="col-md-3 col-12 pr-md-0 border-right">
+
+                          <div class="px-3 pt-4 pb-2 text-md-center">
+                            <span class="text-uppercase text-xs font-weight-bold">Presentations</span>
+                            <br class="d-none d-md-block" />
+                            <span class="text-sm">01/01/2014</span>
+                          </div>
+
+                        </div>
+                        <div class="col-md-9 col-12 pl-md-0">
+
+                          <div class="px-3 pt-md-4 pb-2">
+                            <h6><a href="/zone_chart_Exceptions_presentation">Zone Chart Exceptions Presentation for Zone 9</a></h6>
+                            <p></p>
+                          </div>
+
+                        </div>
+                      </div>
+                                                                                                        <div class="row border-top resource_list_item d-none">
+                        <div class="col-md-3 col-12 pr-md-0 border-right">
+
+                          <div class="px-3 pt-4 pb-2 text-md-center">
+                            <span class="text-uppercase text-xs font-weight-bold">Applications/ Forms</span>
+                            <br class="d-none d-md-block" />
+                            <span class="text-sm">07/12/2026</span>
+                          </div>
+
+                        </div>
+                        <div class="col-md-9 col-12 pl-md-0">
+
+                          <div class="px-3 pt-md-4 pb-2">
+                            <h6><a href="/AISCopyright_License">AIS Copyright/License Agreement</a></h6>
+                            <p></p>
+                          </div>
+
+                        </div>
+                      </div>
+                                          <button class="btn btn-primary btn-block rounded-0 d-none expandBtn" data-resources="7">
+                        Expand Group (7 Resources) <span class="glyphicon glyphicon-chevron-down"></span>
+                      </button>
+                    </div>
+                                        
+                  </div>
+                </div>
+                
+
+                <div class="row">
+                                  </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+                </div>
+
+</div>
+
+    
+
+<!-- block--postalpro-feedback-button.html.twig (PostalPro) -->
+<div id="block-postalprofeedbackbutton" style="" class="feedback_block fixed-left">
+
+        <div class="col block-content contextual-region">
+        
+                
+
+                  <a href="/feedback" id="" class="use-ajax feedback_btn btn btn-primary d-none d-md-block" style="width: 125px; border-color: #f7f7f7 !important; border-bottom: none;" data-dialog-type="dialog" data-dialog-renderer="off_canvas" data-dialog-options="{&quot;width&quot;:&quot;450px&quot;}">Feedback</a>
+                </div>
+
+</div>
+
+
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="footer" role="contentinfo">
+  <div class="footer-inner border-top border-dark bg-light pt-4 pb-5">
+
+    
+    <div class="footer-center">
+      <div class="container">
+        <div class="row justify-content-center">
+
+                    <div class="footer-first col-10 col-md-4 p-0 pb-4">
+            
+    
+
+<!-- block.html.twig (PostalPro) -->
+<div id="block-footerbranding" style="">
+
+        <div class="col block-content contextual-region">
+        
+                
+
+                  
+            <div class="form-item field field--name-body field--type-text-with-summary field--label-hidden field__item"><p><a href="/"><img alt="Postal Pro Logo" class="img-responsive mw-100" src="/themes/custom/rdi/images/footer-logo.svg"></a></p></div>
+      
+                </div>
+
+</div>
+
+
+          </div>
+          
+                    <div class="footer-second col-10 col-sm-5 col-md-4 p-0 ">
+            <!-- BLOCK--SYSTEM-MENU-BLOCK.HTML.TWIG -->
+<div id="block-quicklinks" style="">
+  <div class="col block-content contextual-region">
+                
+
+    <h5 id="block-quicklinks-menu" class="block-title">Quick Links</h5>
+
+    
+        <nav role="navigation" aria-labelledby="block-quicklinks-menu" id="block-quicklinks" style="" class="block block-menu navigation menu--quick-links">
+          <!-- MENU.HTML.TWIG -->
+              <ul class="menu list-unstyled">
+        
+            <li  class="menu-item">
+        <a href="/support" data-drupal-link-system-path="node/342">Contact</a>
+        
+      </li>
+    
+            <li  class="menu-item">
+        <a href="/site-index" data-drupal-link-system-path="node/1526">Site Index</a>
+        
+      </li>
+    
+            <li  class="menu-item">
+        <a href="/RSS_feed" data-drupal-link-system-path="node/3401">Update Via RSS</a>
+        
+      </li>
+        </ul>
+  
+
+
+        </nav>
+  </div>
+</div>
+
+
+          </div>
+          
+                    <div class="footer-third col-10 col-sm-5 col-md-4 p-0 ">
+            <!-- BLOCK--SYSTEM-MENU-BLOCK.HTML.TWIG -->
+<div id="block-relatedsites" style="">
+  <div class="col block-content contextual-region">
+                
+
+    <h5 id="block-relatedsites-menu" class="block-title">Helpful Links</h5>
+
+    
+        <nav role="navigation" aria-labelledby="block-relatedsites-menu" id="block-relatedsites" style="" class="block block-menu navigation menu--related-sites">
+          <!-- MENU.HTML.TWIG -->
+              <ul class="menu list-unstyled">
+        
+            <li  class="menu-item">
+        <a href="https://about.usps.com/who/legal/accessibility-statement/?_gl=1*a35ubq*_gcl_au*MTg3ODQwNjc2Mi4xNjg5OTQzODQ4*_ga*MTI0ODQ4NzU1MC4xNjc0MjQ4OTkz*_ga_3NXP3C8S9V*MTY5MDMxMDE0Ny4zNzkuMS4xNjkwMzEwMTc5LjAuMC4w">Accessibility Statement</a>
+        
+      </li>
+    
+            <li  class="menu-item">
+        <a href="https://gateway.usps.com">Business Customer Gateway </a>
+        
+      </li>
+    
+            <li  class="menu-item">
+        <a href="https://about.usps.com/postal-bulletin/">Postal Bulletin</a>
+        
+      </li>
+    
+            <li  class="menu-item">
+        <a href="https://pe.usps.com">Postal Explorer</a>
+        
+      </li>
+    
+            <li  class="menu-item">
+        <a href="https://www.usps.com">USPS.com</a>
+        
+      </li>
+        </ul>
+  
+
+
+        </nav>
+  </div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  
+</footer>
+
+</div>
+
+
+  </div>
+
+    
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"node\/1120","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"ajaxPageState":{"libraries":"eJxVj1FOAzEMRC-U4juAxAcSZ6i8znQJJPEqk9Du7RFsVYW_mTfvw7as5C4FpK5gsKNXjwjmDRLb2DQ_6afeQiFN2PeMsDm75q35ObqdvxOuaGKD3csL-cZJwK2jRnmA0wEm4wLERe1LXu_hefTudTIKVi2oQ97vYdqq93RJpj15pfxrk0Vos4_pigOEFpOs2RfNp9_PUl3_UAN9NAMflDs7iixK_AACwHpi","theme":"rdi","theme_token":null},"ajaxTrustedUrl":[],"user":{"uid":0,"permissionsHash":"b402c867d1a1cb8120796da8a4fdbcb23ea056afc02058fc1f35108157f51165"}}</script>
+<script src="/storages/js/js_UzCkyd7dj-9fcOR7mb5hMzDsDVTtfDrTB_Ih67dsSTw.js?scope=footer&amp;delta=0&amp;language=en&amp;theme=rdi&amp;include=eJxVjVEKhDAMRC-k5iR7Bsm22RqJSUkjuLf3Q5H6N_PmwSRzgux7RZlwxWOo1gKlus10BGmGB4wX6IyNCm6kO3zu0G1qwT9OGGza4NU6qxF6WrqPCwyeGYrYF2Vs8RfWcgJtlEN9"></script>
+
+
+        <div id="gva-overlay"></div>
+
+        <script>
+    (function() {
+      var cx = '001687916160561663475:3i-ifhqxdok';
+      var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+      gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+    })();
+    </script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-75268295-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MVCC8H"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MVCC8H');</script>
+    
+  <script type="text/javascript"  src="/IBJPUhFsCYkBnFTAXQ/3kaakSfib9w9S0/AT9EIQ0C/RlM1NmF3/dV0"></script></body>
+</html>

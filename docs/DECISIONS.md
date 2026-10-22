@@ -60,3 +60,24 @@ the real cost once surcharges and yearly price increases are included.
 | Tests | pytest for pipeline, rate engine and API; Vitest + Testing Library for components; Playwright end to end at 1440 and 375 px with screenshots reviewed for UX | — | Required by the brief and by us. |
 | Workflow | Private GitHub repo, one issue per task, a branch and git worktree per issue, parallel agents each in their own worktree, pull requests merged with merge commits | Commit straight to main | Keeps history and lets agents work in parallel without stepping on each other. |
 | Agent log | `SessionEnd` hook exports every session (and subagent) transcript to `docs/agent-log/<session-id>.md` and commits it; home directory path redacted | Manual export | Required by the brief, zero effort once set up. |
+
+## 2026-10-22 — Year range and data policy (from the data survey, issue #1)
+
+Full findings in `docs/data/QUALITY.md`; sources per file in `data/raw/<carrier>/SOURCES.md`.
+
+- **Years: 2023 through 2026**, under each year's January list prices
+  (USPS 2023 uses the July 2023 tables, when Ground Advantage launched).
+  2022 is dropped from the MVP because USPS sold a different product set.
+  FedEx 2027 rates are already published and are kept as an optional forward year.
+- **Base rates are parsed** from USPS CSV zips, FedEx XLSX (2022, 2025–2027)
+  and text PDFs (FedEx 2023–2024, UPS all years), each validated against
+  hand-checked prices.
+- **Surcharge rules are curated** into a CSV with a source file and page per
+  row, rather than parsed from prose PDFs.
+- **Fuel surcharge:** per-year default from FedEx's published history,
+  applied to UPS as a proxy and flagged; the UI slider overrides it. USPS has none.
+- **Announced increases:** FedEx and USPS from primary sources; UPS from
+  trade press, marked secondary.
+- **Raw files:** small, parse-ready sources are committed (about 35 MB).
+  Full-guide PDFs are gitignored with their URLs recorded, and re-fetched by
+  the pipeline when absent.
