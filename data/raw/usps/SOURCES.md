@@ -158,3 +158,18 @@ From the Notice 123 PDFs (footnotes beside the Priority Mail / PME / Ground Adva
 - Zone Charts Matrix Technical Guide PDF and the bulk NZCM matrix file: only an HTML landing page / order form; not downloaded.
 - July 2022 shipping-services % increase and the FCPS % for Jan 2022: not found in the saved releases (the Apr 2022 release covers market-dominant mail). Check the Federal Register notice for CP2022 July if needed.
 - Dimensional-weight divisor values per year: not in the saved files (see D).
+
+## E. Domestic Mail Manual sections (dimensional weight rule), added 2026-10-22
+
+Notice 123 does not print the dimensional-weight divisor; DMM 123 (Priority Mail) and
+DMM 133 (Ground Advantage) do. Saved under `dmm/`:
+
+| File | URL | Method | Says |
+|---|---|---|---|
+| dmm/dmm123_2024-03.htm | https://web.archive.org/web/20240304155059id_/https://pe.usps.com/text/dmm300/123.htm | Wayback (gunzipped) | "If the result exceeds 1,728 cubic inches, divide the result by 166" |
+| dmm/dmm133_2024-03.htm | https://web.archive.org/web/20240225004436id_/https://pe.usps.com/text/dmm300/133.htm | Wayback (gunzipped) | same, divisor 166 |
+| dmm/dmm123_2026-10-22.htm | https://pe.usps.com/text/dmm300/123.htm | direct, browser User-Agent | "[7-12-26] … divide the result by 139" |
+| dmm/dmm133_2026-10-22.htm | https://pe.usps.com/text/dmm300/133.htm | direct, browser User-Agent | same, divisor 139 |
+
+Neither version restricts the rule by zone. Press-release slugs and CSV-zip URLs
+for every file are in `../manifest.csv`.
