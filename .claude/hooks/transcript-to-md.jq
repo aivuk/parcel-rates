@@ -32,7 +32,7 @@ def render_input:
       | .key as $k | .value as $v
       | if ($v | type) == "string" then
           if ($v | inline_ok) then "- `\($k)`: `\($v)`"
-          else "- `\($k)`:\n\n\(fence($v))" end
+          else "- `\($k)`:\n\n\(fence($v))\n" end
         else "- `\($k)`: `\($v | tojson)`" end
     ] | join("\n")
   else fence(tojson) end;
@@ -48,7 +48,9 @@ def result_text:
 
 def block:
   if .type == "text" then (.text | escape_tags)
-  elif .type == "thinking" then details("Thinking"; (.thinking // "") | escape_tags)
+  elif .type == "thinking" then
+    if ((.thinking // "") | length) == 0 then empty
+    else details("Thinking"; .thinking | escape_tags) end
   elif .type == "tool_use" then
     "**Tool call:** `\(.name)` <sub>\(.id)</sub>\n\n\(.input | render_input)"
   elif .type == "tool_result" then
