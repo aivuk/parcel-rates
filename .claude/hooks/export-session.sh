@@ -62,10 +62,16 @@ meta() { # meta <jq expr> over the main transcript
     for f in "$subdir"/*.jsonl; do
       [[ -s "$f" ]] || continue
       name=$(basename "$f" .jsonl)
+      meta="${f%.jsonl}.meta.json"
+      desc=""; atype=""
+      if [[ -s "$meta" ]]; then
+        desc=$(jq -r '.description // empty' "$meta")
+        atype=$(jq -r '.agentType // empty' "$meta")
+      fi
       echo; echo "---"; echo
-      echo "## Subagent \`$name\`"
+      echo "## Subagent \`$name\`${desc:+: $desc}"
       echo
-      echo "Source: \`$f\`"
+      echo "Type: \`${atype:-unknown}\` · Source: \`$f\`"
       echo
       jq -c '.' "$f" | render "###"
     done
