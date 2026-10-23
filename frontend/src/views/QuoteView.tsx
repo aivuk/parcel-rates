@@ -1,3 +1,4 @@
+import { FullQuestion } from "./FullQuestion";
 import { useEffect, useMemo, useState } from "react";
 import { useApi, useLoad } from "../api/ApiContext";
 import { ApiError } from "../api/client";
@@ -89,6 +90,7 @@ export function QuoteView({ controls, meta, parcels, debounceMs = 300, initialDr
             <p className="skeleton skeleton--line" aria-hidden="true" />
           </div>
         )}
+        <FullQuestion id="quote" />
       </div>
 
       <div className="qv__grid">

@@ -119,7 +119,6 @@
 .questions__question {
   font-size: var(--text-xl);
   font-weight: 600;
-  max-width: 40ch;
   line-height: 1.2;
 }
 
@@ -229,4 +228,13 @@
 
 .answer__figure--stamp .answer__unit {
   color: var(--paper);
+}
+
+/* The full question, once, under the answer: muted, so it never competes with the figure. */
+.answer__question {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  color: var(--ink-muted);
+  max-width: 60ch;
 }

@@ -72,8 +72,7 @@ export function QuestionTabs({ active, onSelect, renderPanel, barStart, barEnd, 
         className="questions__panel"
         tabIndex={0}
       >
-        <p className="kicker">Question {activeDef.number}</p>
-        <h2 className="questions__question">{activeDef.question}</h2>
+        <h2 className="questions__question">{activeDef.title}</h2>
         {renderPanel(activeDef.id)}
       </section>
     </div>

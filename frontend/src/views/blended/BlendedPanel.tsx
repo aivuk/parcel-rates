@@ -1,3 +1,4 @@
+import { FullQuestion } from "../FullQuestion";
 import { useMemo, useState } from "react";
 import { useApi, useLoad } from "../../api/ApiContext";
 import type { BlendedResponse, Carrier, Parcel, SegmentFilter } from "../../api/types";
@@ -155,6 +156,7 @@ function Answer({ data, answer, kicker }: { data: BlendedResponse; answer: Blend
         ))}
         {others.length > 0 && "."}
       </p>
+      <FullQuestion id="blended" />
       <div className="mix" data-testid="q3-mix">
         <p className="mix__line">
           <span className="mix__label">Best mix</span>{" "}

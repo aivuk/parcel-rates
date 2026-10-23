@@ -14,6 +14,9 @@ export interface QuestionDef {
   id: ViewId;
   number: number;
   short: string;
+  /** The heading: the question in a few words, one line. */
+  title: string;
+  /** The full question, shown once as a muted caption under the answer. */
   question: string;
   /** Kicker over the answer figure, e.g. "Cheapest for this parcel". */
   answerLabel: string;
@@ -29,6 +32,7 @@ export const QUESTIONS: readonly QuestionDef[] = [
     id: "quote",
     number: 1,
     short: "Quote a parcel",
+    title: "Cheapest service for one parcel",
     question:
       "For one parcel, which service is cheapest once surcharges are included, and what are the line items of that price?",
     answerLabel: "Cheapest for this parcel",
@@ -41,6 +45,7 @@ export const QUESTIONS: readonly QuestionDef[] = [
     id: "breakeven",
     number: 2,
     short: "Breakeven map",
+    title: "Where USPS stops being cheapest",
     question: "Where does USPS stop being cheaper than UPS or FedEx ground, by weight and distance?",
     answerLabel: "Where USPS stops winning",
     answerBlank: "— lb",
@@ -52,6 +57,7 @@ export const QUESTIONS: readonly QuestionDef[] = [
     id: "blended",
     number: 3,
     short: "Blended cost",
+    title: "What your parcels cost per carrier",
     question:
       "Across all your parcels, what does each carrier cost per parcel, and how much of that is surcharges rather than base rate?",
     answerLabel: "Best blended cost per parcel",
@@ -64,6 +70,7 @@ export const QUESTIONS: readonly QuestionDef[] = [
     id: "yearly",
     number: 4,
     short: "Year over year",
+    title: "How your cost changed year to year",
     question:
       "How did that cost change each year under the published prices, against the increase carriers announced, and which parcels drove it?",
     answerLabel: "Change in cost per parcel",

@@ -1,3 +1,4 @@
+import { FullQuestion } from "../FullQuestion";
 import { useEffect, useId, useMemo, useState } from "react";
 import { useApi, useLoad } from "../../api/ApiContext";
 import type { Carrier, Meta, Parcel, YearlyResponse } from "../../api/types";
@@ -165,6 +166,7 @@ function Body({
             </p>
           </>
         )}
+        <FullQuestion id="yearly" />
       </div>
 
       <NextYear data={data} pick={pick.carrier} increase={increase} onIncrease={onIncrease} />

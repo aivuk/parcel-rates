@@ -80,7 +80,7 @@ describe("App", () => {
     const params = new URLSearchParams(window.location.search);
     expect(params.get("year")).toBe("2025");
     expect(params.get("view")).toBe("blended");
-    expect(screen.getByRole("tabpanel")).toHaveTextContent(/Across all your parcels/);
+    expect(screen.getByRole("tabpanel")).toHaveTextContent(/What your parcels cost per carrier/);
   });
 
   it("restores state from a shared link", async () => {
