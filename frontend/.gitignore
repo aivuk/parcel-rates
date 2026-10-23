@@ -2,3 +2,5 @@ node_modules/
 dist/
 *.tsbuildinfo
 e2e/.tmp/
+e2e/.output/
+playwright-report/

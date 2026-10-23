@@ -263,3 +263,18 @@ fieldset.control > legend {
 .money-input--invalid {
   border-color: var(--loss);
 }
+
+@media (pointer: coarse) {
+  .fuel__track {
+    height: 44px;
+  }
+
+  .fuel__track input[type="range"] {
+    height: 44px;
+  }
+
+  .fuel__marker {
+    top: 0.6rem;
+    bottom: 0.6rem;
+  }
+}

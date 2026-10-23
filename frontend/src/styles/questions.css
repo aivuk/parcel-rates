@@ -130,13 +130,18 @@
   color: var(--ink-muted);
 }
 
+/* Phones: the four tabs stay on one row (labels wrap), so the answer stays above the fold. */
 @media (max-width: 39.999rem) {
-  .questions__tabs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .questions__tab {
+    padding-right: var(--space-2);
   }
 
-  .questions__tab:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--rule);
+  .questions__tab::after {
+    right: var(--space-2);
+  }
+
+  .questions__short {
+    font-size: var(--text-xs);
   }
 }
 

@@ -114,9 +114,12 @@
   min-width: 0;
   font-size: var(--text-sm);
   color: var(--ink-muted);
+  /* Two lines on a phone, so the flat price at the end is not cut off. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.35;
 }
 
 .mobile-bar__toggle {
@@ -263,9 +266,11 @@
   max-width: var(--measure);
 }
 
-/* Phones: the sticky bar already states the year, so the edition line goes */
+/* Phones: the sticky bar already states the year, so the edition line goes; the deck goes
+   too, so the question and its answer fit on the first screen (each question says what it asks). */
 @media (max-width: 39.999rem) {
-  .masthead__edition {
+  .masthead__edition,
+  .masthead__deck {
     display: none;
   }
 }

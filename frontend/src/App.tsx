@@ -73,7 +73,7 @@ export function App() {
         </div>
       </header>
 
-      <div className="mobile-bar" {...inert}>
+      <div className="mobile-bar" role="region" aria-label="Current assumptions" {...inert}>
         <p className="mobile-bar__line">{assumptionsLine(state)}</p>
         <button
           ref={sheet.toggleRef}

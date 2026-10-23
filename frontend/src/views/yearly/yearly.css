@@ -163,6 +163,11 @@
 }
 
 .fuel-note {
+  min-width: 0;
+}
+
+.fuel-strip__wrap {
+  max-width: 100%;
   overflow-x: auto;
 }
 
