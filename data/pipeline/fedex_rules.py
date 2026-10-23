@@ -66,13 +66,13 @@ def year_end(year: int) -> str:
 
 
 def rule(year, surcharge_id, display_name, condition, applies_to, amount, source_file, quote, *,
-         source_page="", effective_from=None, effective_to=None, exclusive_group="", notes="",
+         source_page="", effective_from=None, effective_to=None, exclusive_group=None, notes="",
          zone=None, **thresholds) -> dict:
     row = {
         "carrier": CARRIER, "year": year, "rate_card": CARD, "surcharge_id": surcharge_id,
         "display_name": display_name, "condition": condition, "applies_to": applies_to,
         "address_type": "residential" if condition in ("residential", "peak_residential") else "any",
-        "amount": amount, "unit": "usd", "exclusive_group": exclusive_group,
+        "amount": amount, "unit": "usd", "exclusive_group": exclusive_group or f"fedex_{condition}",
         "effective_from": effective_from or EFFECTIVE[year].isoformat(),
         "effective_to": year_end(year) if effective_to is None else effective_to,
         "fuel_applies": "true", "source_file": source_file, "source_page": source_page,
@@ -357,7 +357,7 @@ def year_of(day: date) -> int:
 def peak_rows() -> list[dict]:
     rows = []
     for file, condition, applies, name, windows in PEAK:
-        group = "peak_non_standard" if condition in {"peak_additional_handling", "peak_oversize"} else ""
+        group = "peak_non_standard" if condition in {"peak_additional_handling", "peak_oversize"} else None
         for amount, quote, start, end in windows:
             cursor, last = date.fromisoformat(start), date.fromisoformat(end)
             while cursor <= last:

@@ -150,7 +150,7 @@ window.
 | zone_max | int | |
 | amount | decimal | |
 | unit | unit | |
-| exclusive_group | text | Rules in the same group do not stack; the highest matching amount applies |
+| exclusive_group | text | Required, never empty. Rules in the same group do not stack; the highest matching amount applies. Rules in different groups stack |
 | effective_from | date | |
 | effective_to | date | Empty means open-ended |
 | fuel_applies | bool | Whether the carrier applies the fuel surcharge on top of this charge |

@@ -8,7 +8,7 @@ ups,ups_2nd_day_air,UPS 2nd Day Air,two_three_day,true,true,list,list: published
 ups,ups_next_day_air_saver,UPS Next Day Air Saver,next_day,true,true,list,list: published Daily Rates for shippers without a negotiated contract,150,
 ups,ups_next_day_air,UPS Next Day Air,next_day,true,true,list,list: published Daily Rates for shippers without a negotiated contract,150,
 fedex,fedex_ground,FedEx Ground,ground,false,true,list,list: published Standard List Rates for shippers without a negotiated contract,150,Business addresses only
-fedex,fedex_home_delivery,FedEx Home Delivery,ground,true,false,list,list: published Standard List Rates for shippers without a negotiated contract,70,Residential addresses only; residential surcharge built into the surcharge table
+fedex,fedex_home_delivery,FedEx Home Delivery,ground,true,false,list,list: published Standard List Rates for shippers without a negotiated contract,150,Residential addresses only; residential surcharge built into the surcharge table
 fedex,fedex_express_saver,FedEx Express Saver,two_three_day,true,true,list,list: published Standard List Rates for shippers without a negotiated contract,150,
 fedex,fedex_2day,FedEx 2Day,two_three_day,true,true,list,list: published Standard List Rates for shippers without a negotiated contract,150,
 fedex,fedex_standard_overnight,FedEx Standard Overnight,next_day,true,true,list,list: published Standard List Rates for shippers without a negotiated contract,150,

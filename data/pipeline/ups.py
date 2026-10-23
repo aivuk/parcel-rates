@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, timedelta
 from decimal import Decimal
 
 from data.pipeline import ups_rules as rules
@@ -233,10 +233,18 @@ def ak_hi_exception(service_id: str, year: int, pages: list[PageTable], excluded
 # Curated tables
 
 
+def guide_end(year: int) -> str:
+    """Last day a guide's rules apply: the day before the next guide takes effect (open for the latest)."""
+    following = rules.GUIDES.get(year + 1)
+    if not following:
+        return ""
+    return (date.fromisoformat(following["effective_date"]) - timedelta(days=1)).isoformat()
+
+
 def surcharge_row(year: int, **values: str) -> dict:
     guide = rules.GUIDES[year]
     row = {"carrier": rules.CARRIER, "year": str(year), "rate_card": rules.RATE_CARD, "unit": "usd", "address_type": "any",
-           "effective_from": guide["effective_date"], "effective_to": "", "fuel_applies": "true",
+           "effective_from": guide["effective_date"], "effective_to": guide_end(year), "fuel_applies": "true",
            "source_file": guide["file"]}
     row.update(values)
     return row

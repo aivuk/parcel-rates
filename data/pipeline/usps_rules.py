@@ -244,7 +244,7 @@ TRANSPORTATION_2026 = {
     "surcharge_id": "usps_transportation_time_limited_2026",
     "display_name": "Transportation-Related Time-Limited Price Change",
     "condition": "transportation_time_limited", "applies_to": ",".join(SERVICES),
-    "amount": "8", "unit": "percent", "exclusive_group": "",
+    "amount": "8", "unit": "percent", "exclusive_group": "usps_transportation",
     "effective_from": "2026-04-26", "effective_to": "2027-01-17", "fuel_applies": "false",
     "source_file": "usps/2026/press_2026-03-25_apr2026_transportation_time_limited.pdf", "source_page": 1,
     "source_quote": ("an 8 percent increase that would affect base postage prices on the following retail and "
@@ -259,8 +259,8 @@ TRANSPORTATION_2026 = {
 # 2023 Priority Mail / Express: the July 2023 (Ground Advantage launch) tables kept
 # the January 22 2023 PM/PME prices, so the January 2023 release is cited.
 # 2023 Ground Advantage launched with a price *decrease* (retail -3.2 %, commercial
-# -0.7 % per press_2023-05-10); the citation test cannot match a negative percent,
-# so those two rows are not recorded here (see exceptions.csv).
+# -0.7 % per press_2023-05-10); those two rows are in ANNOUNCED_BY_CARD below,
+# with negative percents and quotes that read "decrease N percent".
 # ---------------------------------------------------------------------------
 # 2026 Notice 123 footnote: "Parcels that contain any of the following characteristics,
 # add $4.50: a. Cylindrical tubes or rolls b. A can, or wooden or metal box c. A parcel

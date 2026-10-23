@@ -63,4 +63,11 @@ def test_golden_corner_cells_present(carrier, base_rates):
                 problems.append(f"{key}: missing golden corner {name} = zone {cell[0]}, {cell[1]} lb")
         if len(cells) < MIN_CELLS:
             problems.append(f"{key}: only {len(cells)} golden cells, need {MIN_CELLS}")
+        # Column and page shifts corrupt cells on later pages, so when the parsed table
+        # spans several pages or sheets the golden cells must cover at least two of them.
+        page_of = {(int(r["zone"]), Decimal(r["max_weight_lb"])): r["source_ref"] for r in rows}
+        table_pages = set(page_of.values())
+        covered = {page_of[c] for c in cells if c in page_of}
+        if len(table_pages) > 1 and len(covered) < 2:
+            problems.append(f"{key}: table spans {len(table_pages)} source pages but golden cells cover only {sorted(covered)}")
     assert not problems, "\n".join(problems)
