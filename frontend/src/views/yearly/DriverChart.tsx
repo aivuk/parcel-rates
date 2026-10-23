@@ -17,7 +17,7 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
   const rows = list.map((d) => ({ label: segmentLabel(dim, d.segment), value: d.change_per_parcel, parcels: d.parcels }));
   const lo = Math.min(0, ...rows.map((r) => r.value));
   const hi = Math.max(0, ...rows.map((r) => r.value));
-  const ticks = niceTicks(lo, hi);
+  const ticks = niceTicks(lo, hi, narrow ? 2 : 4);
   const domain: [number, number] = [ticks[0]!, ticks[ticks.length - 1]!];
   const yWidth = narrow ? 142 : 180;
   const byLabel = new Map(rows.map((r) => [r.label, r]));
