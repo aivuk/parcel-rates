@@ -1,6 +1,6 @@
 import type { Bucket, ParcelSummary as Summary } from "../../lib/summary";
 import { TIERS } from "../../api/types";
-import { TIER_NAME, formatInt, formatShare } from "../../lib/format";
+import { formatInt, formatShare, TIER_NAME } from "../../lib/format";
 
 function MiniBars({ title, unit, buckets }: { title: string; unit: string; buckets: Bucket[] }) {
   const max = Math.max(...buckets.map((b) => b.share), 0.0001);

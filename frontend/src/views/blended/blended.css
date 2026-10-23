@@ -179,3 +179,9 @@
     font-size: var(--text-xs);
   }
 }
+
+/* Margins in the table are set in bold, on top of the shared is-loss / is-profit colour. */
+.margin-table .is-loss,
+.margin-table .is-profit {
+  font-weight: 600;
+}

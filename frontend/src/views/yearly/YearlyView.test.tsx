@@ -24,6 +24,7 @@ import {
 } from "./logic";
 import { toIndex } from "./YearChart";
 import { niceTicks } from "./DriverChart";
+import { parcelActions } from "../../test/parcelActions";
 
 beforeEach(() => stubResizeObserver());
 
@@ -33,7 +34,7 @@ describe("YearlyView", () => {
   it("asks for parcels when none are loaded", async () => {
     const { client, yearly } = spyClient();
     const onLoadSample = vi.fn();
-    renderWith(client, <YearlyPanel controls={controls} meta={meta} parcels={null} onLoadSample={onLoadSample} />);
+    renderWith(client, <YearlyPanel controls={controls} meta={meta} parcels={null} {...parcelActions} onLoadSample={onLoadSample} />);
     await userEvent.click(screen.getByRole("button", { name: "Load the sample mix" }));
     expect(onLoadSample).toHaveBeenCalledOnce();
     expect(screen.getByRole("button", { name: "Upload CSV" })).toBeInTheDocument();
@@ -42,7 +43,7 @@ describe("YearlyView", () => {
 
   it("answers with the cheapest carrier's change since the first year, against the announced increases", async () => {
     const { client } = spyClient();
-    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     expect(await screen.findByTestId("q4-answer")).toHaveTextContent(/^USPS \+19\.7%$/);
     expect(screen.getByText(/your cheapest carrier in 2026/)).toHaveTextContent("· 307 parcels · change since 2023");
     const caption = screen.getByTestId("q4-caption");
@@ -54,7 +55,7 @@ describe("YearlyView", () => {
 
   it("starts the next-year slider at the latest announced increase and sends it", async () => {
     const { client, yearly } = spyClient();
-    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     const slider = await screen.findByRole("slider", { name: /increase for 2027/i });
     await waitFor(() => expect(slider).toHaveValue("6.5"));
     expect(yearly.mock.calls[0]![0]).not.toHaveProperty("next_year_increase_percent");
@@ -74,7 +75,7 @@ describe("YearlyView", () => {
 
   it("shows how much of the change is fuel", async () => {
     const { client } = spyClient();
-    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     const note = await screen.findByTestId("fuel-note");
     expect(note).toHaveTextContent(
       "UPS 2025→2026: +$3.20 per parcel, of which fuel +$1.80 (56% of it); the ground fuel surcharge went from 20.5% to 26.25%.",
@@ -86,7 +87,7 @@ describe("YearlyView", () => {
 
   it("shows the response warnings and mid-year editions next to the points", async () => {
     const { client } = spyClient();
-    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     const notes = await screen.findByTestId("point-notes");
     expect(notes).toHaveTextContent(/FedEx 2027 \(incomplete data\): No 2027 rules recorded for handling: length/);
     expect(notes).toHaveTextContent(/remote area.*Surcharges may be understated\./);
@@ -97,7 +98,7 @@ describe("YearlyView", () => {
 
   it("breaks the change down by segment, sorted, with a sentence naming the top driver", async () => {
     const { client } = spyClient();
-    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     await screen.findByTestId("q4-answer");
     await userEvent.click(within(screen.getByRole("group", { name: "Carrier" })).getByRole("button", { name: "UPS" }));
     expect(within(screen.getByRole("group", { name: "Between" })).getByRole("button", { name: "2025→2026" })).toHaveAttribute(
@@ -123,7 +124,7 @@ describe("YearlyView", () => {
 
   it("switches the year chart between dollars and an index, desktop default dollars", async () => {
     const { client } = spyClient();
-    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     await screen.findByTestId("q4-answer");
     const scale = screen.getByRole("group", { name: "Scale" });
     expect(within(scale).getByRole("button", { name: "Dollars" })).toHaveAttribute("aria-pressed", "true");
@@ -137,7 +138,7 @@ describe("YearlyView", () => {
       carriers: mockYearlyResponse.carriers.map((c) => ({ ...c, years: c.years.filter((y) => y.year === 2026), projected: null })),
     };
     const { client } = spyClient({ yearly: () => single });
-    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     expect(await screen.findByTestId("q4-single-year")).toHaveTextContent(/^USPS \$10\.98 per parcel$/);
     expect(screen.getByTestId("q4-single-year-caption")).toHaveTextContent("Only one year of USPS prices (2026)");
     expect(screen.queryByTestId("q4-answer")).not.toBeInTheDocument();
@@ -150,7 +151,7 @@ describe("YearlyView", () => {
       ),
     };
     const { client } = spyClient({ yearly: () => withGap });
-    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     const note = await screen.findByText(/parcels it cannot ship in every year/);
     expect(note.closest("li")).toHaveTextContent("FedEx: 12 parcels it cannot ship in every year are left out, so its years compare the same 288 parcels.");
     expect(screen.getAllByText(/cannot ship in every year/)).toHaveLength(1);
@@ -158,7 +159,7 @@ describe("YearlyView", () => {
 
   it("offers the year chart as a table with every year and the projection", async () => {
     const { client } = spyClient();
-    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     await screen.findByTestId("q4-answer");
     const fig = screen.getByRole("figure", { name: /cost per parcel, year by year/i });
     expect(fig).toHaveTextContent(/USPS \(circles\) went from \$9\.17 in 2023 to \$10\.98 in 2026 \(\+19\.7%\)/);

@@ -1,11 +1,11 @@
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
 import type { ZoneBand } from "../../api/types";
 import { TIERS } from "../../api/types";
 import { CSV_TEMPLATE } from "../../lib/parcelCsv";
 import { summarize, type ParcelSummary as Summary } from "../../lib/summary";
-import { TIER_NAME, formatInt, formatShare } from "../../lib/format";
 import type { ParcelSet, ParcelSetStatus } from "../../hooks/useParcelSet";
 import { ParcelSummary } from "./ParcelSummary";
+import { formatInt, formatShare, TIER_NAME } from "../../lib/format";
 
 export interface ParcelSetPanelProps {
   set: ParcelSet | null;
@@ -15,6 +15,8 @@ export interface ParcelSetPanelProps {
   onLoadSample: () => void;
   onLoadFile: (file: File) => void;
   onClear: () => void;
+  /** The CSV file input, so the question views' "Upload CSV" buttons can open the same picker. */
+  fileInputRef?: RefObject<HTMLInputElement>;
 }
 
 const TEMPLATE_HREF = `data:text/csv;charset=utf-8,${encodeURIComponent(CSV_TEMPLATE)}`;
@@ -61,11 +63,12 @@ function StripFacts({ summary }: { summary: Summary }) {
   );
 }
 
-export function ParcelSetPanel({ set, status, zoneBands, onLoadSample, onLoadFile, onClear }: ParcelSetPanelProps) {
+export function ParcelSetPanel({ set, status, zoneBands, onLoadSample, onLoadFile, onClear, fileInputRef }: ParcelSetPanelProps) {
   const fileId = useId();
   const headingId = useId();
   const detailsId = useId();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const ownRef = useRef<HTMLInputElement>(null);
+  const inputRef = fileInputRef ?? ownRef;
   const summary = useMemo(() => (set ? summarize(set.parcels, zoneBands) : null), [set, zoneBands]);
   const busy = status.kind === "loading";
   const [expanded, setExpanded] = useState(false);

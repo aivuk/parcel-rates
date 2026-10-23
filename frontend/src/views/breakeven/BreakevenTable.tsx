@@ -1,8 +1,9 @@
 import { useId, useMemo, useState } from "react";
 import type { BreakevenResponse, Meta } from "../../api/types";
 import { CARRIERS } from "../../api/types";
-import { CARRIER_NAME, formatInt, formatUsd } from "../../lib/format";
 import { cellGrid, groundName, zoneLabel } from "./readout";
+import { CARRIER_NAME } from "../../lib/carriers";
+import { formatInt, formatUsd } from "../../lib/format";
 
 /**
  * The map as a plain table, one distance band at a time: every carrier's total per weight, the

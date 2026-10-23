@@ -1,0 +1,257 @@
+/* States and blocks shared by the question views: notes, errors, skeletons, stale answers,
+   margins, the parcel-set empty state, section blocks and ledger tables. */
+.view-note {
+  padding: var(--space-3) var(--space-4);
+  border-left: 4px solid var(--ink);
+  background: var(--sheet);
+  font-size: var(--text-sm);
+  max-width: var(--measure);
+}
+
+.view-error {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+  padding: var(--space-4);
+  border: 1px solid var(--loss);
+  border-left-width: 4px;
+  background: var(--loss-wash);
+  font-size: var(--text-sm);
+  margin: 0;
+  list-style: none;
+}
+
+.view-error__title {
+  font-weight: 600;
+}
+
+.skeleton {
+  display: block;
+  color: transparent !important;
+  background: var(--wash);
+  border-radius: var(--radius);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton--figure {
+  width: 5.5ch;
+}
+
+.skeleton--line {
+  width: min(20rem, 70%);
+  height: 1.25rem;
+}
+
+.skeleton-rows {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.skeleton--row {
+  height: 3.5rem;
+}
+
+@keyframes skeleton-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.is-stale {
+  opacity: 0.55;
+  transition: opacity var(--duration-fast);
+}
+
+.is-loss {
+  color: var(--loss);
+}
+
+.is-profit {
+  color: var(--profit);
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Two-option segmented radio for view-local toggles */
+.qf-seg {
+  display: grid;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+}
+
+.qf-seg--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.qf-seg--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.qf-seg__opt {
+  position: relative;
+  display: grid;
+  cursor: pointer;
+}
+
+.qf-seg__opt + .qf-seg__opt {
+  border-left: 1px solid var(--ink);
+}
+
+.qf-seg__opt input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.qf-seg__opt span {
+  display: grid;
+  place-items: center;
+  min-height: 2.75rem;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.qf-seg__opt:hover span {
+  background: var(--wash);
+}
+
+.qf-seg__opt input:checked + span {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.qf-seg__opt input:focus-visible + span {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-halo);
+  position: relative;
+  z-index: 1;
+}
+
+/* Empty state of the questions that need a parcel set (Q3, Q4) */
+.need-parcels {
+  margin-top: var(--space-4);
+  padding: var(--space-5);
+  border: 1px dashed var(--ink-muted);
+  display: grid;
+  gap: var(--space-3);
+  max-width: var(--measure);
+}
+
+.need-parcels__lead {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.2;
+}
+
+.need-parcels__text {
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+
+.need-parcels__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.need-parcels__actions .btn {
+  min-height: 44px;
+}
+
+.q-loading {
+  color: var(--ink-muted);
+  padding: var(--space-5) 0;
+}
+
+/* Section blocks after the answer */
+.q-block {
+  margin-top: var(--space-7);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--rule);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.q-block__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.q-block__title,
+.chart__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.q-count {
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+}
+
+.q-count .figure {
+  font-size: var(--text-lg);
+  color: var(--ink);
+}
+
+/* Ledger tables */
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-table th,
+.ledger-table td {
+  padding: var(--space-2) var(--space-3) var(--space-2) 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.ledger-table thead th {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ink-muted);
+  border-bottom-color: var(--rule-strong);
+}
+
+.ledger-table tbody th {
+  font-weight: 700;
+}
+
+.ledger-table .num {
+  text-align: right;
+}
+
+.q-notes {
+  margin-top: var(--space-5);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.q-notes ul {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-5);
+}
+
+.q-count__result {
+  color: var(--ink);
+  font-weight: 600;
+}
+

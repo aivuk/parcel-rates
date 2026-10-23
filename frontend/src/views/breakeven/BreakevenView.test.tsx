@@ -9,13 +9,14 @@ import be2027Fx from "../../api/__fixtures__/breakeven-2027.json";
 import type { ControlsState } from "../../state/urlState";
 import { BreakevenView } from "../BreakevenView";
 import { savingLevel } from "./readout";
+import { parcelActions } from "../../test/parcelActions";
 
 function setup(client: Partial<ApiClient> = {}, controls: ControlsState = mockDefaultControls) {
   const breakeven = vi.fn(client.breakeven ?? (async () => mockBreakevenResponse));
   const api: ApiClient = { ...createMockClient(0), ...client, breakeven };
   const utils = render(
     <ApiProvider client={api}>
-      <BreakevenView controls={controls} meta={mockMeta} parcels={null} />
+      <BreakevenView controls={controls} meta={mockMeta} parcels={null} {...parcelActions} />
     </ApiProvider>,
   );
   return { ...utils, breakeven, api };
@@ -132,7 +133,7 @@ describe("BreakevenView", () => {
     const next = { ...mockDefaultControls, year: 2024, peak: true };
     rerender(
       <ApiProvider client={api}>
-        <BreakevenView controls={next} meta={mockMeta} parcels={null} />
+        <BreakevenView controls={next} meta={mockMeta} parcels={null} {...parcelActions} />
       </ApiProvider>,
     );
     await waitFor(() => expect(breakeven).toHaveBeenLastCalledWith({ controls: next, residential: false }, expect.anything()));

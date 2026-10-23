@@ -1,10 +1,11 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { BlendedResponse } from "../../api/types";
-import { CARRIER_NAME, formatUsd } from "../../lib/format";
-import { ChartFrame, useCssColors } from "./common";
 import { OTHER_KIND, splitRows, surchargeKinds, type SplitRow } from "./logic";
-import { conditionLabel, pct0 } from "./money";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { ChartFrame } from "../../components/ChartFrame";
+import { useCssColors } from "../../hooks/useCssColors";
+import { CARRIER_NAME } from "../../lib/carriers";
+import { conditionLabel, formatShare, formatUsd } from "../../lib/format";
 
 const COLOR_VARS = {
   base: "--q3-base",
@@ -66,14 +67,14 @@ export function CostSplitChart({ data }: { data: BlendedResponse }) {
         <span key={r.carrier}>
           {i > 0 && "; "}
           {r.label} {formatUsd(r.total)}: base {formatUsd(r.base)}, surcharges {formatUsd(r.surcharges)} (
-          {pct0(r.surchargeShare)}), fuel {formatUsd(r.fuel)} ({pct0(r.fuelShare)})
+          {formatShare(r.surchargeShare)}), fuel {formatUsd(r.fuel)} ({formatShare(r.fuelShare)})
         </span>
       ))}
       .
       {heaviest && heaviest.surchargeShare + heaviest.fuelShare > 0 && (
         <>
           {" "}
-          Add-ons weigh most on {heaviest.label}: {pct0(heaviest.surchargeShare + heaviest.fuelShare)} of its cost is
+          Add-ons weigh most on {heaviest.label}: {formatShare(heaviest.surchargeShare + heaviest.fuelShare)} of its cost is
           surcharges and fuel rather than base rate.
         </>
       )}
@@ -92,7 +93,7 @@ export function CostSplitChart({ data }: { data: BlendedResponse }) {
           {label} {formatUsd(r.total)}
         </text>
         <text x={0} y={13} fill={colors.muted} fontSize={12} fontFamily="var(--font-ui)">
-          {narrow ? `surch. ${pct0(r.surchargeShare)}` : `surcharges ${pct0(r.surchargeShare)} · fuel ${pct0(r.fuelShare)}`}
+          {narrow ? `surch. ${formatShare(r.surchargeShare)}` : `surcharges ${formatShare(r.surchargeShare)} · fuel ${formatShare(r.fuelShare)}`}
         </text>
       </g>
     );
@@ -171,7 +172,7 @@ export function CostSplitChart({ data }: { data: BlendedResponse }) {
               </td>
             ))}
             <td className="num">{formatUsd(r.total)}</td>
-            <td className="num">{pct0(r.surchargeShare)}</td>
+            <td className="num">{formatShare(r.surchargeShare)}</td>
           </tr>
         ))}
       </tbody>

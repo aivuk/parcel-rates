@@ -1,7 +1,7 @@
 import type { BreakevenBand, BreakevenCell, BreakevenResponse, Carrier, Meta } from "../../api/types";
 import { CARRIERS } from "../../api/types";
+import { serviceName } from "../../lib/carriers";
 import { formatInt } from "../../lib/format";
-import { serviceName } from "../quote/shared";
 
 /** The ground service each carrier competes with on this map. */
 export function groundService(carrier: Carrier, residential: boolean): string {

@@ -1,0 +1,71 @@
+/* Chart frame (components/ChartFrame.tsx): title, summary, chart or table, legend. */
+.chart {
+  margin: var(--space-7) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--rule);
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.chart__toggle {
+  min-height: 44px;
+}
+
+.chart__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.chart__summary {
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--ink-muted);
+  max-width: var(--measure);
+}
+
+.chart__body {
+  min-width: 0;
+}
+
+.chart__table-wrap {
+  overflow-x: auto;
+}
+
+.legend {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.legend__swatch {
+  width: 14px;
+  height: 10px;
+  border-radius: 1px;
+  display: inline-block;
+}
+
+.legend__line {
+  width: 22px;
+  height: 0;
+  border-top-width: 2px;
+  display: inline-block;
+}
+
+.chart__controls {
+  margin-bottom: var(--space-3);
+}

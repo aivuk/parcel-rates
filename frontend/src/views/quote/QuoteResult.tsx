@@ -1,11 +1,10 @@
 import { useState } from "react";
 import type { Quote, QuoteResponse, Tier } from "../../api/types";
 import { TIERS } from "../../api/types";
-import { carrierVar } from "../../lib/carriers";
-import { CARRIER_NAME, TIER_NAME, formatUsd } from "../../lib/format";
 import { dimDrivers, tierView } from "./quoteModel";
 import { QuoteRow, shortService } from "./QuoteRow";
-import { marginClass, marginText } from "./shared";
+import { CARRIER_NAME, carrierVar } from "../../lib/carriers";
+import { formatUsd, marginClass, marginText, TIER_NAME } from "../../lib/format";
 
 export interface QuoteAnswerProps {
   res: QuoteResponse;

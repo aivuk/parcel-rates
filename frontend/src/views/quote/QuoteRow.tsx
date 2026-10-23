@@ -1,8 +1,8 @@
 import { useId } from "react";
 import type { Quote } from "../../api/types";
-import { carrierVar, carrierWashVar } from "../../lib/carriers";
-import { CARRIER_NAME, formatUsd } from "../../lib/format";
 import { splitOf } from "./quoteModel";
+import { CARRIER_NAME, carrierVar, carrierWashVar } from "../../lib/carriers";
+import { formatUsd } from "../../lib/format";
 
 /** Base, surcharges and fuel as one bar; widths are shares of `scale` (the dearest row's total). */
 export function StackedBar({ quote, scale }: { quote: Quote; scale: number }) {

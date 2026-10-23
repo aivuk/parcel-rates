@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useRef, useState } from "react";
 import { useApi, useLoad } from "./api/ApiContext";
 import { isMockMode } from "./api/client";
 import { ControlRail, assumptionsLine } from "./components/controls/ControlRail";
@@ -39,7 +39,16 @@ export function App() {
   const inert = { [INERT_WHILE_SHEET]: "" };
   const mock = isMockMode();
 
-  const viewProps: ViewProps = { controls: state.controls, meta, parcels: parcelSet.set?.parcels ?? null };
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const openFilePicker = useCallback(() => fileInputRef.current?.click(), []);
+
+  const viewProps: ViewProps = {
+    controls: state.controls,
+    meta,
+    parcels: parcelSet.set?.parcels ?? null,
+    onLoadSample: parcelSet.loadSample,
+    onUploadCsv: openFilePicker,
+  };
 
   return (
     <>
@@ -114,6 +123,7 @@ export function App() {
             onLoadSample={parcelSet.loadSample}
             onLoadFile={parcelSet.loadFile}
             onClear={parcelSet.clear}
+            fileInputRef={fileInputRef}
           />
           <QuestionTabs
             active={state.view}

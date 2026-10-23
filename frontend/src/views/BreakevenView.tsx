@@ -2,14 +2,13 @@ import { useId, useState } from "react";
 import { useApi, useLoad } from "../api/ApiContext";
 import type { BreakevenResponse, Carrier } from "../api/types";
 import { CARRIERS } from "../api/types";
-import { CARRIER_NAME } from "../lib/format";
 import { BreakevenTable } from "./breakeven/BreakevenTable";
 import { Heatmap } from "./breakeven/Heatmap";
 import { SAVING_LABELS, groundName, readout } from "./breakeven/readout";
-import { carriersForYear, missingCarriersNote } from "./quote/shared";
 import type { ViewProps } from "./types";
-import "./quote/shared.css";
+import "../styles/views.css";
 import "./breakeven/breakeven.css";
+import { CARRIER_NAME, carriersForYear, missingCarriersNote } from "../lib/carriers";
 
 function Legend({ res, meta }: { res: BreakevenResponse; meta: ViewProps["meta"] }) {
   const winners = CARRIERS.filter((c) => res.cells.some((x) => x.winner?.carrier === c));

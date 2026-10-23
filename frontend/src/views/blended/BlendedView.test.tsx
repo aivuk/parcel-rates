@@ -5,9 +5,10 @@ import { BlendedView } from "../BlendedView";
 import { BlendedPanel } from "./BlendedPanel";
 import { mockBlendedResponse } from "../../api/mocks";
 import { cleanSegment, surchargeKinds, blendedAnswer, OTHER_KIND, splitRows } from "./logic";
-import { CARRIER_NAME } from "../../lib/format";
 import type { BlendedResponse } from "../../api/types";
 import { controls, meta, renderWith, sampleParcels, spyClient, stubResizeObserver } from "./testUtils";
+import { CARRIER_NAME } from "../../lib/carriers";
+import { parcelActions } from "../../test/parcelActions";
 
 beforeEach(() => stubResizeObserver());
 
@@ -16,7 +17,7 @@ describe("BlendedView", () => {
     const { client, blended } = spyClient();
     const onLoadSample = vi.fn();
     const onUploadCsv = vi.fn();
-    renderWith(client, <BlendedPanel controls={controls} meta={meta} parcels={null} onLoadSample={onLoadSample} onUploadCsv={onUploadCsv} />);
+    renderWith(client, <BlendedPanel controls={controls} meta={meta} parcels={null} {...parcelActions} onLoadSample={onLoadSample} onUploadCsv={onUploadCsv} />);
     await userEvent.click(screen.getByRole("button", { name: "Load the sample mix" }));
     await userEvent.click(screen.getByRole("button", { name: "Upload CSV" }));
     expect(onLoadSample).toHaveBeenCalledOnce();
@@ -24,27 +25,21 @@ describe("BlendedView", () => {
     expect(blended).not.toHaveBeenCalled();
   });
 
-  it("without handlers, the empty-state buttons drive the parcel panel's own controls", async () => {
+  it("passes the view's parcel-set handlers to the empty-state buttons", async () => {
     const { client } = spyClient();
-    const panelSample = vi.fn();
-    renderWith(
-      client,
-      <>
-        <section className="parcels">
-          <button type="button" onClick={panelSample}>
-            Load sample mix
-          </button>
-        </section>
-        <BlendedView controls={controls} meta={meta} parcels={null} />
-      </>,
-    );
+    const onLoadSample = vi.fn();
+    const onUploadCsv = vi.fn();
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={null} onLoadSample={onLoadSample} onUploadCsv={onUploadCsv} />);
     await userEvent.click(screen.getByRole("button", { name: "Load the sample mix" }));
-    expect(panelSample).toHaveBeenCalledOnce();
+    expect(onLoadSample).toHaveBeenCalledOnce();
+    expect(onUploadCsv).not.toHaveBeenCalled();
+    await userEvent.click(screen.getByRole("button", { name: "Upload CSV" }));
+    expect(onUploadCsv).toHaveBeenCalledOnce();
   });
 
   it("puts the cheapest carrier's cost per parcel first, and says when the best mix saves nothing", async () => {
     const { client, blended } = spyClient();
-    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     expect(await screen.findByTestId("q3-answer")).toHaveTextContent(/^USPS \$10\.98 per parcel$/);
     expect(screen.getByText(/Blended over every parcel/)).toHaveTextContent("UPS $31.14 (+$20.16), FedEx $31.22 (+$20.24).");
     expect(blended).toHaveBeenCalledWith(expect.objectContaining({ parcels: sampleParcels, controls }), expect.anything());
@@ -67,7 +62,7 @@ describe("BlendedView", () => {
       },
     };
     const { client } = spyClient({ blended: () => mixed });
-    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     const mix = await screen.findByTestId("q3-mix");
     expect(mix).toHaveTextContent("$9.87");
     expect(mix).toHaveTextContent("$1.11 less per parcel than USPS alone ($341.27 on these parcels)");
@@ -76,7 +71,7 @@ describe("BlendedView", () => {
 
   it("says plainly whether the flat price covers the cost and how many parcels lose money", async () => {
     const { client } = spyClient();
-    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     expect(await screen.findByTestId("q3-verdict")).toHaveTextContent("No. You lose $0.31 per parcel with USPS");
     expect(screen.getByTestId("q3-loss-share")).toHaveTextContent("40% of parcels (124 of 307) ship at a loss");
     expect(screen.getByTestId("q3-loss-share")).not.toHaveTextContent("with the best mix");
@@ -84,7 +79,7 @@ describe("BlendedView", () => {
     const ups = screen.getByTestId("margin-ups");
     expect(ups).toHaveTextContent("−$20.46 loss");
     expect(ups).toHaveTextContent("100%");
-    expect(within(ups).getByText("−$20.46 loss")).toHaveClass("money--loss");
+    expect(within(ups).getByText("−$20.46 loss")).toHaveClass("is-loss");
     expect(screen.getByText(/You charge \$10\.67 per parcel on average/)).toBeInTheDocument();
   });
 
@@ -94,7 +89,7 @@ describe("BlendedView", () => {
       carriers: mockBlendedResponse.carriers.map((c) => ({ ...c, margin_per_parcel: 2.5, loss_share: 0.1, parcels_at_loss: 30 })),
     };
     const { client } = spyClient({ blended: () => covered });
-    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     expect(await screen.findByTestId("q3-verdict")).toHaveTextContent("Yes. $2.50 margin per parcel with USPS");
     expect(screen.getByTestId("q3-loss-share")).toHaveTextContent("10% of parcels (30 of 307)");
   });
@@ -106,7 +101,7 @@ describe("BlendedView", () => {
       best_mix: { ...mockBlendedResponse.best_mix, margin_per_parcel: 4, loss_share: 0, parcels_at_loss: 0 },
     };
     const { client } = spyClient({ blended: () => none });
-    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     expect(await screen.findByTestId("q3-loss-share")).toHaveTextContent(/^Every parcel covers its cost with USPS\.$/);
     expect(screen.getByTestId("q3-loss-share")).not.toHaveTextContent("ship at a loss");
   });
@@ -115,7 +110,7 @@ describe("BlendedView", () => {
     const { client, blended } = spyClient({
       blended: (b) => (b.segment ? { ...mockBlendedResponse, parcels_considered: 22 } : mockBlendedResponse),
     });
-    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     await screen.findByTestId("q3-answer");
     const weight = screen.getByRole("group", { name: "Weight" });
     await userEvent.click(within(weight).getByRole("button", { name: "1–5 lb" }));
@@ -138,7 +133,7 @@ describe("BlendedView", () => {
       carriers: mockBlendedResponse.carriers.map((c) => ({ ...c, parcels_shipped: 0 })),
     };
     const { client } = spyClient({ blended: () => empty });
-    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     expect(await screen.findByText("No parcels")).toBeInTheDocument();
     expect(screen.queryByTestId("q3-verdict")).not.toBeInTheDocument();
   });
@@ -151,13 +146,13 @@ describe("BlendedView", () => {
       ),
     };
     const { client } = spyClient({ blended: () => gap });
-    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     expect(await screen.findByText(/cannot ship\s+12 of these parcels/)).toHaveTextContent("covers the other 295");
   });
 
   it("offers the cost split as a table, with the surcharge share", async () => {
     const { client } = spyClient();
-    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     await screen.findByTestId("q3-answer");
     const figure = screen.getByRole("figure", { name: /what each parcel costs, by part/i });
     expect(within(figure).getByText(/Add-ons weigh most on UPS: 39%/)).toBeInTheDocument();

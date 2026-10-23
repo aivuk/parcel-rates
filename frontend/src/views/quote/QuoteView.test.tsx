@@ -10,6 +10,7 @@ import type { QuoteResponse } from "../../api/types";
 import type { ControlsState } from "../../state/urlState";
 import { QuoteView } from "../QuoteView";
 import { DEFAULT_DRAFT, draftToParcel, draftFromParcel, parseNum } from "./draft";
+import { parcelActions } from "../../test/parcelActions";
 
 // The recorded fixture's parcel: 3.2 lb, 14×12×10 in, 700 mi, home, ground, remote area.
 const FIXTURE_DRAFT = { ...DEFAULT_DRAFT, lb: "3.2", length: "14", width: "12", height: "10", distance: "700", area: "das" as const };
@@ -19,7 +20,7 @@ function setup(client: Partial<ApiClient> = {}, controls: ControlsState = mockDe
   const api: ApiClient = { ...createMockClient(0), ...client, quote };
   const utils = render(
     <ApiProvider client={api}>
-      <QuoteView controls={controls} meta={mockMeta} parcels={null} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
+      <QuoteView controls={controls} meta={mockMeta} parcels={null} {...parcelActions} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
     </ApiProvider>,
   );
   return { ...utils, quote, api };
@@ -57,7 +58,7 @@ describe("QuoteView", () => {
     const next = { ...mockDefaultControls, peak: true, flat_price: 12, fuel_override_percent: { ground: 30 } };
     rerender(
       <ApiProvider client={api}>
-        <QuoteView controls={next} meta={mockMeta} parcels={null} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
+        <QuoteView controls={next} meta={mockMeta} parcels={null} {...parcelActions} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
       </ApiProvider>,
     );
     await waitFor(() => expect(quote).toHaveBeenLastCalledWith(expect.objectContaining({ controls: next }), expect.anything()));
@@ -181,6 +182,7 @@ describe("QuoteView", () => {
           controls={mockDefaultControls}
           meta={mockMeta}
           parcels={[{ weight_lb: 0.5, distance_miles: 120, residential: false, speed: "two_three_day" }]}
+          {...parcelActions}
           debounceMs={0}
         />
       </ApiProvider>,
@@ -217,7 +219,7 @@ describe("QuoteView timing", () => {
     const quote = vi.fn(async () => mockQuoteResponse);
     render(
       <ApiProvider client={{ ...createMockClient(0), quote }}>
-        <QuoteView controls={mockDefaultControls} meta={mockMeta} parcels={null} debounceMs={300} initialDraft={FIXTURE_DRAFT} />
+        <QuoteView controls={mockDefaultControls} meta={mockMeta} parcels={null} {...parcelActions} debounceMs={300} initialDraft={FIXTURE_DRAFT} />
       </ApiProvider>,
     );
     expect(quote).toHaveBeenCalledTimes(1); // the first parcel is priced at once
@@ -241,7 +243,7 @@ describe("QuoteView timing", () => {
     const quote = vi.fn().mockReturnValueOnce(first.promise).mockReturnValueOnce(second.promise);
     render(
       <ApiProvider client={{ ...createMockClient(0), quote }}>
-        <QuoteView controls={mockDefaultControls} meta={mockMeta} parcels={null} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
+        <QuoteView controls={mockDefaultControls} meta={mockMeta} parcels={null} {...parcelActions} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
       </ApiProvider>,
     );
     fireEvent.change(screen.getByLabelText("Weight in pounds"), { target: { value: "4" } });
@@ -256,7 +258,7 @@ describe("QuoteView timing", () => {
     const quote = vi.fn().mockResolvedValueOnce(withGroundTotal(11.11)).mockReturnValueOnce(next.promise);
     render(
       <ApiProvider client={{ ...createMockClient(0), quote }}>
-        <QuoteView controls={mockDefaultControls} meta={mockMeta} parcels={null} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
+        <QuoteView controls={mockDefaultControls} meta={mockMeta} parcels={null} {...parcelActions} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
       </ApiProvider>,
     );
     const answer = await screen.findByTestId("quote-answer");

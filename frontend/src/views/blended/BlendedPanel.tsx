@@ -3,13 +3,14 @@ import { useApi, useLoad } from "../../api/ApiContext";
 import type { BlendedResponse, Carrier, Parcel, SegmentFilter } from "../../api/types";
 import type { ControlsState } from "../../state/urlState";
 import type { Meta } from "../../api/types";
-import { formatInt, formatUsd } from "../../lib/format";
-import { carrierVar } from "../../lib/carriers";
-import { LoadProblem, NeedParcels, useLastData, type ParcelActions } from "./common";
 import { blendedAnswer, cleanSegment, totalQuantity, type BlendedAnswer } from "./logic";
-import { carrierName, pct0, signedUsd } from "./money";
 import { SegmentChips, describeSegment } from "./SegmentChips";
 import { CostSplitChart } from "./CostSplitChart";
+import { LoadProblem } from "../../components/LoadProblem";
+import { NeedParcels, type ParcelActions } from "../../components/NeedParcels";
+import { useLastData } from "../../hooks/useLastData";
+import { carrierName, carrierVar } from "../../lib/carriers";
+import { formatInt, formatShare, formatUsd, marginClass, marginText, signedUsd } from "../../lib/format";
 
 export interface BlendedPanelProps extends ParcelActions {
   controls: ControlsState;
@@ -89,7 +90,7 @@ function Body({
   const scope = `${formatInt(data.parcels_considered)} ${segment ? `of ${formatInt(total)} ` : ""}parcels`;
 
   return (
-    <div className={stale ? "q-stale" : undefined}>
+    <div className={stale ? "is-stale" : undefined}>
       {answer ? (
         <Answer data={data} answer={answer} kicker={`Cheapest single carrier · ${data.year} prices · ${scope}${seg ? ` · ${seg}` : ""}`} />
       ) : (
@@ -112,7 +113,7 @@ function Body({
               <span className="q-count__result" data-testid="q3-segment-result">
                 {" "}
                 · cheapest {carrierName(answer.cheapest.carrier)} {formatUsd(answer.cheapest.cost_per_parcel)},{" "}
-                {signedUsd(answer.cheapest.margin_per_parcel)} {answer.cheapest.margin_per_parcel < 0 ? "loss" : "margin"} per parcel
+                {marginText(answer.cheapest.margin_per_parcel)} per parcel
               </span>
             )}
           </p>
@@ -210,13 +211,13 @@ function Verdict({ data, answer, controls }: { data: BlendedResponse; answer: Bl
         {c.parcels_at_loss === 0 ? (
           <>
             Every parcel covers its cost with {carrierName(c.carrier)}
-            {data.best_mix.parcels_at_loss > 0 && <>; {pct0(data.best_mix.loss_share)} would lose money with the best mix</>}.
+            {data.best_mix.parcels_at_loss > 0 && <>; {formatShare(data.best_mix.loss_share)} would lose money with the best mix</>}.
           </>
         ) : (
           <>
-            <strong>{pct0(c.loss_share)}</strong> of parcels ({formatInt(c.parcels_at_loss)} of {formatInt(c.parcels_shipped)})
+            <strong>{formatShare(c.loss_share)}</strong> of parcels ({formatInt(c.parcels_at_loss)} of {formatInt(c.parcels_shipped)})
             ship at a loss even with the cheapest carrier
-            {data.best_mix.loss_share !== c.loss_share && <>; {pct0(data.best_mix.loss_share)} with the best mix</>}.
+            {data.best_mix.loss_share !== c.loss_share && <>; {formatShare(data.best_mix.loss_share)} with the best mix</>}.
           </>
         )}
       </p>
@@ -248,14 +249,12 @@ function Verdict({ data, answer, controls }: { data: BlendedResponse; answer: Bl
                 {name}
               </th>
               <td className="num">{formatUsd(s.cost_per_parcel)}</td>
-              <td className={`num ${s.margin_per_parcel < 0 ? "money--loss" : "money--profit"}`}>
-                {signedUsd(s.margin_per_parcel)} {s.margin_per_parcel < 0 ? "loss" : "margin"}
-              </td>
+              <td className={`num ${marginClass(s.margin_per_parcel)}`}>{marginText(s.margin_per_parcel)}</td>
               <td>
                 <span className="meter" aria-hidden="true">
                   <span className="meter__fill" style={{ transform: `scaleX(${s.loss_share})` }} />
                 </span>
-                <span className="meter__text">{pct0(s.loss_share)}</span>
+                <span className="meter__text">{formatShare(s.loss_share)}</span>
               </td>
             </tr>
           ))}
