@@ -17,6 +17,7 @@ function MiniBars({ title, unit, buckets }: { title: string; unit: string; bucke
               <th scope="row">
                 {b.label}
                 {unit && <span className="minibars__unit"> {unit}</span>}
+                {b.detail && <span className="minibars__detail">{b.detail}</span>}
               </th>
               <td className="minibars__bar" aria-hidden="true">
                 <span style={{ transform: `scaleX(${b.share / max})` }} />
@@ -60,16 +61,18 @@ export function ParcelSummary({ summary }: { summary: Summary }) {
           </dd>
         </div>
         {summary.withOwnPrice > 0 && (
-          <div>
-            <dt className="kicker">Own price</dt>
-            <dd className="figure summary__fact">{formatInt(summary.withOwnPrice)}</dd>
-            <dd className="summary__sub">parcels override the flat price</dd>
+          <div className="summary__wide">
+            <dt className="visually-hidden">Own price</dt>
+            <dd className="summary__note">
+              <strong>{formatInt(summary.withOwnPrice)}</strong> parcel{summary.withOwnPrice === 1 ? " has its" : "s have their"}{" "}
+              own price, which overrides the flat price.
+            </dd>
           </div>
         )}
       </dl>
       <div className="summary__dists">
         <MiniBars title="Weight" unit="lb" buckets={summary.weight} />
-        <MiniBars title="Distance" unit="" buckets={summary.distance} />
+        <MiniBars title="Distance, USPS zone" unit="" buckets={summary.distance} />
       </div>
     </div>
   );

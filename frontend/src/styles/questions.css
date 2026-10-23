@@ -1,5 +1,5 @@
 .questions {
-  margin-top: var(--space-7);
+  margin-top: var(--space-6);
 }
 
 .questions__tabs {
@@ -74,11 +74,33 @@
   box-shadow: none;
 }
 
+/* The question is context; the answer figure below it is the largest thing in the section. */
 .questions__question {
-  font-size: var(--text-2xl);
+  font-size: var(--text-xl);
   font-weight: 500;
-  max-width: 30ch;
-  line-height: 1.12;
+  max-width: 40ch;
+  line-height: 1.2;
+}
+
+/* The answer: the one number the owner came for. Issues #5 and #6 use these classes. */
+.answer {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.answer__figure {
+  font-family: var(--font-display);
+  font-size: var(--text-figure);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums lining-nums;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.answer__caption {
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+  max-width: 48ch;
 }
 
 .answer-slot {
@@ -96,10 +118,13 @@
     );
 }
 
+.answer-slot__figure {
+  color: var(--ink-muted);
+}
+
 .answer-slot__text {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  line-height: 1.4;
+  font-size: var(--text-base);
+  line-height: 1.5;
 }
 
 .answer-slot__need {

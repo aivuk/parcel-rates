@@ -18,9 +18,19 @@ they print well for an accountant.
 
 1. **The answer** (cheapest carrier, cost per parcel, margin): display serif,
    `--text-figure`, tabular figures, carrier or money colour.
-2. **The question** each section answers: display serif, `--text-2xl`.
-3. **The owner's parcel set**: a ledger strip with the parcel count large and
-   small distributions beside it.
+2. **The question** each section answers: display serif, `--text-xl`.
+3. **The owner's parcel set**: once loaded, a one-line strip (count, share to
+   homes, speed split) with the full summary behind "Details", so the
+   questions and the answer stay above the fold, also on a phone.
+
+### Rule for every question view (issues #5 and #6)
+
+The answer is the largest element of its section. Put it first under the
+question, in `.answer > .answer__figure` (`--text-figure`), with a short
+`.answer__caption` saying what it is ("UPS Ground, $8.41 per parcel, $1.58
+margin"). Nothing else in the section, including the question (`--text-xl`),
+chart titles and table figures, may be set larger. Charts and tables come
+after the answer and explain it.
 4. **Assumptions** (year, rate card, fuel, peak, flat price): a left rail in the
    UI face at `--text-sm`, always visible on desktop, a bottom sheet on phones
    behind a one-line summary bar.

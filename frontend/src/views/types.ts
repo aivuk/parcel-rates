@@ -14,6 +14,10 @@ export interface QuestionDef {
   number: number;
   short: string;
   question: string;
+  /** Kicker over the answer figure, e.g. "Cheapest for this parcel". */
+  answerLabel: string;
+  /** Shape of the answer figure while it is not computed. */
+  answerBlank: string;
   answerSlot: string;
   needsParcels: boolean;
   issue: number;
@@ -26,6 +30,8 @@ export const QUESTIONS: readonly QuestionDef[] = [
     short: "Quote a parcel",
     question:
       "For one parcel, which service is cheapest once surcharges are included, and what are the line items of that price?",
+    answerLabel: "Cheapest for this parcel",
+    answerBlank: "$—.——",
     answerSlot: "Cheapest service per carrier for the chosen speed, ranked, with base, each surcharge, fuel, and the margin against your flat price.",
     needsParcels: false,
     issue: 5,
@@ -35,6 +41,8 @@ export const QUESTIONS: readonly QuestionDef[] = [
     number: 2,
     short: "Breakeven map",
     question: "Where does USPS stop being cheaper than UPS or FedEx ground, by weight and distance?",
+    answerLabel: "Where USPS stops winning",
+    answerBlank: "— lb",
     answerSlot: "A weight × distance map coloured by the winning ground carrier, with the breakeven lines in plain words.",
     needsParcels: false,
     issue: 5,
@@ -45,6 +53,8 @@ export const QUESTIONS: readonly QuestionDef[] = [
     short: "Blended cost",
     question:
       "Across all your parcels, what does each carrier cost per parcel, and how much of that is surcharges rather than base rate?",
+    answerLabel: "Best blended cost per parcel",
+    answerBlank: "$—.——",
     answerSlot: "Blended cost per parcel per carrier, base vs surcharges vs fuel, margin against your price and the share shipped at a loss.",
     needsParcels: true,
     issue: 6,
@@ -55,6 +65,8 @@ export const QUESTIONS: readonly QuestionDef[] = [
     short: "Year over year",
     question:
       "How did that cost change each year under the published prices, against the increase carriers announced, and which parcels drove it?",
+    answerLabel: "Change in cost per parcel",
+    answerBlank: "+—%",
     answerSlot: "Cost per parcel per carrier per year against the announced increase, the segments that drove each change, and a projection for next year.",
     needsParcels: true,
     issue: 6,

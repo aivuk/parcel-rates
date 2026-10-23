@@ -117,6 +117,7 @@ export function App() {
           <ParcelSetPanel
             set={parcelSet.set}
             status={parcelSet.status}
+            zoneBands={meta?.zone_bands}
             onLoadSample={parcelSet.loadSample}
             onLoadFile={parcelSet.loadFile}
             onClear={parcelSet.clear}

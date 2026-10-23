@@ -16,14 +16,24 @@ function renderApp(client: ApiClient = createMockClient(0)) {
 describe("App", () => {
   beforeEach(() => window.history.replaceState(null, "", "/"));
 
-  it("loads the sample mix and shows the set summary", async () => {
+  it("loads the sample mix as a one-line strip, with the full summary on demand", async () => {
     renderApp();
     expect(screen.getByText("No parcels loaded yet.")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Load sample mix" }));
-    const section = await screen.findByRole("region", { name: "Your parcels" });
-    expect(await within(section).findByText("300")).toBeInTheDocument();
+    const section = await screen.findByRole("region", { name: /your parcels/i });
+    const strip = await within(section).findByText(/to homes/);
+    expect(strip.closest("p")).toHaveTextContent(/^300 parcels\d+% to homes/);
+    expect(within(section).queryByRole("table", { name: /weight/i })).not.toBeInTheDocument();
+
+    const details = within(section).getByRole("button", { name: "Details" });
+    expect(details).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(details);
+    expect(details).toHaveAttribute("aria-expanded", "true");
     expect(within(section).getByText(/Illustrative parcel mix/)).toBeInTheDocument();
     expect(within(section).getByRole("table", { name: /weight/i })).toBeInTheDocument();
+    const zones = within(section).getByRole("table", { name: /distance/i });
+    expect(within(zones).getByRole("rowheader", { name: /Zone 1\s*0–50 mi/ })).toBeInTheDocument();
+    expect(within(section).getByText(/have their\s+own price/)).toBeInTheDocument();
   });
 
   it("shows CSV problems with row numbers and keeps the previous set", async () => {
