@@ -128,14 +128,17 @@ export function fuelStep(c: CarrierYears, prev: YearRow, cur: YearRow): FuelStep
   };
 }
 
-/** The year step where the carrier's cost rose most, with its fuel part. */
+/**
+ * The year step where the carrier's cost rose most, with its fuel part; null when no step is a
+ * rise (the "how much of the rise is fuel" question does not apply) or the carrier has no fuel.
+ */
 export function biggestFuelStep(c: CarrierYears, upTo?: number): FuelStep | null {
   let best: FuelStep | null = null;
   for (let i = 1; i < c.years.length; i++) {
     const cur = c.years[i]!;
     if (upTo !== undefined && cur.year > upTo) break;
     const s = fuelStep(c, c.years[i - 1]!, cur);
-    if (s && (!best || s.change > best.change)) best = s;
+    if (s && s.change > 0 && (!best || s.change > best.change)) best = s;
   }
   return best;
 }

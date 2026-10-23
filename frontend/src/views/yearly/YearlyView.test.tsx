@@ -191,6 +191,15 @@ describe("yearly logic", () => {
     expect([s.fromYear, s.toYear, s.change, s.fuelChange]).toEqual([2025, 2026, 4.55, 2.72]);
     expect(fuelSentence(s)).toContain("(60% of it)");
     expect(biggestFuelStep(carrier("usps"))).toBeNull();
+    // A carrier whose cost only ever fell has no rise to explain.
+    const fedex = carrier("fedex");
+    const falling: CarrierYears = {
+      ...fedex,
+      years: fedex.years.map((y) =>
+        y.change_vs_previous ? { ...y, change_vs_previous: { ...y.change_vs_previous, dollars_per_parcel: -0.5, percent: -1 } } : y,
+      ),
+    };
+    expect(biggestFuelStep(falling)).toBeNull();
   });
 
   it("sorts drivers by magnitude, negatives included", () => {
