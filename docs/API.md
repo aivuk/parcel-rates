@@ -134,12 +134,17 @@ rows add `carrier` and `services_used` (service_id -> parcels), `best_mix`
 adds `parcels_by_carrier`. Everything is weighted by `quantity`.
 
 ### POST /api/yearly  (question 4)
-Request `{ parcels: Parcel[], controls: Controls, next_year_increase_percent?: number }`.
+Request `{ parcels: Parcel[], controls: Controls, next_year_increase_percent?: number, next_year_override?: boolean }`.
 Response per carrier and year: blended cost per parcel under that year's
 prices and rules, the year-over-year change, the carrier's announced average
 increase for comparison, and the driver breakdown: for each parcel segment
 (weight band, zone band, residential, speed), its contribution to the change
-in dollars per parcel. Optional projected next year from the slider.
+in dollars per parcel. Each carrier also gets a projected next year: the year
+after its latest price list, at the increase the carrier announced for that
+year when the data has one (`basis: "announced"`), otherwise at
+`next_year_increase_percent` (`"assumed"`); with `next_year_override: true`
+the percentage applies to every carrier (`"override"`). No announcement and no
+percentage: `projected` is null.
 
 Rules: each year is priced at its own base-rate effective date per carrier
 (December 10 of that year when `peak`); `controls.as_of` and `controls.year`
@@ -149,7 +154,9 @@ carrier can ship in every one of its years are compared (`parcels_used`,
 
 Shape: `YearlyResponse` in `backend/app/api/models.py`: `carriers[] {carrier,
 parcels_used, parcels_excluded, years[], projected}`; `projected` is
-`{year, increase_percent, cost_per_parcel}` or `null`. Each year row:
+`{year, increase_percent, cost_per_parcel, basis, announced_percent,
+source_type, source_files}` or `null` (`announced_percent` is the carrier's own
+figure for that year whatever the basis, null when none). Each year row:
 `year`, `as_of`, `cost_per_parcel`, `summary` (the blended `Summary`),
 `services_used`, `change_vs_previous {from_year, dollars_per_parcel, percent}`
 (null for the first year), `announced_increase {percent, basis, services,
