@@ -1,0 +1,375 @@
+/* Q2, breakeven map (issue #5). */
+.bv {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-2);
+  min-width: 0;
+}
+
+.bv__toggle {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  max-width: 20rem;
+}
+
+.bv__answer {
+  gap: var(--space-2);
+}
+
+.bv__caption {
+  font-size: var(--text-base);
+  color: var(--ink);
+  max-width: 56ch;
+}
+
+.bv__lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-width: var(--measure);
+  border-top: 1px solid var(--rule);
+}
+
+.bv__lines li {
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--text-sm);
+  position: relative;
+}
+
+.bv__lines li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.05em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--ink);
+}
+
+.bv__skeleton-map {
+  margin-top: var(--space-5);
+  height: 22rem;
+}
+
+.bv__map {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+  border-top: 1px solid var(--rule-strong);
+  padding-top: var(--space-4);
+}
+
+.bv__maphead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
+
+.bv__maptitle {
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.bv__maphead .btn {
+  min-height: 2.75rem;
+}
+
+/* ---- legend ---- */
+.hml {
+  display: grid;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.hml__carriers,
+.hml__ramp ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hml__carriers li,
+.hml__ramp li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.hml__sw,
+.hml__step {
+  display: inline-block;
+  width: 1rem;
+  height: 0.75rem;
+  border: 1px solid var(--ink-muted);
+}
+
+.hml__sw--usps {
+  background: var(--carrier-usps);
+}
+
+.hml__sw--ups {
+  background: var(--carrier-ups);
+}
+
+.hml__sw--fedex {
+  background: var(--carrier-fedex);
+}
+
+.hml__ramp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  align-items: center;
+  color: var(--ink-muted);
+  font-size: var(--text-xs);
+}
+
+.hml__step--0 {
+  background: color-mix(in srgb, var(--ink) 12%, var(--paper));
+}
+
+.hml__step--1 {
+  background: color-mix(in srgb, var(--ink) 35%, var(--paper));
+}
+
+.hml__step--2 {
+  background: color-mix(in srgb, var(--ink) 60%, var(--paper));
+}
+
+.hml__step--3 {
+  background: var(--ink);
+}
+
+.hml__note {
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+}
+
+/* ---- heatmap ---- */
+.hm {
+  min-width: 0;
+}
+
+.hm__scroll {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.hm__svg {
+  display: block;
+  font-family: var(--font-ui);
+  touch-action: manipulation;
+}
+
+.hm__svg:focus {
+  outline: none;
+}
+
+.hm__colhead {
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.hm__colsub,
+.hm__rowhead {
+  font-size: 11px;
+  fill: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hm__cell {
+  cursor: crosshair;
+}
+
+.hm__colsep {
+  stroke: var(--paper);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.hm__cell:focus {
+  outline: none;
+}
+
+.hm__boundary {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: square;
+  pointer-events: none;
+}
+
+.hm__runlabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  fill: var(--ink);
+  stroke: var(--paper);
+  stroke-width: 3px;
+  paint-order: stroke;
+  pointer-events: none;
+}
+
+.hm__focus {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  outline: 2px solid var(--paper);
+  pointer-events: none;
+}
+
+.hm__tip {
+  position: absolute;
+  z-index: 5;
+  width: 220px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--sheet);
+  border: 1px solid var(--ink);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.18);
+  font-size: var(--text-xs);
+  pointer-events: none;
+}
+
+.hm__tip[data-below="false"] {
+  transform: translateY(-100%);
+}
+
+.hm__tiphead {
+  font-weight: 700;
+  font-size: var(--text-sm);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.hm__tiphead span {
+  font-weight: 400;
+  color: var(--ink-muted);
+  font-size: var(--text-xs);
+}
+
+.hm__tiptable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-1) 0;
+}
+
+.hm__tiptable th,
+.hm__tiptable td {
+  padding: 2px 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  font-weight: 400;
+}
+
+.hm__tiptable td {
+  text-align: right;
+}
+
+.hm__tiptable .is-winner th,
+.hm__tiptable .is-winner td {
+  font-weight: 700;
+}
+
+.hm__dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-right: var(--space-1);
+}
+
+.hm__dot--usps {
+  background: var(--carrier-usps);
+}
+
+.hm__dot--ups {
+  background: var(--carrier-ups);
+}
+
+.hm__dot--fedex {
+  background: var(--carrier-fedex);
+}
+
+.hm__tipfoot {
+  color: var(--ink-muted);
+}
+
+/* ---- table alternative ---- */
+.hmt {
+  overflow-x: auto;
+  max-height: 32rem;
+  overflow-y: auto;
+  border-top: 1px solid var(--rule);
+}
+
+.hmt__table {
+  border-collapse: collapse;
+  font-size: var(--text-xs);
+  width: 100%;
+}
+
+.hmt__table caption {
+  text-align: left;
+  color: var(--ink-muted);
+  padding: var(--space-2) 0;
+}
+
+.hmt__table th,
+.hmt__table td {
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+
+.hmt__table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  font-weight: 600;
+}
+
+.hmt__table tbody th {
+  position: sticky;
+  left: 0;
+  background: var(--paper);
+  text-align: left;
+}
+
+.hmt__zone,
+.hmt__next {
+  display: block;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.hmt__who {
+  font-weight: 700;
+}
+
+.hmt__cell--usps .hmt__who {
+  color: var(--carrier-usps);
+}
+
+.hmt__cell--ups .hmt__who {
+  color: var(--carrier-ups);
+}
+
+.hmt__cell--fedex .hmt__who {
+  color: var(--carrier-fedex);
+}
+
+.hm__boundary--rival {
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
