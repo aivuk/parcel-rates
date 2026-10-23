@@ -4,3 +4,6 @@
 # manifest.csv. Nothing is deleted from disk by this file.
 *.pdf
 *.part
+# USPS zone charts, one JSON per origin ZIP3 (~10 MB in all): restored and checked against
+# usps/zones/charts.csv by `uv run python -m data.collect.usps_zones`.
+usps/zones/charts/*.json
