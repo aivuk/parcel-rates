@@ -96,15 +96,29 @@ describe("BreakevenView", () => {
     expect(screen.getByRole("status")).toHaveTextContent("2 lb · 100 mi");
   });
 
-  it("offers the map as a table", async () => {
+  it("offers the map as a table with every carrier's total per weight, one distance at a time", async () => {
     setup();
     await screen.findByTestId("breakeven-answer");
     await userEvent.click(screen.getByRole("button", { name: "Show as table" }));
-    const table = screen.getByRole("table", { name: /cheapest ground carrier and its price/i });
-    expect(within(table).getAllByRole("row")).toHaveLength(71);
-    expect(within(table).getByRole("rowheader", { name: "1 lb" }).closest("tr")).toHaveTextContent(/USPS \$7\.05/);
     expect(screen.queryByRole("grid")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Show as map" })).toHaveAttribute("aria-expanded", "true");
+    let table = screen.getByRole("table", { name: /ground prices at 25 mi \(zone 1 \(UPS\/FedEx 2\)\)/i });
+    expect(within(table).getAllByRole("row")).toHaveLength(71);
+    expect(within(table).getAllByRole("columnheader").map((h) => h.textContent)).toEqual([
+      "Weight",
+      "USPS Ground Advantage",
+      "UPS Ground",
+      "FedEx Home Delivery",
+      "Cheapest",
+      "Saving",
+    ]);
+    // The same facts as the tooltip of 1 lb at 25 mi.
+    expect(within(table).getByRole("rowheader", { name: "1 lb" }).closest("tr")).toHaveTextContent(
+      /1 lb\s*\$7\.05\s*\$23\.34\s*\$23\.28\s*USPS\s*\$16\.23 vs FedEx/,
+    );
+    await userEvent.selectOptions(screen.getByLabelText("Distance"), "4");
+    table = screen.getByRole("table", { name: /ground prices at 800 mi \(zone 5\)/i });
+    expect(within(table).getByRole("rowheader", { name: "31 lb" }).closest("tr")).toHaveTextContent(/FedEx/);
   });
 
   it("asks again for business delivery and when the global controls change", async () => {

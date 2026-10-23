@@ -130,7 +130,7 @@ export function BreakevenView({ controls, meta }: ViewProps) {
                 </button>
               </div>
               <Legend res={res} meta={meta} />
-              {asTable ? <BreakevenTable res={res} id={`${uid}-table`} /> : <Heatmap res={res} meta={meta} />}
+              {asTable ? <BreakevenTable res={res} meta={meta} id={`${uid}-table`} /> : <Heatmap res={res} meta={meta} />}
             </section>
           )}
         </>
