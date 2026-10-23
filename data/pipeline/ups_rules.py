@@ -260,11 +260,14 @@ EXCEPTION_NOTES = [
              "residential demand surcharge applies only to shippers billed for more than 20,000 packages in a week, "
              "tiered by volume over baseline, so no peak_residential row is curated for 2023."},
     {"year": "2026", "kind": "other", "source_file": G26, "source_ref": "182",
-     "note": "No 2026 demand-surcharge document is on disk; the guide only says 'Refer to ups.com/peaksurcharges', "
-             "so no peak rows are curated for 2026."},
+     "note": "2026-27 demand surcharges were announced (trade press, checked 2026-10-23: from 2026-09-27 for Additional "
+             "Handling, Large Package and Over Maximum; from 2026-10-25 for Ground Residential and Air) but the UPS "
+             "document is not in the current sources: the guide only says 'Refer to ups.com/peaksurcharges', ups.com "
+             "blocks this host and the Wayback Machine was offline when checked. No 2026 peak rows until the document is "
+             "added through the manifest."},
     {"year": "2025", "kind": "other", "source_file": DEMAND25, "source_ref": "1",
      "note": "Peak rows for 2025 cover only the tail of the 2024-25 season (through January 18, 2025); the "
-             "2025-26 peak-season update was not retrieved."},
+             "2025-26 peak-season update is not in the current sources."},
 ]
 
 
