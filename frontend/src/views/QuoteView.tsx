@@ -44,7 +44,9 @@ export function QuoteView({ controls, meta, parcels, debounceMs = 300, initialDr
 
   const pending = requestKey !== settledKey || state.status === "loading";
   const shown = state.status === "ok" ? state.data : apiError ? null : (last?.data ?? null);
-  const stale = shown !== null && (pending || last?.key !== requestKey);
+  // Fresh only when the answer on screen is the one for the inputs as they are now.
+  const fresh = state.status === "ok" && settledKey === requestKey;
+  const stale = shown !== null && !fresh;
   const actualLb = built.parcel?.weight_lb ?? 0;
 
   const available = carriersForYear(meta, controls.year);
