@@ -4,11 +4,8 @@ import { loadSample, openApp, settled, showView, type ViewId } from "./helpers";
 
 /**
  * axe on every question view, light and dark. Serious and critical violations fail the test;
- * moderate and minor ones are attached to the report for review.
- *
- * Exclusions:
- * - `.recharts-wrapper`: the Recharts SVG sits inside an aria-hidden wrapper and is described by
- *   the figure caption and the "Show as table" alternative (see DESIGN.md, Accessibility).
+ * moderate and minor ones are attached to the report for review. No exclusions: the chart SVGs
+ * sit inside aria-hidden wrappers (the caption and "Show as table" carry the content) and pass.
  */
 const VIEWS: ViewId[] = ["quote", "breakeven", "blended", "yearly"];
 const BLOCKING = new Set(["serious", "critical"]);
@@ -26,7 +23,6 @@ for (const scheme of ["light", "dark"] as const) {
 
         const results = await new AxeBuilder({ page })
           .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"])
-          .exclude(".recharts-wrapper")
           .analyze();
         await info.attach("axe-violations.json", {
           body: JSON.stringify(results.violations, null, 2),
