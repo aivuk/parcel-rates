@@ -165,3 +165,13 @@
 .fuel-note {
   overflow-x: auto;
 }
+
+.q4-since {
+  white-space: nowrap;
+}
+
+.year-chart__scale-note {
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  margin-bottom: var(--space-2);
+}

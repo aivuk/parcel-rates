@@ -110,8 +110,8 @@ function Body({
               <span className="carrier-tag" style={{ color: carrierVar(pick.carrier) }}>
                 {carrierName(pick.carrier)}
               </span>{" "}
-              {signedPct(change.percent)}
-              <span className="answer__unit"> since {change.fromYear}</span>
+              {signedPct(change.percent)}{" "}
+              <span className="answer__unit q4-since">{`since\u00a0${change.fromYear}`}</span>
             </p>
             <p className="answer__caption" data-testid="q4-caption">
               {formatUsd(change.from)} → {formatUsd(change.to)} per parcel from {change.fromYear} to {change.toYear} (
