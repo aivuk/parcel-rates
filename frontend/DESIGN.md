@@ -93,6 +93,62 @@ of it is disabled under `prefers-reduced-motion: reduce`.
 - Axis text in `--ink-muted`, gridlines in `--rule`, no chart borders.
 - Announced increases and projections are dashed lines in the carrier colour.
 
+## Questions 3 and 4 (issue #6)
+
+Code: `src/views/blended/` (Q3, plus the pieces Q4 reuses: `common.tsx`,
+`money.ts`, `SegmentChips.tsx`, `common.css`) and `src/views/yearly/` (Q4).
+
+**Q3, blended cost.** Answer first: the cheapest single carrier and its blended
+cost per parcel (`--text-figure`), the others with their gap, then the
+"best mix" (cheapest carrier per parcel) and its saving. Directly under it, the
+verdict box answers "does my shipping price cover the cost?" in the money
+colour (`--loss` or `--profit` border and wash), `--text-2xl`, with the share of
+parcels shipped at a loss and a margin table per carrier (signed amount plus
+the word "loss" or "margin", and a loss-share meter). Then the segment chips
+(radio-like toggle buttons, 44 px tall, a check mark on the selected one so the
+state is not colour alone), which re-query `/api/blended` and repeat the
+segment's result next to the parcel count, because the answer above may be off
+screen. Then the stacked cost split.
+
+- Cost split colours (tokens in `src/styles/tokens.css`): neutral `--q3-base` for the
+  base rate, a single teal ramp `--q3-sur-1..4` for surcharge kinds (darkest =
+  largest kind; beyond three kinds they fold into "Other surcharges"), and
+  `--q3-fuel` (ink) for fuel. Teal sits outside the carrier and money hues.
+  Each carrier's row label carries its name, total and surcharge/fuel shares,
+  so the split reads without the legend.
+
+**Q4, year over year.** Answer first: for the carrier cheapest in the latest
+year every carrier publishes, the percent change from its first year, with the
+dollars and the announced increases compounded over the same years. A
+next-year slider (default: that carrier's latest announced increase) sits in a
+raised `--sheet` panel with the projected cost. The line chart uses solid
+carrier lines with a marker shape per carrier (USPS circle, UPS square, FedEx
+triangle; blue and purple are close under protanopia, see the validator note
+below), dashed lines for the announced-increase path and dotted segments for
+the projection. A "Scale" toggle switches to an index (each carrier's first
+year = 100, announced paths and projection indexed the same way); it is the
+default on phones, where the dollar gap between USPS and the others flattens
+the slopes. Points with a note carry a "!" badge; the notes are listed in
+plain words under the chart. "How much of the change is fuel?" sits right
+under the chart with a small per-year fuel table. The driver chart is a
+diverging bar chart from zero: warm `--q4-up` when a segment made parcels
+dearer, cool `--q4-down` when cheaper (neither is the loss/profit pair), sorted
+by size. Each row label gives both the contribution to the total (what the
+bars show, they add up to the change) and the change per parcel within the
+segment ("each", `change_total / parcels`), so a small segment that rose fast
+is not hidden by a big one; the sentence names the largest contributor and,
+when different, the fastest-rising segment.
+
+**Accessibility.** Every chart is a `<figure>` with a visible text summary as
+its caption and a "Show as table" toggle (`aria-pressed`). The chart SVG is
+`aria-hidden`; the summary and the table carry the content. Carrier colour is
+never alone: names, marker shapes or row labels go with it.
+
+**Colour check.** The dataviz palette validator flags the carrier trio as below
+the CVD target (USPS/FedEx ΔE about 5 under protanopia, light and dark), which
+DESIGN.md already anticipated; Q3/Q4 therefore always pair carrier colour with
+the carrier name or a marker shape.
+
 ## Q1 quote and Q2 breakeven views (issue #5)
 
 Code in `src/views/QuoteView.tsx`, `src/views/BreakevenView.tsx` and the folders
