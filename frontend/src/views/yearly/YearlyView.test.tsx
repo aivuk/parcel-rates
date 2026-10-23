@@ -43,7 +43,8 @@ describe("YearlyView", () => {
   it("answers with the cheapest carrier's change since the first year, against the announced increases", async () => {
     const { client } = spyClient();
     renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
-    expect(await screen.findByTestId("q4-answer")).toHaveTextContent(/^USPS \+18\.5% since 2023$/);
+    expect(await screen.findByTestId("q4-answer")).toHaveTextContent(/^USPS \+18\.5%$/);
+    expect(screen.getByText(/your cheapest carrier in 2026/)).toHaveTextContent("· 300 parcels · change since 2023");
     const caption = screen.getByTestId("q4-caption");
     expect(caption).toHaveTextContent("$17.80 → $21.09 per parcel from 2023 to 2026 (+$3.29)");
     expect(caption).toHaveTextContent("compound to +16.4% over the same years");

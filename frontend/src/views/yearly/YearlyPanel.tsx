@@ -103,6 +103,12 @@ function Body({
       <div className="answer q4-answer">
         <p className="kicker">
           {carrierName(pick.carrier)}, your cheapest carrier in {ref} · {formatInt(pick.parcels_used)} parcels
+          {change && (
+            <>
+              {" "}
+              · <span className="q4-since">change since {change.fromYear}</span>
+            </>
+          )}
         </p>
         {change ? (
           <>
@@ -110,8 +116,7 @@ function Body({
               <span className="carrier-tag" style={{ color: carrierVar(pick.carrier) }}>
                 {carrierName(pick.carrier)}
               </span>{" "}
-              {signedPct(change.percent)}{" "}
-              <span className="answer__unit q4-since">{`since\u00a0${change.fromYear}`}</span>
+              {signedPct(change.percent)}
             </p>
             <p className="answer__caption" data-testid="q4-caption">
               {formatUsd(change.from)} → {formatUsd(change.to)} per parcel from {change.fromYear} to {change.toYear} (

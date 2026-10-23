@@ -125,13 +125,19 @@ raised `--sheet` panel with the projected cost. The line chart uses solid
 carrier lines with a marker shape per carrier (USPS circle, UPS square, FedEx
 triangle; blue and purple are close under protanopia, see the validator note
 below), dashed lines for the announced-increase path and dotted segments for
-the projection. Points with a note carry a "!" badge; the notes are listed in
+the projection. A "Scale" toggle switches to an index (each carrier's first
+year = 100, announced paths and projection indexed the same way); it is the
+default on phones, where the dollar gap between USPS and the others flattens
+the slopes. Points with a note carry a "!" badge; the notes are listed in
 plain words under the chart. "How much of the change is fuel?" sits right
 under the chart with a small per-year fuel table. The driver chart is a
 diverging bar chart from zero: warm `--q4-up` when a segment made parcels
 dearer, cool `--q4-down` when cheaper (neither is the loss/profit pair), sorted
-by size, with the signed value in the row label and a sentence naming the top
-driver.
+by size. Each row label gives both the contribution to the total (what the
+bars show, they add up to the change) and the change per parcel within the
+segment ("each", `change_total / parcels`), so a small segment that rose fast
+is not hidden by a big one; the sentence names the largest contributor and,
+when different, the fastest-rising segment.
 
 **Accessibility.** Every chart is a `<figure>` with a visible text summary as
 its caption and a "Show as table" toggle (`aria-pressed`). The chart SVG is
