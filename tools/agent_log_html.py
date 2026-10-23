@@ -296,9 +296,33 @@ def parse_session(path: Path) -> Session:
             fence.step(line)
             body.append(line)
     close()
+    turns = split_command_prompts(turns)
+    for sub in subagents:
+        sub.turns = split_command_prompts(sub.turns)
     for group in [turns] + [sub.turns for sub in subagents]:
         attach_across_turns(group)
     return Session(path.stem, meta, turns, subagents)
+
+
+COMMAND_END = re.compile(r"</(?:local-command-caveat|command-name|command-message|command-args|local-command-stdout|local-command-stderr)>")
+
+
+def split_command_prompts(turns: list[Turn]) -> list[Turn]:
+    """The hook merges consecutive user records, so a prompt typed right after a local slash
+    command shares its heading. Give the text after the command's output a turn of its own."""
+    out: list[Turn] = []
+    for t in turns:
+        texts = [s for s in t.segments if s.kind == "text"]
+        ends = [m.end() for m in COMMAND_END.finditer(texts[-1].text)] if t.role == "User" and texts else []
+        rest = texts[-1].text[ends[-1]:].strip() if ends else ""
+        if not rest:
+            out.append(t)
+            continue
+        last = texts[-1]
+        command = Segment("text", text=last.text[: ends[-1]])
+        out.append(Turn(t.role, t.time, [command if s is last else s for s in t.segments]))
+        out.append(Turn(t.role, t.time, [Segment("text", text=rest)]))
+    return out
 
 
 def attach_across_turns(turns: list[Turn]) -> None:
