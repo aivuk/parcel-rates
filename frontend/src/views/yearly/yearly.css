@@ -156,3 +156,12 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.fuel-strip {
+  justify-self: start;
+  max-width: 100%;
+}
+
+.fuel-note {
+  overflow-x: auto;
+}

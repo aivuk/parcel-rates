@@ -15,17 +15,19 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
   const sentence = driverSentence(carrier, row, dim);
   const ch = row.change_vs_previous;
   const rows = list.map((d) => ({ label: segmentLabel(dim, d.segment), value: d.change_per_parcel, parcels: d.parcels }));
-  const max = Math.max(0.01, ...rows.map((r) => Math.abs(r.value)));
-  const yWidth = narrow ? 118 : 170;
+  const lo = Math.min(0, ...rows.map((r) => r.value));
+  const hi = Math.max(0, ...rows.map((r) => r.value));
+  const ticks = niceTicks(lo, hi);
+  const domain: [number, number] = [ticks[0]!, ticks[ticks.length - 1]!];
+  const yWidth = narrow ? 142 : 180;
   const byLabel = new Map(rows.map((r) => [r.label, r]));
 
   const tick = (props: { x?: number | string; y?: number | string; payload?: { value?: string } }) => {
     const r = byLabel.get(props.payload?.value ?? "");
-    const x = Number(props.x ?? 0);
     const y = Number(props.y ?? 0);
     if (!r) return <g />;
     return (
-      <g transform={`translate(${x - yWidth + 4},${y})`}>
+      <g transform={`translate(4,${y})`}>
         <text x={0} y={-3} fill={colors.ink} fontSize={13} fontWeight={600} fontFamily="var(--font-ui)">
           {r.label}
         </text>
@@ -42,12 +44,12 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
         <CartesianGrid horizontal={false} stroke={colors.rule} />
         <XAxis
           type="number"
-          domain={[-max * 1.05, max * 1.05]}
+          domain={domain}
           tickFormatter={(v: number) => signedUsd(v)}
           tick={{ fill: colors.muted, fontSize: 12 }}
           axisLine={false}
           tickLine={false}
-          tickCount={5}
+          ticks={ticks}
         />
         <YAxis type="category" dataKey="label" width={yWidth} tick={tick} axisLine={false} tickLine={false} />
         <ReferenceLine x={0} stroke={colors.ink} />
@@ -117,4 +119,18 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
   );
 
   return <ChartFrame title={`What drove ${carrierName(carrier)}’s change, by ${DIMENSION_LABEL[dim].toLowerCase()}`} summary={summary} chart={chart} table={table} />;
+}
+
+/** Round tick values (steps of 1, 2, 2.5 or 5 × 10^k) spanning lo..hi and always including 0. */
+export function niceTicks(lo: number, hi: number, target = 4): number[] {
+  const span = Math.max(hi - lo, 0.01);
+  const raw = span / target;
+  const mag = 10 ** Math.floor(Math.log10(raw));
+  const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= raw) ?? 10 * mag;
+  const start = Math.floor(lo / step) * step;
+  const end = Math.ceil(hi / step) * step;
+  const out: number[] = [];
+  for (let v = start; v <= end + step / 2; v += step) out.push(Math.round(v * 100) / 100);
+  if (out.length < 2) out.push(out[0]! + step);
+  return out;
 }

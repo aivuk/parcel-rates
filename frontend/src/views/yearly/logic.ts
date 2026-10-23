@@ -1,7 +1,7 @@
 /** Pure derivations for the Q4 year-over-year view. */
 import type { Carrier, CarrierYears, Driver, Drivers, YearRow, YearlyResponse } from "../../api/types";
 import { formatUsd } from "../../lib/format";
-import { carrierName, signedPct, signedUsd, tierName } from "../blended/money";
+import { carrierName, conditionLabel, signedPct, signedUsd, tierName } from "../blended/money";
 
 export type Dimension = keyof Drivers;
 export const DIMENSIONS: readonly Dimension[] = ["weight_band", "zone_band", "residential", "speed"];
@@ -209,7 +209,7 @@ export function driverSentence(carrier: Carrier, row: YearRow, dim: Dimension): 
   const shareText = share !== null && share > 0 ? `, ${share}% of it` : "";
   const direction = top.change_per_parcel >= 0 ? "added" : "took off";
   return (
-    `Top driver: ${what} (${top.parcels} parcels) ${direction} ${formatUsd(Math.abs(top.change_per_parcel))} per parcel ` +
+    `Top driver: ${what} (${top.parcels} of them) ${direction} ${formatUsd(Math.abs(top.change_per_parcel))} per parcel ` +
     `of ${name}'s ${signedUsd(ch.dollars_per_parcel)} change from ${span}${shareText}.`
   );
 }
@@ -239,7 +239,7 @@ export function pointNotes(r: YearlyResponse): PointNote[] {
   const out: PointNote[] = [];
   for (const c of r.carriers) {
     for (const y of c.years) {
-      for (const w of y.warnings) out.push({ carrier: c.carrier, year: y.year, text: w, kind: "warning" });
+      for (const w of y.warnings) out.push({ carrier: c.carrier, year: y.year, text: readableWarning(w), kind: "warning" });
       if (y.as_of) {
         const [ay, am] = y.as_of.split("-").map(Number);
         if (ay === y.year && am !== undefined && am >= 3) {
@@ -257,3 +257,12 @@ export function pointNotes(r: YearlyResponse): PointNote[] {
 }
 
 export const pctText = (n: number) => signedPct(n, 1);
+
+/** "No 2027 rules recorded for: a_b, c; …" with the surcharge ids in the owner's words. */
+export function readableWarning(w: string): string {
+  const m = /^(No \d{4} rules recorded for): ([^;]+);\s*(.*)$/.exec(w);
+  if (!m) return w;
+  const kinds = m[2]!.split(",").map((k) => conditionLabel(k.trim()).toLowerCase());
+  const rest = m[3]!.replace(/^./, (ch) => ch.toUpperCase());
+  return `${m[1]} ${kinds.join(", ")}. ${rest}${/[.!]$/.test(rest) ? "" : "."}`;
+}

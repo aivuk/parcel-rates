@@ -160,12 +160,22 @@
     padding: var(--space-4);
   }
 
-  .margin-table .meter {
-    width: 2.5rem;
-  }
-
   .margin-table th,
   .margin-table td {
     padding-right: var(--space-2);
+  }
+}
+
+.margin-table td.num {
+  white-space: nowrap;
+}
+
+@media (max-width: 39.999rem) {
+  .margin-table .meter {
+    display: none;
+  }
+
+  .margin-table {
+    font-size: var(--text-xs);
   }
 }

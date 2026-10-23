@@ -82,13 +82,12 @@ export function CostSplitChart({ data }: { data: BlendedResponse }) {
 
   const yWidth = narrow ? 104 : 168;
   const tick = (props: { x?: number | string; y?: number | string; payload?: { value?: string } }) => {
-    const x = Number(props.x ?? 0);
     const y = Number(props.y ?? 0);
     const label = props.payload?.value ?? "";
     const r = byLabel.get(label);
     if (!r) return <g />;
     return (
-      <g transform={`translate(${x - yWidth + 4},${y})`}>
+      <g transform={`translate(4,${y})`}>
         <text x={0} y={-4} fill={colors[r.carrier]} fontWeight={700} fontSize={14} fontFamily="var(--font-ui)">
           {label} {formatUsd(r.total)}
         </text>
