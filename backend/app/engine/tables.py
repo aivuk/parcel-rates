@@ -17,6 +17,8 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Iterable, Mapping
 
+from .zip_zones import ZipZones, load_zip_zones
+
 CARRIERS = ("usps", "ups", "fedex")
 TIERS = ("ground", "two_three_day", "next_day")
 
@@ -158,6 +160,7 @@ class RateTables:
     fuel: dict[tuple[str, int, str], FuelRow]
     fuel_carriers: frozenset[str]
     increases: list[AnnouncedIncrease] = field(default_factory=list)
+    zip_zones: ZipZones | None = None  # ZIP points and the USPS zone chart (issue #9); None: miles only
 
     # ---- construction -------------------------------------------------
     @classmethod
@@ -342,7 +345,7 @@ def load_tables(data_dir: Path) -> RateTables:
             rows.extend(_read(data_dir / carrier / f"{name}.csv"))
         return rows
 
-    return RateTables.from_rows(
+    tables = RateTables.from_rows(
         services=_read(data_dir / "services.csv"),
         zones=_read(data_dir / "zone_from_distance.csv"),
         base_rates=concat("base_rates"),
@@ -351,3 +354,5 @@ def load_tables(data_dir: Path) -> RateTables:
         fuel=concat("fuel_surcharge"),
         increases=concat("announced_increase"),
     )
+    tables.zip_zones = load_zip_zones(data_dir)
+    return tables

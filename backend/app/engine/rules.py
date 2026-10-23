@@ -57,6 +57,14 @@ def zone_for(tables: RateTables, carrier: str, distance_miles: float) -> int | N
     return None
 
 
+def parcel_zone(tables: RateTables, carrier: str, parcel: Parcel) -> tuple[int | None, str]:
+    """(zone, where it came from): the USPS chart when the API resolved one from ZIPs, else the
+    distance bands, on miles computed from ZIPs (an estimate) or typed."""
+    if carrier == "usps" and parcel.usps_zone is not None:
+        return parcel.usps_zone, "usps_chart"
+    return zone_for(tables, carrier, parcel.distance_miles), "zip_distance" if parcel.distance_from_zips else "distance"
+
+
 # ---- as_of ----------------------------------------------------------------
 def resolve_as_of(tables: RateTables, carrier: str, year: int, controls: Controls) -> date | None:
     if controls.peak:

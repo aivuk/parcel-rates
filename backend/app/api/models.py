@@ -6,10 +6,11 @@ messages a shop owner sees (see app/api/errors.py).
 
 from __future__ import annotations
 
+import re
 from datetime import date
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 Carrier = Literal["usps", "ups", "fedex"]
 Tier = Literal["ground", "two_three_day", "next_day"]
@@ -22,13 +23,25 @@ MAX_WEIGHT_LB = 70  # app cap from docs/API.md (USPS maximum); not a price
 MAX_PARCELS = 10_000
 
 
+ZIP_PATTERN = re.compile(r"^\d{5}(?:-\d{4})?$")
+
+
+def _zip(value: str | None, field: str) -> str | None:
+    if value is None:
+        return None
+    value = value.strip()
+    if not ZIP_PATTERN.match(value):
+        raise ValueError(f"{field} must be a 5-digit ZIP code (or ZIP+4)")
+    return value[:5]
+
+
 # ---- requests -------------------------------------------------------------
 class Parcel(BaseModel):
     weight_lb: float = Field(gt=0, le=MAX_WEIGHT_LB)
     length_in: float | None = Field(default=None, gt=0)
     width_in: float | None = Field(default=None, gt=0)
     height_in: float | None = Field(default=None, gt=0)
-    distance_miles: float = Field(ge=0)
+    distance_miles: float | None = Field(default=None, ge=0, description="needed unless destination_zip is given")
     residential: bool
     speed: Tier
     quantity: int = Field(default=1, ge=1)
@@ -36,6 +49,21 @@ class Parcel(BaseModel):
     delivery_area: DeliveryArea = "none"
     nonstandard_packaging: bool = False
     order_value: float | None = Field(default=None, ge=0, description="value of the order this parcel ships")
+    origin_zip: str | None = Field(default=None, description="5-digit ZIP; default Controls.origin_zip")
+    destination_zip: str | None = Field(
+        default=None, description="5-digit ZIP; with an origin, sets the zones (USPS chart, UPS/FedEx estimated)"
+    )
+
+    @field_validator("origin_zip", "destination_zip")
+    @classmethod
+    def _five_digits(cls, v: str | None, info) -> str | None:
+        return _zip(v, info.field_name)
+
+    @model_validator(mode="after")
+    def _distance_or_destination(self) -> "Parcel":
+        if self.distance_miles is None and self.destination_zip is None:
+            raise ValueError("give distance_miles or destination_zip")
+        return self
 
     @model_validator(mode="after")
     def _all_or_no_dimensions(self) -> "Parcel":
@@ -60,6 +88,12 @@ class Controls(BaseModel):
     free_shipping_over: float | None = Field(
         default=None, ge=0, description="free shipping on orders of this value or more; needs order_value"
     )
+    origin_zip: str | None = Field(default=None, description="where the shop ships from (5-digit ZIP)")
+
+    @field_validator("origin_zip")
+    @classmethod
+    def _five_digits(cls, v: str | None) -> str | None:
+        return _zip(v, "origin_zip")
 
 
 class SegmentFilter(BaseModel):
@@ -125,6 +159,9 @@ class LineItem(Out):
     condition: str | None = None
 
 
+ZoneSource = Literal["usps_chart", "zip_distance", "distance"]
+
+
 class Quote(Out):
     carrier: Carrier
     service_id: str
@@ -139,6 +176,7 @@ class Quote(Out):
     available: bool
     unavailable_reason: str | None = None
     as_of: date | None = None
+    zone_source: ZoneSource = "distance"
 
 
 class Pick(Out):
@@ -148,6 +186,7 @@ class Pick(Out):
 
 
 class QuoteResponse(Out):
+    distance_miles: float  # typed, or between the two ZIPs' Census points
     quotes: list[Quote]
     cheapest_by_tier: dict[Tier, Pick | None]
 
@@ -356,11 +395,18 @@ class Segments(Out):
     zone_bands: list[str]
 
 
+class ZipZonesOut(Out):
+    usps_effective_date: str  # as the USPS zone chart tool reported it, e.g. "October 1, 2026"
+    usps_origins: int  # origin ZIP3 prefixes with a USPS chart
+    zip_points: int  # 5-digit ZIP areas with a Census point
+
+
 class MetaResponse(Out):
     years: dict[str, list[int]]
     services: list[ServiceOut]
     defaults: Defaults
     fuel_defaults: list[FuelDefault]
     zone_bands: list[ZoneBandOut]
+    zip_zones: ZipZonesOut | None  # None: the server has no ZIP data, so distances must be typed
     segments: Segments
     limitations: list[str]
