@@ -254,6 +254,32 @@
   }
 }
 
+/* Wide screens: the assumptions go back to a 260 px left rail, styled as the label strip
+   (uppercase labels, bold values, hairlines between fields), and the questions start at the
+   top beside it. Tablets keep the strip, phones the bottom sheet. */
+@media (min-width: 80rem) {
+  .layout {
+    display: grid;
+    grid-template-columns: 16.25rem minmax(0, 1fr);
+    column-gap: var(--space-6);
+  }
+
+  .rail {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: var(--space-4) var(--space-5) var(--space-6) 0;
+    border-bottom: 0;
+    border-right: var(--rule-heavy);
+  }
+
+  .main {
+    padding-top: var(--space-4);
+  }
+}
+
 /* Footer */
 .footer {
   margin-top: var(--space-8);
