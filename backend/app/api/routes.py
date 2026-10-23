@@ -200,4 +200,10 @@ def blended_route(body: m.BlendedRequest, tables: RateTables = Depends(get_table
 @router.post("/yearly", response_model=m.YearlyResponse)
 def yearly_route(body: m.YearlyRequest, tables: RateTables = Depends(get_tables)) -> dict:
     controls = to_controls(body.controls, tables, ["body", "controls"])
-    return yearly(tables, [to_parcel(p) for p in body.parcels], controls, body.next_year_increase_percent)
+    return yearly(
+        tables,
+        [to_parcel(p) for p in body.parcels],
+        controls,
+        body.next_year_increase_percent,
+        body.next_year_override,
+    )

@@ -191,8 +191,13 @@ screen. Then the stacked cost split.
 **Q4, year over year.** Answer first: for the carrier cheapest in the latest
 year every carrier publishes, the percent change from its first year, with the
 dollars and the announced increases compounded over the same years. A
-next-year slider (default: that carrier's latest announced increase) sits in a
-raised `--sheet` panel with the projected cost. The line chart uses solid
+next-year panel in a raised `--sheet` panel projects each carrier's year after
+its latest price list: at the carrier's announced increase where the data has
+one, otherwise at the slider (default: the pick carrier's latest announced
+increase) as an assumption; moving the slider overrides every carrier and
+"Reset" hands back to the announcements. A line under the figure names each
+carrier's projected year, percentage and basis (announced, assumed, your
+override), and the chart summary and table repeat the basis. The line chart uses solid
 carrier lines with a marker shape per carrier (USPS circle, UPS square, FedEx
 triangle; blue and purple are close under protanopia, see the validator note
 below), dashed lines for the announced-increase path and dotted segments for

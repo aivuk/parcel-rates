@@ -25,6 +25,7 @@ from data.pipeline.common import (
     money,
     raw_path,
     weight_label,
+    with_found_announcements,
     write_table,
 )
 
@@ -483,7 +484,7 @@ def main() -> None:
         ("exceptions", lambda: exceptions(parsed_exceptions)),
         ("surcharges", surcharges),
         ("fuel_surcharge", fuel_surcharge),
-        ("announced_increase", announced_increase),
+        ("announced_increase", lambda: with_found_announcements(rules.CARRIER, announced_increase())),
         ("dim_weight", dim_weight),
     )
     for table, build in builders:

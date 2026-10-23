@@ -51,11 +51,22 @@ export function YearlyPanel({ controls, parcels, onLoadSample, onUploadCsv }: Ye
 function Yearly({ controls, parcels }: { controls: ControlsState; parcels: Parcel[] }) {
   const api = useApi();
   const [increase, setIncrease] = useState<number | null>(null);
+  // false: each carrier's announced increase where it has one, the slider for the others; true: the slider for all.
+  const [override, setOverride] = useState(false);
   const sent = useDebounced(increase, 250);
+  const sentOverride = useDebounced(override, 250);
   const controlsKey = JSON.stringify(controls);
   const state = useLoad(
-    (signal) => api.yearly({ parcels, controls, ...(sent !== null ? { next_year_increase_percent: sent } : {}) }, signal),
-    [api, parcels, controlsKey, sent],
+    (signal) =>
+      api.yearly(
+        {
+          parcels,
+          controls,
+          ...(sent !== null ? { next_year_increase_percent: sent, next_year_override: sentOverride } : {}),
+        },
+        signal,
+      ),
+    [api, parcels, controlsKey, sent, sentOverride],
   );
   const data = useLastData(state);
   const total = useMemo(() => totalQuantity(parcels), [parcels]);
@@ -73,7 +84,22 @@ function Yearly({ controls, parcels }: { controls: ControlsState; parcels: Parce
     <div className="q4" aria-busy={loading}>
       {state.status === "error" && <LoadProblem error={state.error} />}
       {!data && loading && <p className="q-loading">Pricing {formatInt(total)} parcels under every year’s prices…</p>}
-      {data && <Body data={data} increase={increase} onIncrease={setIncrease} stale={loading} />}
+      {data && (
+        <Body
+          data={data}
+          increase={increase}
+          override={override}
+          onIncrease={(v) => {
+            setIncrease(v);
+            setOverride(true);
+          }}
+          onReset={(v) => {
+            setIncrease(v);
+            setOverride(false);
+          }}
+          stale={loading}
+        />
+      )}
     </div>
   );
 }
@@ -81,12 +107,16 @@ function Yearly({ controls, parcels }: { controls: ControlsState; parcels: Parce
 function Body({
   data,
   increase,
+  override,
   onIncrease,
+  onReset,
   stale,
 }: {
   data: YearlyResponse;
   increase: number | null;
+  override: boolean;
   onIncrease: (v: number) => void;
+  onReset: (v: number) => void;
   stale: boolean;
 }) {
   const ref = referenceYear(data);
@@ -169,7 +199,7 @@ function Body({
         <FullQuestion id="yearly" />
       </div>
 
-      <NextYear data={data} pick={pick.carrier} increase={increase} onIncrease={onIncrease} />
+      <NextYear data={data} pick={pick.carrier} increase={increase} override={override} onIncrease={onIncrease} onReset={onReset} />
 
       <YearChart data={data} notes={notes} />
       <Notes notes={notes} />
@@ -181,34 +211,45 @@ function Body({
 
 const rowCost = (c: YearlyResponse["carriers"][number], y: number) => c.years.find((r) => r.year === y)?.cost_per_parcel ?? 0;
 
+const BASIS_WORD = { announced: "announced", assumed: "assumed", override: "your override" } as const;
+
 function NextYear({
   data,
   pick,
   increase,
+  override,
   onIncrease,
+  onReset,
 }: {
   data: YearlyResponse;
   pick: Carrier;
   increase: number | null;
+  override: boolean;
   onIncrease: (v: number) => void;
+  onReset: (v: number) => void;
 }) {
   const id = useId();
   const c = data.carriers.find((x) => x.carrier === pick)!;
   const last = c.years[c.years.length - 1]!;
-  const def = defaultIncrease(c);
-  const value = increase ?? def ?? 0;
   const projected = c.projected;
+  const year = projected?.year ?? last.year + 1;
+  const assumption = defaultIncrease(c);
+  const announced = projected?.announced_percent ?? null;
+  // The slider shows the pick carrier's own figure until the owner moves it.
+  const value = !override && announced !== null ? announced : (increase ?? assumption ?? 0);
+  const resetTo = announced ?? assumption;
   const local = Math.round(last.cost_per_parcel * (1 + value / 100) * 100) / 100;
   const shown = projected && projected.increase_percent === value ? projected.cost_per_parcel : local;
+  const projectedCarriers = data.carriers.filter((x) => x.projected && x.parcels_used > 0);
   return (
     <section className="next-year" aria-labelledby={`${id}-t`}>
       <h3 id={`${id}-t`} className="q-block__title">
-        Next year, {last.year + 1}
+        Next year, {year}
       </h3>
       <div className="next-year__row">
         <div className="next-year__control">
           <div className="next-year__head">
-            <label htmlFor={id}>Increase for {last.year + 1}</label>
+            <label htmlFor={id}>Increase for {year}</label>
             <output htmlFor={id} className="next-year__value">
               {signedPct(value)}
             </output>
@@ -225,27 +266,48 @@ function NextYear({
             onChange={(e) => onIncrease(Number(e.target.value))}
           />
           <p id={`${id}-hint`} className="next-year__hint">
-            {def !== null ? (
+            {override ? (
+              <>Your override, applied to every carrier. </>
+            ) : announced !== null ? (
               <>
-                Starts at {carrierName(pick)}’s latest announced increase, {signedPct(def)}.{" "}
-                {value !== def && (
-                  <button type="button" className="btn btn--quiet next-year__reset" onClick={() => onIncrease(def)}>
-                    Reset to {signedPct(def)}
-                  </button>
-                )}
+                {carrierName(pick)} announced {signedPct(announced)} for {year}. Moving the slider overrides every carrier.{" "}
+              </>
+            ) : assumption !== null ? (
+              <>
+                {carrierName(pick)} has not announced its {year} increase; the slider assumes its latest announced increase,{" "}
+                {signedPct(assumption)}, for every carrier without an announcement.{" "}
               </>
             ) : (
-              "No announced increase recorded to start from."
+              <>No announced increase recorded to start from. </>
+            )}
+            {override && resetTo !== null && (
+              <button type="button" className="btn btn--quiet next-year__reset" onClick={() => onReset(resetTo)}>
+                Reset to {signedPct(resetTo)}
+              </button>
             )}
           </p>
         </div>
-        <p className="next-year__result" data-testid="q4-projection">
-          <span className="figure next-year__figure" style={{ color: carrierVar(pick) }}>
-            {formatUsd(shown)}
-          </span>{" "}
-          per parcel with {carrierName(pick)} in {last.year + 1}, from {formatUsd(last.cost_per_parcel)} in {last.year} (
-          {signedUsd(shown - last.cost_per_parcel)}). The dotted lines in the chart apply the same increase to every carrier.
-        </p>
+        <div className="next-year__result">
+          <p data-testid="q4-projection">
+            <span className="figure next-year__figure" style={{ color: carrierVar(pick) }}>
+              {formatUsd(shown)}
+            </span>{" "}
+            per parcel with {carrierName(pick)} in {year}, from {formatUsd(last.cost_per_parcel)} in {last.year} (
+            {signedUsd(shown - last.cost_per_parcel)}).
+          </p>
+          {projectedCarriers.length > 0 && (
+            <p className="next-year__basis" data-testid="q4-projection-basis">
+              Each carrier’s next year, dotted in the chart:{" "}
+              {projectedCarriers.map((x, i) => (
+                <span key={x.carrier}>
+                  {i > 0 && " · "}
+                  <strong style={{ color: carrierVar(x.carrier) }}>{carrierName(x.carrier)}</strong> {x.projected!.year}{" "}
+                  {signedPct(x.projected!.increase_percent)} {BASIS_WORD[x.projected!.basis]}
+                </span>
+              ))}
+            </p>
+          )}
+        </div>
       </div>
     </section>
   );

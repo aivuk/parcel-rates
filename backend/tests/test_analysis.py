@@ -11,6 +11,7 @@ from app.engine import segments as seg
 from app.engine.blended import blended
 from app.engine.breakeven import breakeven, default_distances, default_weights
 from app.engine.quote import cheapest_for_carrier, price_charged
+from app.engine.tables import AnnouncedIncrease
 from app.engine.types import Controls, Parcel
 from app.engine.yearly import allocate_cents, announced_increase, yearly
 from app.main import load_sample_parcels
@@ -158,6 +159,34 @@ def test_yearly_drivers_sum_to_total_change(tables, sample):
         last = rows[-1]["cost_per_parcel"]
         assert c["projected"]["year"] == rows[-1]["year"] + 1
         assert abs(c["projected"]["cost_per_parcel"] - last * 1.04) <= 0.011
+
+
+def _with_ups_2027(tables, percent="6.5"):
+    row = AnnouncedIncrease("ups", 2027, "all", "list", Decimal(percent), "primary", "ups/2027/rate-changes.html")
+    return replace(tables, increases=[*tables.increases, row])
+
+
+def test_projection_uses_each_carriers_announced_next_year_increase(tables, sample):
+    t = _with_ups_2027(tables)
+    r = {c["carrier"]: c for c in yearly(t, sample[:40], Controls(year=2026), next_year_increase_percent=4)["carriers"]}
+    ups = r["ups"]["projected"]
+    assert (ups["year"], ups["increase_percent"], ups["basis"]) == (2027, 6.5, "announced")
+    assert ups["source_files"] == ["ups/2027/rate-changes.html"]
+    assert abs(ups["cost_per_parcel"] - r["ups"]["years"][-1]["cost_per_parcel"] * 1.065) <= 0.011
+    # No announcement for USPS 2027 or FedEx 2028: the slider's percentage is an assumption.
+    assert (r["usps"]["projected"]["year"], r["usps"]["projected"]["basis"]) == (2027, "assumed")
+    assert (r["fedex"]["projected"]["year"], r["fedex"]["projected"]["increase_percent"]) == (2028, 4)
+    assert r["fedex"]["projected"]["source_files"] == []
+
+
+def test_projection_override_and_announced_without_a_slider(tables, sample):
+    t = _with_ups_2027(tables)
+    over = yearly(t, sample[:40], Controls(year=2026), next_year_increase_percent=3, next_year_override=True)
+    assert {(c["projected"]["basis"], c["projected"]["increase_percent"]) for c in over["carriers"]} == {("override", 3)}
+    by = {c["carrier"]: c["projected"] for c in over["carriers"]}
+    assert by["ups"]["announced_percent"] == 6.5 and by["usps"]["announced_percent"] is None
+    bare = {c["carrier"]: c["projected"] for c in yearly(t, sample[:40], Controls(year=2026))["carriers"]}
+    assert bare["ups"]["basis"] == "announced" and bare["usps"] is None and bare["fedex"] is None
 
 
 def test_yearly_cost_equals_blended_for_each_year(tables, sample):

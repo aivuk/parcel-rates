@@ -180,3 +180,10 @@
   color: var(--ink-muted);
   margin-bottom: var(--space-2);
 }
+
+.next-year__basis {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+  line-height: 1.5;
+}

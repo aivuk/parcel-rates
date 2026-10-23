@@ -218,3 +218,19 @@ def source_text(source_file: str, source_ref: str | int | None) -> str:
     if suffix in {".htm", ".html"}:
         return html_text(path)
     return path.read_text(encoding="utf-8", errors="replace")
+
+
+FOUND_ANNOUNCEMENTS = Path(__file__).resolve().parents[1] / "collect" / "announcements_found.csv"
+
+
+def with_found_announcements(carrier: str, curated: list[dict]) -> list[dict]:
+    """Curated announced_increase rows plus those data/collect/announcements.py found by rule,
+    for years and scopes the curated rules do not already cover."""
+    covered = {(str(r["year"]), r["product_scope"], r["rate_card"]) for r in curated}
+    found = [
+        {k: r[k] for k in COLUMNS["announced_increase"]}
+        for r in read_table(FOUND_ANNOUNCEMENTS)
+        if r["carrier"] == carrier and (r["year"], r["product_scope"], r["rate_card"]) not in covered
+    ]
+    return list(curated) + found
+

@@ -272,6 +272,28 @@ before any parser agent was dispatched. From this point every big step
 - Q1 prices one parcel against the flat price and does not take an order
   value; the rule applies to the parcel-set views (Q3 margins).
 
+## 2026-10-23 — Next year from each carrier's own announcement (issue #11)
+
+- Q4 already projected a next year, but with one slider percentage for every
+  carrier. Each carrier now projects the year after its own latest price list
+  (FedEx 2028, UPS and USPS 2027) at the increase it announced for that year
+  when the data has one; the slider is the assumption for the others and,
+  once moved, an override for all, with a reset back to the announcements.
+- As of 2026-10-23 nothing beyond the loaded price lists is announced: UPS's
+  2027 figure was pending (it announced 2026 on November 4, 2025) and USPS had
+  not filed January 2027 prices. So today every projection is "assumed", and
+  the UI says so per carrier.
+- Owner decision: build the mechanism and a scripted watcher rather than wait.
+  `data/collect/announcements.py` finds announcements by rule with no agent
+  involved: the USPS January price release (primary), the dated GRI table on
+  ebb Logistics for UPS (secondary; UPS's own pages render client-side and
+  carry no text) and the FedEx rate-changes page (primary, via the latest
+  Wayback capture because the live page serves a bot block with status 200).
+  It saves each source with a manifest row and records the verbatim quote;
+  the pipelines merge found rows only where the curated rules are silent, and
+  the citation test checks each quote. Run against today's pages, it finds
+  FedEx 5.9 % for 2027 with exactly the curated quote, and nothing else.
+
 ## Decisions changed after reviewing agent output
 
 | Decision | What the agent produced | What changed, and why | Where |

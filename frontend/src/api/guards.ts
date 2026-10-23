@@ -275,7 +275,17 @@ const checks = {
             warnings: arr(str),
           }),
         ),
-        projected: nullable(obj({ year: int, increase_percent: num, cost_per_parcel: num })),
+        projected: nullable(
+          obj({
+            year: int,
+            increase_percent: num,
+            cost_per_parcel: num,
+            basis: lit("announced", "assumed", "override"),
+            announced_percent: nullable(num),
+            source_type: nullable(str),
+            source_files: arr(str),
+          }),
+        ),
       }),
     ),
   }),

@@ -90,7 +90,7 @@ cost once surcharges and yearly price increases are included.
 | 1 | For one parcel (weight, size, distance, home or business, speed), which service is cheapest once surcharges are included, and what are the line items? | The cheapest total for the chosen speed comes first, with its saving over the next cheapest and the margin against your price. Below it, every carrier's cheapest service ranked, each with base rate, every surcharge (with its source page) and fuel. The form can start from one of your loaded parcels. |
 | 2 | Where are the breakeven points between the Postal Service and FedEx or UPS ground, by weight and distance? | A weight by distance heatmap coloured by the cheapest ground carrier, for home or business delivery, with a heavy line where USPS stops winning and a plain-words readout of the breakeven weights; every cell's prices on hover, tap or focus, and the grid as a table. |
 | 3 | For the whole parcel set, what is the blended cost per parcel with each carrier, and how much of it is surcharges? | The cheapest single carrier's cost per parcel and the "best mix" (cheapest carrier per parcel), then a yes or no on whether your shipping price covers the cost, the margin per parcel and the share shipped at a loss per carrier. A stacked chart (or table) splits the cost into base, the largest surcharges and fuel. Chips narrow everything to one kind of parcel (weight, distance, home or business, speed). |
-| 4 | How did that blended cost change year by year, compared with the average increase the carriers announced, and which parcels drove it? | The cheapest carrier's change since the first year against the compounded announced increases, a year by year chart (dollars or index) with the announced path, how much of the biggest rise was fuel, the segments that drove each step, and a next-year slider that projects the cost. |
+| 4 | How did that blended cost change year by year, compared with the average increase the carriers announced, and which parcels drove it? | The cheapest carrier's change since the first year against the compounded announced increases, a year by year chart (dollars or index) with the announced path, how much of the biggest rise was fuel, the segments that drove each step, and each carrier's next year projected from the increase it announced, where it has, with a slider for the others that can also override all of them. |
 
 Global controls: price year, USPS rate card, fuel surcharge override, peak
 season toggle, the flat price charged per parcel, and an optional "free shipping
@@ -153,6 +153,18 @@ uv run python -m data.pipeline.usps
 uv run python -m data.pipeline.ups
 uv run python -m data.pipeline.fedex
 uv run python -m data.pipeline.report_changes # rewrites docs/data/RULE_CHANGES.md
+```
+
+**Next-year announcements** arrive before the price lists. A watcher finds
+them by rule (the USPS January price release, the dated UPS GRI table, the
+FedEx rate-changes page), live first and then the latest Wayback capture,
+saves each source to `data/raw` with a manifest row, and records the
+percentage with its verbatim quote in `data/collect/announcements_found.csv`,
+which the carrier pipelines merge:
+
+```sh
+uv run python -m data.collect.announcements --check   # report what is announced for next year
+uv run python -m data.collect.announcements           # record it, then rerun data.pipeline.<carrier>
 ```
 
 Base rates are parsed. Surcharges, fuel defaults, announced increases,

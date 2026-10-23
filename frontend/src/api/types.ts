@@ -99,7 +99,8 @@ export interface BlendedRequest {
 export interface YearlyRequest {
   parcels: Parcel[]; // 1..10,000
   controls?: Controls;
-  next_year_increase_percent?: number | null; // -50..100
+  next_year_increase_percent?: number | null; // -50..100; the assumption for carriers that have not announced
+  next_year_override?: boolean; // default false; true applies the percentage to every carrier
 }
 
 /* ---------- shared response pieces ---------- */
@@ -342,9 +343,14 @@ export interface YearRow {
 }
 
 export interface Projection {
-  year: number;
+  year: number; // the year after this carrier's latest price list
   increase_percent: number;
   cost_per_parcel: number;
+  /** announced: the carrier's own figure for that year; assumed: the request's percentage; override: forced. */
+  basis: "announced" | "assumed" | "override";
+  announced_percent: number | null; // the carrier's own figure for that year, whatever the basis
+  source_type: string | null;
+  source_files: string[];
 }
 
 export interface CarrierYears {

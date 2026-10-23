@@ -9,6 +9,9 @@ import { useCssColors } from "../../hooks/useCssColors";
 import { carrierName } from "../../lib/carriers";
 import { formatUsd, signedPct } from "../../lib/format";
 
+/** How a projected year was set: the carrier's own announcement, the slider's assumption, or an override. */
+const PROJECTION_BASIS = { announced: "announced", assumed: "assumed", override: "your override" } as const;
+
 const COLOR_VARS = {
   usps: "--carrier-usps",
   ups: "--carrier-ups",
@@ -100,7 +103,8 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
             {formatUsd(last.cost_per_parcel)} in {last.year} ({signedPct(pct)})
             {c.projected && (
               <>
-                , projected {formatUsd(c.projected.cost_per_parcel)} in {c.projected.year} at {signedPct(c.projected.increase_percent)}
+                , projected {formatUsd(c.projected.cost_per_parcel)} in {c.projected.year} at {signedPct(c.projected.increase_percent)} (
+                {PROJECTION_BASIS[c.projected.basis]})
               </>
             )}
             .
@@ -285,7 +289,9 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
             ? [
                 <tr key={`${c.carrier}-proj`}>
                   <th scope="row">{carrierName(c.carrier)}</th>
-                  <td>{c.projected.year} (projected)</td>
+                  <td>
+                    {c.projected.year} (projected, {PROJECTION_BASIS[c.projected.basis]})
+                  </td>
                   <td className="num">{formatUsd(c.projected.cost_per_parcel)}</td>
                   <td className="num">{toIndex(c.projected.cost_per_parcel, c.years[0]!.cost_per_parcel).toFixed(1)}</td>
                   <td className="num">{signedPct(c.projected.increase_percent)}</td>

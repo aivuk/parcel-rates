@@ -62,6 +62,55 @@ def announced_increase(tables: RateTables, carrier: str, year: int, services_use
     }
 
 
+def _announced_files(tables: RateTables, carrier: str, year: int, services_used: list[str], usps_card: str) -> list[str]:
+    """Source files of the announcement rows announced_increase() used."""
+    rows = [
+        r
+        for r in tables.increases
+        if r.carrier == carrier and r.year == year and r.rate_card in ("", "list", usps_card)
+    ]
+    overall = [r for r in rows if r.product_scope == "all"]
+    used = overall[:1] or [r for r in rows if r.product_scope in services_used]
+    return sorted({r.source_file for r in used if r.source_file})
+
+
+def project_next_year(
+    tables: RateTables,
+    carrier: str,
+    last_row: dict,
+    last_cost: Decimal,
+    usps_card: str,
+    slider_percent: float | None,
+    override: bool,
+) -> dict | None:
+    """Cost per parcel the year after the carrier's latest price list. The carrier's own
+    announced increase for that year when the data has one; otherwise the slider's
+    percentage as an assumption; with `override`, the slider for every carrier."""
+    year = last_row["year"] + 1
+    services = last_row["services_used"]
+    announced = announced_increase(tables, carrier, year, services, usps_card)
+    if override and slider_percent is not None:
+        percent, basis, files = slider_percent, "override", []
+    elif announced["percent"] is not None:
+        percent, basis = announced["percent"], "announced"
+        files = _announced_files(tables, carrier, year, services, usps_card)
+    elif slider_percent is not None:
+        percent, basis, files = slider_percent, "assumed", []
+    else:
+        return None
+    factor = Decimal(1) + Decimal(str(percent)) / Decimal(100)
+    return {
+        "year": year,
+        "increase_percent": percent,
+        "cost_per_parcel": _r(last_cost * factor),
+        "basis": basis,
+        # The carrier's own figure, also when an override or nothing replaced it, so a UI can offer it back.
+        "announced_percent": announced["percent"],
+        "source_type": announced["source_type"] if basis == "announced" else None,
+        "source_files": files,
+    }
+
+
 def conditions_in_force(tables: RateTables, carrier: str, year: int, controls: Controls) -> set[str]:
     """Non-peak surcharge conditions with at least one rule in force."""
     as_of = resolve_as_of(tables, carrier, year, controls)
@@ -131,6 +180,7 @@ def yearly(
     parcels: list[Parcel],
     controls: Controls,
     next_year_increase_percent: float | None = None,
+    next_year_override: bool = False,
 ) -> dict:
     result = []
     for carrier in tables.carriers():
@@ -190,14 +240,16 @@ def yearly(
             prev_y, prev_cost, prev_conditions = y, cost, conditions
 
         projected = None
-        if next_year_increase_percent is not None and rows and n:
-            last = rows[-1]
-            factor = Decimal(1) + Decimal(str(next_year_increase_percent)) / Decimal(100)
-            projected = {
-                "year": last["year"] + 1,
-                "increase_percent": next_year_increase_percent,
-                "cost_per_parcel": _r(prev_cost * factor),
-            }
+        if rows and n:
+            projected = project_next_year(
+                tables,
+                carrier,
+                rows[-1],
+                prev_cost,
+                controls.usps_rate_card,
+                next_year_increase_percent,
+                next_year_override,
+            )
         result.append(
             {
                 "carrier": carrier,

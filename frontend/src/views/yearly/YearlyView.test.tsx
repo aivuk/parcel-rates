@@ -71,7 +71,39 @@ describe("YearlyView", () => {
     });
     vi.useRealTimers();
     await waitFor(() => expect(yearly.mock.lastCall![0].next_year_increase_percent).toBe(10));
-    expect(screen.getByRole("button", { name: "Reset to +6.5%" })).toBeInTheDocument();
+    // Moving the slider overrides every carrier, announced or not; reset hands back to the announcements.
+    expect(yearly.mock.lastCall![0].next_year_override).toBe(true);
+    expect(screen.getByText(/your override, applied to every carrier/i)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Reset to +6.5%" }));
+    await waitFor(() => expect(yearly.mock.lastCall![0].next_year_override).toBe(false));
+    expect(slider).toHaveValue("6.5");
+  });
+
+  it("says, for each carrier, which year it projects and on what basis", async () => {
+    const { client } = spyClient();
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
+    const basis = await screen.findByTestId("q4-projection-basis");
+    expect(basis).toHaveTextContent("USPS 2027 +5.9% assumed · UPS 2027 +5.9% assumed · FedEx 2028 +5.9% assumed");
+    expect(screen.getByText(/USPS has not announced its 2027 increase/)).toBeInTheDocument();
+  });
+
+  it("projects with a carrier's announced increase and shows it on the slider", async () => {
+    const announced = {
+      ...mockYearlyResponse,
+      carriers: mockYearlyResponse.carriers.map((c) =>
+        c.carrier === "usps" && c.projected
+          ? { ...c, projected: { ...c.projected, increase_percent: 4.5, cost_per_parcel: 11.47, basis: "announced" as const, announced_percent: 4.5,
+              source_type: "primary", source_files: ["usps/2027/announcement.html"] } }
+          : c,
+      ),
+    };
+    const { client } = spyClient({ yearly: () => announced });
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
+    const slider = await screen.findByRole("slider", { name: /increase for 2027/i });
+    await waitFor(() => expect(slider).toHaveValue("4.5"));
+    expect(screen.getByText(/USPS announced \+4\.5% for 2027/)).toBeInTheDocument();
+    expect(screen.getByTestId("q4-projection")).toHaveTextContent("$11.47 per parcel with USPS in 2027");
+    expect(screen.getByTestId("q4-projection-basis")).toHaveTextContent("USPS 2027 +4.5% announced");
   });
 
   it("shows how much of the change is fuel", async () => {
@@ -167,7 +199,7 @@ describe("YearlyView", () => {
     await userEvent.click(within(fig).getByRole("button", { name: "Show as table" }));
     const table = within(fig).getByRole("table", { name: /cost per parcel by carrier and year/i });
     expect(within(table).getByRole("row", { name: /FedEx 2027 \(see note\)/ })).toHaveTextContent("$32.33");
-    expect(within(table).getByRole("row", { name: /USPS 2027 \(projected\)/ })).toHaveTextContent("$11.63");
+    expect(within(table).getByRole("row", { name: /USPS 2027 \(projected, assumed\)/ })).toHaveTextContent("$11.63");
     expect(fig).toHaveTextContent(/USPS and UPS project to 2027 and FedEx to 2028; FedEx 2027 is a published price list, not a projection\./);
     expect(within(table).getByRole("row", { name: /USPS 2026/ })).toHaveTextContent("$10.98119.7");
   });
