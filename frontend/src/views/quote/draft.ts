@@ -27,8 +27,9 @@ export const DEFAULT_DRAFT: Draft = {
   nonstandard: false,
 };
 
-const parseNum = (s: string): number | null => {
-  const t = s.trim();
+/** A number as typed: "1,5" is read as 1.5 (decimal comma); thousands separators are not expected here. */
+export const parseNum = (s: string): number | null => {
+  const t = s.trim().replace(",", ".");
   if (t === "") return null;
   const n = Number(t);
   return Number.isFinite(n) ? n : NaN;

@@ -9,7 +9,7 @@ import quote2027Fx from "../../api/__fixtures__/quote-2027.json";
 import type { QuoteResponse } from "../../api/types";
 import type { ControlsState } from "../../state/urlState";
 import { QuoteView } from "../QuoteView";
-import { DEFAULT_DRAFT, draftToParcel, draftFromParcel } from "./draft";
+import { DEFAULT_DRAFT, draftToParcel, draftFromParcel, parseNum } from "./draft";
 
 // The recorded fixture's parcel: 3.2 lb, 14×12×10 in, 700 mi, home, ground, remote area.
 const FIXTURE_DRAFT = { ...DEFAULT_DRAFT, lb: "3.2", length: "14", width: "12", height: "10", distance: "700", area: "das" as const };
@@ -275,6 +275,12 @@ describe("draft", () => {
     const r = draftToParcel({ ...DEFAULT_DRAFT, lb: "1", oz: "8", length: "", width: "", height: "", distance: "-5" });
     expect(r.parcel).toMatchObject({ weight_lb: 1.5, distance_miles: -5 });
     expect(r.parcel).not.toHaveProperty("length_in");
+  });
+
+  it("accepts a decimal comma", () => {
+    const r = draftToParcel({ ...DEFAULT_DRAFT, lb: "1,5", oz: "", length: "10,5", width: "4", height: "2", distance: "600" });
+    expect(r.parcel).toMatchObject({ weight_lb: 1.5, length_in: 10.5 });
+    expect(parseNum("1,2,3")).toBeNaN();
   });
 
   it("round-trips a parcel with a fractional weight", () => {
