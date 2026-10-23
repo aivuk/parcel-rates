@@ -19,3 +19,22 @@ printf '{"session_id":"%s","transcript_path":"%s","cwd":"%s","reason":"manual"}'
   "$SID" "$HOME/.claude/projects/<encoded-project-path>/$SID.jsonl" "$PWD" \
   | .claude/hooks/export-session.sh
 ```
+
+## Reading the logs
+
+`tools/agent_log_html.py` turns these files into local HTML pages: an index of the
+sessions, and per session the prompts in a sidebar, Claude's answers, collapsible
+thinking and tool calls (each with its input and result), harness messages (background
+tasks, subagent reports, local commands) as compact events, and the subagent transcripts.
+Statistics (per session, and for all sessions on the index): calls per tool; the shell
+commands and builtins the Bash calls ran (from a small tokenizer that skips heredoc bodies
+and quoted text and counts what runs inside `$( … )`); and the subagents grouped by what they
+did (reviewed a pull request, researched sources, fetched data, wrote Python, wrote
+TypeScript / React, wrote tests, Docker/CI/docs), from their task, their tools and the files
+they wrote, which is finer than their agent type (most are `general-purpose`).
+It is a local viewer for people with access to the repository; nothing is published.
+
+```sh
+uv run tools/agent_log_html.py --open   # writes build/agent-log/ (git-ignored) and opens it
+uv run --no-project --with markdown-it-py --with pytest pytest tools   # its tests
+```
