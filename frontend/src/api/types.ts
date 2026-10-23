@@ -200,7 +200,8 @@ export interface SampleParcels {
 
 export interface QuoteResponse {
   quotes: Quote[];
-  cheapest_by_tier: Partial<Record<Tier, CarrierPick | null>>;
+  /** Always all three tiers; null when no service of the tier can carry the parcel. */
+  cheapest_by_tier: Record<Tier, CarrierPick | null>;
 }
 
 /* ---------- POST|GET /api/breakeven ---------- */
@@ -213,6 +214,7 @@ export interface BreakevenCell {
   winner: CarrierPick | null;
   runner_up: CarrierPick | null;
   saving: number;
+  /** Only carriers that publish the year and can carry the parcel (2027: FedEx only). */
   totals: Partial<Record<Carrier, number>>;
 }
 

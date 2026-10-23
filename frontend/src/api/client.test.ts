@@ -14,7 +14,7 @@ describe("API client", () => {
   });
 
   it("POSTs JSON to /api/quote", async () => {
-    const fetchImpl = vi.fn().mockResolvedValue(json(200, { quotes: [], cheapest_by_tier: {} }));
+    const fetchImpl = vi.fn().mockResolvedValue(json(200, mockQuoteResponse));
     const api = createHttpClient({ fetchImpl });
     const parcel = { weight_lb: 2, distance_miles: 300, residential: true, speed: "ground" as const };
     await api.quote({ parcel, controls: mockDefaultControls });

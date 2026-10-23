@@ -1,0 +1,224 @@
+{
+ "request": {
+  "method": "POST",
+  "path": "/api/quote",
+  "body": {
+   "parcel": {
+    "weight_lb": 2,
+    "distance_miles": 300,
+    "residential": true,
+    "speed": "ground"
+   },
+   "controls": {
+    "year": 2027
+   }
+  }
+ },
+ "response": {
+  "status": 200,
+  "body": {
+   "quotes": [
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_home_delivery",
+     "service_name": "FedEx Home Delivery",
+     "tier": "ground",
+     "zone": 3,
+     "billable_weight_lb": 2.0,
+     "dim_weight_lb": null,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx Home Delivery base rate (zone 3, 2 lb)",
+       "amount": 14.98,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2027.xlsx (2027 Ground & FHD rates)",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Delivery Charge",
+       "amount": 6.9,
+       "surcharge_id": "fedex_residential_home_delivery_2027",
+       "source": "FedEx_Standard_List_Rates_2027.xlsx",
+       "condition": "residential"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (26.25%)",
+       "amount": 5.74,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 27.62,
+     "margin": -17.63,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2027-01-04"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_ground",
+     "service_name": "FedEx Ground",
+     "tier": "ground",
+     "zone": null,
+     "billable_weight_lb": null,
+     "dim_weight_lb": null,
+     "line_items": [],
+     "total": 0.0,
+     "margin": 0.0,
+     "available": false,
+     "unavailable_reason": "FedEx Ground serves business addresses only",
+     "as_of": "2027-01-04"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_express_saver",
+     "service_name": "FedEx Express Saver",
+     "tier": "two_three_day",
+     "zone": 3,
+     "billable_weight_lb": 2.0,
+     "dim_weight_lb": null,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx Express Saver base rate (zone 3, 2 lb)",
+       "amount": 25.65,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2027.xlsx (2027 U.S. rates)",
+       "condition": null
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 7.37,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 33.02,
+     "margin": -23.03,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2027-01-04"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_2day",
+     "service_name": "FedEx 2Day",
+     "tier": "two_three_day",
+     "zone": 3,
+     "billable_weight_lb": 2.0,
+     "dim_weight_lb": null,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx 2Day base rate (zone 3, 2 lb)",
+       "amount": 31.1,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2027.xlsx (2027 U.S. rates)",
+       "condition": null
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 8.94,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 40.04,
+     "margin": -30.05,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2027-01-04"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_standard_overnight",
+     "service_name": "FedEx Standard Overnight",
+     "tier": "next_day",
+     "zone": 3,
+     "billable_weight_lb": 2.0,
+     "dim_weight_lb": null,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx Standard Overnight base rate (zone 3, 2 lb)",
+       "amount": 64.62,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2027.xlsx (2027 U.S. rates)",
+       "condition": null
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 18.58,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 83.2,
+     "margin": -73.21,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2027-01-04"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_priority_overnight",
+     "service_name": "FedEx Priority Overnight",
+     "tier": "next_day",
+     "zone": 3,
+     "billable_weight_lb": 2.0,
+     "dim_weight_lb": null,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx Priority Overnight base rate (zone 3, 2 lb)",
+       "amount": 71.83,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2027.xlsx (2027 U.S. rates)",
+       "condition": null
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 20.65,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 92.48,
+     "margin": -82.49,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2027-01-04"
+    }
+   ],
+   "cheapest_by_tier": {
+    "ground": {
+     "carrier": "fedex",
+     "service_id": "fedex_home_delivery",
+     "total": 27.62
+    },
+    "two_three_day": {
+     "carrier": "fedex",
+     "service_id": "fedex_express_saver",
+     "total": 33.02
+    },
+    "next_day": {
+     "carrier": "fedex",
+     "service_id": "fedex_standard_overnight",
+     "total": 83.2
+    }
+   }
+  }
+ }
+}

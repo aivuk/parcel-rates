@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 import blended from "./__fixtures__/blended.json";
 import breakeven from "./__fixtures__/breakeven.json";
+import breakeven2027 from "./__fixtures__/breakeven-2027.json";
 import health from "./__fixtures__/health.json";
 import meta from "./__fixtures__/meta.json";
 import quote422 from "./__fixtures__/quote-422.json";
 import quote from "./__fixtures__/quote.json";
+import quote2027 from "./__fixtures__/quote-2027.json";
 import sample from "./__fixtures__/sample-parcels.json";
 import yearly from "./__fixtures__/yearly.json";
 import {
@@ -28,6 +30,8 @@ const cases: [string, { response: { status: number; body: unknown } }, (v: unkno
   ["quote", quote, asQuoteResponse],
   ["quote-422", quote422, asValidationError],
   ["breakeven", breakeven, asBreakevenResponse],
+  ["breakeven-2027", breakeven2027, asBreakevenResponse],
+  ["quote-2027", quote2027, asQuoteResponse],
   ["blended", blended, asBlendedResponse],
   ["yearly", yearly, asYearlyResponse],
 ];
@@ -53,6 +57,26 @@ describe("contract: backend example payloads match src/api/types.ts", () => {
     const wrong = structuredClone(body);
     wrong.quotes[0]!.carrier = "dhl";
     expect(() => asQuoteResponse(wrong)).toThrow(/quotes\[0\]\.carrier/);
+  });
+
+  it("closed key sets: all three tiers required, carriers only those that apply", () => {
+    const q = structuredClone(quote.response.body) as { cheapest_by_tier: Record<string, unknown> };
+    const missingTier = structuredClone(q);
+    delete missingTier.cheapest_by_tier.next_day;
+    expect(() => asQuoteResponse(missingTier)).toThrow(/cheapest_by_tier\.next_day: expected key present/);
+    const extraTier = structuredClone(q);
+    extraTier.cheapest_by_tier.same_day = null;
+    expect(() => asQuoteResponse(extraTier)).toThrow(/cheapest_by_tier\.same_day/);
+
+    // 2027: FedEx only, so totals has one key and there is no runner-up; that is valid.
+    const b27 = asBreakevenResponse(breakeven2027.response.body);
+    expect(Object.keys(b27.cells[0]!.totals)).toEqual(["fedex"]);
+    const b = structuredClone(breakeven.response.body) as { cells: { totals: Record<string, number> }[] };
+    b.cells[0]!.totals.dhl = 1;
+    expect(() => asBreakevenResponse(b)).toThrow(/cells\[0\]\.totals\.dhl/);
+    const orphan = structuredClone(breakeven.response.body) as { cells: { totals: Record<string, number> }[] };
+    delete orphan.cells[0]!.totals.usps;
+    expect(() => asBreakevenResponse(orphan)).toThrow(/cells\[0\]\.winner\.carrier: expected a carrier listed in totals/);
   });
 
   it("the sample parcels survive the round trip through the CSV rules", () => {
