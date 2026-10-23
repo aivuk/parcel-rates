@@ -46,7 +46,7 @@
   outline: none;
 }
 
-/* Rail: the assumptions behind every number */
+/* Assumptions: a label header strip on desktop, a bottom sheet on phones */
 .rail {
   background: var(--sheet);
 }
@@ -182,33 +182,14 @@
 
 @media (min-width: 64rem) {
   .masthead {
-    padding-inline: var(--space-6);
-  }
-
-  .masthead__inner {
-    grid-template-columns: var(--rail-width) 1fr;
-    column-gap: var(--space-7);
-    align-items: end;
-  }
-
-  .masthead__edition {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    align-self: end;
-    max-width: 16rem;
+    padding: var(--space-6) var(--space-6) var(--space-5);
   }
 
   .masthead__title {
-    grid-column: 2;
     font-size: clamp(2.5rem, 1.5rem + 2vw, 3.5rem);
   }
 
-  .masthead {
-    padding-block: var(--space-6) var(--space-5);
-  }
-
   .masthead__deck {
-    grid-column: 2;
     font-size: var(--text-lg);
   }
 
@@ -219,23 +200,20 @@
   }
 
   .layout {
-    /* Content width matches .masthead__inner so the rail lines up with the edition line */
+    /* Content width matches .masthead__inner */
     max-width: calc(80rem + 2 * var(--space-6));
-    display: grid;
-    grid-template-columns: var(--rail-width) minmax(0, 1fr);
-    column-gap: var(--space-7);
     padding-inline: var(--space-6);
   }
 
+  /* The label header strip: one row of fields, no box, one heavy rule beneath. */
   .rail {
-    position: sticky;
-    top: 0;
-    align-self: start;
-    max-height: 100vh;
-    overflow-y: auto;
-    padding: var(--space-5) var(--space-5) var(--space-6);
-    border-inline: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
+    background: transparent;
+    padding: var(--space-3) 0 var(--space-4);
+    border-bottom: var(--rule-heavy);
+  }
+
+  .rail__head {
+    padding-bottom: var(--space-2);
   }
 
   .main {

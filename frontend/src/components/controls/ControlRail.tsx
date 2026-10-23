@@ -139,7 +139,7 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
         </div>
       </fieldset>
 
-      <fieldset className="control">
+      <fieldset className="control control--fuel">
         <legend className="control__label">Fuel surcharge, UPS and FedEx</legend>
         <FuelSlider
           group="ground"
