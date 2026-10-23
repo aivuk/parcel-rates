@@ -98,6 +98,8 @@ from order value" rule (parcels whose `order_value` reaches it are charged $0).
 
 Parcel CSV columns: `weight_lb, length_in, width_in, height_in,
 distance_miles, residential, speed` (`ground`, `two_three_day`, `next_day`),
+where a `destination_zip` (with the "Ship from ZIP" assumption or an
+`origin_zip` column) can replace `distance_miles`,
 plus optional `quantity`, `price_charged`, `delivery_area`,
 `nonstandard_packaging` and `order_value` (the order's value, for the
 "free shipping from $X" assumption). The full schema is in
@@ -153,6 +155,19 @@ uv run python -m data.pipeline.usps
 uv run python -m data.pipeline.ups
 uv run python -m data.pipeline.fedex
 uv run python -m data.pipeline.report_changes # rewrites docs/data/RULE_CHANGES.md
+```
+
+**ZIP codes and zones** (issue #9): the USPS zone chart for every origin ZIP3
+comes from the USPS Domestic Zone Chart tool (about an hour, polite and
+resumable; the raw charts stay out of git and are checked against
+`data/raw/usps/zones/charts.csv`), the ZIP points from the Census ZCTA
+Gazetteer, and the accuracy report compares the distance estimate with the
+real USPS charts and the UPS charts archived for 2026:
+
+```sh
+uv run python -m data.collect.usps_zones      # data/processed/usps/zone_chart.csv
+uv run python -m data.collect.zip_points      # data/processed/zip_points.csv
+uv run python -m data.collect.zone_accuracy   # docs/data/ZONE_ACCURACY.md
 ```
 
 **Next-year announcements** arrive before the price lists. A watcher finds
@@ -217,7 +232,10 @@ away in the controls.
 ## Known limitations
 
 - List prices only: a shipper with a negotiated contract pays less.
-- Zones are estimated from distance bands, not looked up from ZIP code pairs.
+- USPS zones come from the USPS zone chart when ZIP codes are given. UPS and
+  FedEx do not let a script collect their zone charts, so their zones are
+  estimated from the distance between the two ZIPs (or the miles typed); the
+  measured accuracy is in [docs/data/ZONE_ACCURACY.md](docs/data/ZONE_ACCURACY.md).
 - The UPS fuel surcharge default is a proxy taken from FedEx's published
   history (no UPS history is retrievable); the slider overrides it.
 - UPS announced increases come from trade press, not from UPS itself.
@@ -243,12 +261,9 @@ The same list is returned by `GET /api/meta` and shown in the app.
 
 Open issues in the repository, in rough priority order:
 
-- #18 model the 90 lb minimum billable weight for large and oversize packages.
 - #14 capture the UPS 2025-26 and 2026-27 demand surcharge documents.
-- #9 real ZIP-to-ZIP zones instead of distance bands.
-- #10 per-parcel price column and order-value shipping rules (free shipping
-  over a threshold).
-- #11 next-year projection from announced increases.
+- Real UPS and FedEx zones through their official rating APIs (with the
+  shop's own API keys), replacing the distance estimate where keys are given.
 - #13 script the source discovery so data collection runs end to end without
   an agent.
 

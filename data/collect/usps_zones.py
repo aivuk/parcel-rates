@@ -14,7 +14,7 @@ which answers with JSON: destination ZIP3 ranges and their zone. This script
 
 The zone markers are dropped: "*" (same network distribution center, which matters only for
 Parcel Select) and "+" (5-digit exceptions, listed separately; they are military APO/FPO
-ranges), and so are the few 5-digit entries the tool lists among the ZIP3 ranges (96700).
+ranges). Military origins (090-099) have no chart in the tool and are skipped, and so are the few 5-digit entries the tool lists among the ZIP3 ranges (96700).
 The effective date the tool reports is kept per origin.
 
 Usage (about an hour for every origin at the default pace):
@@ -43,6 +43,12 @@ TABLE = DATA / "processed" / "usps" / "zone_chart.csv"
 URL = "https://postcalc.usps.com/DomesticZoneChart/GetZoneChart?zipCode3Digit={zip3}&shippingDate={month:02d}%2F{day:02d}%2F{year}"
 SEED = "100"
 LIST_COLUMNS = ["origin_zip3", "url", "sha256", "bytes", "effective_date", "fetched_on"]
+
+
+def has_chart(chart: dict) -> bool:
+    """False for errors, e.g. the military APO/FPO prefixes 090-099, for which the tool answers
+    "Please use the Get Zone for ZIP Code Pair tab" instead of a chart."""
+    return not chart.get("ZIPCodeError") and not chart.get("PageError") and bool(ranges(chart))
 
 
 def ranges(chart: dict) -> list[tuple[int, int, str]]:
@@ -104,8 +110,8 @@ def get_chart(zip3: str, on: date, listed: dict[str, dict]) -> dict | None:
     if body is None:
         return None
     chart = json.loads(body.decode("utf-8"))
-    if chart.get("ZIPCodeError") or not any(k.startswith("Column") for k in chart):
-        print(f"  {zip3}: no chart ({chart.get('ZIPCodeError') or 'empty'})")
+    if not has_chart(chart):
+        print(f"  {zip3}: no chart ({chart.get('ZIPCodeError') or chart.get('PageError') or 'empty'})")
         return None
     CHARTS.mkdir(parents=True, exist_ok=True)
     path.write_bytes(body)
@@ -124,6 +130,8 @@ def build(listed: dict[str, dict]) -> int:
         if not path.exists():
             continue
         chart = json.loads(path.read_text(encoding="utf-8"))
+        if not has_chart(chart):
+            continue
         rows.append({"origin_zip3": zip3, "effective_date": listed[zip3]["effective_date"],
                      "zones": zone_string(chart), "source_file": f"usps/zones/charts/{zip3}.json"})
     TABLE.parent.mkdir(parents=True, exist_ok=True)

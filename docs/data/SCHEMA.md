@@ -308,7 +308,9 @@ and verifies checksums; issue #13 scripts the discovery that produces this file.
 |---|---|---|
 | weight_lb | decimal | Required |
 | length_in, width_in, height_in | decimal | Optional; dimensional weight only when all three are present |
-| distance_miles | int | Required |
+| distance_miles | int | Required unless destination_zip is given |
+| destination_zip | text | Optional 5-digit ZIP; with an origin (origin_zip, or the ship-from ZIP control), USPS takes its zone chart and UPS/FedEx an estimate from the ZIP distance. 3–4 digits get their leading zeros back |
+| origin_zip | text | Optional 5-digit ZIP; overrides the ship-from ZIP control for that row |
 | residential | bool | Required |
 | speed | tier | Required |
 | quantity | int | Optional, default 1 |

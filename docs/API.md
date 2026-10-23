@@ -25,7 +25,7 @@ interface Parcel {
   length_in?: number;           // all three or none; > 0
   width_in?: number;
   height_in?: number;
-  distance_miles: number;       // >= 0
+  distance_miles?: number;      // >= 0; needed unless destination_zip is given
   residential: boolean;
   speed: Tier;
   quantity?: number;            // default 1, integer >= 1
@@ -33,6 +33,9 @@ interface Parcel {
   delivery_area?: DeliveryArea; // default "none"
   nonstandard_packaging?: boolean; // default false
   order_value?: number;         // >= 0; value of the order the parcel ships (free-shipping rule)
+  origin_zip?: string;          // 5-digit ZIP (or ZIP+4); default Controls.origin_zip
+  destination_zip?: string;     // 5-digit ZIP; with an origin, sets the zones: USPS from its zone chart,
+                                // UPS and FedEx estimated from the distance between the two ZIPs
 }
 
 interface Controls {
@@ -46,6 +49,7 @@ interface Controls {
   free_shipping_over?: number | null; // free shipping on orders of this value or more; default none.
                                 // A parcel whose order_value reaches it is charged $0, ahead of its
                                 // price_charged; parcels without order_value are not affected
+  origin_zip?: string | null;   // where the shop ships from (5-digit ZIP); the default origin of every parcel
 }
 
 interface LineItem {
@@ -86,13 +90,19 @@ Years per carrier, services (with `rate_card_notes`), default controls
 (including the default `as_of` per carrier), fuel defaults per year with
 `is_proxy`, the zone bands, the segment band labels, and the data limitations
 text shown in the UI footer. Shape: `MetaResponse` in `backend/app/api/models.py`.
+`zip_zones` (`{usps_effective_date, usps_origins, zip_points}` or null) says
+whether ZIP codes can be used: a 422 names `destination_zip` or `origin_zip`
+when a ZIP is unknown, malformed or has no origin.
 
 ### GET /api/sample-parcels
 The bundled illustrative parcel mix as `Parcel[]`, with a `description`.
 
 ### POST /api/quote  (question 1)
 Request `{ parcel: Parcel, controls: Controls }`. Response
-`{ quotes: Quote[], cheapest_by_tier: Record<Tier, {carrier, service_id, total}> }`,
+`{ distance_miles: number, quotes: Quote[], cheapest_by_tier: Record<Tier, {carrier, service_id, total}> }`
+(`distance_miles` is the typed distance, or the great-circle miles between the two ZIPs' Census points;
+each quote carries `zone_source`: `"usps_chart"` (the USPS zone chart), `"zip_distance"` (estimated from
+the ZIP distance and the carrier's distance bands) or `"distance"` (typed miles)),
 quotes sorted by total within the requested tier first, then the other tiers
 (unavailable quotes last within a tier). Only carriers that publish the
 requested year are quoted (2027 is FedEx only). A tier with no available
