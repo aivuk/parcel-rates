@@ -80,9 +80,13 @@ Issues:
 - In the 27-50 lb band at zones 5-6 the winner alternates between UPS and
   FedEx almost every pound, so that band is a stack of thin slivers. This is
   the data (the two carriers are within cents of each other there) and the
-  sentence above already says "mostly". **Open**.
-- On phones the "FedEx" run label touches the cell edge at 800 mi. **Open**,
-  low: the label stays readable and the colour and tooltip agree.
+  sentence above already says "mostly". **Fixed** in #27: UPS and FedEx within
+  $0.10 are drawn as a striped tie with its own legend entry, and the dotted
+  UPS/FedEx edge the legend describes is back (its style had been lost, so
+  those edges were drawn as heavy as the USPS line).
+- On phones the "FedEx" run label touches the cell edge at 800 mi. **Fixed**
+  in #27: 10 px labels on phones, and a label that would not fit its column is
+  left out.
 - The saving legend is a grey ramp while the cells ramp in each carrier's hue.
   It reads as "darker = bigger saving" and is the same on every map. **Open**,
   low.
@@ -104,7 +108,11 @@ Issues:
   still smaller than the answer figure. **Open**, intended (DESIGN.md).
 - Surcharge kinds below about 1 % (remote area, extended remote area) are
   slivers too thin to see in the split chart, yet listed in the legend. The
-  table view has the numbers. **Open**, low.
+  table view has the numbers. **Fixed** in #27: a kind under 2 % of the
+  longest bar folds into "Other surcharges"; the table still lists every kind.
+- When one carrier wins every parcel, the best mix repeats it (a three-line
+  block and a duplicate margin-table row). **Fixed** in #27: one line, "USPS
+  wins every parcel", and no duplicate row.
 
 ### Q4, year over year (`q4-*`)
 
@@ -121,12 +129,13 @@ Issues:
 - Fuel table not keyboard-scrollable on phones (finding 5, **fixed**).
 - The view asks the API twice on open: once with the controls, then with the
   next-year increase the first answer suggests. For about 250 ms the answer is
-  dimmed as stale. **Open**, low: no layout shift, and the e2e helpers wait for
-  the second answer.
+  dimmed as stale. **Fixed** in #27: the backend applies the default increase
+  when the request has none, so the view asks once.
 - The driver bars use the warm `--q4-up` colour, close to UPS brown, even when
   the chart is about USPS. The chart title names the carrier and DESIGN.md
   keeps `--q4-up`/`--q4-down` apart from the money colours on purpose.
-  **Open**, low; worth revisiting with the palette.
+  **Fixed** in #27: `--q4-up` is a neutral graphite, lighter than `--q4-down`
+  in light mode and darker in dark mode.
 - The page is long on a phone (about 4,500 px). Each block has its own heading
   and the answer is first, so this is acceptable. **Open**.
 
