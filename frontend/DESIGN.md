@@ -94,7 +94,10 @@ the carrier colours themselves are too dark to read on the ink block.
 
 Each carrier also has a `-wash` tint for backgrounds and heatmap cells
 (issue #5 mixes between the wash and the full colour). The washes are clean,
-hue-true tints chosen for white paper, not the old beige-cast ones.
+hue-true tints chosen for white paper, not the old beige-cast ones: USPS
+`#D6E4FB` / `#18233A`, UPS `#F6DCAE` / `#2C2318`, FedEx `#F8D3EE` / `#301A2B`
+(light / dark). The Q2 heatmap mixes them in oklch and its lightest saving
+step keeps 45 % of the carrier colour, so no cell goes pastel on white.
 
 ## Type
 
