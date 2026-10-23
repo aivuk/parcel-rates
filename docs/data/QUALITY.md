@@ -121,8 +121,8 @@ records the decisions that follow from them.
 8. **Citations are tested.** Every hand-curated row (surcharges, fuel,
    announced increases, dimensional weight, zone bands) cites a file, a
    page and a verbatim quote containing the amount; a test opens the cited
-   page and checks the quote is there (skipped with a message when the raw
-   file has not been fetched).
+   page and checks the quote is there. A missing raw file fails the test with
+   a pointer to `data/fetch_raw.py`; `ALLOW_MISSING_RAW=1` turns that into a skip.
 9. **Zones.** Distance bands stand in for ZIP-to-ZIP zones (issue #9 is the
    bonus). The band table is documented in `data/processed/zone_from_distance.csv`.
 
