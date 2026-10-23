@@ -88,6 +88,35 @@ export function announcedPath(c: CarrierYears): Map<number, number> {
   return out;
 }
 
+const joinAnd = (words: string[]) =>
+  words.length < 2 ? (words[0] ?? "") : `${words.slice(0, -1).join(", ")} and ${words[words.length - 1]}`;
+
+/**
+ * Projections start after each carrier's last published year, so they can land on different
+ * years (FedEx publishes 2027 before the others). Says so, and names the published years that
+ * sit where the other carriers are projected.
+ */
+export function projectionSentence(carriers: CarrierYears[]): string | null {
+  const projected = carriers.filter((c) => c.projected !== null);
+  if (projected.length === 0) return null;
+  const base = "Each projection starts after that carrier’s last published year";
+  const years = [...new Set(projected.map((c) => c.projected!.year))].sort((a, b) => a - b);
+  if (years.length === 1) return `${base}.`;
+  const first = years[0]!;
+  const groups = years.map((y, i) => {
+    const names = joinAnd(projected.filter((c) => c.projected!.year === y).map((c) => carrierName(c.carrier)));
+    return i === 0 ? `${names} project to ${y}` : `${names} to ${y}`;
+  });
+  const published = projected
+    .filter((c) => c.projected!.year > first)
+    .map((c) => {
+      const ahead = c.years.map((r) => r.year).filter((y) => y >= first);
+      const what = ahead.length === 1 ? "is a published price list" : "are published price lists";
+      return `${carrierName(c.carrier)} ${joinAnd(ahead.map(String))} ${what}`;
+    });
+  return `${base}: ${joinAnd(groups)}; ${joinAnd(published)}, not a projection.`;
+}
+
 /** Default for the next-year slider: the pick carrier's latest announced increase. */
 export function defaultIncrease(c: CarrierYears | null): number | null {
   if (!c) return null;
