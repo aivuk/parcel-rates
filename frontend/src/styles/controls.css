@@ -56,6 +56,7 @@ fieldset.control > legend {
 
 .segmented__option {
   position: relative;
+  display: grid;
   cursor: pointer;
 }
 
@@ -72,6 +73,8 @@ fieldset.control > legend {
 
 .segmented__text {
   display: grid;
+  align-content: start;
+  height: 100%;
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-sm);
   font-weight: 600;

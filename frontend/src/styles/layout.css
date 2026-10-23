@@ -211,6 +211,8 @@
   }
 
   .layout {
+    /* Content width matches .masthead__inner so the rail lines up with the edition line */
+    max-width: calc(80rem + 2 * var(--space-6));
     display: grid;
     grid-template-columns: var(--rail-width) minmax(0, 1fr);
     column-gap: var(--space-7);
