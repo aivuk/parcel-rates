@@ -190,7 +190,7 @@ before any parser agent was dispatched. From this point every big step
   (USPS stays at 70). Actual weight stays capped at 70 lb; parcels whose
   dimensional weight is 71–150 lb are now priced instead of unavailable.
 
-## 2026-10-23 — FedEx 2027 stays as a forward year, flagged
+## 2026-10-23 — FedEx 2027 stays as a forward year, flagged (PRs #21, #23)
 
 - FedEx 2027 base rates are published and parsed, but its surcharge-change
   document is not archived, so only the Home Delivery residential charge and
