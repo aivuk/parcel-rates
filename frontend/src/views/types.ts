@@ -1,9 +1,9 @@
-import type { Controls, Meta, Parcel } from "../api/types";
-import type { ViewId } from "../state/urlState";
+import type { Meta, Parcel } from "../api/types";
+import type { ControlsState, ViewId } from "../state/urlState";
 
 /** What every question view receives. Issues #5 and #6 implement views against this. */
 export interface ViewProps {
-  controls: Controls;
+  controls: ControlsState;
   meta: Meta | null;
   /** The loaded parcel set, or null when none is loaded (Q3, Q4 need one). */
   parcels: Parcel[] | null;

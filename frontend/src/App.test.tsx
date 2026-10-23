@@ -21,8 +21,8 @@ describe("App", () => {
     expect(screen.getByText("No parcels loaded yet.")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Load sample mix" }));
     const section = await screen.findByRole("region", { name: "Your parcels" });
-    expect(await within(section).findByText("791")).toBeInTheDocument();
-    expect(within(section).getByText(/Illustrative month/)).toBeInTheDocument();
+    expect(await within(section).findByText("300")).toBeInTheDocument();
+    expect(within(section).getByText(/Illustrative parcel mix/)).toBeInTheDocument();
     expect(within(section).getByRole("table", { name: /weight/i })).toBeInTheDocument();
   });
 
@@ -70,6 +70,6 @@ describe("App", () => {
 
   it("renders the footer limitations from /api/meta", async () => {
     renderApp();
-    expect(await screen.findByText(/Published list prices only/)).toBeInTheDocument();
+    expect(await screen.findByText(/List prices only/)).toBeInTheDocument();
   });
 });

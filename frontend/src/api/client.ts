@@ -3,6 +3,7 @@ import type {
   BlendedResponse,
   BreakevenRequest,
   BreakevenResponse,
+  HealthResponse,
   Meta,
   QuoteRequest,
   QuoteResponse,
@@ -76,6 +77,7 @@ function statusMessage(status: number): string {
 }
 
 export interface ApiClient {
+  health(signal?: AbortSignal): Promise<HealthResponse>;
   meta(signal?: AbortSignal): Promise<Meta>;
   sampleParcels(signal?: AbortSignal): Promise<SampleParcels>;
   quote(body: QuoteRequest, signal?: AbortSignal): Promise<QuoteResponse>;
@@ -116,6 +118,7 @@ export function createHttpClient({ baseUrl = API_BASE, fetchImpl }: ClientOption
     request<T>(path, { method: "POST", body: JSON.stringify(body), signal });
 
   return {
+    health: (signal) => request<HealthResponse>("/health", { signal }),
     meta: (signal) => request<Meta>("/meta", { signal }),
     sampleParcels: (signal) => request<SampleParcels>("/sample-parcels", { signal }),
     quote: (body, signal) => post<QuoteResponse>("/quote", body, signal),
@@ -139,12 +142,13 @@ export function createMockClient(delayMs = 350): ApiClient {
       }, delayMs);
     });
   return {
+    health: () => wait(() => ({ status: "ok" as const })),
     meta: () => wait(async () => (await load()).mockMeta),
     sampleParcels: () => wait(async () => (await load()).mockSampleParcels),
-    quote: (body) => wait(async () => (await load()).mockQuote(body)),
-    breakeven: (body) => wait(async () => (await load()).mockBreakeven(body)),
-    blended: (body) => wait(async () => (await load()).mockBlended(body)),
-    yearly: (body) => wait(async () => (await load()).mockYearly(body)),
+    quote: () => wait(async () => (await load()).mockQuote()),
+    breakeven: () => wait(async () => (await load()).mockBreakeven()),
+    blended: () => wait(async () => (await load()).mockBlended()),
+    yearly: () => wait(async () => (await load()).mockYearly()),
   };
 }
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useApi, useLoad } from "./api/ApiContext";
 import { isMockMode } from "./api/client";
 import { ControlRail, assumptionsLine } from "./components/controls/ControlRail";
@@ -7,7 +7,7 @@ import { QuestionTabs } from "./components/QuestionTabs";
 import { Footer } from "./components/Footer";
 import { useParcelSet } from "./hooks/useParcelSet";
 import { useUrlState } from "./hooks/useUrlState";
-import type { ViewId } from "./state/urlState";
+import { controlsFromMeta, type ViewId } from "./state/urlState";
 import type { ViewProps } from "./views/types";
 import { QuoteView } from "./views/QuoteView";
 import { BreakevenView } from "./views/BreakevenView";
@@ -44,7 +44,8 @@ export function App() {
   const [metaAttempt, setMetaAttempt] = useState(0);
   const metaState = useLoad((signal) => api.meta(signal), [api, metaAttempt]);
   const meta = metaState.status === "ok" ? metaState.data : null;
-  const [state, dispatch] = useUrlState(meta?.default_controls ?? null);
+  const metaDefaults = useMemo(() => (meta ? controlsFromMeta(meta.defaults) : null), [meta]);
+  const [state, dispatch] = useUrlState(metaDefaults);
   const parcelSet = useParcelSet();
   const sheet = useSheet();
   const railId = useId();

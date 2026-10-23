@@ -1,11 +1,11 @@
 /**
- * Types mirroring docs/API.md. Keep in sync with backend/app/api/models.py.
+ * Types mirroring docs/API.md and backend/app/api/models.py (branch issue-3-engine-api).
+ * Keep in sync: src/api/contract.test.ts validates every example payload in
+ * src/api/__fixtures__/ against the guards in ./guards.ts, which follow these types.
  *
- * Shared types and request bodies are copied verbatim from the contract.
- * Response shapes for /meta, /sample-parcels, /breakeven, /blended and /yearly
- * are described only in prose in docs/API.md; the shapes below are the
- * frontend's reading of that prose. Fields marked "CONTRACT GAP" are the
- * places the contract should pin down (see the issue #4 report).
+ * Request types follow the Pydantic request models (fields with a server default are optional).
+ * Response types follow the response models, which use `extra="forbid"` and serialize
+ * missing optionals as `null`, not as absent keys.
  */
 
 export type Carrier = "usps" | "ups" | "fedex";
@@ -13,11 +13,18 @@ export type Tier = "ground" | "two_three_day" | "next_day";
 export type DeliveryArea = "none" | "das" | "extended";
 export type UspsRateCard = "commercial" | "retail";
 export type FuelGroup = "ground" | "express";
+export type WeightBand = "≤1" | "1–5" | "5–10" | "10–20" | "20–70";
+export type ZoneBandLabel = "1–2" | "3–4" | "5–6" | "7–8";
 
 export const CARRIERS: readonly Carrier[] = ["usps", "ups", "fedex"] as const;
 export const TIERS: readonly Tier[] = ["ground", "two_three_day", "next_day"] as const;
 export const DELIVERY_AREAS: readonly DeliveryArea[] = ["none", "das", "extended"] as const;
+export const WEIGHT_BANDS: readonly WeightBand[] = ["≤1", "1–5", "5–10", "10–20", "20–70"] as const;
+export const ZONE_BANDS: readonly ZoneBandLabel[] = ["1–2", "3–4", "5–6", "7–8"] as const;
 
+/* ---------- requests ---------- */
+
+/** A parcel as the frontend sends it (absent = server default). */
 export interface Parcel {
   weight_lb: number; // > 0, <= 70
   length_in?: number; // all three or none; > 0
@@ -32,36 +39,104 @@ export interface Parcel {
   nonstandard_packaging?: boolean; // default false
 }
 
-export interface Controls {
-  year: number;
-  as_of?: string; // ISO date
-  usps_rate_card: UspsRateCard;
-  fuel_override_percent?: { ground?: number; express?: number };
-  peak: boolean;
-  flat_price: number;
+/** A parcel as the server returns it (GET /sample-parcels): every key present, optionals null. */
+export interface ParcelOut {
+  weight_lb: number;
+  length_in: number | null;
+  width_in: number | null;
+  height_in: number | null;
+  distance_miles: number;
+  residential: boolean;
+  speed: Tier;
+  quantity: number;
+  price_charged: number | null;
+  delivery_area: DeliveryArea;
+  nonstandard_packaging: boolean;
 }
+
+export interface FuelOverride {
+  ground?: number | null; // 0..100
+  express?: number | null;
+}
+
+export interface Controls {
+  year?: number | null; // null/absent: latest year with all three carriers
+  as_of?: string | null; // ISO date
+  usps_rate_card?: UspsRateCard; // default "commercial"
+  fuel_override_percent?: FuelOverride | null;
+  peak?: boolean; // default false
+  flat_price?: number; // default 9.99
+}
+
+export interface SegmentFilter {
+  weight_band?: WeightBand | null;
+  zone_band?: ZoneBandLabel | null;
+  residential?: boolean | null;
+  speed?: Tier | null;
+}
+
+export interface QuoteRequest {
+  parcel: Parcel;
+  controls?: Controls;
+}
+
+export interface BreakevenRequest {
+  controls?: Controls;
+  residential?: boolean; // default true
+  weights_lb?: number[] | null; // 1..200 values, each in (0, 70]
+  distances_miles?: number[] | null; // 1..50 values, each >= 0
+}
+
+export interface BlendedRequest {
+  parcels: Parcel[]; // 1..10,000
+  controls?: Controls;
+  segment?: SegmentFilter | null;
+}
+
+export interface YearlyRequest {
+  parcels: Parcel[]; // 1..10,000
+  controls?: Controls;
+  next_year_increase_percent?: number | null; // -50..100
+}
+
+/* ---------- shared response pieces ---------- */
 
 export interface LineItem {
   kind: "base" | "surcharge" | "fuel";
   label: string;
   amount: number;
-  surcharge_id?: string;
-  source?: string;
+  surcharge_id: string | null;
+  source: string | null; // "file p.N" for display
+  condition: string | null; // surcharges.csv condition, for grouping
 }
 
+/** An unavailable quote has line_items [], total 0, margin 0, and null zone/weights. Check `available`. */
 export interface Quote {
   carrier: Carrier;
   service_id: string;
   service_name: string;
   tier: Tier;
-  zone: number;
-  billable_weight_lb: number;
+  zone: number | null;
+  billable_weight_lb: number | null;
   dim_weight_lb: number | null;
   line_items: LineItem[];
   total: number;
   margin: number;
   available: boolean;
-  unavailable_reason?: string;
+  unavailable_reason: string | null;
+  as_of: string | null;
+}
+
+export interface CarrierPick {
+  carrier: Carrier;
+  service_id: string;
+  total: number;
+}
+
+/* ---------- GET /api/health ---------- */
+
+export interface HealthResponse {
+  status: "ok";
 }
 
 /* ---------- GET /api/meta ---------- */
@@ -73,187 +148,211 @@ export interface ServiceInfo {
   tier: Tier;
   residential_allowed: boolean;
   business_allowed: boolean;
+  rate_cards: string[];
+  rate_card_notes: string;
+  max_weight_lb: number;
+  notes: string;
 }
 
-/** One row of fuel_surcharge.csv. USPS has none. */
 export interface FuelDefault {
   carrier: Carrier;
   year: number;
   service_group: FuelGroup;
   default_percent: number;
-  is_proxy: boolean; // UPS uses FedEx history as a proxy
+  is_proxy: boolean;
+  window_start: string | null;
+  window_end: string | null;
 }
 
 export interface ZoneBand {
   carrier: Carrier;
   zone: number;
   min_miles: number;
-  max_miles: number | null; // null = open-ended (zone 8)
+  max_miles: number | null; // null = open-ended
+}
+
+export interface MetaDefaults {
+  year: number;
+  usps_rate_card: UspsRateCard;
+  peak: boolean;
+  flat_price: number;
+  as_of: Partial<Record<Carrier, string>>;
 }
 
 export interface Meta {
-  /** Years with base rates, per carrier (UPS has no 2027). */
-  years: Record<Carrier, number[]>;
+  years: Partial<Record<Carrier, number[]>>;
   services: ServiceInfo[];
-  default_controls: Controls;
+  defaults: MetaDefaults;
   fuel_defaults: FuelDefault[];
   zone_bands: ZoneBand[];
-  /** Paragraphs shown in the footer. CONTRACT GAP: string vs string[]. */
+  segments: { weight_bands: string[]; zone_bands: string[] };
   limitations: string[];
 }
 
 /* ---------- GET /api/sample-parcels ---------- */
 
-/** CONTRACT GAP: the contract says "Parcel[] with a description"; an array cannot carry one. */
 export interface SampleParcels {
   description: string;
-  parcels: Parcel[];
+  parcels: ParcelOut[];
 }
 
 /* ---------- POST /api/quote ---------- */
 
-export interface QuoteRequest {
-  parcel: Parcel;
-  controls: Controls;
-}
-
-export interface CarrierPick {
-  carrier: Carrier;
-  service_id: string;
-  total: number;
-}
-
 export interface QuoteResponse {
   quotes: Quote[];
-  /** CONTRACT GAP: a tier with no available service; modelled as null. */
-  cheapest_by_tier: Record<Tier, CarrierPick | null>;
+  cheapest_by_tier: Partial<Record<Tier, CarrierPick | null>>;
 }
 
-/* ---------- POST /api/breakeven ---------- */
-
-export interface BreakevenRequest {
-  controls: Controls;
-  residential: boolean;
-  weights_lb?: number[];
-  distances_miles?: number[];
-}
+/* ---------- POST|GET /api/breakeven ---------- */
 
 export interface BreakevenCell {
   weight_lb: number;
   distance_miles: number;
-  zone_usps: number;
-  zone_private: number;
-  winner: CarrierPick;
-  runner_up: CarrierPick;
+  zone_usps: number | null;
+  zone_private: number | null;
+  winner: CarrierPick | null;
+  runner_up: CarrierPick | null;
   saving: number;
+  totals: Partial<Record<Carrier, number>>;
 }
 
-export interface BreakevenLine {
+/** Lightest grid weight at which USPS is >= the rival; null when USPS wins at every weight. */
+export interface BreakevenBand {
   distance_miles: number;
-  /** Lightest weight at which USPS stops winning; null if it never does. */
-  vs_ups_lb: number | null;
-  vs_fedex_lb: number | null;
+  zone_usps: number | null;
+  zone_private: number | null;
+  vs_ups: number | null;
+  vs_fedex: number | null;
 }
 
 export interface BreakevenResponse {
+  year: number;
+  residential: boolean;
+  weights_lb: number[];
+  distances_miles: number[];
   cells: BreakevenCell[];
-  breakeven_weight_lb: BreakevenLine[];
+  breakeven_weight_lb: BreakevenBand[];
 }
 
 /* ---------- POST /api/blended ---------- */
 
-export type WeightBand = "≤1" | "1–5" | "5–10" | "10–20" | "20–70";
-export type ZoneBandLabel = "1–2" | "3–4" | "5–6" | "7–8";
-export const WEIGHT_BANDS: readonly WeightBand[] = ["≤1", "1–5", "5–10", "10–20", "20–70"] as const;
-export const ZONE_BANDS: readonly ZoneBandLabel[] = ["1–2", "3–4", "5–6", "7–8"] as const;
-
-export interface SegmentFilter {
-  weight_band?: WeightBand;
-  zone_band?: ZoneBandLabel;
-  residential?: boolean;
-  speed?: Tier;
+export interface SplitPart {
+  per_parcel: number;
+  total: number;
+  share: number; // 0..1
 }
 
-export interface BlendedRequest {
-  parcels: Parcel[];
-  controls: Controls;
-  segment?: SegmentFilter;
+export interface Split {
+  base: SplitPart;
+  surcharges: SplitPart;
+  fuel: SplitPart;
 }
 
-export interface CostSplit {
-  base: number;
-  surcharges: number;
-  fuel: number;
+export interface ConditionTotal {
+  condition: string;
+  total: number;
+  per_parcel: number;
+  share_of_cost: number;
 }
 
-export interface SurchargeShare {
-  label: string;
-  surcharge_id?: string;
-  amount_per_parcel: number;
-  share: number; // 0..1 of the blended cost
-}
-
-export interface BlendedCarrier {
-  carrier: Carrier | "best_mix";
-  parcels_shipped: number; // sum of quantity
-  /** CONTRACT GAP: parcels the carrier cannot carry in the tier, excluded from the average. */
+/** Everything weighted by quantity. */
+export interface Summary {
+  parcels_shipped: number;
   parcels_unavailable: number;
+  total_cost: number;
   cost_per_parcel: number;
-  split_per_parcel: CostSplit;
-  split_share: CostSplit; // 0..1
-  surcharge_breakdown: SurchargeShare[];
+  split: Split;
+  surcharges_by_condition: ConditionTotal[];
   margin_per_parcel: number;
-  loss_share: number; // 0..1 of parcels shipped at a loss
+  total_margin: number;
+  loss_share: number; // 0..1
+  parcels_at_loss: number;
+}
+
+export interface CarrierBlended extends Summary {
+  carrier: Carrier;
+  services_used: Record<string, number>; // service_id -> parcels
+}
+
+export interface BestMix extends Summary {
+  parcels_by_carrier: Record<string, number>;
 }
 
 export interface BlendedResponse {
-  carriers: BlendedCarrier[]; // usps, ups, fedex, best_mix
-  /** best_mix only: how many parcels each carrier takes. */
-  best_mix_counts?: Partial<Record<Carrier, number>>;
+  year: number;
+  parcels_considered: number;
+  revenue_per_parcel: number;
+  carriers: CarrierBlended[];
+  best_mix: BestMix;
 }
 
 /* ---------- POST /api/yearly ---------- */
 
-export interface YearlyRequest {
-  parcels: Parcel[];
-  controls: Controls;
-  next_year_increase_percent?: number;
-}
-
-export interface YearPoint {
-  year: number;
-  cost_per_parcel: number | null; // null when the carrier has no prices that year
-  change_percent: number | null;
-  /** CONTRACT GAP: USPS announces per service; the backend should collapse to one number. */
-  announced_increase_percent: number | null;
-  announced_source: "primary" | "secondary" | null;
-  projected?: boolean;
-}
-
-export interface YearlyCarrier {
-  carrier: Carrier;
-  points: YearPoint[];
-}
-
-export interface DriverContribution {
-  dimension: "weight_band" | "zone_band" | "residential" | "speed";
-  band: string;
-  contribution_per_parcel: number;
-}
-
-export interface YearlyDriver {
-  carrier: Carrier;
+export interface Change {
   from_year: number;
-  to_year: number;
-  contributions: DriverContribution[];
+  dollars_per_parcel: number;
+  percent: number | null;
+}
+
+export interface Announced {
+  percent: number | null;
+  basis: "all" | "average_of_services" | "none";
+  services: string[];
+  source_type: string | null; // "primary" | "secondary"
+}
+
+export interface Driver {
+  segment: string;
+  parcels: number;
+  change_per_parcel: number;
+  change_total: number;
+}
+
+export interface Drivers {
+  weight_band: Driver[];
+  zone_band: Driver[];
+  residential: Driver[];
+  speed: Driver[];
+}
+
+export interface FuelGroupUsed {
+  default_percent: number | null;
+  is_proxy: boolean | null;
+  applied_percent: number | null;
+}
+
+export interface YearRow {
+  year: number;
+  as_of: string | null;
+  cost_per_parcel: number;
+  summary: Summary;
+  services_used: string[];
+  change_vs_previous: Change | null; // null for the first year
+  announced_increase: Announced;
+  drivers: Drivers | null;
+  fuel: { ground: FuelGroupUsed; express: FuelGroupUsed } | null; // null for USPS
+  warnings: string[];
+}
+
+export interface Projection {
+  year: number;
+  increase_percent: number;
+  cost_per_parcel: number;
+}
+
+export interface CarrierYears {
+  carrier: Carrier;
+  parcels_used: number;
+  parcels_excluded: number;
+  years: YearRow[];
+  projected: Projection | null;
 }
 
 export interface YearlyResponse {
-  carriers: YearlyCarrier[];
-  drivers: YearlyDriver[];
+  carriers: CarrierYears[];
 }
 
-/* ---------- Errors ---------- */
+/* ---------- errors ---------- */
 
 export interface ValidationIssue {
   loc: (string | number)[];

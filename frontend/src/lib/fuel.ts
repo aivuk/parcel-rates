@@ -25,6 +25,7 @@ export function fuelDefault(meta: Meta | null, year: number, group: FuelGroup): 
 export function yearOptions(meta: Meta | null): { year: number; missing: Carrier[] }[] {
   if (!meta) return [];
   const carriers = Object.keys(meta.years) as Carrier[];
-  const all = [...new Set(carriers.flatMap((c) => meta.years[c]))].sort((a, b) => b - a);
-  return all.map((year) => ({ year, missing: carriers.filter((c) => !meta.years[c].includes(year)) }));
+  const yearsOf = (c: Carrier) => meta.years[c] ?? [];
+  const all = [...new Set(carriers.flatMap(yearsOf))].sort((a, b) => b - a);
+  return all.map((year) => ({ year, missing: carriers.filter((c) => !yearsOf(c).includes(year)) }));
 }

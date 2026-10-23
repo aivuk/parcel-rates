@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { ApiError, createHttpClient, describeLoc, problemsFromBody } from "./client";
-import { mockDefaultControls } from "./mocks";
+import { mockDefaultControls, mockQuote422Body } from "./mocks";
 
 const json = (status: number, body: unknown) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
@@ -25,25 +25,23 @@ describe("API client", () => {
     expect(JSON.parse(init.body)).toEqual({ parcel, controls: mockDefaultControls });
   });
 
-  it("turns a 422 into an ApiError with readable field problems", async () => {
-    const fetchImpl = vi.fn().mockResolvedValue(
-      json(422, {
-        detail: [
-          { loc: ["body", "parcels", 3, "weight_lb"], msg: "weight_lb must be at most 70", type: "value_error" },
-          { loc: ["body", "controls", "flat_price"], msg: "flat_price must be at least 0" },
-        ],
-      }),
-    );
+  it("turns the backend's recorded 422 into an ApiError with readable field problems", async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(json(422, mockQuote422Body));
     const api = createHttpClient({ fetchImpl });
-    const err = await api.blended({ parcels: [], controls: mockDefaultControls }).catch((e: unknown) => e);
+    const parcel = { weight_lb: 80, distance_miles: 700, residential: true, speed: "ground" as const };
+    const err = await api.quote({ parcel, controls: mockDefaultControls }).catch((e: unknown) => e);
     expect(err).toBeInstanceOf(ApiError);
     const apiErr = err as ApiError;
     expect(apiErr.status).toBe(422);
     expect(apiErr.message).toBe("Some inputs were not accepted.");
     expect(apiErr.problems).toEqual([
-      { field: "parcels · row 4 · weight_lb", message: "weight_lb must be at most 70" },
-      { field: "controls · flat_price", message: "flat_price must be at least 0" },
+      { field: "parcel · weight_lb", message: "weight_lb must be at most 70" },
+      { field: "parcel · speed", message: "speed must be one of 'ground', 'two_three_day' or 'next_day'" },
     ]);
+  });
+
+  it("numbers rows in parcel lists from 1", () => {
+    expect(describeLoc(["body", "parcels", 3, "weight_lb"])).toBe("parcels · row 4 · weight_lb");
   });
 
   it("accepts a string detail (FastAPI HTTPException) and ignores junk", () => {

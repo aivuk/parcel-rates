@@ -3,6 +3,7 @@ import type { Parcel } from "../api/types";
 import { useApi } from "../api/ApiContext";
 import { ApiError } from "../api/client";
 import { parseParcelCsv, type CsvProblem } from "../lib/parcelCsv";
+import { fromParcelOut } from "../lib/parcels";
 
 export interface ParcelSet {
   parcels: Parcel[];
@@ -17,7 +18,7 @@ export type ParcelSetStatus =
   | { kind: "error"; message: string; problems: CsvProblem[]; fileName?: string }
   | { kind: "notice"; message: string; problems: CsvProblem[]; fileName?: string };
 
-const STORAGE_KEY = "parcel-rates:parcel-set:v1";
+const STORAGE_KEY = "parcel-rates:parcel-set:v2";
 export const MAX_FILE_BYTES = 5 * 1024 * 1024;
 
 function readStored(): ParcelSet | null {
@@ -61,7 +62,7 @@ export function useParcelSet() {
     setStatus({ kind: "loading", what: "sample" });
     try {
       const sample = await api.sampleParcels();
-      setSet({ parcels: sample.parcels, source: "sample", name: "Sample mix", description: sample.description });
+      setSet({ parcels: sample.parcels.map(fromParcelOut), source: "sample", name: "Sample mix", description: sample.description });
       setStatus({ kind: "idle" });
     } catch (err) {
       const message =

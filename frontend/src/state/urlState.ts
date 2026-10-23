@@ -1,14 +1,30 @@
-import type { Controls, FuelGroup } from "../api/types";
+import type { FuelGroup, MetaDefaults, UspsRateCard } from "../api/types";
+
+/**
+ * The controls as the UI holds them: every field resolved. Assignable to the request
+ * type `Controls`, which leaves fields with a server default optional.
+ */
+export interface ControlsState {
+  year: number;
+  usps_rate_card: UspsRateCard;
+  peak: boolean;
+  flat_price: number;
+  fuel_override_percent?: { ground?: number; express?: number };
+}
+
+export function controlsFromMeta(d: MetaDefaults): ControlsState {
+  return { year: d.year, usps_rate_card: d.usps_rate_card, peak: d.peak, flat_price: d.flat_price };
+}
 
 export const VIEWS = ["quote", "breakeven", "blended", "yearly"] as const;
 export type ViewId = (typeof VIEWS)[number];
 
 export interface AppState {
-  controls: Controls;
+  controls: ControlsState;
   view: ViewId;
 }
 
-export const FALLBACK_CONTROLS: Controls = {
+export const FALLBACK_CONTROLS: ControlsState = {
   year: 2026,
   usps_rate_card: "commercial",
   peak: false,
@@ -39,7 +55,7 @@ function num(params: URLSearchParams, key: string, min: number, max: number): nu
   return Number.isFinite(n) && n >= min && n <= max ? n : undefined;
 }
 
-export function readState(search: string, defaults: Controls = FALLBACK_CONTROLS): AppState {
+export function readState(search: string, defaults: ControlsState = FALLBACK_CONTROLS): AppState {
   const params = new URLSearchParams(search);
   const year = num(params, KEYS.year, 2000, 2100);
   const card = params.get(KEYS.card);
@@ -51,7 +67,7 @@ export function readState(search: string, defaults: Controls = FALLBACK_CONTROLS
     ...(ground !== undefined ? { ground } : {}),
     ...(express !== undefined ? { express } : {}),
   };
-  const controls: Controls = {
+  const controls: ControlsState = {
     year: year !== undefined && Number.isInteger(year) ? year : defaults.year,
     usps_rate_card: card === "retail" || card === "commercial" ? card : defaults.usps_rate_card,
     peak: params.has(KEYS.peak) ? params.get(KEYS.peak) === "1" : defaults.peak,
@@ -62,7 +78,7 @@ export function readState(search: string, defaults: Controls = FALLBACK_CONTROLS
 }
 
 /** Serialize, leaving out values equal to the defaults so shared links stay short. */
-export function writeState(state: AppState, currentSearch = "", defaults: Controls = FALLBACK_CONTROLS): string {
+export function writeState(state: AppState, currentSearch = "", defaults: ControlsState = FALLBACK_CONTROLS): string {
   const params = new URLSearchParams(currentSearch);
   for (const key of OWNED) params.delete(key);
   const c = state.controls;
@@ -81,7 +97,7 @@ export function writeState(state: AppState, currentSearch = "", defaults: Contro
 
 export type Action =
   | { type: "year"; year: number }
-  | { type: "card"; card: Controls["usps_rate_card"] }
+  | { type: "card"; card: UspsRateCard }
   | { type: "fuel"; group: FuelGroup; percent: number }
   | { type: "fuelReset"; group: FuelGroup }
   | { type: "peak"; peak: boolean }
@@ -89,7 +105,7 @@ export type Action =
   | { type: "view"; view: ViewId }
   | { type: "replace"; state: AppState };
 
-function withFuel(c: Controls, group: FuelGroup, percent: number | undefined): Controls {
+function withFuel(c: ControlsState, group: FuelGroup, percent: number | undefined): ControlsState {
   const { [group]: _dropped, ...rest } = c.fuel_override_percent ?? {};
   const next = percent === undefined ? rest : { ...rest, [group]: percent };
   const { fuel_override_percent: _old, ...base } = c;
@@ -97,7 +113,7 @@ function withFuel(c: Controls, group: FuelGroup, percent: number | undefined): C
 }
 
 export function reducer(state: AppState, action: Action): AppState {
-  const set = (controls: Controls): AppState => ({ ...state, controls });
+  const set = (controls: ControlsState): AppState => ({ ...state, controls });
   switch (action.type) {
     case "year":
       // A new year has its own fuel defaults; an override from another year would mislead.

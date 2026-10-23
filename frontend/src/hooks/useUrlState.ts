@@ -1,9 +1,16 @@
 import { useEffect, useReducer, useRef } from "react";
-import type { Controls } from "../api/types";
-import { FALLBACK_CONTROLS, readState, reducer, writeState, type Action, type AppState } from "../state/urlState";
+import {
+  FALLBACK_CONTROLS,
+  readState,
+  reducer,
+  writeState,
+  type Action,
+  type AppState,
+  type ControlsState,
+} from "../state/urlState";
 
 /** App state mirrored to the query string with history.replaceState, so any view is a shareable link. */
-export function useUrlState(defaults: Controls | null): [AppState, (a: Action) => void] {
+export function useUrlState(defaults: ControlsState | null): [AppState, (a: Action) => void] {
   const effectiveDefaults = defaults ?? FALLBACK_CONTROLS;
   const [state, dispatch] = useReducer(reducer, undefined, () => readState(window.location.search));
   const adopted = useRef(false);
