@@ -294,6 +294,37 @@ before any parser agent was dispatched. From this point every big step
   the citation test checks each quote. Run against today's pages, it finds
   FedEx 5.9 % for 2027 with exactly the curated quote, and nothing else.
 
+## 2026-10-23 — Zones from ZIP codes (issue #9)
+
+- Owner decision: real zones for all origins. What can be collected by script:
+  the USPS Domestic Zone Chart tool answers one JSON chart per origin ZIP3, so
+  all 914 origins with a chart were fetched (930 prefixes listed; the military
+  APO/FPO prefixes 090–099 and a few others have none), effective 1 October
+  2026, about 75 minutes at a polite pace. UPS refuses scripted downloads of
+  its zone files ("Access Denied") and FedEx serves a bot block; the Wayback
+  Machine holds only five 2026 UPS origin charts and no FedEx ones.
+- The owner asked whether to bypass the bot protection. Declined: it is an
+  access control the carriers put there on purpose, it would break their terms
+  and the project's rule that collection is polite, identified and repeatable,
+  and data obtained that way could not be cited. Legitimate routes for real
+  UPS and FedEx zones are their rating APIs with the shop's own keys, or zone
+  charts the owner downloads in a browser; both are left as next steps.
+- So: USPS zones come from the USPS chart; UPS and FedEx zones are estimated
+  from the distance between the two ZIPs and the existing distance bands,
+  labelled "estimated" in the UI. ZIP points come from the Census 2026 ZCTA
+  Gazetteer (33,791 areas, plus a land-weighted centre per prefix for ZIPs
+  without an area).
+- Measured before shipping (docs/data/ZONE_ACCURACY.md): the distance between
+  prefix centres reproduces the USPS chart for 97.4 % of 781,456 prefix pairs
+  and the five archived UPS charts for 90.8 % of lanes, never two zones off;
+  using each ZIP's own point measured worse (92.3 % and 90.4 %), and reading
+  the USPS chart zone as a UPS zone 89.8 %. The app uses prefix centres. When
+  the UPS estimate is wrong it is usually one zone high (7.4 % of lanes
+  against 1.7 % low), so estimated UPS prices lean slightly high.
+- Typed miles still work; a parcel can give `destination_zip` (and
+  `origin_zip`) instead, with "Ship from ZIP" as the shop's default origin.
+  Alaska, Hawaii and the territories stay out of scope.
+
 ## Decisions changed after reviewing agent output
 
 | Decision | What the agent produced | What changed, and why | Where |

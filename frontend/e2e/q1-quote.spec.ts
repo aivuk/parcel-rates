@@ -72,7 +72,12 @@ test.describe("Q1, quote one parcel", () => {
     await closeSettings(page, info);
     await expect.poll(() => new URL(page.url()).searchParams.get("from")).toBe("10001");
 
-    const res = await fillAndQuote(page, quoteForm(page).getByLabel("Destination ZIP"), "90210");
+    // Changing the ship-from ZIP re-quotes on its own; wait for the request that carries the destination.
+    const withZip = page.waitForResponse(
+      (r) => new URL(r.url()).pathname === "/api/quote" && r.request().postDataJSON()?.parcel?.destination_zip === "90210",
+    );
+    await quoteForm(page).getByLabel("Destination ZIP").fill("90210");
+    const res = await withZip;
     const body = res.request().postDataJSON() as { parcel: Record<string, unknown>; controls: Record<string, unknown> };
     expect(body.parcel.destination_zip).toBe("90210");
     expect(body.controls.origin_zip).toBe("10001");
