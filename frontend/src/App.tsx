@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { useApi, useLoad } from "./api/ApiContext";
 import { isMockMode } from "./api/client";
 import { ControlRail, assumptionsLine } from "./components/controls/ControlRail";
@@ -7,6 +7,8 @@ import { QuestionTabs } from "./components/QuestionTabs";
 import { Footer } from "./components/Footer";
 import { useParcelSet } from "./hooks/useParcelSet";
 import { useUrlState } from "./hooks/useUrlState";
+import { useMediaQuery } from "./hooks/useMediaQuery";
+import { INERT_WHILE_SHEET, SHEET_QUERY, useSheet } from "./hooks/useSheet";
 import { controlsFromMeta, type ViewId } from "./state/urlState";
 import type { ViewProps } from "./views/types";
 import { QuoteView } from "./views/QuoteView";
@@ -21,23 +23,6 @@ const VIEW_COMPONENTS: Record<ViewId, (p: ViewProps) => JSX.Element> = {
   yearly: YearlyView,
 };
 
-function useSheet() {
-  const [open, setOpen] = useState(false);
-  const toggleRef = useRef<HTMLButtonElement>(null);
-  const sheetRef = useRef<HTMLElement>(null);
-  const close = useCallback(() => {
-    setOpen(false);
-    toggleRef.current?.focus();
-  }, []);
-  useEffect(() => {
-    if (!open) return;
-    sheetRef.current?.querySelector<HTMLElement>("select, input, button")?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, close]);
-  return { open, setOpen, close, toggleRef, sheetRef };
-}
 
 export function App() {
   const api = useApi();
@@ -47,23 +32,26 @@ export function App() {
   const metaDefaults = useMemo(() => (meta ? controlsFromMeta(meta.defaults) : null), [meta]);
   const [state, dispatch] = useUrlState(metaDefaults);
   const parcelSet = useParcelSet();
-  const sheet = useSheet();
+  const isSheet = useMediaQuery(SHEET_QUERY);
+  const sheet = useSheet(isSheet);
   const railId = useId();
+  const railTitleId = useId();
+  const inert = { [INERT_WHILE_SHEET]: "" };
   const mock = isMockMode();
 
   const viewProps: ViewProps = { controls: state.controls, meta, parcels: parcelSet.set?.parcels ?? null };
 
   return (
     <>
-      <a className="skip-link" href="#main">
+      <a className="skip-link" href="#main" {...inert}>
         Skip to the questions
       </a>
       {mock && (
-        <p className="mock-banner" role="note">
+        <p className="mock-banner" role="note" {...inert}>
           <strong>Mock data.</strong> Recorded example answers from the rate service; they do not change with your inputs.
         </p>
       )}
-      <header className="masthead">
+      <header className="masthead" {...inert}>
         <div className="masthead__inner">
           <p className="kicker masthead__edition">
             {state.controls.year} published list prices · USPS, UPS, FedEx
@@ -76,7 +64,7 @@ export function App() {
         </div>
       </header>
 
-      <div className="mobile-bar">
+      <div className="mobile-bar" {...inert}>
         <p className="mobile-bar__line">{assumptionsLine(state)}</p>
         <button
           ref={sheet.toggleRef}
@@ -91,15 +79,20 @@ export function App() {
       </div>
 
       <div className="layout">
-        {sheet.open && <button type="button" className="sheet-backdrop" aria-label="Close assumptions" onClick={sheet.close} />}
+        {sheet.open && (
+          <div className="sheet-backdrop" aria-hidden="true" onClick={sheet.close} />
+        )}
         <aside
           id={railId}
           ref={sheet.sheetRef}
           className={`rail ${sheet.open ? "rail--open" : ""}`}
-          aria-label="Assumptions"
+          aria-labelledby={railTitleId}
+          {...(sheet.open ? { role: "dialog", "aria-modal": true } : {})}
         >
           <div className="rail__head">
-            <h2 className="kicker rail__title">Assumptions</h2>
+            <h2 id={railTitleId} className="kicker rail__title">
+              Assumptions
+            </h2>
             <button type="button" className="btn btn--quiet rail__close" onClick={sheet.close}>
               Done
             </button>
@@ -113,7 +106,7 @@ export function App() {
           />
         </aside>
 
-        <main id="main" className="main" tabIndex={-1}>
+        <main id="main" className="main" tabIndex={-1} {...inert}>
           <ParcelSetPanel
             set={parcelSet.set}
             status={parcelSet.status}
