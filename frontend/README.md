@@ -12,12 +12,14 @@ npm run dev            # http://localhost:5173
 ```
 
 The dev server proxies `/api` to the backend at `VITE_API_TARGET`, default
-`http://localhost:8001` (port 8000 is used by another app on the dev machine).
-Start the backend on that port from the repository root:
+`http://localhost:8787`. Start the backend on that port from the repository root:
 
 ```sh
-cd backend && uv run uvicorn app.main:app --reload --port 8001
+cd backend && uv run uvicorn app.main:app --reload --port 8787
 ```
+
+In Docker the built app is served by nginx instead, which proxies `/api` to the
+backend container; see the root README.
 
 To point at a backend elsewhere: `VITE_API_TARGET=http://localhost:9000 npm run dev`
 (or put the variable in `frontend/.env.local`).

@@ -2,8 +2,8 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 
-/** Where the dev server proxies /api. Port 8000 is taken on the dev machine, so 8001 by default. */
-export const DEFAULT_API_TARGET = "http://localhost:8001";
+/** Where the dev server proxies /api: the backend run locally on port 8787 (see README.md). */
+export const DEFAULT_API_TARGET = "http://localhost:8787";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
