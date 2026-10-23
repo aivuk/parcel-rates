@@ -21,6 +21,12 @@ const COLOR_VARS = {
   loss: "--loss",
 } as const;
 
+/**
+ * UPS and FedEx list prices track each other within a few cents, and FedEx is drawn last, so
+ * UPS gets a wider line and a larger marker that show around FedEx's where the two overlap.
+ */
+const UNDERLAY: Partial<Record<Carrier, { width: number; r: number }>> = { ups: { width: 5.5, r: 7 } };
+
 /** Marker shape per carrier, so lines differ without colour. */
 type Scale = "dollars" | "index";
 export const toIndex = (n: number, base: number) => (base ? Math.round((n / base) * 1000) / 10 : 0);
@@ -113,7 +119,7 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
       const isLast = carriers.find((c) => c.carrier === carrier)?.years.at(-1)?.year === payload.year;
       return (
         <g key={`${carrier}-${props.index}`}>
-          <Marker cx={cx} cy={cy} shape={SHAPE[carrier]} color={colors[carrier]} ring={colors.paper} />
+          <Marker cx={cx} cy={cy} shape={SHAPE[carrier]} color={colors[carrier]} ring={colors.paper} r={UNDERLAY[carrier]?.r} />
           {flagged && (
             <g>
               <circle cx={cx} cy={cy - 16} r={8} fill={colors.paper} stroke={colors.ink} strokeWidth={1.5} />
@@ -198,7 +204,7 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
               dataKey={c.carrier}
               name={carrierName(c.carrier)}
               stroke={colors[c.carrier]}
-              strokeWidth={2.5}
+              strokeWidth={UNDERLAY[c.carrier]?.width ?? 2.5}
               dot={dot(c.carrier)}
               activeDot={{ r: 6 }}
               isAnimationActive={false}

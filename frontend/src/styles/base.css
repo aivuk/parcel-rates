@@ -160,3 +160,14 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+/* Touch screens: every control at least 44 px tall (WCAG 2.5.5 target size). */
+@media (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+  }
+
+  .money-input input {
+    min-height: 44px;
+  }
+}

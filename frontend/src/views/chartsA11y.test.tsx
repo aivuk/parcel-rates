@@ -28,7 +28,8 @@ beforeEach(() => stubResizeObserver());
 const FOCUSABLE = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 function expectNoHiddenFocusStop(container: HTMLElement) {
-  const hidden = container.querySelector('[aria-hidden="true"]');
+  // The wrapper that holds the chart (other aria-hidden bits, like a chip's check mark, hold no svg).
+  const hidden = [...container.querySelectorAll('[aria-hidden="true"]')].find((el) => el.querySelector("svg")) ?? null;
   expect(hidden).not.toBeNull();
   expect(hidden!.querySelector("svg")).not.toBeNull(); // the chart really rendered
   expect(hidden!.querySelectorAll(FOCUSABLE)).toHaveLength(0);
