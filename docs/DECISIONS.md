@@ -223,7 +223,10 @@ before any parser agent was dispatched. From this point every big step
 | Decision | What the agent produced | What changed, and why | Where |
 |---|---|---|---|
 | Zone bands | My brief told the agents UPS/FedEx zone n = USPS zone n+1 | The USPS agent's DMM reading showed zones 1 and 2 are separate; bands rebuilt from the DMM | Agent log 2026-10-23 08:44; PR #15 |
-| Rate-card naming | Draft schema labelled UPS and FedEx published prices `retail` | Owner: `list` for UPS and FedEx, `retail`/`commercial` for USPS, default commercial | Agent log 2026-10-23 08:10 and 08:18; PR #15 |
-| Delivery area | Draft engine had no way to price rural surcharges from distance | Per-parcel `delivery_area` opt-in instead of a ZIP lookup or an average | Agent log 2026-10-22 13:29; PR #15, #21 |
+| Rate-card naming | Amended schema stored UPS Daily Rates and FedEx Standard List Rates as `retail` | Owner: `list` for UPS and FedEx, `retail`/`commercial` for USPS, default commercial | Agent log 2026-10-23 08:10 and 08:18; PR #15 |
 | Sample mix | Generator produced a mix with 71 % of parcels at a loss | Owner reversed it to a typical mix with expedited `price_charged` | Issue #22; PR #25 |
 | Minimum billable weight | Engine priced oversize parcels at actual or dimensional weight | Review of PR #17 found the 90 lb minimum; added as cited data | Issue #18; PR #24 |
+
+The delivery-area opt-in is not in this table: the transcript shows the agent
+proposed it in the schema draft (agent log 2026-10-22 13:29) and the owner
+accepted it unchanged, so it is recorded above as a decision, not a reversal.
