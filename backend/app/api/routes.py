@@ -30,8 +30,6 @@ LIMITATIONS = [
     "estimated from the distance between the two ZIPs (or the miles typed), not looked up in their own charts.",
     "The UPS fuel surcharge default is a proxy taken from FedEx's published history.",
     "UPS announced increases come from trade press, not from UPS itself.",
-    "UPS peak (demand) surcharge documents for the 2025-26 and 2026-27 seasons are not in the sources, "
-    "so UPS 2025 and 2026 peak quotes carry no peak charges.",
     "FedEx 2027 surcharges are incomplete (only the Home Delivery residential charge and January peak "
     "rows are recorded), so 2027 totals understate surcharges.",
     "Peak surcharges are modelled as a toggle that prices on December 10 of the year, not by ship date.",
