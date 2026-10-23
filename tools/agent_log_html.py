@@ -296,9 +296,33 @@ def parse_session(path: Path) -> Session:
             fence.step(line)
             body.append(line)
     close()
+    turns = split_command_prompts(turns)
+    for sub in subagents:
+        sub.turns = split_command_prompts(sub.turns)
     for group in [turns] + [sub.turns for sub in subagents]:
         attach_across_turns(group)
     return Session(path.stem, meta, turns, subagents)
+
+
+COMMAND_END = re.compile(r"</(?:local-command-caveat|command-name|command-message|command-args|local-command-stdout|local-command-stderr)>")
+
+
+def split_command_prompts(turns: list[Turn]) -> list[Turn]:
+    """The hook merges consecutive user records, so a prompt typed right after a local slash
+    command shares its heading. Give the text after the command's output a turn of its own."""
+    out: list[Turn] = []
+    for t in turns:
+        texts = [s for s in t.segments if s.kind == "text"]
+        ends = [m.end() for m in COMMAND_END.finditer(texts[-1].text)] if t.role == "User" and texts else []
+        rest = texts[-1].text[ends[-1]:].strip() if ends else ""
+        if not rest:
+            out.append(t)
+            continue
+        last = texts[-1]
+        command = Segment("text", text=last.text[: ends[-1]])
+        out.append(Turn(t.role, t.time, [command if s is last else s for s in t.segments]))
+        out.append(Turn(t.role, t.time, [Segment("text", text=rest)]))
+    return out
 
 
 def attach_across_turns(turns: list[Turn]) -> None:
@@ -562,7 +586,7 @@ def render_index(sessions: list[Session]) -> str:
         )
     body = f"""<header class="mast"><h1>How it was built</h1>
 <p class="mast__deck">The Claude Code sessions that built this repository, exported by the SessionEnd hook to
-<code>docs/agent-log/</code>, newest first. A local view for people with access to the repository.</p></header>
+<code>docs/agent-log/</code>, oldest first. A local view for people with access to the repository.</p></header>
 <main class="sessions"><ol class="sessions__list">{"".join(rows)}</ol>
 <h2 class="all__h">All sessions together</h2>{render_stats(total)}</main>"""
     return page("How it was built", body)
@@ -669,7 +693,7 @@ addEventListener("hashchange", () => {
 def build(log_dir: Path, out_dir: Path) -> tuple[Path, list[Session]]:
     sessions = [parse_session(p) for p in sorted(log_dir.glob("*.md")) if p.name != "README.md"]
     sessions = [s for s in sessions if s.prompts]
-    sessions.sort(key=lambda s: s.meta.get("Started", ""), reverse=True)
+    sessions.sort(key=lambda s: s.meta.get("Started", ""))
     (out_dir / "sessions").mkdir(parents=True, exist_ok=True)
     (out_dir / "assets").mkdir(parents=True, exist_ok=True)
     (out_dir / "assets" / "style.css").write_text(CSS.strip() + "\n", encoding="utf-8")
