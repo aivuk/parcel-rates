@@ -27,29 +27,43 @@ says "label" before a word is read.
    700, `--text-figure`, tabular figures. On Q3 and Q4 the figure is a
    **stamp**: paper-coloured figure on an ink block, like the service-class box
    on a label (`.answer__figure--stamp`).
-2. **The question** each section answers: Barlow Condensed 600, `--text-xl`.
-3. **The owner's parcel set**: once loaded, a one-line strip (count, share to
-   homes, speed split) with the full summary behind "Details", so the
-   questions and the answer stay above the fold, also on a phone.
+2. **The question** each section answers, in short form: a one-line heading
+   (`QuestionDef.title`, "Cheapest service for one parcel"), Barlow Condensed
+   600, `--text-xl`. The full sentence (`QuestionDef.question`) appears once,
+   as a muted `.answer__question` caption under the answer (`FullQuestion`),
+   so it costs no space above the number.
+3. **The owner's parcel set**: once loaded, "307 parcels · sample mix" sits
+   on the left of the question tab row and Details / Replace CSV on its right
+   (`useParcelSetUi` fills `QuestionTabs`' bar slots); share to homes, speed
+   split and the full summary open under the row behind "Details".
+4. **Assumptions** (year, rate card, fuel, peak, flat price): from 80 rem
+   (1280 px) a **260 px left rail**, sticky, the fields stacked with hairlines
+   between them and styled like a label's header (uppercase `--text-xs` labels,
+   bold values, no card); the questions start at the top beside it. From
+   64 to 80 rem the same fields form a **header strip** under the masthead
+   with one heavy rule beneath. Below 64 rem they are the bottom sheet behind
+   a one-line summary bar. In every layout the explanations under the controls
+   live in one **"About these assumptions"** disclosure at the end; values stay
+   visible, prose does not.
+
+The page top is budgeted: the masthead is one band of about 90 px (title and
+eyebrow on one line, the deck as a single muted line), so at 1440 px the Q1
+answer starts under 400 px from the top and the Q3 loss verdict is above the
+fold.
 
 ### Rule for every question view (issues #5 and #6)
 
 The answer is the largest element of its section. Put it first under the
 question, in `.answer > .answer__figure` (`--text-figure`), with a short
 `.answer__caption` saying what it is ("UPS Ground, $8.41 per parcel, $1.58
-margin"). Nothing else in the section, including the question (`--text-xl`),
-chart titles and table figures, may be set larger. Charts and tables come
-after the answer and explain it.
-4. **Assumptions** (year, rate card, fuel, peak, flat price): on desktop a
-   **label header strip** across the top of the page, under the masthead:
-   uppercase `--text-xs` labels, bold values, no card or border box, one heavy
-   rule beneath. Below 64 rem it is the bottom sheet behind a one-line summary
-   bar, as before.
+margin") and `<FullQuestion id=… />` after it. Nothing else in the section,
+including the question (`--text-xl`), chart titles and table figures, may be
+set larger. Charts and tables come after the answer and explain it.
 
 ## Zones and rules
 
 The page is divided like a label: **2 px ink rules (`--rule-heavy`) between
-major zones** (masthead, assumptions strip, parcel set, question tabs, each
+major zones** (masthead, assumptions rail or strip, question tab row, each
 block inside a question) and **1 px hairlines (`--rule`) inside tables and
 lists**. No cards, no shadows on the page itself, square corners
 (`--radius: 0`). The only shadow is the mobile sheet, which really does sit
@@ -127,8 +141,8 @@ Corners are square. Separation comes from rules, not from boxes or shadows.
 
 ## Texture
 
-One CSS-generated barcode stripe (`repeating-linear-gradient` of uneven ink
-bars) in the masthead, `aria-hidden`, at reduced opacity. It is the only
+One small CSS-generated barcode mark (`repeating-linear-gradient` of uneven ink
+bars) at the start of the masthead eyebrow, `aria-hidden`. It is the only
 decorative element on the page; nothing else carries texture.
 
 ## Motion
