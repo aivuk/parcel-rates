@@ -25,3 +25,18 @@ ups,ups_ground,list,2026,2026-09-07,4,50,43.61,ups/2026/ups-2026-rate-and-servic
 ups,ups_ground,list,2026,2026-09-07,2,70,34.87,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,92,agent 2026-10-23
 ups,ups_ground,list,2026,2026-09-07,8,70,103.11,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,92,agent 2026-10-23
 ups,ups_ground,list,2026,2026-09-07,2,1,11.99,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,91,agent 2026-10-23
+ups,ups_2nd_day_air,list,2026,2026-09-07,8,150,1345.49,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,84,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_2nd_day_air,list,2026,2026-09-07,2,150,300.32,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,84,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_2nd_day_air,list,2026,2026-09-07,5,90,411.30,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,83,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_3_day_select,list,2026,2026-09-07,8,150,1003.12,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,90,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_3_day_select,list,2026,2026-09-07,2,150,211.32,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,90,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_3_day_select,list,2026,2026-09-07,5,90,292.03,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,89,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_ground,list,2026,2026-09-07,8,150,180.00,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,94,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_ground,list,2026,2026-09-07,2,150,119.45,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,94,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_ground,list,2026,2026-09-07,5,90,79.92,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,93,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air,list,2026,2026-09-07,8,150,1836.95,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,64,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air,list,2026,2026-09-07,2,150,458.01,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,64,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air,list,2026,2026-09-07,5,90,847.78,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,63,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air_saver,list,2026,2026-09-07,8,150,1758.81,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,72,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air_saver,list,2026,2026-09-07,2,150,448.00,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,72,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air_saver,list,2026,2026-09-07,5,90,835.51,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,71,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"

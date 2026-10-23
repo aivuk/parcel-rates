@@ -11,6 +11,8 @@ from __future__ import annotations
 
 from datetime import date, timedelta
 
+from data.pipeline.common import min_billable_lb
+
 CARRIER = "fedex"
 CARD = "list"
 
@@ -251,13 +253,39 @@ OVERSIZE = [
 ]
 OVERSIZE_TRIGGERS = [({"min_length_plus_girth_in": "130"}, "girth"), ({"min_length_in": "96"}, "length")]
 OVERSIZE_NOTE = ("zone-tiered; replaces the Additional Handling Surcharge when both apply (same exclusive group, highest amount "
-                 "wins); the 90-lb minimum billable weight is not modeled")
+                 "wins)")
+# Minimum billable weight of an oversize package: the Service Guide's Oversize Charge
+# definition, quoted as the verbatim lines that hold it (the definition column is
+# interleaved with the charges column); the weight is read from the last line.
+# The 2025 mid-year rows (from SC26) use the 2025 guide.
+OVERSIZE_RATING = ("in length and girth. Rating will be based on the greater of the package’s actual rounded",
+                   "weight or dimensional weight, subject to a 90-lb. minimum billable weight.")
+OVERSIZE_MIN_BILLABLE = {
+    2023: {"file": SG23, "page": 116, "quotes": ("An oversize charge applies to packages that exceed 96 inches in length or 130 inches",
+                                                 *OVERSIZE_RATING)},
+    2024: {"file": SG24, "page": 127, "quotes": ("An oversize charge applies to packages that exceed 96 inches in length or 130 inches",
+                                                 *OVERSIZE_RATING)},
+    2025: {"file": SG25, "page": 139, "quotes": ("An oversize charge applies to packages that exceed 96 inches in length or 130 inches",
+                                                 *OVERSIZE_RATING)},
+    2026: {"file": SG26, "page": 130, "quotes": ("Oversize Charge3 (cont.)",
+                                                 "Rating will be based on the greater of the package’s actual rounded weight or dimensional",
+                                                 "weight, subject to a 90-lb. minimum billable weight.")},
+}
+
+
+def oversize_minimum(year: int) -> tuple[str, str]:
+    """(minimum billable weight in lb, citation for the notes) for a year's oversize rows."""
+    spec = OVERSIZE_MIN_BILLABLE[year]
+    minimum = min_billable_lb(spec["quotes"][-1])
+    name = spec["file"].rsplit("/", 1)[-1]
+    return minimum, f"minimum billable weight {minimum} lb ({name} p.{spec['page']}): \"{' '.join(spec['quotes'])}\""
 
 
 def oversize_rows() -> list[dict]:
     rows = []
     for year, group, file, page, tiers, eff_from, eff_to in OVERSIZE:
         applies = HOME if group == "home_delivery" else GROUND_AND_EXPRESS
+        minimum, citation = oversize_minimum(year)
         for tier, amount, quote in tiers:
             ends = eff_to
             if year == 2025 and group == "home_delivery" and eff_from is None and tier == 2:
@@ -267,7 +295,8 @@ def oversize_rows() -> list[dict]:
                 rows.append(rule(year, f"fedex_oversize_{group}_{trigger}_z{TIERS[tier][0]}_{year}{window}",
                                  "Oversize Charge", "oversize", applies, amount, file, quote, source_page=page,
                                  exclusive_group="non_standard", effective_from=eff_from, effective_to=ends,
-                                 zone=TIERS[tier], notes=OVERSIZE_NOTE, **thresholds))
+                                 zone=TIERS[tier], notes=f"{OVERSIZE_NOTE}; {citation}",
+                                 min_billable_weight_lb=minimum, **thresholds))
     return rows
 
 

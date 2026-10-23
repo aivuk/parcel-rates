@@ -48,11 +48,12 @@ def test_split_express_blocks_takes_rate_blocks_not_multiweight(tmp_path):
              ["Weight", 2, 3, 4, 5, 6, 7, 8], ["100–499 lbs.", 9, 9, 9, 9, 9, 9, 9], [None]]
     cells = parse_xlsx_express(write_book(tmp_path, rows), "2025 U.S. rates")
     assert {c.service_id for c in cells} == set(fedex.EXPRESS_SERVICES.values())
-    assert len(cells) == 4 * 7 * 70  # 1-70 lb only
+    assert len(cells) == 4 * 7 * 150  # 1-150 lb, Multiweight rows ignored
     by_key = {(c.service_id, c.zone, c.weight): c.price for c in cells}
     assert by_key[("fedex_priority_overnight", 2, 1)] == "32.00"
     assert by_key[("fedex_2day", 8, 70)] == "87.00"
-    assert ("fedex_priority_overnight", 2, 100) not in by_key
+    assert ("fedex_priority_overnight", 2, 150) in by_key
+    assert ("fedex_priority_overnight", 2, 151) not in by_key
 
 
 def test_short_block_is_an_error(tmp_path):
@@ -77,7 +78,7 @@ def test_ground_sheet_uses_only_us_ground_columns(tmp_path):
     path = write_book(tmp_path, express_block("FedEx 2Day®", 1.0), [["FedEx Ground® and FedEx Home Delivery®"], labels, zones] + body + [[None]])
     cells = parse_xlsx_ground(path, "2025 Ground & FHD rates")
     assert {c.service_id for c in cells} == {"fedex_ground", "fedex_home_delivery"}
-    assert len(cells) == 2 * 7 * 70
+    assert len(cells) == 2 * 7 * 150
     assert max(c.zone for c in cells) == 8
     assert {c.price for c in cells if c.weight == 70 and c.zone == 8} == {"88.00"}
 
@@ -93,6 +94,12 @@ def test_ground_sheet_uses_only_us_ground_columns(tmp_path):
 ])
 def test_tokenize_pdf_row(tokens, expected):
     assert tokenize_pdf_row(tokens, 6) == expected
+
+
+def test_tokenize_pdf_row_skips_footnote_marker_after_weight():
+    # 2023/2024 Ground pages print "150 2" (footnote 2) before the prices.
+    tokens = ["150", "2", "102.64", "105.44", "112.20", "115.20", "125.61", "135.43", "152.56", "Any", "fraction"]
+    assert tokenize_pdf_row(tokens, 7) == (150, ["102.64", "105.44", "112.20", "115.20", "125.61", "135.43", "152.56"])
 
 
 @pytest.mark.parametrize("tokens", [
