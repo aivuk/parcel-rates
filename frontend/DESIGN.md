@@ -110,7 +110,7 @@ state is not colour alone), which re-query `/api/blended` and repeat the
 segment's result next to the parcel count, because the answer above may be off
 screen. Then the stacked cost split.
 
-- Cost split colours (view tokens in `common.css`): neutral `--q3-base` for the
+- Cost split colours (tokens in `src/styles/tokens.css`): neutral `--q3-base` for the
   base rate, a single teal ramp `--q3-sur-1..4` for surcharge kinds (darkest =
   largest kind; beyond three kinds they fold into "Other surcharges"), and
   `--q3-fuel` (ink) for fuel. Teal sits outside the carrier and money hues.

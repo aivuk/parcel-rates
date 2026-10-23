@@ -1,31 +1,6 @@
 /* Shared by the Q3 and Q4 views (issue #6): empty state, chart frame, chips, ledger tables. */
 
-/* Segment colours for the Q3 cost split: neutral base, a teal ramp for surcharge kinds
-   (strongest = largest kind), ink for fuel. Teal is outside the carrier and money hues. */
-:root {
-  --q3-base: #b7ae9b;
-  --q3-sur-1: #0f5f68;
-  --q3-sur-2: #2f8c95;
-  --q3-sur-3: #6fb5bb;
-  --q3-sur-4: #a9d3d5;
-  --q3-fuel: #1c1b18;
-  /* Q4 drivers: cost up (warm) vs cost down (cool), neither is the loss/profit pair. */
-  --q4-up: #a2541f;
-  --q4-down: #2f6f86;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --q3-base: #6e675a;
-    --q3-sur-1: #7fd0d6;
-    --q3-sur-2: #4aa7b0;
-    --q3-sur-3: #2f7a82;
-    --q3-sur-4: #23565c;
-    --q3-fuel: #c9c1ae;
-    --q4-up: #e59a66;
-    --q4-down: #6fb6cf;
-  }
-}
+/* Colour tokens (--q3-*, --q4-*) live in src/styles/tokens.css. */
 
 .need-parcels {
   margin-top: var(--space-4);
