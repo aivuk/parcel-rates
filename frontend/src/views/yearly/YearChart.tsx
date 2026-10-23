@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { Carrier, YearlyResponse } from "../../api/types";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
-import { announcedPath, biggestFuelStep, fuelSentence, referenceYear, type PointNote } from "./logic";
+import { announcedPath, biggestFuelStep, fuelSentence, projectionSentence, referenceYear, type PointNote } from "./logic";
 import { ChartFrame } from "../../components/ChartFrame";
 import { ChipGroup } from "../../components/ChipGroup";
 import { useCssColors } from "../../hooks/useCssColors";
@@ -86,6 +86,7 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
   const ref = referenceYear(data);
   const fuelSteps = carriers.map((c) => biggestFuelStep(c, ref ?? undefined)).filter((s) => s !== null);
 
+  const projectionNote = projectionSentence(carriers);
   const summary = (
     <>
       {carriers.map((c, i) => {
@@ -107,6 +108,7 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
         );
       })}{" "}
       Dashed lines follow the announced increases from the first year; dotted segments are the projection.
+      {projectionNote && <> {projectionNote}</>}
     </>
   );
 

@@ -4,7 +4,7 @@ Vite + React + TypeScript dashboard. Design direction and rules: [DESIGN.md](DES
 
 ## Run locally
 
-Node 18.18+ (Docker uses Node 22).
+Node 20.12+ (Docker uses Node 22). Vitest 3 needs `node:util` `styleText`, which Node 18 lacks.
 
 ```sh
 npm ci
@@ -41,7 +41,7 @@ Mock answers do not change with the inputs.
 
 ## End-to-end tests
 
-Playwright 1.49 (the last release that runs on Node 18) with two projects:
+Playwright 1.49 (the version the suite and the reviewed screenshots were verified with; upgrading is a separate change) with two projects:
 `desktop` (Chromium, 1440 × 900) and `mobile` (Pixel-like, 375 × 812, touch, 2×).
 Specs are in `e2e/`; `e2e/helpers.ts` holds the shared steps (open the app, load
 the sample, switch question, open the settings rail or sheet). Waits are on API

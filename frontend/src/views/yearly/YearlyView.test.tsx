@@ -21,6 +21,7 @@ import {
   strongestDimension,
   withinChange,
   fastestSegment,
+  projectionSentence,
 } from "./logic";
 import { toIndex } from "./YearChart";
 import { niceTicks } from "./DriverChart";
@@ -167,11 +168,26 @@ describe("YearlyView", () => {
     const table = within(fig).getByRole("table", { name: /cost per parcel by carrier and year/i });
     expect(within(table).getByRole("row", { name: /FedEx 2027 \(see note\)/ })).toHaveTextContent("$32.33");
     expect(within(table).getByRole("row", { name: /USPS 2027 \(projected\)/ })).toHaveTextContent("$11.63");
+    expect(fig).toHaveTextContent(/USPS and UPS project to 2027 and FedEx to 2028; FedEx 2027 is a published price list, not a projection\./);
     expect(within(table).getByRole("row", { name: /USPS 2026/ })).toHaveTextContent("$10.98119.7");
   });
 });
 
 describe("yearly logic", () => {
+  it("explains why projections land on different years per carrier", () => {
+    expect(projectionSentence(mockYearlyResponse.carriers)).toBe(
+      "Each projection starts after that carrier’s last published year: USPS and UPS project to 2027 and FedEx to 2028; FedEx 2027 is a published price list, not a projection.",
+    );
+    const same = mockYearlyResponse.carriers.filter((c) => c.carrier !== "fedex");
+    expect(projectionSentence(same)).toBe("Each projection starts after that carrier’s last published year.");
+    expect(projectionSentence(same.map((c) => ({ ...c, projected: null })))).toBeNull();
+    // A carrier projected later without published years to show for the gap names no years.
+    const gap = mockYearlyResponse.carriers.map((c) => (c.carrier === "fedex" ? { ...c, years: c.years.filter((y) => y.year < 2027) } : c));
+    expect(projectionSentence(gap)).toBe(
+      "Each projection starts after that carrier’s last published year: USPS and UPS project to 2027 and FedEx to 2028.",
+    );
+  });
+
   it("compares carriers at the latest year they all publish", () => {
     expect(referenceYear(mockYearlyResponse)).toBe(2026);
     expect(pickCarrier(mockYearlyResponse, 2026)!.carrier).toBe("usps");

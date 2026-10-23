@@ -22,6 +22,12 @@ Only port 8088 is published. nginx serves the built dashboard and proxies
 rate tables are baked into the backend image; the app never fetches anything
 from the carriers at run time.
 
+The API can be tried directly at **http://localhost:8088/api/docs** (Swagger
+UI; "Try it out" on `POST /api/quote` is prefilled with the example from
+[docs/API.md](docs/API.md)). The schema is at `/api/openapi.json`. The docs page
+loads a pinned Swagger UI from jsDelivr, so it needs a network connection; the
+dashboard does not.
+
 ## What it looks like
 
 Captured by the Playwright suite against `docker compose up` with the sample
@@ -203,9 +209,10 @@ away in the controls.
   charge and January peak rows), so 2027 totals understate surcharges.
 - Peak surcharges are a toggle that prices on December 10 of the year, not by
   ship date.
-- UPS and FedEx bill a large or oversize package at a minimum of 90 lb. That
-  minimum is not modelled, so the base rate of such parcels is understated;
-  the surcharge itself is included (issue #18).
+- UPS and FedEx bill a large or oversize package at a minimum of 90 lb. The
+  minimum is modelled (issue #18), but actual weight is still capped at 70 lb;
+  parcels whose dimensional weight is 71–150 lb are priced from the carriers'
+  tables.
 - Weight is capped at 70 lb, the USPS maximum. Alaska and Hawaii are out of
   scope.
 - UPS 2024 and 2026 use the mid-year revision of the Daily Rates guide,
@@ -228,7 +235,7 @@ Open issues in the repository, in rough priority order:
 
 ## Local development without Docker
 
-Needs Python 3.12 with [uv](https://docs.astral.sh/uv/) and Node 18.18 or
+Needs Python 3.12 with [uv](https://docs.astral.sh/uv/) and Node 20.12 or
 newer (the image uses Node 22).
 
 ```sh
@@ -248,17 +255,20 @@ runs the frontend alone on recorded API responses. The API contract is in
 
 | Suite | Command | What it covers |
 |---|---|---|
-| Data | `ALLOW_MISSING_RAW=1 uv run pytest` (repository root) | Schema, parsers against golden cells, table invariants, manifest, citations |
-| Data, full | `python3 data/fetch_raw.py && uv run pytest` | Same, with every citation checked against its PDF page |
+| Data | `uv run pytest data/tests` (repository root) | Schema, parsers against golden cells, table invariants, manifest; citations whose PDF is not fetched are skipped |
+| Data, full | `python3 data/fetch_raw.py && PARCEL_RATES_REQUIRE_RAW=1 uv run pytest data/tests` | Same, with every citation checked against its PDF page; a missing PDF fails |
 | Backend | `cd backend && uv run pytest` | Rate engine against hand-computed quotes, rule resolution, analysis and API |
 | Frontend | `cd frontend && npm ci && npm test` | Components with Testing Library and the API contract test |
 | Frontend types | `cd frontend && npm run typecheck` | |
 | End to end | `docker compose up -d --build`, then `cd frontend && npx playwright install chromium && npm run e2e` | Playwright at 1440 × 900 and 375 × 812 (touch): the four questions, global controls, URL state, CSV upload, the phone settings sheet, and axe on every view in light and dark |
 | Screenshots | same stack, `cd frontend && npm run e2e:update-screens` | Rewrites `frontend/e2e/screenshots/` (every view, both sizes, light and dark), reviewed in [docs/ux-review.md](docs/ux-review.md) |
 
-Without the PDFs, the citation and PDF parser tests fail with a message
-telling you to fetch them; `ALLOW_MISSING_RAW=1` skips them on purpose
-instead. The end-to-end suite targets `http://localhost:8088`; set
+The PDFs are not in git. Three tests need them: the citation check
+(`test_citations.py`), the minimum-billable-weight sentences
+(`test_min_billable.py`) and one UPS parser test on a real page. On a fresh
+clone they are skipped with a message telling you to run
+`python3 data/fetch_raw.py`; `PARCEL_RATES_REQUIRE_RAW=1` makes a missing PDF
+a failure instead. The end-to-end suite targets `http://localhost:8088`; set
 `E2E_BASE_URL` to run it elsewhere, for example against the dev servers
 (`E2E_BASE_URL=http://localhost:5173 npm run e2e`).
 

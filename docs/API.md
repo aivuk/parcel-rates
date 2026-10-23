@@ -6,6 +6,9 @@ it only through these endpoints. Types below are the Pydantic models
 (`frontend/src/api/types.ts`), which must stay in sync; a contract test in each
 side checks the example payloads in `docs/api-examples/`.
 
+Interactive docs: `/api/docs` (Swagger UI) and `/api/openapi.json`, also
+through the nginx proxy at http://localhost:8088/api/docs.
+
 Money is a number in USD rounded to cents. Weights in pounds, lengths in inches,
 distances in miles. Years are price-list labels (see `docs/data/SCHEMA.md`).
 

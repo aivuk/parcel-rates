@@ -168,3 +168,36 @@ def test_committed_examples_match_the_models():
     for path in folder.glob("*.json"):
         doc = json.loads(path.read_text())
         assert {"request", "response"} <= set(doc)
+
+
+# ---- interactive docs (issue #33) ------------------------------------------
+def test_openapi_schema_under_api(client):
+    resp = client.get("/api/openapi.json")
+    assert resp.status_code == 200
+    assert "/api/quote" in resp.json()["paths"]
+
+
+def test_docs_page_pins_swagger_with_sri_and_no_inline_script(client):
+    from app.api import docs
+
+    resp = client.get("/api/docs")
+    assert resp.status_code == 200
+    html = resp.text
+    assert f'integrity="{docs.SWAGGER_JS_SRI}"' in html
+    assert f'integrity="{docs.SWAGGER_CSS_SRI}"' in html
+    assert "<script>" not in html  # inline scripts are blocked by the nginx CSP
+    init = client.get("/api/docs/init.js")
+    assert init.headers["content-type"].startswith("text/javascript")
+    assert '"/api/openapi.json"' in init.text
+    assert client.get("/docs").status_code == 404
+
+
+def test_quote_example_matches_docs_and_is_accepted(client):
+    from app.api import docs
+
+    recorded = json.loads((REPO_ROOT / "docs/api-examples/quote.json").read_text())
+    assert docs.QUOTE_EXAMPLE == recorded["request"]["body"]
+    schema = client.get("/api/openapi.json").json()
+    body = schema["paths"]["/api/quote"]["post"]["requestBody"]["content"]["application/json"]
+    assert docs.QUOTE_EXAMPLE in body["schema"].get("examples", [])
+    assert client.post("/api/quote", json=docs.QUOTE_EXAMPLE).status_code == 200

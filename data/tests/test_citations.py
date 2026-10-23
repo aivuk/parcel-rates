@@ -3,14 +3,13 @@ amount. This test opens the cited location and checks the quote is really there.
 Rows whose raw file has not been fetched are skipped with a message."""
 from __future__ import annotations
 
-import os
-
 import pytest
 
 from data.pipeline.common import (
     ADDRESS_TYPES, CARRIERS, COLUMNS, CURATED_TABLES, SURCHARGE_CONDITIONS, normalize_text,
     processed_path, read_table, source_text,
 )
+from data.tests.raw import missing_raw
 
 AMOUNT_COLUMN = {
     "surcharges": "amount",
@@ -61,9 +60,7 @@ def test_quote_is_in_cited_source(owner, table, row):
     try:
         text = source_text(row["source_file"], ref)
     except FileNotFoundError as error:
-        if os.environ.get("ALLOW_MISSING_RAW") == "1":
-            pytest.skip(str(error))
-        pytest.fail(f"{error}. Run `python3 data/fetch_raw.py`, or set ALLOW_MISSING_RAW=1 to skip on purpose.")
+        missing_raw(error)
     assert normalize_text(quote) in normalize_text(text), (
         f"quote not found at {row['source_file']} [{ref}]: {quote[:120]}"
     )
