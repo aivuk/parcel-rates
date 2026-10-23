@@ -36,6 +36,9 @@ export const FALLBACK_USPS_ZONES: ZoneBand[] = [
 
 const miles = new Intl.NumberFormat("en-US");
 
+/** Distance bucket for parcels given only as ZIP codes. */
+export const BY_ZIP = "By ZIP code";
+
 export function zoneLabel(b: ZoneBand): string {
   return `Zone ${b.zone}`;
 }
@@ -90,10 +93,11 @@ export function summarize(parcels: Parcel[], zoneBands?: ZoneBand[]): ParcelSumm
     weight: buckets(parcels, WEIGHT_BANDS, (p) => weightBand(p.weight_lb), total),
     distance: buckets(
       parcels,
-      zones.map(zoneLabel),
-      (p) => zoneLabel(zoneForDistance(p.distance_miles, zones)),
+      [...zones.map(zoneLabel), ...(parcels.some((p) => p.distance_miles === undefined) ? [BY_ZIP] : [])],
+      // Rows given as ZIP codes only: the server sets their zones, the browser has no distance for them.
+      (p) => (p.distance_miles === undefined ? BY_ZIP : zoneLabel(zoneForDistance(p.distance_miles, zones))),
       total,
-      (_l, i) => zoneRange(zones[i]!),
+      (_l, i) => (i < zones.length ? zoneRange(zones[i]!) : "zones from the ZIP codes"),
     ),
     withOwnPrice: parcels.filter((p) => p.price_charged !== undefined).reduce((s, p) => s + qty(p), 0),
     meanWeightLb: total ? parcels.reduce((s, p) => s + p.weight_lb * qty(p), 0) / total : 0,

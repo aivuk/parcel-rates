@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { fillAndQuote, loadSample, nextResponse, openApp, quoteForm, quoteTotal, setBox } from "./helpers";
+import { closeSettings, fillAndQuote, loadSample, nextResponse, openApp, openSettings, quoteForm, quoteTotal, setBox } from "./helpers";
 
 test.describe("Q1, quote one parcel", () => {
   test.beforeEach(async ({ page }) => {
@@ -63,4 +63,23 @@ test.describe("Q1, quote one parcel", () => {
     await expect(message).toContainText(/70/);
     await expect(page.locator(".qa__none")).toBeVisible();
   });
+
+  test("a destination ZIP with a ship-from ZIP: USPS from its chart, UPS and FedEx estimated", async ({ page }, info) => {
+    const settings = await openSettings(page, info);
+    const from = settings.getByRole("textbox", { name: "Ship from ZIP" });
+    await from.fill("10001");
+    await from.press("Enter");
+    await closeSettings(page, info);
+    await expect.poll(() => new URL(page.url()).searchParams.get("from")).toBe("10001");
+
+    const res = await fillAndQuote(page, quoteForm(page).getByLabel("Destination ZIP"), "90210");
+    const body = res.request().postDataJSON() as { parcel: Record<string, unknown>; controls: Record<string, unknown> };
+    expect(body.parcel.destination_zip).toBe("90210");
+    expect(body.controls.origin_zip).toBe("10001");
+    await expect(quoteForm(page).getByText(/USPS zone 8 \(zone chart\)/)).toBeVisible();
+    await expect(quoteForm(page).getByText(/UPS zone \d \(estimated\)/)).toBeVisible();
+    await expect(quoteForm(page).getByLabel(/^Distance/)).toBeDisabled();
+    await expect(quoteForm(page).getByLabel(/^Distance/)).toHaveValue(/^2,4\d\d$/);
+  });
 });
+

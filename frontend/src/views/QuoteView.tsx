@@ -99,6 +99,7 @@ export function QuoteView({ controls, meta, parcels, debounceMs = 300, initialDr
           onChange={setDraft}
           errors={errors}
           zones={shown && !stale ? zonesByCarrier(shown.quotes) : null}
+          zipMiles={shown && !stale && draft.toZip.trim() ? shown.distance_miles : null}
           parcels={parcels}
         />
         <div className="qv__detail">

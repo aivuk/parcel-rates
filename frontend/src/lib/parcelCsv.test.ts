@@ -94,7 +94,7 @@ describe("parseParcelCsv", () => {
   it("parses its own downloadable template without errors", () => {
     const { parcels, errors } = parseParcelCsv(CSV_TEMPLATE);
     expect(errors).toEqual([]);
-    expect(parcels).toHaveLength(4);
+    expect(parcels).toHaveLength(5);
   });
 
   it("reads an optional order_value and rejects a negative one", () => {
@@ -105,4 +105,19 @@ describe("parseParcelCsv", () => {
     const bad = parseParcelCsv("weight_lb,distance_miles,residential,speed,order_value\n1,100,yes,ground,-4\n");
     expect(bad.errors[0]).toMatchObject({ row: 2, column: "order_value" });
   });
+
+  it("takes a destination ZIP instead of the distance and restores leading zeros", () => {
+    const r = parseParcelCsv("weight_lb,residential,speed,destination_zip,origin_zip\n1,yes,ground,90210,\n2,no,ground,2134,10001\n");
+    expect(r.errors).toEqual([]);
+    expect(r.parcels[0]).toMatchObject({ destination_zip: "90210" });
+    expect(r.parcels[0]).not.toHaveProperty("distance_miles");
+    expect(r.parcels[1]).toMatchObject({ destination_zip: "02134", origin_zip: "10001" });
+    expect(r.warnings[0]).toMatchObject({ row: 3, column: "destination_zip" });
+    const neither = parseParcelCsv("weight_lb,distance_miles,residential,speed\n1,,yes,ground\n");
+    expect(neither.errors[0]).toMatchObject({ row: 2, column: "distance_miles" });
+    expect(neither.errors[0]!.message).toMatch(/destination_zip/);
+    const bad = parseParcelCsv("weight_lb,residential,speed,destination_zip\n1,yes,ground,9O210\n");
+    expect(bad.errors[0]).toMatchObject({ row: 2, column: "destination_zip" });
+  });
 });
+

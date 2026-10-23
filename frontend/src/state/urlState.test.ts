@@ -59,6 +59,16 @@ describe("free shipping in the URL", () => {
   });
 });
 
+describe("ship-from ZIP in the URL", () => {
+  it("round-trips and clears", () => {
+    const s = reducer(readState(""), { type: "originZip", zip: "10001" });
+    expect(writeState(s)).toBe("?from=10001");
+    expect(readState("?from=10001").controls.origin_zip).toBe("10001");
+    expect(readState("?from=1000x").controls.origin_zip).toBeUndefined();
+    expect(reducer(s, { type: "originZip", zip: null }).controls).not.toHaveProperty("origin_zip");
+  });
+});
+
 describe("reducer", () => {
   it("sets and resets one fuel group without touching the other", () => {
     let s = reducer(base, { type: "fuel", group: "ground", percent: 20 });

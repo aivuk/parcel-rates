@@ -8,6 +8,8 @@ export interface Draft {
   width: string;
   height: string;
   distance: string;
+  /** Destination ZIP; when given, the zones come from it and the ship-from ZIP, not the distance. */
+  toZip: string;
   residential: boolean;
   speed: Tier;
   area: DeliveryArea;
@@ -21,6 +23,7 @@ export const DEFAULT_DRAFT: Draft = {
   width: "10",
   height: "6",
   distance: "600",
+  toZip: "",
   residential: true,
   speed: "ground",
   area: "none",
@@ -44,7 +47,7 @@ export function draftWeight(d: Draft): number | null {
   return Math.round(((lb ?? 0) + (oz ?? 0) / 16) * 10000) / 10000;
 }
 
-export type LocalErrors = Partial<Record<"weight" | "dims" | "distance", string>>;
+export type LocalErrors = Partial<Record<"weight" | "dims" | "distance" | "toZip", string>>;
 
 /**
  * Turn the draft into a request parcel. Only shape problems are caught here (empty, not a
@@ -59,13 +62,15 @@ export function draftToParcel(d: Draft): { parcel: Parcel; errors: null } | { pa
   const filled = dims.filter((x) => x !== null).length;
   if (dims.some((x) => Number.isNaN(x))) errors.dims = "Dimensions must be numbers.";
   else if (filled > 0 && filled < 3) errors.dims = "Give all three dimensions, or leave all three empty.";
-  const distance = parseNum(d.distance);
-  if (distance === null) errors.distance = "Enter the distance.";
+  const toZip = d.toZip.trim();
+  const distance = toZip ? null : parseNum(d.distance);
+  if (toZip && !/^\d{5}$/.test(toZip)) errors.toZip = "Enter a 5-digit ZIP code.";
+  else if (!toZip && distance === null) errors.distance = "Enter the distance, or a destination ZIP.";
   else if (Number.isNaN(distance)) errors.distance = "Distance must be a number.";
   if (Object.keys(errors).length > 0) return { parcel: null, errors };
   const parcel: Parcel = {
     weight_lb: weight!,
-    distance_miles: distance!,
+    ...(toZip ? { destination_zip: toZip } : { distance_miles: distance! }),
     residential: d.residential,
     speed: d.speed,
     delivery_area: d.area,
@@ -86,7 +91,8 @@ export function draftFromParcel(p: Parcel): Draft {
     length: str(p.length_in),
     width: str(p.width_in),
     height: str(p.height_in),
-    distance: String(p.distance_miles),
+    distance: str(p.distance_miles),
+    toZip: p.destination_zip ?? "",
     residential: p.residential,
     speed: p.speed,
     area: p.delivery_area ?? "none",

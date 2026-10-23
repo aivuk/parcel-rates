@@ -538,6 +538,11 @@
      "max_miles": null
     }
    ],
+   "zip_zones": {
+    "usps_effective_date": "October 1, 2026",
+    "usps_origins": 4,
+    "zip_points": 33791
+   },
    "segments": {
     "weight_bands": [
      "≤1",
@@ -555,7 +560,7 @@
    },
    "limitations": [
     "List prices only: a shipper with a negotiated contract pays less.",
-    "Zones are estimated from distance bands, not looked up from ZIP code pairs.",
+    "USPS zones come from its zone chart when origin and destination ZIP codes are given; UPS and FedEx zones are estimated from the distance between the two ZIPs (or the miles typed), not looked up in their own charts.",
     "The UPS fuel surcharge default is a proxy taken from FedEx's published history.",
     "UPS announced increases come from trade press, not from UPS itself.",
     "UPS peak (demand) surcharge documents for the 2025-26 and 2026-27 seasons are not in the sources, so UPS 2025 and 2026 peak quotes carry no peak charges.",

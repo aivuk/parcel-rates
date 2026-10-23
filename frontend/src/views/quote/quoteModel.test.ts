@@ -16,6 +16,7 @@ const q = (over: Partial<Quote>): Quote => ({
   available: true,
   unavailable_reason: null,
   as_of: null,
+  zone_source: "distance",
   ...over,
 });
 

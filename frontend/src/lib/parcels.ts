@@ -8,7 +8,7 @@ export function fromParcelOut(p: ParcelOut): Parcel {
       : {};
   return {
     weight_lb: p.weight_lb,
-    distance_miles: p.distance_miles,
+    ...(p.distance_miles !== null ? { distance_miles: p.distance_miles } : {}),
     residential: p.residential,
     speed: p.speed,
     quantity: p.quantity,
@@ -17,5 +17,7 @@ export function fromParcelOut(p: ParcelOut): Parcel {
     ...(p.delivery_area !== "none" ? { delivery_area: p.delivery_area } : {}),
     ...(p.nonstandard_packaging ? { nonstandard_packaging: true } : {}),
     ...(p.order_value !== null ? { order_value: p.order_value } : {}),
+    ...(p.origin_zip !== null ? { origin_zip: p.origin_zip } : {}),
+    ...(p.destination_zip !== null ? { destination_zip: p.destination_zip } : {}),
   };
 }

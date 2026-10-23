@@ -128,7 +128,7 @@ const parcelOut = obj({
   length_in: nullable(num),
   width_in: nullable(num),
   height_in: nullable(num),
-  distance_miles: num,
+  distance_miles: nullable(num),
   residential: bool,
   speed: tier,
   quantity: int,
@@ -136,6 +136,8 @@ const parcelOut = obj({
   delivery_area: lit(...DELIVERY_AREAS),
   nonstandard_packaging: bool,
   order_value: nullable(num),
+  origin_zip: nullable(str),
+  destination_zip: nullable(str),
 });
 
 const pick = obj({ carrier, service_id: str, total: num });
@@ -163,6 +165,7 @@ const quote = obj({
   available: bool,
   unavailable_reason: nullable(str),
   as_of: nullable(isoDate),
+  zone_source: lit("usps_chart", "zip_distance", "distance"),
 });
 
 const splitPart = obj({ per_parcel: num, total: num, share: num });
@@ -221,9 +224,10 @@ const checks = {
     zone_bands: arr(obj({ carrier, zone: int, min_miles: int, max_miles: nullable(int) })),
     segments: obj({ weight_bands: arr(str), zone_bands: arr(str) }),
     limitations: arr(str),
+    zip_zones: nullable(obj({ usps_effective_date: str, usps_origins: int, zip_points: int })),
   }),
   sampleParcels: obj({ description: str, parcels: arr(parcelOut) }),
-  quote: obj({ quotes: arr(quote), cheapest_by_tier: closedRecord(TIERS, nullable(pick), { required: true }) }),
+  quote: obj({ distance_miles: num, quotes: arr(quote), cheapest_by_tier: closedRecord(TIERS, nullable(pick), { required: true }) }),
   breakeven: obj({
     year: int,
     residential: bool,

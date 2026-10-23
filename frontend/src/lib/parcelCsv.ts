@@ -3,8 +3,13 @@ import type { DeliveryArea, Parcel, Tier } from "../api/types";
 import { DELIVERY_AREAS, TIERS } from "../api/types";
 
 /** Columns from docs/data/SCHEMA.md, section "Parcel set input". */
-export const REQUIRED_COLUMNS = ["weight_lb", "distance_miles", "residential", "speed"] as const;
+export const REQUIRED_COLUMNS = ["weight_lb", "residential", "speed"] as const;
+/** One of these is needed: the distance, or the destination ZIP (with a ship-from ZIP). */
+export const WHERE_COLUMNS = ["distance_miles", "destination_zip"] as const;
 export const OPTIONAL_COLUMNS = [
+  "distance_miles",
+  "destination_zip",
+  "origin_zip",
   "length_in",
   "width_in",
   "height_in",
@@ -119,6 +124,21 @@ class RowReader {
     return (this.row[column] ?? "").trim();
   }
 
+  /** A 5-digit ZIP; 3 or 4 digits get their leading zeros back (spreadsheets drop them). */
+  zip(column: string): string | undefined {
+    const raw = this.text(column);
+    if (raw === "") return undefined;
+    const plus4 = /^(\d{5})-\d{4}$/.exec(raw);
+    if (plus4) return plus4[1];
+    if (/^\d{5}$/.test(raw)) return raw;
+    if (/^\d{3,4}$/.test(raw)) {
+      const padded = raw.padStart(5, "0");
+      this.warnings.push({ row: this.rowNumber, column, message: `${column} ${raw} read as ${padded} (leading zeros restored)` });
+      return padded;
+    }
+    return this.fail(column, `${column} "${raw}" is not a 5-digit ZIP code`);
+  }
+
   number(column: string, required: boolean, check: (n: number) => string | null): number | undefined {
     const raw = this.text(column);
     if (raw === "") return required ? this.fail(column, `${column} is empty`) : undefined;
@@ -167,7 +187,12 @@ function readRow(
     if (n > MAX_WEIGHT_LB) return `weight_lb ${n} is over the ${MAX_WEIGHT_LB} lb limit`;
     return null;
   });
-  const distance = r.number("distance_miles", true, (n) => (n >= 0 ? null : "distance_miles cannot be negative"));
+  const distance = r.number("distance_miles", false, (n) => (n >= 0 ? null : "distance_miles cannot be negative"));
+  const destination = r.zip("destination_zip");
+  const origin = r.zip("origin_zip");
+  if (distance === undefined && destination === undefined && r.text("distance_miles") === "" && r.text("destination_zip") === "") {
+    r.errors.push({ row: rowNumber, column: "distance_miles", message: "give distance_miles or destination_zip" });
+  }
   const residential = r.bool("residential", true);
   const speed = r.speed();
   const length = r.number("length_in", false, positive("length_in"));
@@ -190,12 +215,14 @@ function readRow(
     });
   }
 
-  if (r.errors.length > 0 || weight === undefined || distance === undefined || residential === undefined || !speed) {
+  if (r.errors.length > 0 || weight === undefined || residential === undefined || !speed) {
     return { errors: r.errors, warnings: r.warnings };
   }
   const parcel: Parcel = {
     weight_lb: weight,
-    distance_miles: distance,
+    ...(distance !== undefined ? { distance_miles: distance } : {}),
+    ...(destination !== undefined ? { destination_zip: destination } : {}),
+    ...(origin !== undefined ? { origin_zip: origin } : {}),
     residential,
     speed,
     quantity: quantity ?? 1,
@@ -217,7 +244,8 @@ export function parseParcelCsv(text: string): CsvResult {
     transformHeader: (h) => h.trim().toLowerCase(),
   });
   const headers = parsed.meta.fields ?? [];
-  const missing = REQUIRED_COLUMNS.filter((c) => !headers.includes(c));
+  const missing: string[] = REQUIRED_COLUMNS.filter((c) => !headers.includes(c));
+  if (!WHERE_COLUMNS.some((c) => headers.includes(c))) missing.push("distance_miles (or destination_zip)");
   if (missing.length > 0) {
     return {
       parcels: [],
@@ -272,13 +300,16 @@ export const TEMPLATE_COLUMNS = [
   "delivery_area",
   "nonstandard_packaging",
   "order_value",
+  "destination_zip",
+  "origin_zip",
 ] as const;
 
 export const CSV_TEMPLATE =
   [
     TEMPLATE_COLUMNS.join(","),
-    "0.8,9,6,3,120,true,ground,40,,none,false,24.00",
-    "4.5,14,12,8,950,true,ground,12,,,,89.50",
-    "2,12,9,4,1600,false,two_three_day,5,14.99,,,",
-    "1,,,,450,yes,next_day,2,34.99,das,no,120",
+    "0.8,9,6,3,120,true,ground,40,,none,false,24.00,,",
+    "4.5,14,12,8,950,true,ground,12,,,,89.50,,",
+    "2,12,9,4,1600,false,two_three_day,5,14.99,,,,,",
+    "1,,,,450,yes,next_day,2,34.99,das,no,120,,",
+    "1.5,10,8,4,,true,ground,8,,,,42.00,90210,10001",
   ].join("\n") + "\n";
