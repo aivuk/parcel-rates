@@ -149,7 +149,19 @@ function Body({
             )}
           </>
         ) : (
-          <p className="answer__figure">{formatUsd(rowCost(pick, ref))}</p>
+          <>
+            <p className="answer__figure" data-testid="q4-single-year">
+              <span className="carrier-tag" style={{ color: carrierVar(pick.carrier) }}>
+                {carrierName(pick.carrier)}
+              </span>{" "}
+              {formatUsd(rowCost(pick, ref))}
+              <span className="answer__unit"> per parcel</span>
+            </p>
+            <p className="answer__caption" data-testid="q4-single-year-caption">
+              Only one year of {carrierName(pick.carrier)} prices ({ref}) can be compared for these parcels, so there is no
+              change to show yet.
+            </p>
+          </>
         )}
       </div>
 

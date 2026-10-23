@@ -131,6 +131,17 @@ describe("YearlyView", () => {
     expect(screen.getByText(/each carrier's first year = 100/)).toBeInTheDocument();
   });
 
+  it("falls back to the single year's cost when only one year can be compared", async () => {
+    const single = {
+      carriers: mockYearlyResponse.carriers.map((c) => ({ ...c, years: c.years.filter((y) => y.year === 2026), projected: null })),
+    };
+    const { client } = spyClient({ yearly: () => single });
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    expect(await screen.findByTestId("q4-single-year")).toHaveTextContent(/^USPS \$21\.09 per parcel$/);
+    expect(screen.getByTestId("q4-single-year-caption")).toHaveTextContent("Only one year of USPS prices (2026)");
+    expect(screen.queryByTestId("q4-answer")).not.toBeInTheDocument();
+  });
+
   it("offers the year chart as a table with every year and the projection", async () => {
     const { client } = spyClient();
     renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
