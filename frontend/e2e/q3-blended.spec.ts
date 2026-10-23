@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { loadSample, nextResponse, openApp, showView } from "./helpers";
+import { closeSettings, loadSample, nextResponse, openApp, openSettings, showView } from "./helpers";
 
 test.describe("Q3, blended cost of the parcel set", () => {
   test("asks for parcels until a set is loaded", async ({ page }) => {
@@ -31,4 +31,25 @@ test.describe("Q3, blended cost of the parcel set", () => {
     await expect(page.getByTestId("q3-segment-result")).toContainText("cheapest");
     await expect(page.getByTestId("q3-answer")).toBeVisible();
   });
+
+  test("free shipping from an order value charges those parcels nothing", async ({ page }, info) => {
+    await openApp(page);
+    await loadSample(page);
+    await showView(page, "blended");
+    await expect(page.getByTestId("q3-free")).toHaveCount(0);
+
+    const settings = await openSettings(page, info);
+    const res = nextResponse(page, "/api/blended");
+    const free = settings.getByRole("textbox", { name: "Free shipping from order value" });
+    await free.fill("75");
+    await free.press("Enter");
+    const body = (await res).request().postDataJSON() as { controls?: { free_shipping_over?: number } };
+    expect(body.controls?.free_shipping_over).toBe(75);
+    await closeSettings(page, info);
+
+    await expect(page.getByTestId("q3-free")).toContainText(/\d+ of 307 parcels ship free/);
+    await expect(page.getByTestId("q3-verdict")).toContainText("No. You lose");
+    expect(new URL(page.url()).searchParams.get("free_over")).toBe("75");
+  });
 });
+

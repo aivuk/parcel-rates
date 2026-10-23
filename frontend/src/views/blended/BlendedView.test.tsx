@@ -83,6 +83,24 @@ describe("BlendedView", () => {
     expect(screen.getByText(/You charge \$10\.67 per parcel on average/)).toBeInTheDocument();
   });
 
+  it("says how many parcels ship free under the free-shipping rule", async () => {
+    const free: BlendedResponse = { ...mockBlendedResponse, free_shipping: { threshold: 75, parcels: 54 } };
+    const { client, blended } = spyClient({ blended: () => free });
+    const withRule = { ...controls, free_shipping_over: 75 };
+    renderWith(client, <BlendedView controls={withRule} meta={meta} parcels={sampleParcels} {...parcelActions} />);
+    expect(await screen.findByTestId("q3-free")).toHaveTextContent("54 of 307 parcels ship free: orders of $75 or more");
+    expect(screen.getByText(/and \$0 on free-shipping orders/)).toBeInTheDocument();
+    expect(blended.mock.calls[0]![0].controls).toMatchObject({ free_shipping_over: 75 });
+  });
+
+  it("says when no parcel has an order value for the free-shipping rule", async () => {
+    const free: BlendedResponse = { ...mockBlendedResponse, free_shipping: { threshold: 75, parcels: 0 } };
+    const { client } = spyClient({ blended: () => free });
+    const noValues = sampleParcels.map(({ order_value: _v, ...p }) => p);
+    renderWith(client, <BlendedView controls={{ ...controls, free_shipping_over: 75 }} meta={meta} parcels={noValues} {...parcelActions} />);
+    expect(await screen.findByTestId("q3-free")).toHaveTextContent("no order_value column");
+  });
+
   it("shows a margin, not a loss, when the price covers the cost", async () => {
     const covered: BlendedResponse = {
       ...mockBlendedResponse,

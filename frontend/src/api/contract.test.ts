@@ -81,9 +81,9 @@ describe("contract: backend example payloads match src/api/types.ts", () => {
 
   it("the sample parcels survive the round trip through the CSV rules", () => {
     const parcels = asSampleParcels(sample.response.body).parcels.map(fromParcelOut);
-    const header = "weight_lb,length_in,width_in,height_in,distance_miles,residential,speed,quantity,price_charged,delivery_area,nonstandard_packaging";
+    const header = "weight_lb,length_in,width_in,height_in,distance_miles,residential,speed,quantity,price_charged,delivery_area,nonstandard_packaging,order_value";
     const rows = parcels.map((p) =>
-      [p.weight_lb, p.length_in, p.width_in, p.height_in, p.distance_miles, p.residential, p.speed, p.quantity, p.price_charged, p.delivery_area, p.nonstandard_packaging]
+      [p.weight_lb, p.length_in, p.width_in, p.height_in, p.distance_miles, p.residential, p.speed, p.quantity, p.price_charged, p.delivery_area, p.nonstandard_packaging, p.order_value]
         .map((v) => (v === undefined ? "" : String(v)))
         .join(","),
     );

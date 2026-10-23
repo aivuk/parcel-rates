@@ -96,4 +96,13 @@ describe("parseParcelCsv", () => {
     expect(errors).toEqual([]);
     expect(parcels).toHaveLength(4);
   });
+
+  it("reads an optional order_value and rejects a negative one", () => {
+    const ok = parseParcelCsv("weight_lb,distance_miles,residential,speed,order_value\n1,100,yes,ground,$82.50\n2,100,yes,ground,\n");
+    expect(ok.errors).toEqual([]);
+    expect(ok.parcels[0]!.order_value).toBe(82.5);
+    expect(ok.parcels[1]).not.toHaveProperty("order_value");
+    const bad = parseParcelCsv("weight_lb,distance_miles,residential,speed,order_value\n1,100,yes,ground,-4\n");
+    expect(bad.errors[0]).toMatchObject({ row: 2, column: "order_value" });
+  });
 });

@@ -135,6 +135,7 @@ const parcelOut = obj({
   price_charged: nullable(num),
   delivery_area: lit(...DELIVERY_AREAS),
   nonstandard_packaging: bool,
+  order_value: nullable(num),
 });
 
 const pick = obj({ carrier, service_id: str, total: num });
@@ -243,6 +244,7 @@ const checks = {
     year: int,
     parcels_considered: int,
     revenue_per_parcel: num,
+    free_shipping: nullable(obj({ threshold: num, parcels: int })),
     carriers: arr(extend(summaryShape, { carrier, services_used: record(str, int) })),
     best_mix: extend(summaryShape, { parcels_by_carrier: byCarrier(int) }),
   }),

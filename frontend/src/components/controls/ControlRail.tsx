@@ -4,7 +4,8 @@ import type { Action, AppState } from "../../state/urlState";
 import { fuelDefault, yearOptions } from "../../lib/fuel";
 import { FuelSlider, fuelAbout } from "./FuelSlider";
 import { CARRIER_NAME } from "../../lib/carriers";
-import { formatPercent, formatUsd } from "../../lib/format";
+import { formatPercent, formatUsd, formatUsdRound } from "../../lib/format";
+import { ORDER_VALUE_MAX, PRICE_MAX } from "../../state/urlState";
 
 export interface ControlRailProps {
   state: AppState;
@@ -21,22 +22,42 @@ export function assumptionsLine(state: AppState): string {
   const fuel = o
     ? `fuel ${[o.ground, o.express].map((v) => (v === undefined ? "default" : formatPercent(v))).join(" / ")}`
     : "fuel default";
-  return [String(c.year), `USPS ${c.usps_rate_card}`, fuel, c.peak ? "peak" : null, `${formatUsd(c.flat_price)} charged`]
+  const free = c.free_shipping_over !== undefined ? `free from ${formatUsdRound(c.free_shipping_over)}` : null;
+  return [String(c.year), `USPS ${c.usps_rate_card}`, fuel, c.peak ? "peak" : null, `${formatUsd(c.flat_price)} charged`, free]
     .filter(Boolean)
     .join(" · ");
 }
 
-function PriceInput({ value, aboutId, onCommit }: { value: number; aboutId: string; onCommit: (n: number) => void }) {
+interface MoneyFieldProps {
+  label: string;
+  /** Read after the label by screen readers only, to complete a short visible label. */
+  labelRest?: string;
+  /** null: empty, which `optional` fields accept as "no rule". */
+  value: number | null;
+  max: number;
+  optional?: boolean;
+  placeholder?: string;
+  aboutId: string;
+  onCommit: (n: number | null) => void;
+}
+
+function MoneyField({ label, labelRest, value, max, optional = false, placeholder, aboutId, onCommit }: MoneyFieldProps) {
   const id = useId();
-  const [draft, setDraft] = useState(value.toFixed(2));
+  const shown = value === null ? "" : value.toFixed(2);
+  const [draft, setDraft] = useState(shown);
   const [problem, setProblem] = useState<string | null>(null);
-  useEffect(() => setDraft(value.toFixed(2)), [value]);
+  useEffect(() => setDraft(shown), [shown]);
 
   const commit = () => {
-    const cleaned = draft.trim().replace(/^\$/, "");
+    const cleaned = draft.trim().replace(/^\$/, "").replace(/,/g, "");
+    if (cleaned === "" && optional) {
+      setProblem(null);
+      onCommit(null);
+      return;
+    }
     const n = Number(cleaned);
-    if (cleaned === "" || !Number.isFinite(n) || n < 0 || n > 1000) {
-      setProblem("Enter a price between $0 and $1,000");
+    if (cleaned === "" || !Number.isFinite(n) || n < 0 || n > max) {
+      setProblem(`Enter an amount between $0 and $${max.toLocaleString("en-US")}${optional ? ", or leave it empty" : ""}`);
       return;
     }
     setProblem(null);
@@ -46,7 +67,8 @@ function PriceInput({ value, aboutId, onCommit }: { value: number; aboutId: stri
   return (
     <div className="control">
       <label htmlFor={id} className="control__label">
-        Flat price you charge per parcel
+        {label}
+        {labelRest && <span className="visually-hidden"> {labelRest}</span>}
       </label>
       <div className={`money-input ${problem ? "money-input--invalid" : ""}`}>
         <span aria-hidden="true">$</span>
@@ -55,6 +77,7 @@ function PriceInput({ value, aboutId, onCommit }: { value: number; aboutId: stri
           inputMode="decimal"
           autoComplete="off"
           value={draft}
+          placeholder={placeholder}
           aria-invalid={problem ? true : undefined}
           aria-describedby={problem ? `${id}-error ${aboutId}` : aboutId}
           onChange={(e) => setDraft(e.target.value)}
@@ -85,6 +108,7 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
     express: `${aboutId}-express`,
     peak: `${aboutId}-peak`,
     price: `${aboutId}-price`,
+    free: `${aboutId}-free`,
   };
   const groundDefault = fuelDefault(meta, c.year, "ground");
   const expressDefault = fuelDefault(meta, c.year, "express");
@@ -186,7 +210,26 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
         </label>
       </div>
 
-      <PriceInput value={c.flat_price} aboutId={about.price} onCommit={(price) => dispatch({ type: "price", price })} />
+      <div className="control control--pricing">
+        <MoneyField
+          label="Flat price"
+          labelRest="per parcel"
+          value={c.flat_price}
+          max={PRICE_MAX}
+          aboutId={about.price}
+          onCommit={(price) => price !== null && dispatch({ type: "price", price })}
+        />
+        <MoneyField
+          label="Free shipping from"
+          labelRest="order value"
+          value={c.free_shipping_over ?? null}
+          max={ORDER_VALUE_MAX}
+          optional
+          placeholder="off"
+          aboutId={about.free}
+          onCommit={(over) => dispatch({ type: "freeShipping", over })}
+        />
+      </div>
 
       {/* The explanations stay out of the flow: values are always visible, the prose is one
           disclosure away. Each control's aria-describedby still points at its line here. */}
@@ -201,6 +244,11 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
           <dd id={about.peak}>Prices as of December 10, inside every carrier's peak window.</dd>
           <dt>Flat price</dt>
           <dd id={about.price}>A price_charged column in your CSV overrides this per parcel.</dd>
+          <dt>Free shipping</dt>
+          <dd id={about.free}>
+            Orders of this value or more pay nothing for shipping, whatever their price. It needs an order_value column
+            in your CSV (the sample mix has one). Leave it empty for no such rule.
+          </dd>
         </dl>
       </details>
     </div>

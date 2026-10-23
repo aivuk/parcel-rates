@@ -12,6 +12,7 @@ export const OPTIONAL_COLUMNS = [
   "price_charged",
   "delivery_area",
   "nonstandard_packaging",
+  "order_value",
 ] as const;
 export const ALL_COLUMNS = [...REQUIRED_COLUMNS, ...OPTIONAL_COLUMNS] as const;
 
@@ -178,6 +179,7 @@ function readRow(
   const price = r.number("price_charged", false, (n) => (n >= 0 ? null : "price_charged cannot be negative"));
   const area = r.deliveryArea();
   const nonstandard = r.bool("nonstandard_packaging", false);
+  const orderValue = r.number("order_value", false, (n) => (n >= 0 ? null : "order_value cannot be negative"));
 
   const dimsGiven = ["length_in", "width_in", "height_in"].filter((c) => r.text(c) !== "");
   if (dimsGiven.length > 0 && dimsGiven.length < 3) {
@@ -203,6 +205,7 @@ function readRow(
     ...(price !== undefined ? { price_charged: price } : {}),
     ...(area !== undefined ? { delivery_area: area } : {}),
     ...(nonstandard !== undefined ? { nonstandard_packaging: nonstandard } : {}),
+    ...(orderValue !== undefined ? { order_value: orderValue } : {}),
   };
   return { parcel, errors: [], warnings: r.warnings };
 }
@@ -268,13 +271,14 @@ export const TEMPLATE_COLUMNS = [
   "price_charged",
   "delivery_area",
   "nonstandard_packaging",
+  "order_value",
 ] as const;
 
 export const CSV_TEMPLATE =
   [
     TEMPLATE_COLUMNS.join(","),
-    "0.8,9,6,3,120,true,ground,40,,none,false",
-    "4.5,14,12,8,950,true,ground,12,,,",
-    "2,12,9,4,1600,false,two_three_day,5,14.99,,",
-    "1,,,,450,yes,next_day,2,34.99,das,no",
+    "0.8,9,6,3,120,true,ground,40,,none,false,24.00",
+    "4.5,14,12,8,950,true,ground,12,,,,89.50",
+    "2,12,9,4,1600,false,two_three_day,5,14.99,,,",
+    "1,,,,450,yes,next_day,2,34.99,das,no,120",
   ].join("\n") + "\n";

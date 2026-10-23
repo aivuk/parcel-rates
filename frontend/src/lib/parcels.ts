@@ -16,5 +16,6 @@ export function fromParcelOut(p: ParcelOut): Parcel {
     ...(p.price_charged !== null ? { price_charged: p.price_charged } : {}),
     ...(p.delivery_area !== "none" ? { delivery_area: p.delivery_area } : {}),
     ...(p.nonstandard_packaging ? { nonstandard_packaging: true } : {}),
+    ...(p.order_value !== null ? { order_value: p.order_value } : {}),
   };
 }

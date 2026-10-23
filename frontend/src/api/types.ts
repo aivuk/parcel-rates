@@ -37,6 +37,7 @@ export interface Parcel {
   price_charged?: number; // overrides Controls.flat_price for this row
   delivery_area?: DeliveryArea; // default "none"
   nonstandard_packaging?: boolean; // default false
+  order_value?: number; // >= 0; value of the order, for Controls.free_shipping_over
 }
 
 /** A parcel as the server returns it (GET /sample-parcels): every key present, optionals null. */
@@ -52,6 +53,7 @@ export interface ParcelOut {
   price_charged: number | null;
   delivery_area: DeliveryArea;
   nonstandard_packaging: boolean;
+  order_value: number | null;
 }
 
 export interface FuelOverride {
@@ -66,6 +68,7 @@ export interface Controls {
   fuel_override_percent?: FuelOverride | null;
   peak?: boolean; // default false
   flat_price?: number; // default 9.99
+  free_shipping_over?: number | null; // free shipping on orders of this value or more; absent/null: no rule
 }
 
 export interface SegmentFilter {
@@ -284,6 +287,8 @@ export interface BlendedResponse {
   year: number;
   parcels_considered: number;
   revenue_per_parcel: number;
+  /** Present when Controls.free_shipping_over is set: parcels whose order reaches it. */
+  free_shipping: { threshold: number; parcels: number } | null;
   carriers: CarrierBlended[];
   best_mix: BestMix;
 }
