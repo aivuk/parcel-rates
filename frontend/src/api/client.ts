@@ -163,13 +163,25 @@ export function createHttpClient({ baseUrl = API_BASE, fetchImpl }: ClientOption
   };
 }
 
-/** `?mock=1` serves typed mock responses; the mock module is a separate lazy chunk. */
+/**
+ * Mocks exist in `npm run dev` and in tests only. Vite replaces `import.meta.env.DEV` with
+ * `false` in a production build, so the `import("./mocks")` below is dead code there and the
+ * recorded fixtures are not emitted (set VITE_MOCKS=1 at build time to keep them).
+ */
+export const MOCKS_AVAILABLE: boolean = import.meta.env.DEV || import.meta.env.VITE_MOCKS === "1";
+
+/** `?mock=1` serves typed mock responses (dev and tests only); the mock module is a separate lazy chunk. */
 export function isMockMode(search: string = typeof window === "undefined" ? "" : window.location.search): boolean {
-  return new URLSearchParams(search).get("mock") === "1";
+  return MOCKS_AVAILABLE && new URLSearchParams(search).get("mock") === "1";
 }
 
+const loadMocks = () =>
+  import.meta.env.DEV || import.meta.env.VITE_MOCKS === "1"
+    ? import("./mocks")
+    : Promise.reject(new Error("Mock data is not included in this build."));
+
 export function createMockClient(delayMs = 350): ApiClient {
-  const load = () => import("./mocks");
+  const load = loadMocks;
   const wait = <T>(fn: () => T | Promise<T>): Promise<T> =>
     new Promise((resolve, reject) => {
       setTimeout(() => {
