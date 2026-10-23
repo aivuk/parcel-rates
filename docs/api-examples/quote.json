@@ -1,0 +1,612 @@
+{
+ "request": {
+  "method": "POST",
+  "path": "/api/quote",
+  "body": {
+   "parcel": {
+    "weight_lb": 3.2,
+    "length_in": 14,
+    "width_in": 12,
+    "height_in": 10,
+    "distance_miles": 700,
+    "residential": true,
+    "speed": "ground",
+    "delivery_area": "das"
+   },
+   "controls": {
+    "year": 2026
+   }
+  }
+ },
+ "response": {
+  "status": 200,
+  "body": {
+   "quotes": [
+    {
+     "carrier": "usps",
+     "service_id": "usps_ground_advantage",
+     "service_name": "USPS Ground Advantage",
+     "tier": "ground",
+     "zone": 5,
+     "billable_weight_lb": 4.0,
+     "dim_weight_lb": null,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "USPS Ground Advantage base rate (zone 5, 4 lb)",
+       "amount": 11.89,
+       "surcharge_id": null,
+       "source": "price_files_csv_2026-01-18.zip (USPS Ground Advantage Comm.csv)",
+       "condition": null
+      }
+     ],
+     "total": 11.89,
+     "margin": -1.9,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-01-18"
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_ground",
+     "service_name": "UPS Ground",
+     "tier": "ground",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "UPS Ground base rate (zone 5, 13 lb)",
+       "amount": 21.38,
+       "surcharge_id": null,
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.91",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Surcharge",
+       "amount": 6.5,
+       "surcharge_id": "ups_residential_ground_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.185",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge",
+       "amount": 6.55,
+       "surcharge_id": "ups_das_residential_ground_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.182",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (26.25%)",
+       "amount": 9.04,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 43.47,
+     "margin": -33.48,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-09-07"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_home_delivery",
+     "service_name": "FedEx Home Delivery",
+     "tier": "ground",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx Home Delivery base rate (zone 5, 13 lb)",
+       "amount": 21.69,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2026.xlsx (2026 Ground & FHD rates)",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Delivery Charge",
+       "amount": 6.45,
+       "surcharge_id": "fedex_residential_home_delivery_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.7",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge (Residential)",
+       "amount": 6.6,
+       "surcharge_id": "fedex_das_residential_home_delivery_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.4",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (26.25%)",
+       "amount": 9.12,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html",
+       "condition": null
+      }
+     ],
+     "total": 43.86,
+     "margin": -33.87,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-01-05"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_ground",
+     "service_name": "FedEx Ground",
+     "tier": "ground",
+     "zone": null,
+     "billable_weight_lb": null,
+     "dim_weight_lb": null,
+     "line_items": [],
+     "total": 0.0,
+     "margin": 0.0,
+     "available": false,
+     "unavailable_reason": "FedEx Ground serves business addresses only",
+     "as_of": "2026-01-05"
+    },
+    {
+     "carrier": "usps",
+     "service_id": "usps_priority_mail",
+     "service_name": "Priority Mail",
+     "tier": "two_three_day",
+     "zone": 5,
+     "billable_weight_lb": 4.0,
+     "dim_weight_lb": null,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "Priority Mail base rate (zone 5, 4 lb)",
+       "amount": 18.41,
+       "surcharge_id": null,
+       "source": "price_files_csv_2026-01-18.zip (PM Comm.csv)",
+       "condition": null
+      }
+     ],
+     "total": 18.41,
+     "margin": -8.42,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-01-18"
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_3_day_select",
+     "service_name": "UPS 3 Day Select",
+     "tier": "two_three_day",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "UPS 3 Day Select base rate (zone 5, 13 lb)",
+       "amount": 64.69,
+       "surcharge_id": null,
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.87",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Surcharge",
+       "amount": 7.0,
+       "surcharge_id": "ups_residential_air_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.185",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge",
+       "amount": 6.55,
+       "surcharge_id": "ups_das_residential_air_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.182",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 22.49,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 100.73,
+     "margin": -90.74,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-09-07"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_express_saver",
+     "service_name": "FedEx Express Saver",
+     "tier": "two_three_day",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx Express Saver base rate (zone 5, 13 lb)",
+       "amount": 73.89,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2026.xlsx (2026 U.S. rates)",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Delivery Charge",
+       "amount": 6.95,
+       "surcharge_id": "fedex_residential_express_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.7",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge (Residential)",
+       "amount": 6.6,
+       "surcharge_id": "fedex_das_residential_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.4",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 25.14,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html",
+       "condition": null
+      }
+     ],
+     "total": 112.58,
+     "margin": -102.59,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-01-05"
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_2nd_day_air",
+     "service_name": "UPS 2nd Day Air",
+     "tier": "two_three_day",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "UPS 2nd Day Air base rate (zone 5, 13 lb)",
+       "amount": 97.5,
+       "surcharge_id": null,
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.81",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Surcharge",
+       "amount": 7.0,
+       "surcharge_id": "ups_residential_air_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.185",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge",
+       "amount": 6.55,
+       "surcharge_id": "ups_das_residential_air_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.182",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 31.93,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 142.98,
+     "margin": -132.99,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-09-07"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_2day",
+     "service_name": "FedEx 2Day",
+     "tier": "two_three_day",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx 2Day base rate (zone 5, 13 lb)",
+       "amount": 98.42,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2026.xlsx (2026 U.S. rates)",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Delivery Charge",
+       "amount": 6.95,
+       "surcharge_id": "fedex_residential_express_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.7",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge (Residential)",
+       "amount": 6.6,
+       "surcharge_id": "fedex_das_residential_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.4",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 32.19,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html",
+       "condition": null
+      }
+     ],
+     "total": 144.16,
+     "margin": -134.17,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-01-05"
+    },
+    {
+     "carrier": "usps",
+     "service_id": "usps_priority_mail_express",
+     "service_name": "Priority Mail Express",
+     "tier": "next_day",
+     "zone": 5,
+     "billable_weight_lb": 4.0,
+     "dim_weight_lb": null,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "Priority Mail Express base rate (zone 5, 4 lb)",
+       "amount": 61.05,
+       "surcharge_id": null,
+       "source": "price_files_csv_2026-01-18.zip (PME Comm.csv)",
+       "condition": null
+      }
+     ],
+     "total": 61.05,
+     "margin": -51.06,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-01-18"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_standard_overnight",
+     "service_name": "FedEx Standard Overnight",
+     "tier": "next_day",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx Standard Overnight base rate (zone 5, 13 lb)",
+       "amount": 196.11,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2026.xlsx (2026 U.S. rates)",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Delivery Charge",
+       "amount": 6.95,
+       "surcharge_id": "fedex_residential_express_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.7",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge (Residential)",
+       "amount": 6.6,
+       "surcharge_id": "fedex_das_residential_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.4",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 60.28,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html",
+       "condition": null
+      }
+     ],
+     "total": 269.94,
+     "margin": -259.95,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-01-05"
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_next_day_air_saver",
+     "service_name": "UPS Next Day Air Saver",
+     "tier": "next_day",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "UPS Next Day Air Saver base rate (zone 5, 13 lb)",
+       "amount": 200.75,
+       "surcharge_id": null,
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.69",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Surcharge",
+       "amount": 7.0,
+       "surcharge_id": "ups_residential_air_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.185",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge",
+       "amount": 6.55,
+       "surcharge_id": "ups_das_residential_air_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.182",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 61.61,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 275.91,
+     "margin": -265.92,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-09-07"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_priority_overnight",
+     "service_name": "FedEx Priority Overnight",
+     "tier": "next_day",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "FedEx Priority Overnight base rate (zone 5, 13 lb)",
+       "amount": 227.34,
+       "surcharge_id": null,
+       "source": "FedEx_Standard_List_Rates_2026.xlsx (2026 U.S. rates)",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Delivery Charge",
+       "amount": 6.95,
+       "surcharge_id": "fedex_residential_express_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.7",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge (Residential)",
+       "amount": 6.6,
+       "surcharge_id": "fedex_das_residential_2026",
+       "source": "surcharge_and_fee_changes_2026.pdf p.4",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 69.26,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html",
+       "condition": null
+      }
+     ],
+     "total": 310.15,
+     "margin": -300.16,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-01-05"
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_next_day_air",
+     "service_name": "UPS Next Day Air",
+     "tier": "next_day",
+     "zone": 5,
+     "billable_weight_lb": 13.0,
+     "dim_weight_lb": 13.0,
+     "line_items": [
+      {
+       "kind": "base",
+       "label": "UPS Next Day Air base rate (zone 5, 13 lb)",
+       "amount": 229.74,
+       "surcharge_id": null,
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.61",
+       "condition": null
+      },
+      {
+       "kind": "surcharge",
+       "label": "Residential Surcharge",
+       "amount": 7.0,
+       "surcharge_id": "ups_residential_air_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.185",
+       "condition": "residential"
+      },
+      {
+       "kind": "surcharge",
+       "label": "Delivery Area Surcharge",
+       "amount": 6.55,
+       "surcharge_id": "ups_das_residential_air_2026",
+       "source": "ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf p.182",
+       "condition": "delivery_area"
+      },
+      {
+       "kind": "fuel",
+       "label": "Fuel Surcharge (28.75%)",
+       "amount": 69.95,
+       "surcharge_id": null,
+       "source": "historical-fuel-surcharge_page_wayback_2026-10-13.html (proxy)",
+       "condition": null
+      }
+     ],
+     "total": 313.24,
+     "margin": -303.25,
+     "available": true,
+     "unavailable_reason": null,
+     "as_of": "2026-09-07"
+    }
+   ],
+   "cheapest_by_tier": {
+    "ground": {
+     "carrier": "usps",
+     "service_id": "usps_ground_advantage",
+     "total": 11.89
+    },
+    "two_three_day": {
+     "carrier": "usps",
+     "service_id": "usps_priority_mail",
+     "total": 18.41
+    },
+    "next_day": {
+     "carrier": "usps",
+     "service_id": "usps_priority_mail_express",
+     "total": 61.05
+    }
+   }
+  }
+ }
+}

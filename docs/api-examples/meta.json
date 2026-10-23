@@ -1,0 +1,568 @@
+{
+ "request": {
+  "method": "GET",
+  "path": "/api/meta",
+  "body": null
+ },
+ "response": {
+  "status": 200,
+  "body": {
+   "years": {
+    "usps": [
+     2023,
+     2024,
+     2025,
+     2026
+    ],
+    "ups": [
+     2023,
+     2024,
+     2025,
+     2026
+    ],
+    "fedex": [
+     2023,
+     2024,
+     2025,
+     2026,
+     2027
+    ]
+   },
+   "services": [
+    {
+     "carrier": "usps",
+     "service_id": "usps_ground_advantage",
+     "display_name": "USPS Ground Advantage",
+     "tier": "ground",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "retail",
+      "commercial"
+     ],
+     "rate_card_notes": "retail: price paid at the Post Office counter; commercial: price paid with online postage or shipping software, no contract needed",
+     "max_weight_lb": 70,
+     "notes": "Launched 2023-07-09; replaced First-Class Package Service and Retail Ground"
+    },
+    {
+     "carrier": "usps",
+     "service_id": "usps_priority_mail",
+     "display_name": "Priority Mail",
+     "tier": "two_three_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "retail",
+      "commercial"
+     ],
+     "rate_card_notes": "retail: price paid at the Post Office counter; commercial: price paid with online postage or shipping software, no contract needed",
+     "max_weight_lb": 70,
+     "notes": ""
+    },
+    {
+     "carrier": "usps",
+     "service_id": "usps_priority_mail_express",
+     "display_name": "Priority Mail Express",
+     "tier": "next_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "retail",
+      "commercial"
+     ],
+     "rate_card_notes": "retail: price paid at the Post Office counter; commercial: price paid with online postage or shipping software, no contract needed",
+     "max_weight_lb": 70,
+     "notes": "Overnight to most locations; 1 to 2 days"
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_ground",
+     "display_name": "UPS Ground",
+     "tier": "ground",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Daily Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": "Residential surcharge applies to home addresses"
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_3_day_select",
+     "display_name": "UPS 3 Day Select",
+     "tier": "two_three_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Daily Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": ""
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_2nd_day_air",
+     "display_name": "UPS 2nd Day Air",
+     "tier": "two_three_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Daily Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": ""
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_next_day_air_saver",
+     "display_name": "UPS Next Day Air Saver",
+     "tier": "next_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Daily Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": ""
+    },
+    {
+     "carrier": "ups",
+     "service_id": "ups_next_day_air",
+     "display_name": "UPS Next Day Air",
+     "tier": "next_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Daily Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": ""
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_ground",
+     "display_name": "FedEx Ground",
+     "tier": "ground",
+     "residential_allowed": false,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Standard List Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": "Business addresses only"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_home_delivery",
+     "display_name": "FedEx Home Delivery",
+     "tier": "ground",
+     "residential_allowed": true,
+     "business_allowed": false,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Standard List Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": "Residential addresses only; residential surcharge built into the surcharge table"
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_express_saver",
+     "display_name": "FedEx Express Saver",
+     "tier": "two_three_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Standard List Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": ""
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_2day",
+     "display_name": "FedEx 2Day",
+     "tier": "two_three_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Standard List Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": ""
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_standard_overnight",
+     "display_name": "FedEx Standard Overnight",
+     "tier": "next_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Standard List Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": ""
+    },
+    {
+     "carrier": "fedex",
+     "service_id": "fedex_priority_overnight",
+     "display_name": "FedEx Priority Overnight",
+     "tier": "next_day",
+     "residential_allowed": true,
+     "business_allowed": true,
+     "rate_cards": [
+      "list"
+     ],
+     "rate_card_notes": "list: published Standard List Rates for shippers without a negotiated contract",
+     "max_weight_lb": 150,
+     "notes": ""
+    }
+   ],
+   "defaults": {
+    "year": 2026,
+    "usps_rate_card": "commercial",
+    "peak": false,
+    "flat_price": 9.99,
+    "as_of": {
+     "usps": "2026-01-18",
+     "ups": "2026-09-07",
+     "fedex": "2026-01-05"
+    }
+   },
+   "fuel_defaults": [
+    {
+     "carrier": "fedex",
+     "year": 2023,
+     "service_group": "express",
+     "default_percent": 19.25,
+     "is_proxy": false,
+     "window_start": "2022-10-03",
+     "window_end": "2023-01-01"
+    },
+    {
+     "carrier": "fedex",
+     "year": 2023,
+     "service_group": "ground",
+     "default_percent": 18.0,
+     "is_proxy": false,
+     "window_start": "2022-10-03",
+     "window_end": "2023-01-01"
+    },
+    {
+     "carrier": "fedex",
+     "year": 2024,
+     "service_group": "express",
+     "default_percent": 16.0,
+     "is_proxy": false,
+     "window_start": "2024-08-26",
+     "window_end": "2024-11-24"
+    },
+    {
+     "carrier": "fedex",
+     "year": 2024,
+     "service_group": "ground",
+     "default_percent": 16.25,
+     "is_proxy": false,
+     "window_start": "2024-08-26",
+     "window_end": "2024-11-24"
+    },
+    {
+     "carrier": "fedex",
+     "year": 2025,
+     "service_group": "express",
+     "default_percent": 19.25,
+     "is_proxy": false,
+     "window_start": "2025-06-16",
+     "window_end": "2025-09-14"
+    },
+    {
+     "carrier": "fedex",
+     "year": 2025,
+     "service_group": "ground",
+     "default_percent": 20.5,
+     "is_proxy": false,
+     "window_start": "2025-06-16",
+     "window_end": "2025-09-14"
+    },
+    {
+     "carrier": "fedex",
+     "year": 2026,
+     "service_group": "express",
+     "default_percent": 28.75,
+     "is_proxy": false,
+     "window_start": "2026-07-13",
+     "window_end": "2026-10-04"
+    },
+    {
+     "carrier": "fedex",
+     "year": 2026,
+     "service_group": "ground",
+     "default_percent": 26.25,
+     "is_proxy": false,
+     "window_start": "2026-07-13",
+     "window_end": "2026-10-04"
+    },
+    {
+     "carrier": "fedex",
+     "year": 2027,
+     "service_group": "express",
+     "default_percent": 28.75,
+     "is_proxy": true,
+     "window_start": "2026-07-13",
+     "window_end": "2026-10-04"
+    },
+    {
+     "carrier": "fedex",
+     "year": 2027,
+     "service_group": "ground",
+     "default_percent": 26.25,
+     "is_proxy": true,
+     "window_start": "2026-07-13",
+     "window_end": "2026-10-04"
+    },
+    {
+     "carrier": "ups",
+     "year": 2023,
+     "service_group": "express",
+     "default_percent": 19.25,
+     "is_proxy": true,
+     "window_start": "2022-10-03",
+     "window_end": "2023-01-01"
+    },
+    {
+     "carrier": "ups",
+     "year": 2023,
+     "service_group": "ground",
+     "default_percent": 18.0,
+     "is_proxy": true,
+     "window_start": "2022-10-03",
+     "window_end": "2023-01-01"
+    },
+    {
+     "carrier": "ups",
+     "year": 2024,
+     "service_group": "express",
+     "default_percent": 16.0,
+     "is_proxy": true,
+     "window_start": "2024-08-26",
+     "window_end": "2024-11-24"
+    },
+    {
+     "carrier": "ups",
+     "year": 2024,
+     "service_group": "ground",
+     "default_percent": 16.25,
+     "is_proxy": true,
+     "window_start": "2024-08-26",
+     "window_end": "2024-11-24"
+    },
+    {
+     "carrier": "ups",
+     "year": 2025,
+     "service_group": "express",
+     "default_percent": 19.25,
+     "is_proxy": true,
+     "window_start": "2025-06-16",
+     "window_end": "2025-09-14"
+    },
+    {
+     "carrier": "ups",
+     "year": 2025,
+     "service_group": "ground",
+     "default_percent": 20.5,
+     "is_proxy": true,
+     "window_start": "2025-06-16",
+     "window_end": "2025-09-14"
+    },
+    {
+     "carrier": "ups",
+     "year": 2026,
+     "service_group": "express",
+     "default_percent": 28.75,
+     "is_proxy": true,
+     "window_start": "2026-07-13",
+     "window_end": "2026-10-04"
+    },
+    {
+     "carrier": "ups",
+     "year": 2026,
+     "service_group": "ground",
+     "default_percent": 26.25,
+     "is_proxy": true,
+     "window_start": "2026-07-13",
+     "window_end": "2026-10-04"
+    }
+   ],
+   "zone_bands": [
+    {
+     "carrier": "usps",
+     "zone": 1,
+     "min_miles": 0,
+     "max_miles": 50
+    },
+    {
+     "carrier": "usps",
+     "zone": 2,
+     "min_miles": 51,
+     "max_miles": 150
+    },
+    {
+     "carrier": "usps",
+     "zone": 3,
+     "min_miles": 151,
+     "max_miles": 300
+    },
+    {
+     "carrier": "usps",
+     "zone": 4,
+     "min_miles": 301,
+     "max_miles": 600
+    },
+    {
+     "carrier": "usps",
+     "zone": 5,
+     "min_miles": 601,
+     "max_miles": 1000
+    },
+    {
+     "carrier": "usps",
+     "zone": 6,
+     "min_miles": 1001,
+     "max_miles": 1400
+    },
+    {
+     "carrier": "usps",
+     "zone": 7,
+     "min_miles": 1401,
+     "max_miles": 1800
+    },
+    {
+     "carrier": "usps",
+     "zone": 8,
+     "min_miles": 1801,
+     "max_miles": null
+    },
+    {
+     "carrier": "ups",
+     "zone": 2,
+     "min_miles": 0,
+     "max_miles": 150
+    },
+    {
+     "carrier": "ups",
+     "zone": 3,
+     "min_miles": 151,
+     "max_miles": 300
+    },
+    {
+     "carrier": "ups",
+     "zone": 4,
+     "min_miles": 301,
+     "max_miles": 600
+    },
+    {
+     "carrier": "ups",
+     "zone": 5,
+     "min_miles": 601,
+     "max_miles": 1000
+    },
+    {
+     "carrier": "ups",
+     "zone": 6,
+     "min_miles": 1001,
+     "max_miles": 1400
+    },
+    {
+     "carrier": "ups",
+     "zone": 7,
+     "min_miles": 1401,
+     "max_miles": 1800
+    },
+    {
+     "carrier": "ups",
+     "zone": 8,
+     "min_miles": 1801,
+     "max_miles": null
+    },
+    {
+     "carrier": "fedex",
+     "zone": 2,
+     "min_miles": 0,
+     "max_miles": 150
+    },
+    {
+     "carrier": "fedex",
+     "zone": 3,
+     "min_miles": 151,
+     "max_miles": 300
+    },
+    {
+     "carrier": "fedex",
+     "zone": 4,
+     "min_miles": 301,
+     "max_miles": 600
+    },
+    {
+     "carrier": "fedex",
+     "zone": 5,
+     "min_miles": 601,
+     "max_miles": 1000
+    },
+    {
+     "carrier": "fedex",
+     "zone": 6,
+     "min_miles": 1001,
+     "max_miles": 1400
+    },
+    {
+     "carrier": "fedex",
+     "zone": 7,
+     "min_miles": 1401,
+     "max_miles": 1800
+    },
+    {
+     "carrier": "fedex",
+     "zone": 8,
+     "min_miles": 1801,
+     "max_miles": null
+    }
+   ],
+   "segments": {
+    "weight_bands": [
+     "≤1",
+     "1–5",
+     "5–10",
+     "10–20",
+     "20–70"
+    ],
+    "zone_bands": [
+     "1–2",
+     "3–4",
+     "5–6",
+     "7–8"
+    ]
+   },
+   "limitations": [
+    "List prices only: a shipper with a negotiated contract pays less.",
+    "Zones are estimated from distance bands, not looked up from ZIP code pairs.",
+    "The UPS fuel surcharge default is a proxy taken from FedEx's published history.",
+    "UPS announced increases come from trade press, not from UPS itself.",
+    "UPS peak (demand) surcharge documents for the 2025-26 and 2026-27 seasons are not in the sources, so UPS 2025 and 2026 peak quotes carry no peak charges.",
+    "FedEx 2027 surcharges are incomplete (only the Home Delivery residential charge and January peak rows are recorded), so 2027 totals understate surcharges.",
+    "Peak surcharges are modelled as a toggle that prices on December 10 of the year, not by ship date.",
+    "UPS and FedEx bill a large or oversize package at a minimum of 90 lb; that minimum is not modelled, so the base rate of such parcels is understated (the surcharge itself is included)."
+   ]
+  }
+ }
+}
