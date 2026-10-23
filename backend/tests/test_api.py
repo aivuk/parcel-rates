@@ -147,6 +147,10 @@ def test_yearly(client):
                                             "next_year_increase_percent": 5}).json()
     m.YearlyResponse.model_validate(body)
     assert all(c["projected"]["increase_percent"] == 5 for c in body["carriers"])
+    assert all(c["projected"]["basis"] == "assumed" for c in body["carriers"])  # nothing announced yet
+    body = client.post("/api/yearly", json={"parcels": load_sample_parcels()[:30], "next_year_increase_percent": 2,
+                                            "next_year_override": True}).json()
+    assert {c["projected"]["basis"] for c in body["carriers"]} == {"override"}
     msgs = _msgs(client.post("/api/yearly", json={"parcels": [PARCEL], "next_year_increase_percent": 500}))
     assert msgs[("body", "next_year_increase_percent")] == "next_year_increase_percent must be at most 100"
 

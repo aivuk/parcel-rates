@@ -3312,7 +3312,10 @@
      "projected": {
       "year": 2027,
       "increase_percent": 5.9,
-      "cost_per_parcel": 11.63
+      "cost_per_parcel": 11.63,
+      "basis": "assumed",
+      "source_type": null,
+      "source_files": []
      }
     },
     {
@@ -3933,7 +3936,10 @@
      "projected": {
       "year": 2027,
       "increase_percent": 5.9,
-      "cost_per_parcel": 32.97
+      "cost_per_parcel": 32.97,
+      "basis": "assumed",
+      "source_type": null,
+      "source_files": []
      }
     },
     {
@@ -4718,7 +4724,10 @@
      "projected": {
       "year": 2028,
       "increase_percent": 5.9,
-      "cost_per_parcel": 34.24
+      "cost_per_parcel": 34.24,
+      "basis": "assumed",
+      "source_type": null,
+      "source_files": []
      }
     }
    ]

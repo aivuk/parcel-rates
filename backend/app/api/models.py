@@ -100,7 +100,15 @@ class BlendedRequest(BaseModel):
 class YearlyRequest(BaseModel):
     parcels: list[Parcel] = Field(min_length=1, max_length=MAX_PARCELS)
     controls: Controls = Field(default_factory=Controls)
-    next_year_increase_percent: float | None = Field(default=None, ge=-50, le=100)
+    next_year_increase_percent: float | None = Field(
+        default=None,
+        ge=-50,
+        le=100,
+        description="assumed increase for carriers that have not announced their next year",
+    )
+    next_year_override: bool = Field(
+        default=False, description="apply next_year_increase_percent to every carrier, announced or not"
+    )
 
 
 # ---- responses ------------------------------------------------------------
@@ -282,6 +290,9 @@ class Projection(Out):
     year: int
     increase_percent: float
     cost_per_parcel: float
+    basis: Literal["announced", "assumed", "override"]
+    source_type: str | None
+    source_files: list[str]
 
 
 class CarrierYears(Out):
