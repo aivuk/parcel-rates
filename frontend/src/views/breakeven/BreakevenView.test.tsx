@@ -80,6 +80,22 @@ describe("BreakevenView", () => {
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 
+  it("keeps the focus ring on the focused cell after Escape closes the tooltip", async () => {
+    setup();
+    await screen.findByTestId("breakeven-answer");
+    act(() => cells()[0]!.focus());
+    await userEvent.keyboard("{ArrowDown}");
+    const ring = screen.getByTestId("heatmap-focus");
+    const cell = document.activeElement as SVGRectElement;
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(document.activeElement).toBe(cell);
+    expect(screen.getByTestId("heatmap-focus")).toBe(ring);
+    expect(ring).toHaveAttribute("y", cell.getAttribute("y"));
+    await userEvent.keyboard("{ArrowRight}");
+    expect(screen.getByRole("status")).toHaveTextContent("2 lb · 100 mi");
+  });
+
   it("offers the map as a table", async () => {
     setup();
     await screen.findByTestId("breakeven-answer");

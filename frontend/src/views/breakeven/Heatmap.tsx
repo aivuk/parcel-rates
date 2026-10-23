@@ -48,9 +48,12 @@ export function Heatmap({ res, meta }: HeatmapProps) {
   const [hover, setHover] = useState<{ r: number; c: number } | null>(null);
   const [focused, setFocused] = useState(false);
   const [pinned, setPinned] = useState(false);
+  /** Escape closes the tooltip but keeps the focus ring; any move or click opens it again. */
+  const [tipDismissed, setTipDismissed] = useState(false);
   const cellRefs = useRef<(SVGRectElement | null)[]>([]);
 
-  const show = hover ?? (focused || pinned ? active : null);
+  const ring = hover ?? (focused || pinned ? active : null);
+  const show = hover ?? (!tipDismissed && (focused || pinned) ? active : null);
   const shownCell = show ? (grid[show.r]?.[show.c] ?? null) : null;
 
   const moveTo = (r: number, c: number) => {
@@ -58,6 +61,7 @@ export function Heatmap({ res, meta }: HeatmapProps) {
     const nc = Math.min(cols - 1, Math.max(0, c));
     setActive({ r: nr, c: nc });
     setHover(null);
+    setTipDismissed(false);
     cellRefs.current[nr * cols + nc]?.focus();
   };
 
@@ -75,7 +79,8 @@ export function Heatmap({ res, meta }: HeatmapProps) {
     };
     if (e.key === "Escape") {
       setPinned(false);
-      setFocused(false);
+      setHover(null);
+      setTipDismissed(true);
       return;
     }
     const to = map[e.key];
@@ -183,10 +188,15 @@ export function Heatmap({ res, meta }: HeatmapProps) {
                     height={rowH}
                     style={{ fill: cellFill(cell) }}
                     className="hm__cell"
-                    onPointerEnter={(e) => e.pointerType === "mouse" && setHover({ r, c })}
+                    onPointerEnter={(e) => {
+                      if (e.pointerType !== "mouse") return;
+                      setHover({ r, c });
+                      setTipDismissed(false);
+                    }}
                     onClick={() => {
                       setActive({ r, c });
                       setPinned(true);
+                      setTipDismissed(false);
                     }}
                     onFocus={() => {
                       setActive({ r, c });
@@ -212,12 +222,13 @@ export function Heatmap({ res, meta }: HeatmapProps) {
               </text>
             ))}
           </g>
-          {show && (
+          {ring && (
             <rect
               aria-hidden="true"
+              data-testid="heatmap-focus"
               className="hm__focus"
-              x={AXIS_W + show.c * colW + 1}
-              y={HEAD_H + show.r * rowH}
+              x={AXIS_W + ring.c * colW + 1}
+              y={HEAD_H + ring.r * rowH}
               width={colW - 2}
               height={rowH}
             />
