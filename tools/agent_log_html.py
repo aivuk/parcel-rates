@@ -23,11 +23,15 @@ import json
 import re
 import sys
 import webbrowser
+from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
 from markdown_it import MarkdownIt
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from agent_log_stats import BUILTINS, GROUPS, Stats, session_stats  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 LOG_DIR = ROOT / "docs" / "agent-log"
@@ -323,16 +327,6 @@ def when(ts: str, with_date: bool = False) -> str:
     return d.strftime("%b %-d, %H:%M") if with_date else d.strftime("%H:%M")
 
 
-def duration(a: str, b: str) -> str:
-    try:
-        start = datetime.fromisoformat(a.replace("Z", "+00:00"))
-        end = datetime.fromisoformat(b.replace("Z", "+00:00"))
-    except ValueError:
-        return ""
-    minutes = int((end - start).total_seconds() // 60)
-    return f"{minutes // 60} h {minutes % 60:02d} min" if minutes >= 60 else f"{minutes} min"
-
-
 DESCRIPTORS = ("description", "command", "file_path", "path", "pattern", "query", "url", "skill", "prompt", "questions")
 
 
@@ -430,6 +424,64 @@ def render_turn(turn: Turn, number: int | None, links: dict[str, str], anchor: s
 IMAGE_NOTE = re.compile(r"\[Image[^\]]*\]|\[image\]")
 
 
+def bars(counter, limit: int, builtins: bool = False, wide: bool = False) -> str:
+    """A horizontal bar per item, longest first; the rest summed into one line."""
+    items = counter.most_common()
+    if not items:
+        return '<p class="stats__none">None.</p>'
+    top, rest = items[:limit], items[limit:]
+    peak = top[0][1]
+    rows = []
+    for name, n in top:
+        kind = " bar--builtin" if builtins and name in BUILTINS else ""
+        rows.append(
+            f'<li class="bar{kind}{" bar--wide" if wide else ""}"><span class="bar__name">{esc(name)}</span>'
+            f'<span class="bar__track"><span class="bar__fill" style="width:{max(1.5, 100 * n / peak):.1f}%"></span></span>'
+            f'<span class="bar__n">{n:,}</span></li>'
+        )
+    if rest:
+        rows.append(f'<li class="bar bar--rest"><span class="bar__name">{len(rest)} others</span><span class="bar__track"></span>'
+                    f'<span class="bar__n">{sum(n for _, n in rest):,}</span></li>')
+    return f'<ol class="bars">{"".join(rows)}</ol>'
+
+
+def render_agents(stats: Stats) -> str:
+    if not stats.agents:
+        return '<p class="stats__none">No subagents.</p>'
+    groups = []
+    for group in GROUPS:
+        members = [a for a in stats.agents if a.group == group]
+        if not members:
+            continue
+        rows = "".join(
+            f'<tr><td>{esc(a.description)}</td><td><code>{esc(a.agent_type or "?")}</code></td><td class="num">{a.calls:,}</td>'
+            f'<td>{esc(", ".join(f"{k} {v}" for k, v in a.tools.most_common(3)))}</td>'
+            f'<td>{esc(", ".join(f"{k} {v}" for k, v in a.languages.most_common(3)) or "—")}</td></tr>'
+            for a in sorted(members, key=lambda a: -a.calls)
+        )
+        groups.append(
+            f'<tr class="agents__group"><th colspan="5">{esc(group)} <span class="agents__n">{len(members)}</span></th></tr>{rows}'
+        )
+    return (
+        '<table class="agents"><thead><tr><th>Subagent</th><th>Agent type</th><th class="num">Tool calls</th>'
+        f'<th>Most used tools</th><th>Files written</th></tr></thead><tbody>{"".join(groups)}</tbody></table>'
+    )
+
+
+def render_stats(stats: Stats, open_: bool = True) -> str:
+    by_group = {g: sum(1 for a in stats.agents if a.group == g) for g in GROUPS}
+    return f"""<details class="stats"{" open" if open_ else ""}><summary>Statistics</summary>
+<div class="stats__grid">
+<section><h2 class="stats__h">Tools <span class="stats__sub">calls per tool, subagents included</span></h2>{bars(stats.tools, 14)}</section>
+<section><h2 class="stats__h">Shell commands <span class="stats__sub">what the Bash calls ran; <span class="key key--builtin"></span>
+Bash builtin or keyword, <span class="key"></span> program</span></h2>{bars(stats.commands, 30, builtins=True)}</section>
+<section><h2 class="stats__h">Subagents by what they did <span class="stats__sub">grouped from their task, tools and the files they wrote</span></h2>
+{bars(Counter({g: n for g, n in by_group.items() if n}), 10, wide=True)}</section>
+</div>
+<section class="stats__agents">{render_agents(stats)}</section>
+</details>"""
+
+
 def first_line(turn: Turn, limit: int = 90) -> str:
     raw = user_text(turn).removeprefix(INTERRUPTED)
     text = re.sub(r"\s+", " ", IMAGE_NOTE.sub("", raw)).strip()
@@ -472,10 +524,9 @@ def render_session(s: Session) -> str:
             f'<span class="tool__what">{esc(sub.description or sub.name)}</span></summary><div class="subagent__body">{inner}</div></details>'
         )
     meta = s.meta
-    started, last = meta.get("Started", ""), meta.get("Last record", "")
+    started = meta.get("Started", "")
     facts = [
         ("Started", when(started, True)),
-        ("Length", duration(started, last)),
         ("Prompts", str(len(s.prompts))),
         ("Tool calls", f"{s.tool_calls:,}"),
         ("Subagents", str(len(s.subagents))),
@@ -487,6 +538,7 @@ def render_session(s: Session) -> str:
 <h1>Session <code>{esc(s.sid[:8])}</code></h1><div class="facts">{strip}</div>
 <div class="controls"><button type="button" data-toggle="tool">Expand tool calls</button>
 <button type="button" data-toggle="thinking">Expand thinking</button></div></header>
+<div class="stats__wrap">{render_stats(session_stats(s), open_=False)}</div>
 <div class="layout"><nav class="toc" aria-label="Prompts"><p class="kicker">Prompts</p>
 <input type="search" class="toc__filter" placeholder="Filter prompts" aria-label="Filter prompts"><ol>{"".join(toc)}</ol></nav>
 <main class="log">{"".join(turns)}{f'<h2 class="subs__h">Subagents ({len(subs)})</h2>' + "".join(subs) if subs else ""}</main></div>
@@ -495,20 +547,24 @@ def render_session(s: Session) -> str:
 
 
 def render_index(sessions: list[Session]) -> str:
+    total = Stats()
+    for s in sessions:
+        total.add(session_stats(s))
     rows = []
     for s in sessions:
-        started, last = s.meta.get("Started", ""), s.meta.get("Last record", "")
+        started = s.meta.get("Started", "")
         first = first_line(s.prompts[0], 160) if s.prompts else ""
         rows.append(
             f'<li class="card"><a href="sessions/{esc(s.sid)}.html"><span class="card__when">{when(started, True)}</span>'
             f'<span class="card__first">{esc(first)}</span>'
             f'<span class="card__facts">{len(s.prompts)} prompts · {s.tool_calls:,} tool calls · {len(s.subagents)} subagents · '
-            f'{duration(started, last)} · <code>{esc(s.sid[:8])}</code></span></a></li>'
+            f'<code>{esc(s.sid[:8])}</code></span></a></li>'
         )
     body = f"""<header class="mast"><h1>How it was built</h1>
 <p class="mast__deck">The Claude Code sessions that built this repository, exported by the SessionEnd hook to
 <code>docs/agent-log/</code>, newest first. A local view for people with access to the repository.</p></header>
-<main class="sessions"><ol>{"".join(rows)}</ol></main>"""
+<main class="sessions"><ol class="sessions__list">{"".join(rows)}</ol>
+<h2 class="all__h">All sessions together</h2>{render_stats(total)}</main>"""
     return page("How it was built", body)
 
 
@@ -560,10 +616,30 @@ details>summary{cursor:pointer}
 .subs__h{font:700 1.6rem var(--display);border-top:2px solid var(--ink);padding-top:1rem;margin-top:3rem}
 .subagent{border-top:1px solid var(--rule);padding:.5rem 0}.subagent>summary{display:flex;gap:.6rem;align-items:baseline}
 .subagent__body{padding-left:1rem;border-left:3px solid var(--rule)}
-.sessions ol{list-style:none;padding:0 1.5rem;margin:1rem 0;max-width:60rem}
+.sessions{padding:0 1.5rem}.sessions__list{list-style:none;padding:0;margin:1rem 0;max-width:60rem}
 .card a{display:grid;gap:.2rem;padding:1rem 0;border-bottom:1px solid var(--rule);text-decoration:none}
 .card a:hover .card__first{text-decoration:underline}.card__when{font:700 1.3rem var(--display)}
 .card__facts{font-size:.8rem;color:var(--muted)}
+.stats__wrap{padding:0 1.5rem}.stats{border-bottom:2px solid var(--ink);padding:.6rem 0 1rem}
+.stats>summary{font:700 1.2rem var(--display);text-transform:uppercase;letter-spacing:.04em}
+.stats__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));gap:1rem 2.5rem;margin-top:.8rem}
+.stats__h{font:700 1.15rem var(--display);margin:0 0 .4rem}.stats__sub{font:400 .78rem var(--ui);color:var(--muted)}
+.stats__none{color:var(--muted);font-size:.85rem}
+.bars{list-style:none;margin:0;padding:0;display:grid;gap:3px}
+.bar{display:grid;grid-template-columns:9.5rem minmax(0,1fr) 3.5rem;gap:.6rem;align-items:center;font-size:.8rem}
+.bar__name{font-family:var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar--wide{grid-template-columns:14rem minmax(0,1fr) 2.5rem}.bar--wide .bar__name{font-family:var(--ui)}
+.bar__track{height:.7rem;background:var(--sheet)}.bar__fill{display:block;height:100%;background:var(--ink)}
+.bar--builtin .bar__fill{background:var(--user)}.bar--rest{color:var(--muted)}
+.bar__n{text-align:right;font-variant-numeric:tabular-nums}
+.key{display:inline-block;width:.7rem;height:.7rem;background:var(--ink);vertical-align:middle}.key--builtin{background:var(--user)}
+.stats__agents{margin-top:1.4rem;overflow-x:auto}
+.agents{border-collapse:collapse;font-size:.8rem;width:100%}
+.agents th,.agents td{border-bottom:1px solid var(--rule);padding:.3rem .8rem .3rem 0;text-align:left;vertical-align:baseline}
+.agents thead th{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:2px solid var(--ink)}
+.agents__group th{font:700 1rem var(--display);padding-top:.8rem}.agents__n{font:500 .8rem var(--ui);color:var(--muted)}
+.agents .num{text-align:right;font-variant-numeric:tabular-nums}
+.all__h{font:700 1.6rem var(--display);border-top:2px solid var(--ink);padding-top:1rem;margin-top:2rem}
 @media (max-width:52rem){.layout{grid-template-columns:1fr}.toc{position:static;max-height:40vh;border-right:0;border-bottom:2px solid var(--ink)}}
 """
 
