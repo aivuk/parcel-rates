@@ -8,7 +8,7 @@ import { mockBreakevenResponse, mockDefaultControls, mockMeta } from "../../api/
 import be2027Fx from "../../api/__fixtures__/breakeven-2027.json";
 import type { ControlsState } from "../../state/urlState";
 import { BreakevenView } from "../BreakevenView";
-import { readout, savingLevel } from "./readout";
+import { savingLevel } from "./readout";
 
 function setup(client: Partial<ApiClient> = {}, controls: ControlsState = mockDefaultControls) {
   const breakeven = vi.fn(client.breakeven ?? (async () => mockBreakevenResponse));
@@ -33,7 +33,9 @@ describe("BreakevenView", () => {
     expect(lines).toHaveTextContent(
       "From 25 mi to 450 mi (zones 1–4), USPS Ground Advantage is cheapest at every weight up to 70 lb.",
     );
-    expect(lines).toHaveTextContent(/At 800 mi \(zone 5\), USPS Ground Advantage is cheapest up to 26 lb/);
+    expect(lines).toHaveTextContent(
+      /From 800 mi to 1,200 mi \(zones 5–6\), USPS Ground Advantage is cheapest up to 26 lb and again from 51 lb; between 27 lb and 50 lb UPS Ground or FedEx Home Delivery mostly wins\./,
+    );
   });
 
   it("draws one cell per weight and distance, and names carriers in the legend", async () => {
@@ -131,14 +133,6 @@ describe("BreakevenView", () => {
 });
 
 describe("readout", () => {
-  it("says Never when USPS wins every cell", () => {
-    const res = {
-      ...mockBreakevenResponse,
-      breakeven_weight_lb: mockBreakevenResponse.breakeven_weight_lb.map((b) => ({ ...b, vs_ups: null, vs_fedex: null })),
-    };
-    expect(readout(res, mockMeta).figure).toBe("Never");
-  });
-
   it("buckets savings in fixed dollar steps", () => {
     expect([0, 0.99, 1, 2.99, 3, 9.99, 10, 60].map(savingLevel)).toEqual([0, 0, 1, 1, 2, 2, 3, 3]);
   });

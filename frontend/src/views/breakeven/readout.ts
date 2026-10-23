@@ -48,11 +48,20 @@ function joinOr(names: string[]): string {
   return `${names.slice(0, -1).join(", ")} or ${names[names.length - 1]}`;
 }
 
+/**
+ * What one distance column says, read from the per-cell winner (the carrier the map paints), so
+ * every clause names the same carriers as the map. `breakeven_weight_lb` is pairwise (USPS against
+ * one rival, ties counted as USPS losing) and can name a carrier that never wins overall when all
+ * three cross; it is not used for the wording.
+ */
 interface BandFacts {
   band: BreakevenBand;
-  first: number | null; // lightest grid weight where a rival matches or beats USPS
-  rivals: Carrier[]; // the rivals that do so at `first`
-  beyond: Carrier[]; // non-USPS winners at weights >= first
+  /** Lightest weight where a carrier other than USPS is cheapest; null when USPS wins throughout. */
+  first: number | null;
+  /** The carrier cheapest at `first`. */
+  firstWinner: Carrier | null;
+  /** Every non-USPS winner between `first` and `lastRival`. */
+  beyond: Carrier[];
   /** Heaviest weight a rival wins, and the next grid weight (USPS wins again from there), if any. */
   lastRival: number | null;
   uspsAgainFrom: number | null;
@@ -61,33 +70,36 @@ interface BandFacts {
 }
 
 function bandFacts(res: BreakevenResponse, grid: (BreakevenCell | null)[][], col: number): BandFacts {
-  const band = res.breakeven_weight_lb[col]!;
-  const vs: [Carrier, number | null][] = [
-    ["ups", band.vs_ups],
-    ["fedex", band.vs_fedex],
-  ];
-  const known = vs.filter((x): x is [Carrier, number] => x[1] !== null);
-  const first = known.length ? Math.min(...known.map((x) => x[1])) : null;
-  const rivals = known.filter((x) => x[1] === first).map((x) => x[0]);
-  const beyond = new Set<Carrier>();
-  let lastRivalIdx = -1;
-  let firstIdx = -1;
-  if (first !== null) {
-    res.weights_lb.forEach((w, r) => {
-      const win = grid[r]?.[col]?.winner?.carrier;
-      if (w < first || !win || win === "usps") return;
-      beyond.add(win);
-      if (firstIdx < 0) firstIdx = r;
-      lastRivalIdx = r;
-    });
+  const band = res.breakeven_weight_lb[col] ?? {
+    distance_miles: res.distances_miles[col]!,
+    zone_usps: null,
+    zone_private: null,
+    vs_ups: null,
+    vs_fedex: null,
+  };
+  const winners = res.weights_lb.map((_, r) => grid[r]?.[col]?.winner?.carrier ?? null);
+  const isRival = (w: Carrier | null) => w !== null && w !== "usps";
+  const firstIdx = winners.findIndex(isRival);
+  let lastIdx = -1;
+  winners.forEach((w, r) => {
+    if (isRival(w)) lastIdx = r;
+  });
+  if (firstIdx < 0) {
+    return { band, first: null, firstWinner: null, beyond: [], lastRival: null, uspsAgainFrom: null, mixed: false };
   }
-  let mixed = false;
-  for (let r = firstIdx; firstIdx >= 0 && r <= lastRivalIdx; r++) {
-    if (grid[r]?.[col]?.winner?.carrier === "usps") mixed = true;
-  }
-  const lastRival = lastRivalIdx >= 0 ? res.weights_lb[lastRivalIdx]! : null;
-  const uspsAgainFrom = lastRivalIdx >= 0 ? (res.weights_lb[lastRivalIdx + 1] ?? null) : null;
-  return { band, first, rivals, beyond: CARRIERS.filter((c) => beyond.has(c)), lastRival, uspsAgainFrom, mixed };
+  const span = winners.slice(firstIdx, lastIdx + 1);
+  const beyond = CARRIERS.filter((c) => c !== "usps" && span.includes(c));
+  const after = winners.slice(lastIdx + 1);
+  const uspsAgainFrom = after.length > 0 && after.every((w) => w === "usps") ? res.weights_lb[lastIdx + 1]! : null;
+  return {
+    band,
+    first: res.weights_lb[firstIdx]!,
+    firstWinner: winners[firstIdx]!,
+    beyond,
+    lastRival: res.weights_lb[lastIdx]!,
+    uspsAgainFrom,
+    mixed: span.includes("usps"),
+  };
 }
 
 export interface Readout {
@@ -99,7 +111,7 @@ export interface Readout {
   noUsps: boolean;
 }
 
-/** Plain-language breakeven lines from `breakeven_weight_lb`, grouping neighbouring bands that read the same. */
+/** Plain-language breakeven lines per distance band, grouping neighbouring bands that read the same. */
 export function readout(res: BreakevenResponse, meta: Meta | null): Readout {
   const res_ = res.residential;
   const usps = groundName(meta, "usps", res_);
@@ -120,7 +132,7 @@ export function readout(res: BreakevenResponse, meta: Meta | null): Readout {
   const facts = res.distances_miles.map((_, col) => bandFacts(res, grid, col));
 
   // Group consecutive bands with the same story.
-  const key = (f: BandFacts) => `${f.first}|${f.rivals.join()}|${f.beyond.join()}|${f.lastRival}|${f.mixed}`;
+  const key = (f: BandFacts) => `${f.first}|${f.firstWinner}|${f.beyond.join()}|${f.lastRival}|${f.uspsAgainFrom}|${f.mixed}`;
   const groups: BandFacts[][] = [];
   for (const f of facts) {
     const g = groups[groups.length - 1];
@@ -140,16 +152,19 @@ export function readout(res: BreakevenResponse, meta: Meta | null): Readout {
     const w = where(g);
     const W = w[0]!.toUpperCase() + w.slice(1);
     if (f.first === null) return `${W}, ${usps} is cheapest at every weight up to ${fmtLb(maxW)}.`;
-    const rivals = joinOr(f.rivals.map(name));
-    if (f.first <= minW) return `${W}, ${rivals} ${f.rivals.length > 1 ? "match" : "matches"} or ${f.rivals.length > 1 ? "beat" : "beats"} ${usps} from the lightest weight.`;
-    const prev = res.weights_lb[res.weights_lb.indexOf(f.first) - 1] ?? f.first;
     const winners = joinOr(f.beyond.map(name));
-    if (f.beyond.length === 0) return `${W}, ${usps} is cheapest up to ${fmtLb(prev)}; from ${fmtLb(f.first)} ${rivals} costs the same.`;
     const mostly = f.mixed ? "mostly " : "";
-    if (f.uspsAgainFrom !== null && f.lastRival !== null) {
-      return `${W}, ${usps} is cheapest up to ${fmtLb(prev)} and again from ${fmtLb(f.uspsAgainFrom)}; between ${fmtLb(f.first)} and ${fmtLb(f.lastRival)} ${winners} ${mostly}wins.`;
+    const verb = `${mostly}wins`; // "UPS Ground or FedEx Ground wins": one of them, per weight
+    const again = f.uspsAgainFrom !== null ? ` and again from ${fmtLb(f.uspsAgainFrom)}` : "";
+    if (f.first <= minW) {
+      const back = f.uspsAgainFrom !== null ? `; ${usps} is cheapest from ${fmtLb(f.uspsAgainFrom)}` : "";
+      return `${W}, ${winners} ${verb} from the lightest weight${back}.`;
     }
-    return `${W}, ${usps} is cheapest up to ${fmtLb(prev)}; beyond that ${winners} ${mostly}wins.`;
+    const prev = res.weights_lb[res.weights_lb.indexOf(f.first) - 1] ?? f.first;
+    if (f.uspsAgainFrom !== null) {
+      return `${W}, ${usps} is cheapest up to ${fmtLb(prev)}${again}; between ${fmtLb(f.first)} and ${fmtLb(f.lastRival!)} ${winners} ${verb}.`;
+    }
+    return `${W}, ${usps} is cheapest up to ${fmtLb(prev)}; beyond that ${winners} ${verb}.`;
   });
 
   const crossings = facts.filter((f) => f.first !== null);
@@ -163,12 +178,12 @@ export function readout(res: BreakevenResponse, meta: Meta | null): Readout {
   }
   const lowest = Math.min(...crossings.map((f) => f.first!));
   const at = crossings.filter((f) => f.first === lowest);
-  const rivalSet = CARRIERS.filter((c) => at.some((f) => f.rivals.includes(c)));
+  const rivalSet = CARRIERS.filter((c) => at.some((f) => f.firstWinner === c));
   const dists = at.map((f) => fmtMi(f.band.distance_miles));
   const distText = at.length === crossings.length && at.length === facts.length ? "at every distance" : `at ${joinOr(dists).replace(/ or /, " and ")}`;
   return {
     figure: fmtLb(lowest),
-    caption: `${usps} stops being the cheapest ${res_ ? "home" : "business"} delivery from ${fmtLb(lowest)} ${distText}, where ${joinOr(rivalSet.map(name))} ${rivalSet.length > 1 ? "match or beat" : "matches or beats"} it.`,
+    caption: `${usps} stops being the cheapest ${res_ ? "home" : "business"} delivery from ${fmtLb(lowest)} ${distText}, where ${joinOr(rivalSet.map(name))} ${rivalSet.length > 1 ? "take" : "takes"} over.`,
     lines,
     noUsps,
   };
