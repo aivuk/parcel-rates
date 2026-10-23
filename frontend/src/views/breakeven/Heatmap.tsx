@@ -40,7 +40,7 @@ export function Heatmap({ res, meta }: HeatmapProps) {
   const [wrapRef, width] = useWidth<HTMLDivElement>(640);
   const compact = width < 480;
   const colW = Math.max(30, (Math.max(width, 280) - AXIS_W) / Math.max(cols, 1));
-  const rowH = rows > 40 ? (compact ? 6 : 8) : compact ? 18 : 22;
+  const rowH = rows > 40 ? 8 : compact ? 18 : 22;
   const svgW = AXIS_W + colW * cols;
   const svgH = HEAD_H + rowH * rows + 2;
 
