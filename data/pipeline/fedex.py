@@ -24,6 +24,7 @@ from data.pipeline.common import (
     money,
     raw_path,
     weight_label,
+    with_found_announcements,
     write_table,
 )
 
@@ -445,7 +446,7 @@ def main() -> None:
     write_table(CARRIER, "exceptions", fedex_rules.EXCEPTIONS)
     write_table(CARRIER, "surcharges", fedex_rules.surcharge_rows())
     write_table(CARRIER, "fuel_surcharge", fuel_surcharge_rows())
-    write_table(CARRIER, "announced_increase", fedex_rules.ANNOUNCED_INCREASES)
+    write_table(CARRIER, "announced_increase", with_found_announcements(CARRIER, fedex_rules.ANNOUNCED_INCREASES))
     write_table(CARRIER, "dim_weight", fedex_rules.DIM_WEIGHT)
     print("wrote data/processed/fedex/*.csv")
 

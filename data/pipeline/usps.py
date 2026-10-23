@@ -22,6 +22,7 @@ from data.pipeline.common import (
     money,
     raw_path,
     weight_label,
+    with_found_announcements,
     write_table,
 )
 
@@ -224,7 +225,7 @@ def main() -> None:
         write_table(CARRIER, "exceptions", exception_rows()),
         write_table(CARRIER, "surcharges", surcharge_rows()),
         write_table(CARRIER, "fuel_surcharge", []),
-        write_table(CARRIER, "announced_increase", announced_increase_rows()),
+        write_table(CARRIER, "announced_increase", with_found_announcements(CARRIER, announced_increase_rows())),
         write_table(CARRIER, "dim_weight", rules.DIM_WEIGHT),
         write_table("shared", "zone_from_distance", zone_rows()),
     ]
