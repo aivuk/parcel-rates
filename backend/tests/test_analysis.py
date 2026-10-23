@@ -185,8 +185,24 @@ def test_projection_override_and_announced_without_a_slider(tables, sample):
     assert {(c["projected"]["basis"], c["projected"]["increase_percent"]) for c in over["carriers"]} == {("override", 3)}
     by = {c["carrier"]: c["projected"] for c in over["carriers"]}
     assert by["ups"]["announced_percent"] == 6.5 and by["usps"]["announced_percent"] is None
-    bare = {c["carrier"]: c["projected"] for c in yearly(t, sample[:40], Controls(year=2026))["carriers"]}
-    assert bare["ups"]["basis"] == "announced" and bare["usps"] is None and bare["fedex"] is None
+    bare = yearly(t, sample[:40], Controls(year=2026))
+    by = {c["carrier"]: c for c in bare["carriers"]}
+    assert by["ups"]["projected"]["basis"] == "announced"
+    # No slider: the others are assumed at the cheapest carrier's latest announced increase,
+    # the value the UI's slider starts at, so the page needs one request to open.
+    ref = max(set.intersection(*({y["year"] for y in c["years"]} for c in bare["carriers"])))
+    cheapest = min(bare["carriers"], key=lambda c: next(y["cost_per_parcel"] for y in c["years"] if y["year"] == ref))
+    latest = next(y["announced_increase"]["percent"] for y in reversed(cheapest["years"])
+                  if y["announced_increase"]["percent"] is not None)
+    assert bare["next_year_default_percent"] == latest
+    assert (by["usps"]["projected"]["basis"], by["usps"]["projected"]["increase_percent"]) == ("assumed", latest)
+    assert by["fedex"]["projected"]["increase_percent"] == latest
+
+
+def test_projection_default_is_null_when_nothing_was_announced(tables, sample):
+    bare = yearly(replace(tables, increases=[]), sample[:40], Controls(year=2026))
+    assert bare["next_year_default_percent"] is None
+    assert all(c["projected"] is None for c in bare["carriers"])
 
 
 def test_yearly_cost_equals_blended_for_each_year(tables, sample):

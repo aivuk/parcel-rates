@@ -138,7 +138,10 @@ class YearlyRequest(BaseModel):
         default=None,
         ge=-50,
         le=100,
-        description="assumed increase for carriers that have not announced their next year",
+        description=(
+            "assumed increase for carriers that have not announced their next year; when omitted, the latest "
+            "increase announced by the carrier cheapest in the reference year (next_year_default_percent)"
+        ),
     )
     next_year_override: bool = Field(
         default=False, description="apply next_year_increase_percent to every carrier, announced or not"
@@ -345,6 +348,8 @@ class CarrierYears(Out):
 
 class YearlyResponse(Out):
     carriers: list[CarrierYears]
+    # Used for next_year_increase_percent when the request leaves it out; null when nothing was announced.
+    next_year_default_percent: float | None
 
 
 class SampleParcelsResponse(Out):

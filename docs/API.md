@@ -153,8 +153,12 @@ in dollars per parcel. Each carrier also gets a projected next year: the year
 after its latest price list, at the increase the carrier announced for that
 year when the data has one (`basis: "announced"`), otherwise at
 `next_year_increase_percent` (`"assumed"`); with `next_year_override: true`
-the percentage applies to every carrier (`"override"`). No announcement and no
-percentage: `projected` is null.
+the percentage applies to every carrier (`"override"`). Without
+`next_year_increase_percent` the backend uses `next_year_default_percent`: the
+latest increase announced by the carrier cheapest in the reference year (the
+latest year every carrier has prices for), the value the dashboard's slider
+starts at. When nothing was announced the default is null, and carriers without
+their own announcement get `projected: null`.
 
 Rules: each year is priced at its own base-rate effective date per carrier
 (December 10 of that year when `peak`); `controls.as_of` and `controls.year`
@@ -163,7 +167,8 @@ carrier can ship in every one of its years are compared (`parcels_used`,
 `parcels_excluded`). Years a carrier lacks are absent.
 
 Shape: `YearlyResponse` in `backend/app/api/models.py`: `carriers[] {carrier,
-parcels_used, parcels_excluded, years[], projected}`; `projected` is
+parcels_used, parcels_excluded, years[], projected}` and
+`next_year_default_percent` (number or null); `projected` is
 `{year, increase_percent, cost_per_parcel, basis, announced_percent,
 source_type, source_files}` or `null` (`announced_percent` is the carrier's own
 figure for that year whatever the basis, null when none). Each year row:

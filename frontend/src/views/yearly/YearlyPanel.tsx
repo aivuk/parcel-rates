@@ -1,5 +1,5 @@
 import { FullQuestion } from "../FullQuestion";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { useApi, useLoad } from "../../api/ApiContext";
 import type { Carrier, Meta, Parcel, YearlyResponse } from "../../api/types";
 import type { ControlsState } from "../../state/urlState";
@@ -50,6 +50,8 @@ export function YearlyPanel({ controls, parcels, onLoadSample, onUploadCsv }: Ye
 
 function Yearly({ controls, parcels }: { controls: ControlsState; parcels: Parcel[] }) {
   const api = useApi();
+  // null until the owner moves the slider: the backend then applies its default
+  // (next_year_default_percent), the same value the slider shows, so opening Q4 takes one request.
   const [increase, setIncrease] = useState<number | null>(null);
   // false: each carrier's announced increase where it has one, the slider for the others; true: the slider for all.
   const [override, setOverride] = useState(false);
@@ -70,14 +72,6 @@ function Yearly({ controls, parcels }: { controls: ControlsState; parcels: Parce
   );
   const data = useLastData(state);
   const total = useMemo(() => totalQuantity(parcels), [parcels]);
-
-  // The slider starts at the pick carrier's latest announced increase, which the first answer tells us.
-  useEffect(() => {
-    if (increase !== null || !data) return;
-    const ref = referenceYear(data);
-    const d = ref !== null ? defaultIncrease(pickCarrier(data, ref)) : null;
-    if (d !== null) setIncrease(d);
-  }, [data, increase]);
 
   const loading = state.status === "loading";
   return (

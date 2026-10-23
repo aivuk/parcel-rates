@@ -376,6 +376,9 @@ export interface CarrierYears {
 
 export interface YearlyResponse {
   carriers: CarrierYears[];
+  /** Used for next_year_increase_percent when the request leaves it out: the latest increase
+   * announced by the carrier cheapest in the reference year. Null when none was announced. */
+  next_year_default_percent: number | null;
 }
 
 /* ---------- errors ---------- */

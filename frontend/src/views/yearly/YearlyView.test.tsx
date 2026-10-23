@@ -54,16 +54,21 @@ describe("YearlyView", () => {
     expect(screen.getByText(/Same years for the others/)).toHaveTextContent("UPS +28.1% (announced +18.8%) · FedEx +27.8%");
   });
 
-  it("starts the next-year slider at the latest announced increase and sends it", async () => {
+  it("starts the next-year slider at the latest announced increase in a single request", async () => {
     const { client, yearly } = spyClient();
     renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
     const slider = await screen.findByRole("slider", { name: /increase for 2027/i });
     await waitFor(() => expect(slider).toHaveValue("6.5"));
-    expect(yearly.mock.calls[0]![0]).not.toHaveProperty("next_year_increase_percent");
-    await waitFor(() => expect(yearly.mock.lastCall![0].next_year_increase_percent).toBe(6.5));
     expect(screen.getByTestId("q4-projection")).toHaveTextContent("$11.69 per parcel with USPS in 2027, from $10.98 in 2026 (+$0.71)");
 
     vi.useFakeTimers({ shouldAdvanceTime: true });
+    await act(async () => {
+      vi.advanceTimersByTime(300);
+    });
+    // The backend applies the same default when the request leaves the percentage out.
+    expect(yearly).toHaveBeenCalledOnce();
+    expect(yearly.mock.calls[0]![0]).not.toHaveProperty("next_year_increase_percent");
+
     fireEvent.change(slider, { target: { value: "10" } });
     expect(screen.getByTestId("q4-projection")).toHaveTextContent("$12.08");
     await act(async () => {
@@ -168,6 +173,7 @@ describe("YearlyView", () => {
 
   it("falls back to the single year's cost when only one year can be compared", async () => {
     const single = {
+      ...mockYearlyResponse,
       carriers: mockYearlyResponse.carriers.map((c) => ({ ...c, years: c.years.filter((y) => y.year === 2026), projected: null })),
     };
     const { client } = spyClient({ yearly: () => single });
@@ -179,6 +185,7 @@ describe("YearlyView", () => {
 
   it("lists parcels a carrier cannot ship in every year", async () => {
     const withGap = {
+      ...mockYearlyResponse,
       carriers: mockYearlyResponse.carriers.map((c) =>
         c.carrier === "fedex" ? { ...c, parcels_used: 288, parcels_excluded: 12 } : c,
       ),
