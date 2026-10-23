@@ -41,11 +41,51 @@ export function parseBool(raw: string): boolean | undefined {
   return undefined;
 }
 
-function parseNumber(raw: string): number | undefined {
-  const cleaned = raw.trim().replace(/^\$/, "").replace(/,/g, "");
-  if (cleaned === "") return undefined;
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : undefined;
+/**
+ * How numbers are written in the file. A semicolon delimiter means a European export:
+ * comma is the decimal separator and "." may group thousands. Otherwise "." is the decimal
+ * point and "," may group thousands (or, for a value like "2,5", be a decimal comma).
+ */
+export type NumberStyle = { decimal: "." | ","; delimiter: string };
+
+export interface ParsedNumber {
+  value?: number;
+  /** Set when the text could be read two ways; the value is the reading named here. */
+  ambiguity?: string;
+}
+
+const PLAIN = /^-?\d+(\.\d+)?$/;
+const COMMA_THOUSANDS = /^\d{1,3}(,\d{3})+(\.\d+)?$/;
+const DOT_THOUSANDS = /^\d{1,3}(\.\d{3})+(,\d+)?$/;
+const COMMA_DECIMAL = /^-?\d+,\d+$/;
+const SHORT_COMMA_DECIMAL = /^-?\d+,\d{1,2}$/;
+
+export function parseNumber(raw: string, style: NumberStyle = { decimal: ".", delimiter: "," }): ParsedNumber {
+  const t = raw.trim().replace(/^\$/, "").replace(/\s/g, "");
+  if (t === "") return {};
+  const num = (x: string): ParsedNumber => ({ value: Number(x) });
+
+  if (style.decimal === ",") {
+    if (COMMA_DECIMAL.test(t) || /^-?\d+$/.test(t)) return num(t.replace(",", "."));
+    if (DOT_THOUSANDS.test(t)) {
+      const value = Number(t.replace(/\./g, "").replace(",", "."));
+      if (t.includes(",")) return { value };
+      // "1.234" in a semicolon file: thousands group (1234) or decimal point (1.234)?
+      return { value, ambiguity: `"${raw.trim()}" read as ${value} (the "." taken as a thousands separator); write ${value} or ${t} with a comma decimal to be sure` };
+    }
+    if (PLAIN.test(t)) return num(t); // "2.5": not a thousands group, so a decimal point
+    return {};
+  }
+
+  if (PLAIN.test(t)) return num(t);
+  if (COMMA_THOUSANDS.test(t)) {
+    const value = Number(t.replace(/,/g, ""));
+    // With a comma delimiter the value was quoted on purpose, so a group like "1,234" is thousands.
+    if (style.delimiter === "," || t.includes(".")) return { value };
+    return { value, ambiguity: `"${raw.trim()}" read as ${value} (the "," taken as a thousands separator); if it is a decimal comma, write ${t.replace(",", ".")}` };
+  }
+  if (SHORT_COMMA_DECIMAL.test(t)) return num(t.replace(",", ".")); // "2,5": cannot be a thousands group
+  return {};
 }
 
 const SPEED_ALIASES: Record<string, Tier> = {
@@ -62,7 +102,12 @@ type Row = Record<string, string | undefined>;
 
 class RowReader {
   readonly errors: CsvProblem[] = [];
-  constructor(private readonly row: Row, private readonly rowNumber: number) {}
+  readonly warnings: CsvProblem[] = [];
+  constructor(
+    private readonly row: Row,
+    private readonly rowNumber: number,
+    private readonly style: NumberStyle,
+  ) {}
 
   private fail(column: string, message: string): undefined {
     this.errors.push({ row: this.rowNumber, column, message });
@@ -76,8 +121,10 @@ class RowReader {
   number(column: string, required: boolean, check: (n: number) => string | null): number | undefined {
     const raw = this.text(column);
     if (raw === "") return required ? this.fail(column, `${column} is empty`) : undefined;
-    const n = parseNumber(raw);
-    if (n === undefined) return this.fail(column, `${column} "${raw}" is not a number`);
+    const parsed = parseNumber(raw, this.style);
+    const n = parsed.value;
+    if (parsed.ambiguity) this.warnings.push({ row: this.rowNumber, column, message: `${column} ${parsed.ambiguity}` });
+    if (n === undefined || !Number.isFinite(n)) return this.fail(column, `${column} "${raw}" is not a number`);
     const problem = check(n);
     return problem ? this.fail(column, problem) : n;
   }
@@ -108,8 +155,12 @@ class RowReader {
 
 const positive = (col: string) => (n: number) => (n > 0 ? null : `${col} must be more than 0`);
 
-function readRow(row: Row, rowNumber: number): { parcel?: Parcel; errors: CsvProblem[] } {
-  const r = new RowReader(row, rowNumber);
+function readRow(
+  row: Row,
+  rowNumber: number,
+  style: NumberStyle,
+): { parcel?: Parcel; errors: CsvProblem[]; warnings: CsvProblem[] } {
+  const r = new RowReader(row, rowNumber, style);
   const weight = r.number("weight_lb", true, (n) => {
     if (n <= 0) return "weight_lb must be more than 0";
     if (n > MAX_WEIGHT_LB) return `weight_lb ${n} is over the ${MAX_WEIGHT_LB} lb limit`;
@@ -138,7 +189,7 @@ function readRow(row: Row, rowNumber: number): { parcel?: Parcel; errors: CsvPro
   }
 
   if (r.errors.length > 0 || weight === undefined || distance === undefined || residential === undefined || !speed) {
-    return { errors: r.errors };
+    return { errors: r.errors, warnings: r.warnings };
   }
   const parcel: Parcel = {
     weight_lb: weight,
@@ -153,11 +204,11 @@ function readRow(row: Row, rowNumber: number): { parcel?: Parcel; errors: CsvPro
     ...(area !== undefined ? { delivery_area: area } : {}),
     ...(nonstandard !== undefined ? { nonstandard_packaging: nonstandard } : {}),
   };
-  return { parcel, errors: [] };
+  return { parcel, errors: [], warnings: r.warnings };
 }
 
 export function parseParcelCsv(text: string): CsvResult {
-  const parsed = Papa.parse<Row>(text.replace(/^﻿/, ""), {
+  const parsed = Papa.parse<Row>(text.replace(/^\uFEFF/, ""), {
     header: true,
     skipEmptyLines: "greedy",
     transformHeader: (h) => h.trim().toLowerCase(),
@@ -176,6 +227,8 @@ export function parseParcelCsv(text: string): CsvResult {
       warnings: [],
     };
   }
+  const delimiter = parsed.meta.delimiter;
+  const style: NumberStyle = { delimiter, decimal: delimiter === ";" ? "," : "." };
   const warnings: CsvProblem[] = headers
     .filter((h) => h !== "" && !(ALL_COLUMNS as readonly string[]).includes(h))
     .map((h) => ({ row: null, column: h, message: `Column "${h}" is not used and was ignored` }));
@@ -194,7 +247,8 @@ export function parseParcelCsv(text: string): CsvResult {
   const parcels: Parcel[] = [];
   const errors: CsvProblem[] = [];
   parsed.data.forEach((row, i) => {
-    const result = readRow(row, i + 2);
+    const result = readRow(row, i + 2, style);
+    warnings.push(...result.warnings);
     if (result.parcel) parcels.push(result.parcel);
     errors.push(...result.errors);
   });
