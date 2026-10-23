@@ -256,6 +256,22 @@ before any parser agent was dispatched. From this point every big step
 - Effect at 1440 px: the Q1 answer moved from about 690 px to 360 px from the
   top, and the Q3 loss verdict is now on the first screen.
 
+## 2026-10-23 — Free shipping from an order value (issue #10)
+
+- The per-parcel `price_charged` column already overrode the flat price. The
+  missing piece of the shop's pricing policy was "free shipping on orders of
+  $X or more": parcels now take an optional `order_value` and the controls a
+  `free_shipping_over` threshold. A parcel whose order reaches it is charged
+  $0 for shipping, ahead of its own `price_charged` (free shipping is the
+  policy the customer sees at checkout). Rows without an order value are not
+  affected; the UI says so when a set has no `order_value` column.
+- The rule is off by default. The sample mix gained illustrative order values
+  from a separate random stream, so every other column and the default view
+  (−$0.31 per parcel with USPS) are unchanged; from $75, 54 of 307 parcels
+  ship free and the margin falls to −$2.06.
+- Q1 prices one parcel against the flat price and does not take an order
+  value; the rule applies to the parcel-set views (Q3 margins).
+
 ## Decisions changed after reviewing agent output
 
 | Decision | What the agent produced | What changed, and why | Where |

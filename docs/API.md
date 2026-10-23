@@ -32,6 +32,7 @@ interface Parcel {
   price_charged?: number;       // overrides Controls.flat_price for this row
   delivery_area?: DeliveryArea; // default "none"
   nonstandard_packaging?: boolean; // default false
+  order_value?: number;         // >= 0; value of the order the parcel ships (free-shipping rule)
 }
 
 interface Controls {
@@ -42,6 +43,9 @@ interface Controls {
   fuel_override_percent?: { ground?: number; express?: number }; // replaces the yearly default
   peak: boolean;                // default false; when true, as_of moves into the year's peak window
   flat_price: number;           // what the shop charges per parcel; default 9.99
+  free_shipping_over?: number | null; // free shipping on orders of this value or more; default none.
+                                // A parcel whose order_value reaches it is charged $0, ahead of its
+                                // price_charged; parcels without order_value are not affected
 }
 
 interface LineItem {
@@ -118,7 +122,9 @@ carrier per parcel (a "best mix" row). Each parcel uses the cheapest service
 of that carrier in the parcel's speed tier.
 
 Shape: `BlendedResponse` in `backend/app/api/models.py`: `year`,
-`parcels_considered`, `revenue_per_parcel`, `carriers[]` and `best_mix`. Each
+`parcels_considered`, `revenue_per_parcel`, `free_shipping` (null, or
+`{threshold, parcels}` when `free_shipping_over` is set: how many parcels ship
+free), `carriers[]` and `best_mix`. Each
 carrier row (and `best_mix`) is a `Summary`: `parcels_shipped`,
 `parcels_unavailable` (quantity no service of the carrier could carry),
 `total_cost`, `cost_per_parcel`, `split.{base,surcharges,fuel}.{per_parcel,total,share}`,
