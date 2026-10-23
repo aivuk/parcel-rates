@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Local agent-log viewer output (uv run tools/agent_log_html.py)
+build/

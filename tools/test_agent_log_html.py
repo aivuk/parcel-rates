@@ -1,0 +1,147 @@
+"""Tests for tools/agent_log_html.py on a small log written the way the export hook writes.
+
+    uv run --no-project --with markdown-it-py --with pytest pytest tools
+"""
+
+from __future__ import annotations
+
+import agent_log_html as a
+
+LOG = '''# Agent session abc12345-0000
+
+| | |
+|---|---|
+| Project | `~/repo` |
+| Branch | `main` |
+| Started | 2026-10-22T12:00:00.000Z |
+| Last record | 2026-10-22T13:30:00.000Z |
+
+## User <sub>2026-10-22T12:00:00Z</sub>
+
+Build the thing. &lt;system-reminder&gt;secret context&lt;/system-reminder&gt;
+
+## Assistant <sub>2026-10-22T12:01:00Z</sub>
+
+Looking first.
+
+**Tool call:** `Bash` <sub>toolu_1</sub>
+
+- `command`:
+
+````
+cat notes.md
+```
+## User <sub>not a turn, inside a fence</sub>
+```
+````
+
+- `description`: `Read the notes`
+
+<details>
+<summary>**Tool result** <sub>toolu_1</sub></summary>
+
+```
+## Assistant <sub>also inside a fence</sub>
+```
+
+</details>
+
+**Tool call:** `Read` <sub>toolu_2</sub>
+
+- `file_path`: `a.txt`
+
+## User <sub>2026-10-22T12:02:00Z</sub>
+
+<task-notification>
+<status>completed</status>
+<summary>Background command "x" completed</summary>
+</task-notification>
+
+## Assistant <sub>2026-10-22T12:03:00Z</sub>
+
+<details>
+<summary>**Tool result (error)** <sub>toolu_2</sub></summary>
+
+```
+no such file
+```
+
+</details>
+
+<details>
+<summary>Thinking</summary>
+
+Hmm.
+
+</details>
+
+Done.
+
+## User <sub>2026-10-22T12:04:00Z</sub>
+
+[Request interrupted by user]
+
+and also this
+
+---
+
+## Subagent `agent-1`: Survey the sources
+
+Type: `general-purpose` · Source: `x.jsonl`
+
+### User <sub>2026-10-22T12:05:00Z</sub>
+
+Go.
+'''
+
+
+def session(tmp_path):
+    p = tmp_path / "abc12345-0000.md"
+    p.write_text(LOG, encoding="utf-8")
+    return a.parse_session(p)
+
+
+def test_turns_ignore_headings_inside_fences(tmp_path):
+    s = session(tmp_path)
+    assert [t.role for t in s.turns] == ["User", "Assistant", "User", "Assistant", "User"]
+    assert s.meta["Branch"] == "main" and s.meta["Started"].startswith("2026-10-22")
+
+
+def test_tool_calls_get_their_results_also_across_turns(tmp_path):
+    s = session(tmp_path)
+    bash, read = [g for t in s.turns for g in t.segments if g.kind == "tool"]
+    assert bash.name == "Bash" and dict((k, v) for k, v, _ in bash.inputs)["description"] == "Read the notes"
+    assert "## User <sub>not a turn" in dict((k, v) for k, v, _ in bash.inputs)["command"]
+    assert bash.result is not None and "## Assistant" in bash.result.text and not bash.result.error
+    assert read.result is not None and read.result.error and read.result.text == "no such file"
+    assert not [g for t in s.turns for g in t.segments if g.kind == "result"]
+    assert a.descriptor(bash) == "Read the notes"
+
+
+def test_prompts_exclude_harness_messages(tmp_path):
+    s = session(tmp_path)
+    kinds = [a.user_kind(t) for t in s.turns if t.role == "User"]
+    assert [k for k, _ in kinds] == ["prompt", "event", "prompt"]
+    assert kinds[1][1] == 'Background task completed: Background command "x" completed'
+    assert len(s.prompts) == 2 and a.first_line(s.prompts[1]) == "and also this"
+
+
+def test_subagents_and_rendering(tmp_path):
+    s = session(tmp_path)
+    assert [(x.name, x.description, x.agent_type, len(x.turns)) for x in s.subagents] == [
+        ("agent-1", "Survey the sources", "general-purpose", 1)
+    ]
+    page = a.render_session(s)
+    assert 'class="ctx"' in page and "secret context" in page  # injected context, collapsed
+    assert "after interrupting" in page and 'class="event"' in page
+    assert page.count('class="tool') >= 2 and "Thinking" in page
+
+
+def test_build_writes_the_site(tmp_path):
+    logs = tmp_path / "logs"
+    logs.mkdir()
+    (logs / "abc12345-0000.md").write_text(LOG, encoding="utf-8")
+    (logs / "empty-0000.md").write_text("# Agent session empty\n\n| | |\n|---|---|\n", encoding="utf-8")
+    index, sessions = a.build(logs, tmp_path / "out")
+    assert [s.sid for s in sessions] == ["abc12345-0000"]  # the empty session is skipped
+    assert (tmp_path / "out" / "sessions" / "abc12345-0000.html").exists() and "Build the thing" in index.read_text()
