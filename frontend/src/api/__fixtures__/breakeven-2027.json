@@ -1,0 +1,117 @@
+{
+ "request": {
+  "method": "POST",
+  "path": "/api/breakeven",
+  "body": {
+   "controls": {
+    "year": 2027
+   },
+   "residential": true,
+   "weights_lb": [
+    1,
+    30
+   ],
+   "distances_miles": [
+    100,
+    1600
+   ]
+  }
+ },
+ "response": {
+  "status": 200,
+  "body": {
+   "year": 2027,
+   "residential": true,
+   "weights_lb": [
+    1.0,
+    30.0
+   ],
+   "distances_miles": [
+    100.0,
+    1600.0
+   ],
+   "cells": [
+    {
+     "weight_lb": 1.0,
+     "distance_miles": 100.0,
+     "zone_usps": 2,
+     "zone_private": 2,
+     "winner": {
+      "carrier": "fedex",
+      "service_id": "fedex_home_delivery",
+      "total": 24.75
+     },
+     "runner_up": null,
+     "saving": 0.0,
+     "totals": {
+      "fedex": 24.75
+     }
+    },
+    {
+     "weight_lb": 30.0,
+     "distance_miles": 100.0,
+     "zone_usps": 2,
+     "zone_private": 2,
+     "winner": {
+      "carrier": "fedex",
+      "service_id": "fedex_home_delivery",
+      "total": 39.6
+     },
+     "runner_up": null,
+     "saving": 0.0,
+     "totals": {
+      "fedex": 39.6
+     }
+    },
+    {
+     "weight_lb": 1.0,
+     "distance_miles": 1600.0,
+     "zone_usps": 7,
+     "zone_private": 7,
+     "winner": {
+      "carrier": "fedex",
+      "service_id": "fedex_home_delivery",
+      "total": 28.58
+     },
+     "runner_up": null,
+     "saving": 0.0,
+     "totals": {
+      "fedex": 28.58
+     }
+    },
+    {
+     "weight_lb": 30.0,
+     "distance_miles": 1600.0,
+     "zone_usps": 7,
+     "zone_private": 7,
+     "winner": {
+      "carrier": "fedex",
+      "service_id": "fedex_home_delivery",
+      "total": 79.39
+     },
+     "runner_up": null,
+     "saving": 0.0,
+     "totals": {
+      "fedex": 79.39
+     }
+    }
+   ],
+   "breakeven_weight_lb": [
+    {
+     "distance_miles": 100.0,
+     "zone_usps": 2,
+     "zone_private": 2,
+     "vs_ups": null,
+     "vs_fedex": null
+    },
+    {
+     "distance_miles": 1600.0,
+     "zone_usps": 7,
+     "zone_private": 7,
+     "vs_ups": null,
+     "vs_fedex": null
+    }
+   ]
+  }
+ }
+}
