@@ -229,7 +229,7 @@ Open issues in the repository, in rough priority order:
 
 ## Local development without Docker
 
-Needs Python 3.12 with [uv](https://docs.astral.sh/uv/) and Node 18.18 or
+Needs Python 3.12 with [uv](https://docs.astral.sh/uv/) and Node 20.12 or
 newer (the image uses Node 22).
 
 ```sh
