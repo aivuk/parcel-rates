@@ -37,6 +37,11 @@ export function ChipGroup<T>({
               aria-pressed={on}
               onClick={() => onChange(o.value)}
             >
+              {on && (
+                <span className="chip__check" aria-hidden="true">
+                  ✓
+                </span>
+              )}
               {o.label}
             </button>
           );

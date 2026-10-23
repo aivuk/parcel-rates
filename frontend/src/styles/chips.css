@@ -50,8 +50,9 @@
   font-weight: 600;
 }
 
-.chip--on::before {
-  content: "✓ ";
+/* Decorative: aria-pressed already says the chip is on, so the mark is aria-hidden markup. */
+.chip__check {
+  margin-right: 0.25em;
 }
 
 @media (max-width: 39.999rem) {

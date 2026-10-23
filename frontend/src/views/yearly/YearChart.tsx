@@ -301,41 +301,44 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
         </p>
       ))}
       {fuelCarriers.length > 0 && (
-        <table className="fuel-strip">
-          <caption className="visually-hidden">Fuel surcharge applied per year, ground services</caption>
-          <thead>
-            <tr>
-              <th scope="col">Fuel, ground</th>
-              {yearList
-                .filter((y) => fuelCarriers.some((c) => c.years.some((r) => r.year === y)))
-                .map((y) => (
-                  <th key={y} scope="col" className="num">
-                    {y}
-                  </th>
-                ))}
-            </tr>
-          </thead>
-          <tbody>
-            {fuelCarriers.map((c) => (
-              <tr key={c.carrier}>
-                <th scope="row" style={{ color: `var(--carrier-${c.carrier})` }}>
-                  {carrierName(c.carrier)}
-                </th>
+        // Scrolls sideways on narrow phones, so it takes focus for keyboard scrolling.
+        <div className="fuel-strip__wrap" tabIndex={0} role="region" aria-label="Fuel surcharge per year">
+          <table className="fuel-strip">
+            <caption className="visually-hidden">Fuel surcharge applied per year, ground services</caption>
+            <thead>
+              <tr>
+                <th scope="col">Fuel, ground</th>
                 {yearList
-                  .filter((y) => fuelCarriers.some((cc) => cc.years.some((r) => r.year === y)))
-                  .map((y) => {
-                    const row = c.years.find((r) => r.year === y);
-                    return (
-                      <td key={y} className="num">
-                        {row?.fuel?.ground.applied_percent != null ? `${row.fuel.ground.applied_percent}%` : "—"}
-                        {row?.fuel?.ground.is_proxy && <span className="fuel-strip__proxy">*</span>}
-                      </td>
-                    );
-                  })}
+                  .filter((y) => fuelCarriers.some((c) => c.years.some((r) => r.year === y)))
+                  .map((y) => (
+                    <th key={y} scope="col" className="num">
+                      {y}
+                    </th>
+                  ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {fuelCarriers.map((c) => (
+                <tr key={c.carrier}>
+                  <th scope="row" style={{ color: `var(--carrier-${c.carrier})` }}>
+                    {carrierName(c.carrier)}
+                  </th>
+                  {yearList
+                    .filter((y) => fuelCarriers.some((cc) => cc.years.some((r) => r.year === y)))
+                    .map((y) => {
+                      const row = c.years.find((r) => r.year === y);
+                      return (
+                        <td key={y} className="num">
+                          {row?.fuel?.ground.applied_percent != null ? `${row.fuel.ground.applied_percent}%` : "—"}
+                          {row?.fuel?.ground.is_proxy && <span className="fuel-strip__proxy">*</span>}
+                        </td>
+                      );
+                    })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       {fuelCarriers.some((c) => c.years.some((y) => y.fuel?.ground.is_proxy)) && (
         <p className="fuel-strip__foot">* Proxy: no published figure for that carrier and year, so FedEx’s published fuel history stands in. The rail’s fuel slider overrides every year.</p>

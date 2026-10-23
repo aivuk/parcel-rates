@@ -40,7 +40,10 @@ export function ChartFrame({
       <figcaption className="chart__summary">{summary}</figcaption>
       <div id={bodyId} className="chart__body">
         {asTable ? (
-          <div className="chart__table-wrap">{table}</div>
+          // Wide tables scroll sideways on phones; focusable so the keyboard can scroll them.
+          <div className="chart__table-wrap" tabIndex={0} role="region" aria-label={`${title}, as a table`}>
+            {table}
+          </div>
         ) : (
           <>
             {controls && <div className="chart__controls">{controls}</div>}
