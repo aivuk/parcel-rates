@@ -148,3 +148,39 @@ never alone: names, marker shapes or row labels go with it.
 the CVD target (USPS/FedEx ΔE about 5 under protanopia, light and dark), which
 DESIGN.md already anticipated; Q3/Q4 therefore always pair carrier colour with
 the carrier name or a marker shape.
+
+## Q1 quote and Q2 breakeven views (issue #5)
+
+Code in `src/views/QuoteView.tsx`, `src/views/BreakevenView.tsx` and the folders
+`src/views/quote/` and `src/views/breakeven/`, each with its own CSS file. Helpers the
+two views share (margin wording, carriers per year, debounce, the view-level note,
+error and skeleton classes, the small segmented toggle) live in `src/views/quote/shared.ts`
+and `shared.css`; move them to `src/lib` and `src/styles` if Q3/Q4 want them.
+
+**Q1.** The answer (cheapest total for the chosen speed) sits directly under the
+question at `--text-figure`, followed by carrier and service at `--text-lg` and the
+margin with a sign and the word "margin" or "loss". Below a heavy rule, the form
+(left, 17 rem) and the explanation (right) share a two-column grid that stacks under
+52 rem. The form prices live with a 300 ms debounce; the previous answer stays visible
+at 55 % opacity while the next one loads, so typing never flashes a skeleton. Each
+carrier row is a disclosure button: rank, carrier name in its colour, a stacked bar
+(base solid, surcharges hatched, fuel wash with an outline, so the three parts differ
+by texture and not only by tint), total and the difference to the cheapest. Line items
+carry their source under the label in small muted type. Unavailable services are struck
+through and muted, with the reason in words. When dimensional weight sets the billable
+weight, a ruled note shows actual, dimensional and billable weight per service. Server
+422 messages appear under the input they concern, in `--loss`, and the input gets
+`aria-invalid`.
+
+**Q2.** The figure is the lightest weight at which USPS Ground Advantage stops being
+cheapest, with a caption naming the distances and rivals; one plain sentence per
+distance band (neighbouring bands that read the same are merged) follows. The map is a
+hand-built SVG: rows are weights, columns the zone-band midpoints, cell colour is the
+winner's carrier colour mixed with its wash in four fixed saving steps (under $1,
+$1–3, $3–10, $10+), so the legend means the same on every map. A heavy ink line marks
+where USPS stops or starts winning and a dotted line where UPS and FedEx swap; runs
+tall enough carry the carrier name. Colour is therefore never the only cue. The grid is
+a roving-tabindex `role="grid"` (arrows, Home/End, PageUp/PageDown, Escape closes the
+tooltip); hover, tap or focus shows every carrier's total. "Show as table" swaps the
+map for a sticky-header table. At 375 px the map fits without horizontal scroll (columns
+shrink, headers abbreviate to "z5").
