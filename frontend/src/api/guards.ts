@@ -16,9 +16,15 @@ import type {
 import { CARRIERS, DELIVERY_AREAS, TIERS } from "./types";
 
 export class ContractError extends Error {
+  /** Path of the offending field inside the body, e.g. ".quotes[0].carrier" ("" = the body itself). */
+  readonly path: string;
+  readonly expected: string;
+
   constructor(path: string, expected: string, got: unknown) {
     super(`${path || "(root)"}: expected ${expected}, got ${JSON.stringify(got)?.slice(0, 80)}`);
     this.name = "ContractError";
+    this.path = path;
+    this.expected = expected;
   }
 }
 
