@@ -104,6 +104,8 @@ def project_next_year(
         "increase_percent": percent,
         "cost_per_parcel": _r(last_cost * factor),
         "basis": basis,
+        # The carrier's own figure, also when an override or nothing replaced it, so a UI can offer it back.
+        "announced_percent": announced["percent"],
         "source_type": announced["source_type"] if basis == "announced" else None,
         "source_files": files,
     }

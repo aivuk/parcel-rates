@@ -183,6 +183,8 @@ def test_projection_override_and_announced_without_a_slider(tables, sample):
     t = _with_ups_2027(tables)
     over = yearly(t, sample[:40], Controls(year=2026), next_year_increase_percent=3, next_year_override=True)
     assert {(c["projected"]["basis"], c["projected"]["increase_percent"]) for c in over["carriers"]} == {("override", 3)}
+    by = {c["carrier"]: c["projected"] for c in over["carriers"]}
+    assert by["ups"]["announced_percent"] == 6.5 and by["usps"]["announced_percent"] is None
     bare = {c["carrier"]: c["projected"] for c in yearly(t, sample[:40], Controls(year=2026))["carriers"]}
     assert bare["ups"]["basis"] == "announced" and bare["usps"] is None and bare["fedex"] is None
 

@@ -291,6 +291,7 @@ class Projection(Out):
     increase_percent: float
     cost_per_parcel: float
     basis: Literal["announced", "assumed", "override"]
+    announced_percent: float | None
     source_type: str | None
     source_files: list[str]
 

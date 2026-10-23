@@ -3314,6 +3314,7 @@
       "increase_percent": 5.9,
       "cost_per_parcel": 11.63,
       "basis": "assumed",
+      "announced_percent": null,
       "source_type": null,
       "source_files": []
      }
@@ -3938,6 +3939,7 @@
       "increase_percent": 5.9,
       "cost_per_parcel": 32.97,
       "basis": "assumed",
+      "announced_percent": null,
       "source_type": null,
       "source_files": []
      }
@@ -4726,6 +4728,7 @@
       "increase_percent": 5.9,
       "cost_per_parcel": 34.24,
       "basis": "assumed",
+      "announced_percent": null,
       "source_type": null,
       "source_files": []
      }
