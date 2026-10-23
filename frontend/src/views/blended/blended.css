@@ -1,0 +1,171 @@
+/* Question 3: blended cost per carrier. */
+
+.q3 {
+  display: grid;
+  min-width: 0;
+}
+
+.q3-answer {
+  margin-top: var(--space-4);
+}
+
+.carrier-tag {
+  font-weight: 600;
+}
+
+.answer__unit {
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  letter-spacing: 0;
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.answer__figure--empty {
+  color: var(--ink-muted);
+}
+
+.q3-answer .answer__caption {
+  max-width: 60ch;
+  line-height: 1.5;
+  font-size: var(--text-base);
+}
+
+.mix {
+  margin-top: var(--space-3);
+  padding: var(--space-3) 0 var(--space-3) var(--space-4);
+  border-left: 3px solid var(--ink);
+  max-width: 60ch;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.mix__label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mix__figure {
+  font-size: var(--text-xl);
+}
+
+.mix__line {
+  line-height: 1.5;
+}
+
+.mix__split {
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The "does my price cover it" verdict: second only to the answer figure. */
+.verdict {
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+  border: 2px solid currentColor;
+  border-radius: var(--radius);
+  display: grid;
+  gap: var(--space-2);
+  max-width: 52rem;
+}
+
+.verdict--loss {
+  color: var(--loss);
+  background: var(--loss-wash);
+}
+
+.verdict--profit {
+  color: var(--profit);
+  background: var(--profit-wash);
+}
+
+.verdict__q {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.verdict__figure {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.verdict__word {
+  font-weight: 700;
+}
+
+.verdict__loss-share {
+  color: var(--ink);
+  font-size: var(--text-lg);
+  line-height: 1.4;
+}
+
+.verdict__loss-share strong {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: inherit;
+}
+
+.verdict--loss .verdict__loss-share strong {
+  color: var(--loss);
+}
+
+.verdict__note {
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+
+.margin-table {
+  margin-top: var(--space-3);
+  color: var(--ink);
+}
+
+.margin-table thead th {
+  border-bottom-color: currentColor;
+}
+
+.meter {
+  display: inline-block;
+  width: 5rem;
+  height: 8px;
+  margin-right: var(--space-2);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.meter__fill {
+  display: block;
+  height: 100%;
+  background: var(--loss);
+  transform-origin: left;
+}
+
+.meter__text {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+@media (max-width: 39.999rem) {
+  .verdict {
+    padding: var(--space-4);
+  }
+
+  .margin-table .meter {
+    width: 2.5rem;
+  }
+
+  .margin-table th,
+  .margin-table td {
+    padding-right: var(--space-2);
+  }
+}
