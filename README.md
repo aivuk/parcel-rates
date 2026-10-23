@@ -35,6 +35,10 @@ cost once surcharges and yearly price increases are included.
 
 ### What it answers
 
+> **Status:** the API answers all four questions today (`/api/quote`, `/api/breakeven`,
+> `/api/blended`, `/api/yearly`). The dashboard views for them are being built in
+> issues #5 and #6; until they merge, each tab shows "View in progress".
+
 | # | Question | How |
 |---|---|---|
 | 1 | For one parcel (weight, size, distance, home or business, speed), which service is cheapest once surcharges are included, and what are the line items? | Quote for every service, cheapest per speed tier, line items with the source page of each charge |
