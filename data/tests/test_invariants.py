@@ -104,8 +104,8 @@ def test_coverage_complete(carrier, base_rates, exceptions):
         for zone, present in steps_by_zone.items():
             for w in steps - present:
                 anomalies.append({"kind": "missing_cell", "service_id": service, "rate_card": card, "year": year, "zone": zone, "max_weight_lb": w})
-        if steps and max(steps) < MAX_WEIGHT_LB:
-            anomalies.append({"kind": "missing_cell", "service_id": service, "rate_card": card, "year": year, "max_weight_lb": MAX_WEIGHT_LB})
+        if steps and max(steps) != MAX_WEIGHT_LB[carrier]:
+            anomalies.append({"kind": "missing_cell", "service_id": service, "rate_card": card, "year": year, "max_weight_lb": MAX_WEIGHT_LB[carrier]})
         whole = sorted(w for w in steps if w == w.to_integral_value())
         for a, b in zip(whole, whole[1:]):
             if b - a != 1:

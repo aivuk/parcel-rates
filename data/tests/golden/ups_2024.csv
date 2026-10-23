@@ -24,3 +24,18 @@ ups,ups_ground,list,2024,2024-07-01,5,20,24.06,ups/2024/ups-2024-rate-and-servic
 ups,ups_ground,list,2024,2024-07-01,4,50,38.99,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,73,agent 2026-10-23
 ups,ups_ground,list,2024,2024-07-01,2,70,30.91,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,73,agent 2026-10-23
 ups,ups_ground,list,2024,2024-07-01,8,70,90.99,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,73,agent 2026-10-23
+ups,ups_2nd_day_air,list,2024,2024-07-01,8,150,1191.00,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,67,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_2nd_day_air,list,2024,2024-07-01,2,150,271.50,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,67,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_2nd_day_air,list,2024,2024-07-01,5,90,366.80,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,66,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_3_day_select,list,2024,2024-07-01,8,150,892.14,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,71,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_3_day_select,list,2024,2024-07-01,2,150,192.58,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,71,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_3_day_select,list,2024,2024-07-01,5,90,265.13,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,70,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_ground,list,2024,2024-07-01,8,150,162.63,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,75,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_ground,list,2024,2024-07-01,2,150,107.57,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,75,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_ground,list,2024,2024-07-01,5,90,72.34,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,74,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air,list,2024,2024-07-01,8,150,1647.00,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,55,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air,list,2024,2024-07-01,2,150,417.82,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,55,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air,list,2024,2024-07-01,5,90,757.82,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,54,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air_saver,list,2024,2024-07-01,8,150,1583.19,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,59,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air_saver,list,2024,2024-07-01,2,150,409.07,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,59,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+ups,ups_next_day_air_saver,list,2024,2024-07-01,5,90,747.14,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,58,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"

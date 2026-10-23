@@ -3,7 +3,7 @@
 Usage: uv run python -m data.pipeline.fedex
 
 Rewrites every file in data/processed/fedex/ from the raw files listed in
-data/raw/manifest.csv. Parsed table: base_rates.csv (zones 2-8, 1-70 lb).
+data/raw/manifest.csv. Parsed table: base_rates.csv (zones 2-8, 1-150 lb).
 Curated tables come from data/pipeline/fedex_rules.py; fuel_surcharge.csv is
 derived from the archived weekly fuel-surcharge history pages.
 """
@@ -54,6 +54,7 @@ FUEL_HISTORY = {
 
 MONEY_TOKEN = re.compile(r"^\d{1,3}(,\d{3})*\.\d{2}$")
 WEIGHT_TOKEN = re.compile(r"^(\d{1,3})$")
+FOOTNOTE_TOKEN = re.compile(r"^\d$")
 WEIGHT_LABEL = re.compile(r"^(\d{1,3})\s*lbs?\.?$")
 EXPRESS_PAGE = re.compile(r"U\.S\. express package rates: Zone (\d)")
 GROUND_PAGE = re.compile(r"FedEx Ground.* and FedEx Home Delivery.* U\.S\. rates: Zones 2.8")
@@ -111,6 +112,8 @@ def tokenize_pdf_row(tokens: list[str], expected_columns: int) -> tuple[int, lis
         weight = int(first)
         if rest and rest[0] in {"lb.", "lbs.", "lb", "lbs"}:
             rest = rest[1:]
+        if len(rest) > 1 and FOOTNOTE_TOKEN.match(rest[0]) and MONEY_TOKEN.match(rest[1]):
+            rest = rest[1:]  # footnote marker printed after the weight ("150 2  102.64 ...")
     else:
         match = WEIGHT_LABEL.match(first)
         if not match:
@@ -148,7 +151,7 @@ def pdf_lines(page) -> list[list[str]]:
 
 
 def check_complete(cells: list[Cell], year: int) -> None:
-    """Every service must have zones 2-8 with weights 1-70, each exactly once."""
+    """Every service must have zones 2-8 with weights 1-150, each exactly once."""
     seen: dict[tuple[str, int, int], int] = {}
     for cell in cells:
         key = (cell.service_id, cell.zone, cell.weight)
@@ -161,7 +164,7 @@ def check_complete(cells: list[Cell], year: int) -> None:
     if services != expected:
         raise ParseError(f"{year}: services parsed {sorted(services)} != expected {sorted(expected)}")
     missing = [
-        (s, z, w) for s in expected for z in ZONES[CARRIER] for w in range(1, MAX_WEIGHT_LB + 1)
+        (s, z, w) for s in expected for z in ZONES[CARRIER] for w in range(1, MAX_WEIGHT_LB[CARRIER] + 1)
         if (s, z, w) not in seen
     ]
     if missing:
@@ -214,7 +217,7 @@ def cells_from_block(service: str, zone_columns: list[int], body: list[tuple], r
         if weight is None:
             continue  # Envelope, Pak and footnote rows
         weights.append(weight)
-        if weight > MAX_WEIGHT_LB:
+        if weight > MAX_WEIGHT_LB[CARRIER]:
             continue
         for zone, column in zip(ZONES[CARRIER], zone_columns):
             value = row[column]
@@ -303,14 +306,14 @@ def parse_pdf_page(page, page_index: int) -> list[Cell]:
             weight, prices = parsed
             zone = int(express.group(1))
             for service, price in zip(PDF_EXPRESS_COLUMNS, prices):
-                if service in EXPRESS_SERVICES.values() and weight <= MAX_WEIGHT_LB:
+                if service in EXPRESS_SERVICES.values() and weight <= MAX_WEIGHT_LB[CARRIER]:
                     cells.append(Cell(service, zone, weight, money(price), str(page_index)))
         else:
             parsed = tokenize_pdf_row(tokens, len(ZONES[CARRIER]))
             if parsed is None:
                 continue
             weight, prices = parsed
-            if weight > MAX_WEIGHT_LB:
+            if weight > MAX_WEIGHT_LB[CARRIER]:
                 continue
             for zone, price in zip(ZONES[CARRIER], prices):
                 for service in GROUND_SERVICES:
