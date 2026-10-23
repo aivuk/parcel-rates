@@ -1,10 +1,11 @@
 import { Bar, BarChart, CartesianGrid, Cell, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { Carrier, YearRow } from "../../api/types";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
-import { formatUsd } from "../../lib/format";
-import { ChartFrame, useCssColors } from "../blended/common";
-import { carrierName, signedUsd } from "../blended/money";
 import { DIMENSION_LABEL, driverSentence, segmentLabel, sortedDrivers, withinChange, type Dimension } from "./logic";
+import { ChartFrame } from "../../components/ChartFrame";
+import { useCssColors } from "../../hooks/useCssColors";
+import { carrierName } from "../../lib/carriers";
+import { formatUsd, signedUsd } from "../../lib/format";
 
 const COLOR_VARS = { up: "--q4-up", down: "--q4-down", muted: "--ink-muted", ink: "--ink", rule: "--rule", sheet: "--sheet" } as const;
 

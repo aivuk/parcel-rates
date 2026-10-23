@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { Carrier, YearlyResponse } from "../../api/types";
-import { formatUsd } from "../../lib/format";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
-import { ChartFrame, useCssColors } from "../blended/common";
-import { ChipGroup } from "../blended/SegmentChips";
-import { carrierName, signedPct } from "../blended/money";
 import { announcedPath, biggestFuelStep, fuelSentence, referenceYear, type PointNote } from "./logic";
+import { ChartFrame } from "../../components/ChartFrame";
+import { ChipGroup } from "../../components/ChipGroup";
+import { useCssColors } from "../../hooks/useCssColors";
+import { carrierName } from "../../lib/carriers";
+import { formatUsd, signedPct } from "../../lib/format";
 
 const COLOR_VARS = {
   usps: "--carrier-usps",

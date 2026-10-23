@@ -2,8 +2,9 @@ import { useEffect, useId, useState } from "react";
 import type { Meta } from "../../api/types";
 import type { Action, AppState } from "../../state/urlState";
 import { fuelDefault, yearOptions } from "../../lib/fuel";
-import { CARRIER_NAME, formatPercent, formatUsd } from "../../lib/format";
 import { FuelSlider } from "./FuelSlider";
+import { CARRIER_NAME } from "../../lib/carriers";
+import { formatPercent, formatUsd } from "../../lib/format";
 
 export interface ControlRailProps {
   state: AppState;

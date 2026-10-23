@@ -1,7 +1,7 @@
 /** Pure derivations for the Q4 year-over-year view. */
 import type { Carrier, CarrierYears, Driver, Drivers, YearRow, YearlyResponse } from "../../api/types";
-import { formatUsd } from "../../lib/format";
-import { carrierName, conditionLabel, signedPct, signedUsd, tierName } from "../blended/money";
+import { carrierName } from "../../lib/carriers";
+import { conditionLabel, formatUsd, signedPct, signedUsd, tierName } from "../../lib/format";
 
 export type Dimension = keyof Drivers;
 export const DIMENSIONS: readonly Dimension[] = ["weight_band", "zone_band", "residential", "speed"];

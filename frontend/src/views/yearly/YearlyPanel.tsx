@@ -2,11 +2,13 @@ import { useEffect, useId, useMemo, useState } from "react";
 import { useApi, useLoad } from "../../api/ApiContext";
 import type { Carrier, Meta, Parcel, YearlyResponse } from "../../api/types";
 import type { ControlsState } from "../../state/urlState";
-import { carrierVar } from "../../lib/carriers";
-import { formatInt, formatUsd } from "../../lib/format";
-import { LoadProblem, NeedParcels, useDebounced, useLastData, type ParcelActions } from "../blended/common";
-import { ChipGroup } from "../blended/SegmentChips";
-import { carrierName, signedPct, signedUsd } from "../blended/money";
+import { ChipGroup } from "../../components/ChipGroup";
+import { LoadProblem } from "../../components/LoadProblem";
+import { NeedParcels, type ParcelActions } from "../../components/NeedParcels";
+import { useDebounced } from "../../hooks/useDebounced";
+import { useLastData } from "../../hooks/useLastData";
+import { carrierName, carrierVar } from "../../lib/carriers";
+import { formatInt, formatUsd, signedPct, signedUsd } from "../../lib/format";
 import { totalQuantity } from "../blended/logic";
 import { YearChart } from "./YearChart";
 import { DriverChart } from "./DriverChart";
@@ -99,7 +101,7 @@ function Body({
     .filter((x) => x.ch !== null);
 
   return (
-    <div className={stale ? "q-stale" : undefined}>
+    <div className={stale ? "is-stale" : undefined}>
       <div className="answer q4-answer">
         <p className="kicker">
           {carrierName(pick.carrier)}, your cheapest carrier in {ref} · {formatInt(pick.parcels_used)} parcels

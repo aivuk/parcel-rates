@@ -1,9 +1,10 @@
 import { useId, type ReactNode } from "react";
 import type { Carrier, DeliveryArea, Parcel, Tier } from "../../api/types";
 import { CARRIERS, TIERS } from "../../api/types";
-import { CARRIER_NAME, TIER_NAME } from "../../lib/format";
 import { draftFromParcel, draftWeight, type Draft } from "./draft";
 import type { FormField } from "./quoteModel";
+import { CARRIER_NAME } from "../../lib/carriers";
+import { TIER_NAME } from "../../lib/format";
 
 export interface QuoteFormProps {
   draft: Draft;

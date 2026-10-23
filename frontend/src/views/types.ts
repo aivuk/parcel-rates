@@ -1,8 +1,9 @@
 import type { Meta, Parcel } from "../api/types";
 import type { ControlsState, ViewId } from "../state/urlState";
+import type { ParcelActions } from "../components/NeedParcels";
 
-/** What every question view receives. Issues #5 and #6 implement views against this. */
-export interface ViewProps {
+/** What every question view receives. Every question view implements this contract. */
+export interface ViewProps extends ParcelActions {
   controls: ControlsState;
   meta: Meta | null;
   /** The loaded parcel set, or null when none is loaded (Q3, Q4 need one). */

@@ -95,8 +95,12 @@ of it is disabled under `prefers-reduced-motion: reduce`.
 
 ## Questions 3 and 4 (issue #6)
 
-Code: `src/views/blended/` (Q3, plus the pieces Q4 reuses: `common.tsx`,
-`money.ts`, `SegmentChips.tsx`, `common.css`) and `src/views/yearly/` (Q4).
+Code: `src/views/blended/` (Q3) and `src/views/yearly/` (Q4). The pieces every
+view shares live in one place: formatting and margin wording in `src/lib/format.ts`,
+carrier names, colours and years in `src/lib/carriers.ts`, hooks (`useDebounced`,
+`useLastData`, `useCssColors`) in `src/hooks/`, UI (`ChartFrame`, `ChipGroup`,
+`NeedParcels`, `LoadProblem`) in `src/components/`, and their CSS in
+`src/styles/views.css`, `chips.css` and `chart.css`.
 
 **Q3, blended cost.** Answer first: the cheapest single carrier and its blended
 cost per parcel (`--text-figure`), the others with their gap, then the
@@ -153,9 +157,9 @@ the carrier name or a marker shape.
 
 Code in `src/views/QuoteView.tsx`, `src/views/BreakevenView.tsx` and the folders
 `src/views/quote/` and `src/views/breakeven/`, each with its own CSS file. Helpers the
-two views share (margin wording, carriers per year, debounce, the view-level note,
-error and skeleton classes, the small segmented toggle) live in `src/views/quote/shared.ts`
-and `shared.css`; move them to `src/lib` and `src/styles` if Q3/Q4 want them.
+two views share with Q3 and Q4 (margin wording, carriers per year, debounce, the
+view-level note, error and skeleton classes, the small segmented toggle) live in
+`src/lib/`, `src/hooks/` and `src/styles/views.css` (see Questions 3 and 4 above).
 
 **Q1.** The answer (cheapest total for the chosen speed) sits directly under the
 question at `--text-figure`, followed by carrier and service at `--text-lg` and the

@@ -1,52 +1,7 @@
-import { useId } from "react";
 import type { SegmentFilter, Tier, WeightBand, ZoneBandLabel } from "../../api/types";
 import { TIERS } from "../../api/types";
-import { tierName } from "./money";
-
-export interface ChipOption<T> {
-  value: T;
-  label: string;
-}
-
-/** A row of toggle chips that behaves like a radio group; "All" clears the dimension. */
-export function ChipGroup<T>({
-  legend,
-  options,
-  value,
-  onChange,
-  equals = (a, b) => a === b,
-}: {
-  legend: string;
-  options: ChipOption<T>[];
-  value: T;
-  onChange: (v: T) => void;
-  equals?: (a: T, b: T) => boolean;
-}) {
-  const id = useId();
-  return (
-    <div className="chips" role="group" aria-labelledby={id}>
-      <span id={id} className="chips__legend">
-        {legend}
-      </span>
-      <div className="chips__row">
-        {options.map((o) => {
-          const on = equals(o.value, value);
-          return (
-            <button
-              key={o.label}
-              type="button"
-              className={`chip ${on ? "chip--on" : ""}`}
-              aria-pressed={on}
-              onClick={() => onChange(o.value)}
-            >
-              {o.label}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+import { ChipGroup } from "../../components/ChipGroup";
+import { tierName } from "../../lib/format";
 
 const DEFAULT_WEIGHTS: WeightBand[] = ["≤1", "1–5", "5–10", "10–20", "20–70"];
 const DEFAULT_ZONES: ZoneBandLabel[] = ["1–2", "3–4", "5–6", "7–8"];

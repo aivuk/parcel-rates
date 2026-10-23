@@ -1,9 +1,10 @@
 import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 import type { BreakevenCell, BreakevenResponse, Carrier, Meta } from "../../api/types";
 import { CARRIERS } from "../../api/types";
-import { CARRIER_NAME, formatInt, formatUsd } from "../../lib/format";
 import { cellGrid, groundName, savingLevel, zoneLabel } from "./readout";
 import { useWidth } from "./useWidth";
+import { CARRIER_NAME } from "../../lib/carriers";
+import { formatInt, formatUsd } from "../../lib/format";
 
 const LEVEL_MIX = [22, 48, 74, 100] as const;
 

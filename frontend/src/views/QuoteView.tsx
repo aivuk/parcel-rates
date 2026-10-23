@@ -2,15 +2,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useApi, useLoad } from "../api/ApiContext";
 import { ApiError } from "../api/client";
 import type { QuoteResponse } from "../api/types";
-import { CARRIER_NAME } from "../lib/format";
 import { draftToParcel, DEFAULT_DRAFT, type Draft } from "./quote/draft";
 import { QuoteForm } from "./quote/QuoteForm";
 import { problemsByField, zonesByCarrier, type FormField } from "./quote/quoteModel";
 import { QuoteAnswer, QuoteBreakdown } from "./quote/QuoteResult";
-import { carriersForYear, missingCarriersNote, useDebounced } from "./quote/shared";
 import type { ViewProps } from "./types";
-import "./quote/shared.css";
+import "../styles/views.css";
 import "./quote/quote.css";
+import { useDebounced } from "../hooks/useDebounced";
+import { CARRIER_NAME, carriersForYear, missingCarriersNote } from "../lib/carriers";
 
 export interface QuoteViewProps extends ViewProps {
   /** Wait this long after the last keystroke before asking for a quote. */
