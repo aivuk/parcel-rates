@@ -108,6 +108,13 @@ function Body({
           <p className="q-count" role="status">
             <strong className="figure">{formatInt(data.parcels_considered)}</strong> of {formatInt(total)} parcels in
             this segment
+            {answer && segment && (
+              <span className="q-count__result" data-testid="q3-segment-result">
+                {" "}
+                · cheapest {carrierName(answer.cheapest.carrier)} {formatUsd(answer.cheapest.cost_per_parcel)},{" "}
+                {signedUsd(answer.cheapest.margin_per_parcel)} {answer.cheapest.margin_per_parcel < 0 ? "loss" : "margin"} per parcel
+              </span>
+            )}
           </p>
         </div>
         {chips}

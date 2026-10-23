@@ -21,7 +21,7 @@
     --q3-sur-2: #4aa7b0;
     --q3-sur-3: #2f7a82;
     --q3-sur-4: #23565c;
-    --q3-fuel: #ede8dc;
+    --q3-fuel: #c9c1ae;
     --q4-up: #e59a66;
     --q4-down: #6fb6cf;
   }
@@ -279,4 +279,9 @@
 .q-notes ul {
   margin: var(--space-2) 0 0;
   padding-left: var(--space-5);
+}
+
+.q-count__result {
+  color: var(--ink);
+  font-weight: 600;
 }

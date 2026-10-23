@@ -92,6 +92,7 @@ describe("BlendedView", () => {
     await waitFor(() => expect(blended.mock.lastCall![0].segment).toEqual({ weight_band: "1–5", residential: true }));
     expect(await screen.findByText(/in\s+this segment/)).toHaveTextContent("22 of 300 parcels in this segment");
     expect(screen.getByText(/Cheapest single carrier/)).toHaveTextContent("22 of 300 parcels · 1–5 lb · homes");
+    expect(screen.getByTestId("q3-segment-result")).toHaveTextContent("cheapest USPS $21.09, −$10.98 loss per parcel");
     await userEvent.click(within(weight).getByRole("button", { name: "All" }));
     await userEvent.click(within(screen.getByRole("group", { name: "Address" })).getByRole("button", { name: "All" }));
     await waitFor(() => expect(blended.mock.lastCall![0]).not.toHaveProperty("segment"));
