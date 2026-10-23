@@ -12,7 +12,9 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "e2e": "playwright test --grep-invert @screens",
+    "e2e:update-screens": "playwright test --grep @screens"
   },
   "dependencies": {
     "papaparse": "5.5.3",
@@ -21,10 +23,13 @@
     "recharts": "3.2.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.49.1",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
+    "@types/node": "18.19.130",
     "@types/papaparse": "5.3.16",
     "@types/react": "18.3.23",
     "@types/react-dom": "18.3.7",
@@ -33,5 +38,10 @@
     "typescript": "5.6.3",
     "vite": "6.4.5",
     "vitest": "3.2.7"
+  },
+  "overrides": {
+    "@axe-core/playwright": {
+      "playwright-core": "1.49.1"
+    }
   }
 }

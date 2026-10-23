@@ -23,6 +23,8 @@ export default defineConfig(({ mode }) => {
     },
     test: {
       environment: "jsdom",
+      // Playwright specs live in e2e/ and run against a live stack (npm run e2e).
+      include: ["src/**/*.test.{ts,tsx}"],
       globals: true,
       setupFiles: ["./src/test/setup.ts"],
       css: false,
