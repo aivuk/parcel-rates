@@ -7,6 +7,7 @@ import pytest
 
 from data.pipeline import ups
 from data.pipeline.common import raw_path
+from data.tests.raw import missing_raw
 
 
 def word(text: str, x: float, top: float, width: float = 24.0) -> dict:
@@ -146,7 +147,7 @@ def test_real_2026_ground_page_when_available():
     try:
         path = raw_path(ups.rules.GUIDES[2026]["file"])
     except FileNotFoundError as error:
-        pytest.skip(str(error))
+        missing_raw(error)
     with pdfplumber.open(path) as pdf:
         page = pdf.pages[90]
         assert ups.service_on_page(page.extract_text().splitlines()) == "ups_ground"

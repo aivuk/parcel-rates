@@ -248,17 +248,20 @@ runs the frontend alone on recorded API responses. The API contract is in
 
 | Suite | Command | What it covers |
 |---|---|---|
-| Data | `ALLOW_MISSING_RAW=1 uv run pytest` (repository root) | Schema, parsers against golden cells, table invariants, manifest, citations |
-| Data, full | `python3 data/fetch_raw.py && uv run pytest` | Same, with every citation checked against its PDF page |
+| Data | `uv run pytest data/tests` (repository root) | Schema, parsers against golden cells, table invariants, manifest; citations whose PDF is not fetched are skipped |
+| Data, full | `python3 data/fetch_raw.py && PARCEL_RATES_REQUIRE_RAW=1 uv run pytest data/tests` | Same, with every citation checked against its PDF page; a missing PDF fails |
 | Backend | `cd backend && uv run pytest` | Rate engine against hand-computed quotes, rule resolution, analysis and API |
 | Frontend | `cd frontend && npm ci && npm test` | Components with Testing Library and the API contract test |
 | Frontend types | `cd frontend && npm run typecheck` | |
 | End to end | `docker compose up -d --build`, then `cd frontend && npx playwright install chromium && npm run e2e` | Playwright at 1440 × 900 and 375 × 812 (touch): the four questions, global controls, URL state, CSV upload, the phone settings sheet, and axe on every view in light and dark |
 | Screenshots | same stack, `cd frontend && npm run e2e:update-screens` | Rewrites `frontend/e2e/screenshots/` (every view, both sizes, light and dark), reviewed in [docs/ux-review.md](docs/ux-review.md) |
 
-Without the PDFs, the citation and PDF parser tests fail with a message
-telling you to fetch them; `ALLOW_MISSING_RAW=1` skips them on purpose
-instead. The end-to-end suite targets `http://localhost:8088`; set
+The PDFs are not in git. Three tests need them: the citation check
+(`test_citations.py`), the minimum-billable-weight sentences
+(`test_min_billable.py`) and one UPS parser test on a real page. On a fresh
+clone they are skipped with a message telling you to run
+`python3 data/fetch_raw.py`; `PARCEL_RATES_REQUIRE_RAW=1` makes a missing PDF
+a failure instead. The end-to-end suite targets `http://localhost:8088`; set
 `E2E_BASE_URL` to run it elsewhere, for example against the dev servers
 (`E2E_BASE_URL=http://localhost:5173 npm run e2e`).
 
