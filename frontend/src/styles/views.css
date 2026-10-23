@@ -15,7 +15,7 @@
   padding: var(--space-4);
   border: 1px solid var(--loss);
   border-left-width: 4px;
-  background: var(--loss-wash);
+  background: var(--sheet);
   font-size: var(--text-sm);
   margin: 0;
   list-style: none;
@@ -177,7 +177,7 @@
 .q-block {
   margin-top: var(--space-7);
   padding-top: var(--space-4);
-  border-top: 1px solid var(--rule);
+  border-top: var(--rule-heavy);
   display: grid;
   gap: var(--space-3);
 }

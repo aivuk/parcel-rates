@@ -58,7 +58,7 @@
   display: grid;
   gap: var(--space-3);
   min-width: 0;
-  border-top: 1px solid var(--rule-strong);
+  border-top: var(--rule-heavy);
   padding-top: var(--space-4);
 }
 
@@ -133,15 +133,15 @@
 }
 
 .hml__step--0 {
-  background: color-mix(in srgb, var(--ink) 12%, var(--paper));
+  background: color-mix(in srgb, var(--ink) 45%, var(--paper));
 }
 
 .hml__step--1 {
-  background: color-mix(in srgb, var(--ink) 35%, var(--paper));
+  background: color-mix(in srgb, var(--ink) 63%, var(--paper));
 }
 
 .hml__step--2 {
-  background: color-mix(in srgb, var(--ink) 60%, var(--paper));
+  background: color-mix(in srgb, var(--ink) 82%, var(--paper));
 }
 
 .hml__step--3 {

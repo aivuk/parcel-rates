@@ -1,14 +1,14 @@
 .mock-banner {
   margin: 0;
   padding: var(--space-2) var(--space-4);
-  background: var(--mock-wash);
+  background: var(--sheet);
   color: var(--mock);
   font-size: var(--text-sm);
-  border-bottom: 1px solid var(--mock);
+  border-bottom: 2px solid var(--mock);
 }
 
 .masthead {
-  border-bottom: 4px solid var(--rule-strong);
+  border-bottom: var(--rule-heavy);
   padding: var(--space-5) var(--space-4) var(--space-4);
 }
 
@@ -21,11 +21,46 @@
 
 .masthead__title {
   font-size: var(--text-2xl);
-  letter-spacing: -0.02em;
+}
+
+.masthead__inner {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.masthead__inner > :not(.masthead__barcode) {
+  grid-column: 1;
+}
+
+/* The one decorative element on the page: a barcode stripe, generated in CSS, uneven bars
+   like a real symbol. Header only. */
+.masthead__barcode {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: end;
+  width: clamp(5.5rem, 3rem + 12vw, 16rem);
+  height: clamp(2.25rem, 1.5rem + 3vw, 4.5rem);
+  opacity: 0.8;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0 2px,
+    transparent 2px 4px,
+    var(--ink) 4px 7px,
+    transparent 7px 8px,
+    var(--ink) 8px 9px,
+    transparent 9px 12px,
+    var(--ink) 12px 16px,
+    transparent 16px 17px,
+    var(--ink) 17px 18px,
+    transparent 18px 21px,
+    var(--ink) 21px 23px,
+    transparent 23px 24px,
+    var(--ink) 24px 25px,
+    transparent 25px 29px
+  );
 }
 
 .masthead__deck {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: var(--text-base);
   line-height: 1.35;
   color: var(--ink-muted);
@@ -46,7 +81,7 @@
   outline: none;
 }
 
-/* Rail: the assumptions behind every number */
+/* Assumptions: a label header strip on desktop, a bottom sheet on phones */
 .rail {
   background: var(--sheet);
 }
@@ -77,8 +112,8 @@
 
 .rail__status--error {
   padding: var(--space-3);
-  border-left: 3px solid var(--loss);
-  background: var(--loss-wash);
+  border-left: 4px solid var(--loss);
+  background: var(--sheet);
   color: var(--ink);
 }
 
@@ -132,7 +167,7 @@
   inset: 0;
   z-index: 30;
   border: 0;
-  background: rgb(28 27 24 / 0.4);
+  background: var(--backdrop);
   animation: fade var(--duration) var(--ease-out);
 }
 
@@ -182,33 +217,14 @@
 
 @media (min-width: 64rem) {
   .masthead {
-    padding-inline: var(--space-6);
-  }
-
-  .masthead__inner {
-    grid-template-columns: var(--rail-width) 1fr;
-    column-gap: var(--space-7);
-    align-items: end;
-  }
-
-  .masthead__edition {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    align-self: end;
-    max-width: 16rem;
+    padding: var(--space-6) var(--space-6) var(--space-5);
   }
 
   .masthead__title {
-    grid-column: 2;
     font-size: clamp(2.5rem, 1.5rem + 2vw, 3.5rem);
   }
 
-  .masthead {
-    padding-block: var(--space-6) var(--space-5);
-  }
-
   .masthead__deck {
-    grid-column: 2;
     font-size: var(--text-lg);
   }
 
@@ -219,23 +235,20 @@
   }
 
   .layout {
-    /* Content width matches .masthead__inner so the rail lines up with the edition line */
+    /* Content width matches .masthead__inner */
     max-width: calc(80rem + 2 * var(--space-6));
-    display: grid;
-    grid-template-columns: var(--rail-width) minmax(0, 1fr);
-    column-gap: var(--space-7);
     padding-inline: var(--space-6);
   }
 
+  /* The label header strip: one row of fields, no box, one heavy rule beneath. */
   .rail {
-    position: sticky;
-    top: 0;
-    align-self: start;
-    max-height: 100vh;
-    overflow-y: auto;
-    padding: var(--space-5) var(--space-5) var(--space-6);
-    border-inline: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
+    background: transparent;
+    padding: var(--space-3) 0 var(--space-4);
+    border-bottom: var(--rule-heavy);
+  }
+
+  .rail__head {
+    padding-bottom: var(--space-2);
   }
 
   .main {
@@ -247,7 +260,7 @@
 .footer {
   margin-top: var(--space-8);
   padding-top: var(--space-4);
-  border-top: 1px solid var(--rule-strong);
+  border-top: var(--rule-heavy);
   font-size: var(--text-sm);
   color: var(--ink-muted);
   display: grid;

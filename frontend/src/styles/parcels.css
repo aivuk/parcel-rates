@@ -2,7 +2,7 @@
   display: grid;
   gap: var(--space-5);
   padding-bottom: var(--space-6);
-  border-bottom: 1px solid var(--rule-strong);
+  border-bottom: var(--rule-heavy);
 }
 
 .parcels__head {
@@ -68,14 +68,13 @@
 /* Problems list (CSV errors and notes) */
 .problems {
   padding: var(--space-3) var(--space-4);
-  border-left: 3px solid var(--loss);
-  background: var(--loss-wash);
+  border-left: 4px solid var(--loss);
+  background: var(--sheet);
   font-size: var(--text-sm);
 }
 
 .problems--notice {
   border-left-color: var(--mock);
-  background: var(--mock-wash);
 }
 
 .problems__title {

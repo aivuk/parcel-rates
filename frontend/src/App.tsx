@@ -66,6 +66,7 @@ export function App() {
             {state.controls.year} published list prices · USPS, UPS, FedEx
           </p>
           <h1 className="masthead__title">Parcel Rates</h1>
+          <span className="masthead__barcode" aria-hidden="true" />
           <p className="masthead__deck">
             Which carrier is cheapest for each kind of parcel you ship, and does your flat shipping price still cover
             the real cost after surcharges and yearly increases?

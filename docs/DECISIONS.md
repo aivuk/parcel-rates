@@ -219,6 +219,28 @@ before any parser agent was dispatched. From this point every big step
 - Screenshots that passed the UX review are added to the README, at the
   owner's request; remaining UX items are tracked in #27.
 
+## 2026-10-23 — Shipping-label redesign
+
+- Owner decision: the first visual direction (warm cream paper, Newsreader
+  serif, "shipping ledger") read like a generic AI-product page. The new
+  direction is the shipping label, the one printed object every parcel sender
+  knows: white stock, 2 px ink rules between zones, Barlow Condensed figures,
+  IBM Plex Mono for line items, tables and citations, and safety orange
+  (`#E8590C`) for the loss verdict only.
+- Kept: the hierarchy and answer-first rule, the carrier colours, and the
+  accessibility bar (axe at every impact level is clean on every view, light
+  and dark, desktop and phone; ratios are measured in `frontend/DESIGN.md`).
+- Structural changes: on desktop the assumptions rail is now a label header
+  strip under the masthead (phones keep the bottom sheet); the Q3 and Q4
+  answers are stamps (paper figure on an ink block); a CSS barcode stripe in
+  the masthead is the only decoration.
+- Consequences: the safety orange passes only as large text on white
+  (3.6:1), so small loss text uses `--loss` (`#C2410C`, the same orange
+  darkened). The Q2 heatmap's lightest saving step rose from 22 % to 45 % of
+  the carrier colour, mixed in oklch with hue-true washes, so cells do not go
+  pastel or beige on white. The Q4 "cost up" colour moved from rust to ochre
+  to stay clear of the accent.
+
 ## Decisions changed after reviewing agent output
 
 | Decision | What the agent produced | What changed, and why | Where |
