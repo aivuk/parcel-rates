@@ -1,0 +1,96 @@
+/* Design tokens. See frontend/DESIGN.md for the reasoning. */
+:root {
+  color-scheme: light;
+
+  /* Paper and ink */
+  --paper: #f5f1e8;
+  --sheet: #fbf9f4;
+  --ink: #1c1b18;
+  --ink-muted: #5e5a50;
+  --rule: #d9d2c3;
+  --rule-strong: #1c1b18;
+  --wash: #ebe5d7; /* bar track, hover wash */
+
+  /* Carriers: one fixed colour each, used for text, bars, map cells and lines */
+  --carrier-usps: #1f4e9a;
+  --carrier-ups: #7a4e0f;
+  --carrier-fedex: #9c2a7e;
+  --carrier-usps-wash: #dfe7f4;
+  --carrier-ups-wash: #efe4d2;
+  --carrier-fedex-wash: #f2dfec;
+
+  /* Money */
+  --loss: #b3261e;
+  --loss-wash: #f7e1de;
+  --profit: #1d6b3f;
+  --profit-wash: #dcefe2;
+
+  /* Status */
+  --mock: #8a5a00;
+  --mock-wash: #fbefcf;
+  --focus: #1c1b18;
+  --focus-halo: #f5f1e8;
+
+  /* Type */
+  --font-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-ui: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.1875rem;
+  --text-xl: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  --text-2xl: clamp(1.75rem, 1.2rem + 2vw, 2.625rem);
+  --text-figure: clamp(2.75rem, 1.6rem + 4.5vw, 5rem);
+
+  /* Spacing: a 4 px base with a deliberate jump for section breaks */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  --rail-width: 19rem;
+  --measure: 68ch;
+  --radius: 2px;
+
+  --duration-fast: 120ms;
+  --duration: 220ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --shadow-sheet: 0 -12px 40px rgb(28 27 24 / 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --paper: #15140f;
+    --sheet: #1e1c17;
+    --ink: #ede8dc;
+    --ink-muted: #a9a292;
+    --rule: #3a362d;
+    --rule-strong: #ede8dc;
+    --wash: #2a2720;
+
+    --carrier-usps: #7fa8ee;
+    --carrier-ups: #d9a35a;
+    --carrier-fedex: #e68ac9;
+    --carrier-usps-wash: #1f2a3d;
+    --carrier-ups-wash: #33281a;
+    --carrier-fedex-wash: #382131;
+
+    --loss: #f2877e;
+    --loss-wash: #3d1d1a;
+    --profit: #6fcb94;
+    --profit-wash: #183224;
+
+    --mock: #e8b860;
+    --mock-wash: #3a2e14;
+    --focus: #ede8dc;
+    --focus-halo: #15140f;
+    --shadow-sheet: 0 -12px 40px rgb(0 0 0 / 0.5);
+  }
+}
