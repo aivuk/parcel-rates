@@ -88,3 +88,146 @@ Full findings in `docs/data/QUALITY.md`; sources per file in `data/raw/<carrier>
   2026-07-12, above 1,728 cubic inches, all zones.
 - **Schema** for all processed tables and the parcel CSV is fixed in
   `docs/data/SCHEMA.md` before any parser is written.
+
+## 2026-10-23 — Data collection must be fully scripted (rule; discovery still open in #13)
+
+- Every step of data collection, including finding the source URLs, must run
+  from committed scripts without an LLM or agent, so the data can be rebuilt
+  on another machine or refreshed next year. Triggered by the owner asking
+  where the download scripts were: the survey agents had fetched with one-off
+  calls and only a post-hoc fetcher existed.
+- Done: `data/fetch_raw.py` restores every file in `data/raw/manifest.csv`
+  with checksums, with no agent involved. Not done: the discovery step
+  (Wayback lookups, file-name resolution) is still manual. It is tracked in
+  #13, which the owner deferred to the extras.
+
+## 2026-10-23 — Schema amendments before the parsers (issue #2, PR #15)
+
+The owner reviewed the draft `docs/data/SCHEMA.md` and asked for these changes
+before any parser agent was dispatched. From this point every big step
+(dispatching agents, merging) waits for the owner's OK.
+
+- **Rate cards.** A `rate_card` column on every base-rate row. USPS keeps
+  `retail` and `commercial`, and the dashboard defaults to `commercial`,
+  because small online sellers buy postage through shipping software at
+  commercial prices and almost never pay counter prices; retail stays
+  selectable. UPS Daily Rates and FedEx Standard List Rates are stored as
+  `list`, not `retail`: they are the carriers' published prices, which is what
+  a shop without a contract pays, and "retail" would suggest a counter price.
+  `services.csv` explains each card in one line per carrier. The default is
+  explained in the README.
+- **Exceptions are warnings, not silent fixes.** Alaska and Hawaii columns,
+  rounding artefacts and other anomalies in the carriers' tables are kept as
+  printed and listed in `exceptions.csv`; the invariant tests fail on any
+  anomaly that is not in that allowlist.
+- **Rules that change over time.** The owner asked to check every variable
+  that moves a price across years. Result: dimensional-weight rules carry
+  `effective_from` / `effective_to` (USPS divisor 166, then 139 from
+  2026-07-12), and every price-moving rule change is listed in
+  `docs/data/RULE_CHANGES.md`.
+- **Surcharge rows** gained `address_type` (carriers price delivery-area and
+  large-package surcharges differently for homes and businesses), a width
+  threshold column, and a packaging-handling condition with a matching
+  `nonstandard_packaging` column on the parcel CSV.
+- **Fuel** is applied to the base plus the surcharges flagged `fuel_applies`,
+  with tests that check that basis.
+- **Golden cells** include, per carrier, card and year, the heaviest weight in
+  the farthest and nearest zone and the lightest weight in the farthest zone,
+  because column and page shifts in the PDFs break exactly those cells.
+- **Curated rules stay diffable.** Surcharge and rule tables are Python
+  literals with verbatim quotes, written to committed CSVs, and the
+  quote-on-cited-page test runs against those CSVs. Where a carrier rule was
+  not found, the note says "not found in the current source" rather than "no
+  such surcharge" (for example UPS peak surcharges not yet announced, #14).
+
+## 2026-10-23 — Zone bands from the Domestic Mail Manual (issue #2)
+
+- The brief assumed USPS zones 1 and 2 share a 0–50 mile band and that UPS
+  and FedEx zone n equals USPS zone n+1. The USPS pipeline agent fetched DMM
+  608.9.4.2, which shows zone 1 up to about 50 miles and zone 2 up to about
+  150 as separate bands.
+- `zone_from_distance.csv` now follows the DMM for USPS. UPS and FedEx publish
+  zones only by ZIP pair, so their bands are derived: zone 2 = 0–150 miles
+  (USPS zones 1 and 2 together), zone n = the USPS zone n band for n ≥ 3. The
+  derivation is written into the table's `notes` column with the DMM quote.
+
+## 2026-10-23 — Delivery area is a per-parcel opt-in (issue #2, #3)
+
+- Delivery-area and extended-area surcharges are triggered by ZIP-code lists.
+  The dashboard works from distance, not ZIP pairs, so it cannot look the area
+  up. Instead the parcel CSV has an optional `delivery_area` column (`none`,
+  `das`, `extended`) and the quote form has the same control.
+- Alternative rejected: applying an average rural share to every parcel,
+  which would hide a surcharge that is all or nothing for a given address.
+  Real ZIP-to-ZIP zones and area lookup are the bonus in #9.
+
+## 2026-10-23 — Engine rules and the API contract (issues #3–#6, PRs #16, #17)
+
+- One written contract (`docs/API.md`) before backend and frontend work
+  started in parallel, so the two could be built by separate agents.
+- Threshold semantics fixed in the schema during the engine work: weight
+  bands are inclusive on billable weight, single weight thresholds strict on
+  actual weight, dimension thresholds strict, `effective_to` inclusive. The
+  USPS and UPS rule windows were corrected to match.
+- Merging policy: every pull request is reviewed by a review agent and fixed
+  before it is merged, with a merge commit.
+- Local development uses port 8787 and the compose stack 8088, because 8000
+  and 8001 are taken on the development machine (PRs #19, #20).
+
+## 2026-10-23 — Model switch
+
+- The main session and all subagents moved to Opus 5.5 (1M context) on
+  2026-10-23 at 08:29, to stay within usage limits for the rest of the build.
+  Earlier work, including the data survey, ran on the previous default.
+
+## 2026-10-23 — 90 lb minimum billable weight and base rates to 150 lb (issue #18, PR #24)
+
+- Found in the PR #17 review: UPS Large Package and FedEx Oversize parcels are
+  billed at a minimum of 90 lb, but the engine priced the base at actual or
+  dimensional weight, understating it.
+- The minimum is data, not code: a `min_billable_weight_lb` column on those
+  surcharge rows, cited per year and checked on its page. To price it from
+  the carriers' own tables, UPS and FedEx base rates are parsed to 150 lb
+  (USPS stays at 70). Actual weight stays capped at 70 lb; parcels whose
+  dimensional weight is 71–150 lb are now priced instead of unavailable.
+
+## 2026-10-23 — FedEx 2027 stays as a forward year, flagged (PRs #21, #23)
+
+- FedEx 2027 base rates are published and parsed, but its surcharge-change
+  document is not archived, so only the Home Delivery residential charge and
+  the January peak rows exist. Rather than drop the year, it stays selectable
+  and the UI states that 2027 is FedEx only and that its totals understate
+  surcharges (Q1, Q2, Q4 notes; README limitations).
+
+## 2026-10-23 — Typical sample mix (issue #22, PR #25)
+
+- The first sample (300 parcels, 22 % bulky, 13 % expedited, all at the flat
+  $9.99) showed 71 % of parcels shipped at a loss even with USPS. That was an
+  artefact of the sample, not an insight.
+- Owner decision: an illustrative home-goods shop with mostly light ground
+  parcels, 7 % bulky, 4 % two-to-three day and 1 % next day, and the expedited
+  parcels carrying their own `price_charged` ($19.99 / $39.99), as real shops
+  charge more for speed. The default view now opens near break-even (USPS
+  margin −$0.31 per parcel, 40 % of parcels at a loss), with the losses in
+  bulky boxes, 5–20 lb and far zones. The label "illustrative example" is kept
+  in the API and the UI.
+
+## 2026-10-23 — End-to-end tests and screenshots (issue #8, PR #26)
+
+- Playwright pinned to 1.49 so it runs on Node 18; axe scans fail on serious
+  or critical violations and now pass at every level.
+- Screenshots that passed the UX review are added to the README, at the
+  owner's request; remaining UX items are tracked in #27.
+
+## Decisions changed after reviewing agent output
+
+| Decision | What the agent produced | What changed, and why | Where |
+|---|---|---|---|
+| Zone bands | My brief told the agents UPS/FedEx zone n = USPS zone n+1 | The USPS agent's DMM reading showed zones 1 and 2 are separate; bands rebuilt from the DMM | Agent log 2026-10-23 08:44; PR #15 |
+| Rate-card naming | Amended schema stored UPS Daily Rates and FedEx Standard List Rates as `retail` | Owner: `list` for UPS and FedEx, `retail`/`commercial` for USPS, default commercial | Agent log 2026-10-23 08:10 and 08:18; PR #15 |
+| Sample mix | Generator produced a mix with 71 % of parcels at a loss | Owner reversed it to a typical mix with expedited `price_charged` | Issue #22; PR #25 |
+| Minimum billable weight | Engine priced oversize parcels at actual or dimensional weight | Review of PR #17 found the 90 lb minimum; added as cited data | Issue #18; PR #24 |
+
+The delivery-area opt-in is not in this table: the transcript shows the agent
+proposed it in the schema draft (agent log 2026-10-22 13:23) and the owner
+accepted it unchanged, so it is recorded above as a decision, not a reversal.

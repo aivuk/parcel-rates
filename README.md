@@ -203,9 +203,10 @@ away in the controls.
   charge and January peak rows), so 2027 totals understate surcharges.
 - Peak surcharges are a toggle that prices on December 10 of the year, not by
   ship date.
-- UPS and FedEx bill a large or oversize package at a minimum of 90 lb. That
-  minimum is not modelled, so the base rate of such parcels is understated;
-  the surcharge itself is included (issue #18).
+- UPS and FedEx bill a large or oversize package at a minimum of 90 lb. The
+  minimum is modelled (issue #18), but actual weight is still capped at 70 lb;
+  parcels whose dimensional weight is 71–150 lb are priced from the carriers'
+  tables.
 - Weight is capped at 70 lb, the USPS maximum. Alaska and Hawaii are out of
   scope.
 - UPS 2024 and 2026 use the mid-year revision of the Daily Rates guide,
