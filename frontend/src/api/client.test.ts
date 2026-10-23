@@ -1,20 +1,20 @@
 import { describe, expect, it, vi } from "vitest";
 import { ApiError, createHttpClient, describeLoc, problemsFromBody } from "./client";
-import { mockDefaultControls, mockQuote422Body } from "./mocks";
+import { mockDefaultControls, mockMeta, mockQuote422Body, mockQuoteResponse } from "./mocks";
 
 const json = (status: number, body: unknown) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 
 describe("API client", () => {
-  it("GETs /api/meta and returns the parsed body", async () => {
-    const fetchImpl = vi.fn().mockResolvedValue(json(200, { years: {} }));
+  it("GETs /api/meta and returns the checked body", async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(json(200, mockMeta));
     const api = createHttpClient({ fetchImpl });
-    await expect(api.meta()).resolves.toEqual({ years: {} });
+    await expect(api.meta()).resolves.toEqual(mockMeta);
     expect(fetchImpl).toHaveBeenCalledWith("/api/meta", expect.objectContaining({ headers: expect.any(Object) }));
   });
 
   it("POSTs JSON to /api/quote", async () => {
-    const fetchImpl = vi.fn().mockResolvedValue(json(200, { quotes: [], cheapest_by_tier: {} }));
+    const fetchImpl = vi.fn().mockResolvedValue(json(200, mockQuoteResponse));
     const api = createHttpClient({ fetchImpl });
     const parcel = { weight_lb: 2, distance_miles: 300, residential: true, speed: "ground" as const };
     await api.quote({ parcel, controls: mockDefaultControls });
@@ -49,6 +49,27 @@ describe("API client", () => {
     expect(problemsFromBody({ detail: [{ nope: 1 }] })).toEqual([]);
     expect(problemsFromBody("<html>")).toEqual([]);
     expect(describeLoc(["query", "year"])).toBe("year");
+  });
+
+  it("rejects a live answer that drifted from the contract, naming the endpoint and the field", async () => {
+    const drifted = structuredClone(mockQuoteResponse) as unknown as { quotes: Record<string, unknown>[] };
+    const first = drifted.quotes[0]!;
+    first.price = first.total; // renamed field: total -> price
+    delete first.total;
+    const api = createHttpClient({ fetchImpl: vi.fn().mockResolvedValue(json(200, drifted)) });
+    const parcel = { weight_lb: 2, distance_miles: 300, residential: true, speed: "ground" as const };
+    const err = (await api.quote({ parcel, controls: mockDefaultControls }).catch((e: unknown) => e)) as ApiError;
+    expect(err).toBeInstanceOf(ApiError);
+    expect(err.status).toBe(200);
+    expect(err.contract).toMatchObject({ endpoint: "POST /api/quote", path: ".quotes[0].price" });
+    expect(err.message).toContain("POST /api/quote");
+    expect(err.message).toContain(".quotes[0].price");
+  });
+
+  it("rejects a GET answer missing a field", async () => {
+    const { limitations: _gone, ...rest } = mockMeta;
+    const api = createHttpClient({ fetchImpl: vi.fn().mockResolvedValue(json(200, rest)) });
+    await expect(api.meta()).rejects.toMatchObject({ contract: { endpoint: "GET /api/meta", path: ".limitations" } });
   });
 
   it("reports a 500 with a non-JSON body and a network failure", async () => {

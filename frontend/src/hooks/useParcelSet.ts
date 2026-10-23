@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Parcel } from "../api/types";
 import { useApi } from "../api/ApiContext";
 import { ApiError } from "../api/client";
@@ -58,13 +58,22 @@ export function useParcelSet() {
 
   useEffect(() => store(set), [set]);
 
+  // Each load (or clear) takes a new generation; a load that finishes after a newer one started
+  // is dropped, so a slow sample request cannot overwrite a file the owner uploaded meanwhile.
+  const generation = useRef(0);
+  const begin = () => ++generation.current;
+  const isLatest = (g: number) => g === generation.current;
+
   const loadSample = useCallback(async () => {
+    const g = begin();
     setStatus({ kind: "loading", what: "sample" });
     try {
       const sample = await api.sampleParcels();
+      if (!isLatest(g)) return;
       setSet({ parcels: sample.parcels.map(fromParcelOut), source: "sample", name: "Sample mix", description: sample.description });
       setStatus({ kind: "idle" });
     } catch (err) {
+      if (!isLatest(g)) return;
       const message =
         err instanceof ApiError ? err.message : "The sample mix could not be loaded. Try again in a moment.";
       setStatus({ kind: "error", message, problems: [] });
@@ -72,6 +81,7 @@ export function useParcelSet() {
   }, [api]);
 
   const loadFile = useCallback(async (file: File) => {
+    const g = begin();
     if (file.size > MAX_FILE_BYTES) {
       setStatus({
         kind: "error",
@@ -86,9 +96,11 @@ export function useParcelSet() {
     try {
       text = await readFileText(file);
     } catch {
+      if (!isLatest(g)) return;
       setStatus({ kind: "error", message: `${file.name} could not be read.`, problems: [], fileName: file.name });
       return;
     }
+    if (!isLatest(g)) return;
     const result = parseParcelCsv(text);
     if (result.errors.length > 0) {
       setStatus({
@@ -108,6 +120,7 @@ export function useParcelSet() {
   }, []);
 
   const clear = useCallback(() => {
+    begin();
     setSet(null);
     setStatus({ kind: "idle" });
   }, []);

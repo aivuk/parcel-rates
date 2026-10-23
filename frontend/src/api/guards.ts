@@ -16,9 +16,15 @@ import type {
 import { CARRIERS, DELIVERY_AREAS, TIERS } from "./types";
 
 export class ContractError extends Error {
+  /** Path of the offending field inside the body, e.g. ".quotes[0].carrier" ("" = the body itself). */
+  readonly path: string;
+  readonly expected: string;
+
   constructor(path: string, expected: string, got: unknown) {
     super(`${path || "(root)"}: expected ${expected}, got ${JSON.stringify(got)?.slice(0, 80)}`);
     this.name = "ContractError";
+    this.path = path;
+    this.expected = expected;
   }
 }
 
@@ -76,10 +82,46 @@ const record =
       value(x, `${p}.${k}`);
     }
   };
+/**
+ * Object keyed by a fixed set: unknown keys fail; with `required`, every key must be present.
+ * Use `required` only where the backend always fills every key (cheapest_by_tier); maps such as
+ * breakeven `totals` hold only the carriers that publish the year (2027: FedEx only).
+ */
+const closedRecord =
+  (keys: readonly string[], value: Check, { required }: { required: boolean }): Check =>
+  (v, p) => {
+    if (!isObj(v)) throw new ContractError(p, "object", v);
+    for (const k of Object.keys(v)) if (!keys.includes(k)) throw new ContractError(`${p}.${k}`, `a key in ${keys.join("|")}`, v[k]);
+    for (const k of keys) {
+      if (k in v) value(v[k], `${p}.${k}`);
+      else if (required) throw new ContractError(`${p}.${k}`, "key present", undefined);
+    }
+  };
 const extend = (base: Record<string, Check>, more: Record<string, Check>) => obj({ ...base, ...more });
 
 const carrier = lit(...CARRIERS);
 const tier = lit(...TIERS);
+/** Keyed by carrier; only the carriers that apply are present. */
+const byCarrier = (value: Check) => closedRecord(CARRIERS, value, { required: false });
+
+/** A breakeven cell; its winner and runner-up must be among the carriers it has totals for. */
+const breakevenCell: Check = (v, p) => {
+  obj({
+    weight_lb: num,
+    distance_miles: num,
+    zone_usps: nullable(int),
+    zone_private: nullable(int),
+    winner: nullable(pick),
+    runner_up: nullable(pick),
+    saving: num,
+    totals: byCarrier(num),
+  })(v, p);
+  const cell = v as { winner: { carrier: string } | null; runner_up: { carrier: string } | null; totals: object };
+  for (const role of ["winner", "runner_up"] as const) {
+    const c = cell[role]?.carrier;
+    if (c !== undefined && !(c in cell.totals)) throw new ContractError(`${p}.${role}.carrier`, "a carrier listed in totals", c);
+  }
+};
 
 const parcelOut = obj({
   weight_lb: num,
@@ -142,7 +184,7 @@ const fuelGroupUsed = obj({ default_percent: nullable(num), is_proxy: nullable(b
 const checks = {
   health: obj({ status: lit("ok") }),
   meta: obj({
-    years: record(carrier, arr(int)),
+    years: byCarrier(arr(int)),
     services: arr(
       obj({
         carrier,
@@ -162,7 +204,7 @@ const checks = {
       usps_rate_card: lit("commercial", "retail"),
       peak: bool,
       flat_price: num,
-      as_of: record(carrier, isoDate),
+      as_of: byCarrier(isoDate),
     }),
     fuel_defaults: arr(
       obj({
@@ -180,24 +222,13 @@ const checks = {
     limitations: arr(str),
   }),
   sampleParcels: obj({ description: str, parcels: arr(parcelOut) }),
-  quote: obj({ quotes: arr(quote), cheapest_by_tier: record(tier, nullable(pick)) }),
+  quote: obj({ quotes: arr(quote), cheapest_by_tier: closedRecord(TIERS, nullable(pick), { required: true }) }),
   breakeven: obj({
     year: int,
     residential: bool,
     weights_lb: arr(num),
     distances_miles: arr(num),
-    cells: arr(
-      obj({
-        weight_lb: num,
-        distance_miles: num,
-        zone_usps: nullable(int),
-        zone_private: nullable(int),
-        winner: nullable(pick),
-        runner_up: nullable(pick),
-        saving: num,
-        totals: record(carrier, num),
-      }),
-    ),
+    cells: arr(breakevenCell),
     breakeven_weight_lb: arr(
       obj({
         distance_miles: num,
@@ -213,7 +244,7 @@ const checks = {
     parcels_considered: int,
     revenue_per_parcel: num,
     carriers: arr(extend(summaryShape, { carrier, services_used: record(str, int) })),
-    best_mix: extend(summaryShape, { parcels_by_carrier: record(carrier, int) }),
+    best_mix: extend(summaryShape, { parcels_by_carrier: byCarrier(int) }),
   }),
   yearly: obj({
     carriers: arr(

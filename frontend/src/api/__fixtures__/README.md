@@ -9,6 +9,11 @@ backend regenerates its examples, copy them over again:
 cp ../docs/api-examples/*.json src/api/__fixtures__/
 ```
 
+Two extra files cover years where not every carrier publishes prices: `breakeven-2027.json`
+and `quote-2027.json` (2027 is FedEx only). They were produced by the backend as merged to main (PR #17,
+merge 5785f6f) through FastAPI's `TestClient` (POST bodies inside each file), not by the export
+script, so regenerate them the same way if the backend changes.
+
 Each file is `{ request: {method, path, body}, response: {status, body} }`.
 
 They are used by:

@@ -8,11 +8,23 @@ import type {
   QuoteRequest,
   QuoteResponse,
   SampleParcels,
+  HttpErrorBody,
   ValidationErrorBody,
   ValidationIssue,
   YearlyRequest,
   YearlyResponse,
 } from "./types";
+
+import {
+  ContractError,
+  asBlendedResponse,
+  asBreakevenResponse,
+  asHealth,
+  asMeta,
+  asQuoteResponse,
+  asSampleParcels,
+  asYearlyResponse,
+} from "./guards";
 
 export const API_BASE = "/api";
 
@@ -25,12 +37,20 @@ export interface FieldProblem {
 export class ApiError extends Error {
   readonly status: number;
   readonly problems: FieldProblem[];
+  /** Set when a 2xx answer did not match the contract (src/api/types.ts). */
+  readonly contract?: { endpoint: string; path: string; detail: string };
 
-  constructor(status: number, message: string, problems: FieldProblem[] = []) {
+  constructor(
+    status: number,
+    message: string,
+    problems: FieldProblem[] = [],
+    contract?: { endpoint: string; path: string; detail: string },
+  ) {
     super(message);
     this.name = "ApiError";
     this.status = status;
     this.problems = problems;
+    if (contract) this.contract = contract;
   }
 }
 
@@ -53,7 +73,7 @@ function isIssue(x: unknown): x is ValidationIssue {
 
 export function problemsFromBody(body: unknown): FieldProblem[] {
   if (typeof body !== "object" || body === null || !("detail" in body)) return [];
-  const detail = (body as ValidationErrorBody).detail;
+  const detail = (body as ValidationErrorBody | HttpErrorBody).detail;
   if (typeof detail === "string") return [{ field: "", message: detail }];
   if (!Array.isArray(detail)) return [];
   return detail.filter(isIssue).map((d) => ({ field: describeLoc(d.loc), message: d.msg }));
@@ -94,7 +114,8 @@ export interface ClientOptions {
 export function createHttpClient({ baseUrl = API_BASE, fetchImpl }: ClientOptions = {}): ApiClient {
   const doFetch = fetchImpl ?? ((input: RequestInfo | URL, init?: RequestInit) => fetch(input, init));
 
-  async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+  /** Fetch, map HTTP errors to ApiError, and check a 2xx body with the endpoint's guard. */
+  async function request<T>(path: string, guard: (v: unknown) => T, init: RequestInit = {}): Promise<T> {
     let res: Response;
     try {
       res = await doFetch(`${baseUrl}${path}`, {
@@ -111,20 +132,34 @@ export function createHttpClient({ baseUrl = API_BASE, fetchImpl }: ClientOption
       throw new ApiError(res.status, statusMessage(res.status), problems);
     }
     if (body === null) throw new ApiError(res.status, "The rate service sent an empty answer.");
-    return body as T;
+    try {
+      return guard(body);
+    } catch (err) {
+      if (!(err instanceof ContractError)) throw err;
+      const endpoint = `${init.method ?? "GET"} ${baseUrl}${path}`;
+      const field = err.path || "(body)";
+      throw new ApiError(
+        res.status,
+        `The rate service answered ${endpoint} in an unexpected shape (${field}: expected ${err.expected}). ` +
+          "The frontend and backend versions probably differ.",
+        [],
+        { endpoint, path: field, detail: err.message },
+      );
+    }
   }
 
-  const post = <T>(path: string, body: unknown, signal?: AbortSignal) =>
-    request<T>(path, { method: "POST", body: JSON.stringify(body), signal });
+  const get = <T>(path: string, guard: (v: unknown) => T, signal?: AbortSignal) => request(path, guard, { signal });
+  const post = <T>(path: string, guard: (v: unknown) => T, body: unknown, signal?: AbortSignal) =>
+    request(path, guard, { method: "POST", body: JSON.stringify(body), signal });
 
   return {
-    health: (signal) => request<HealthResponse>("/health", { signal }),
-    meta: (signal) => request<Meta>("/meta", { signal }),
-    sampleParcels: (signal) => request<SampleParcels>("/sample-parcels", { signal }),
-    quote: (body, signal) => post<QuoteResponse>("/quote", body, signal),
-    breakeven: (body, signal) => post<BreakevenResponse>("/breakeven", body, signal),
-    blended: (body, signal) => post<BlendedResponse>("/blended", body, signal),
-    yearly: (body, signal) => post<YearlyResponse>("/yearly", body, signal),
+    health: (signal) => get("/health", asHealth, signal),
+    meta: (signal) => get("/meta", asMeta, signal),
+    sampleParcels: (signal) => get("/sample-parcels", asSampleParcels, signal),
+    quote: (body, signal) => post("/quote", asQuoteResponse, body, signal),
+    breakeven: (body, signal) => post("/breakeven", asBreakevenResponse, body, signal),
+    blended: (body, signal) => post("/blended", asBlendedResponse, body, signal),
+    yearly: (body, signal) => post("/yearly", asYearlyResponse, body, signal),
   };
 }
 

@@ -200,7 +200,8 @@ export interface SampleParcels {
 
 export interface QuoteResponse {
   quotes: Quote[];
-  cheapest_by_tier: Partial<Record<Tier, CarrierPick | null>>;
+  /** Always all three tiers; null when no service of the tier can carry the parcel. */
+  cheapest_by_tier: Record<Tier, CarrierPick | null>;
 }
 
 /* ---------- POST|GET /api/breakeven ---------- */
@@ -213,6 +214,7 @@ export interface BreakevenCell {
   winner: CarrierPick | null;
   runner_up: CarrierPick | null;
   saving: number;
+  /** Only carriers that publish the year and can carry the parcel (2027: FedEx only). */
   totals: Partial<Record<Carrier, number>>;
 }
 
@@ -354,13 +356,19 @@ export interface YearlyResponse {
 
 /* ---------- errors ---------- */
 
+/** One entry of a 422 body, as backend/app/api/errors.py writes it: always loc, msg and type. */
 export interface ValidationIssue {
   loc: (string | number)[];
-  msg: string;
-  type?: string;
+  msg: string; // written for the shop owner; parcel-list errors start "Parcel N: "
+  type: string; // the Pydantic error type, e.g. "less_than_equal"
 }
 
+/** 422 body. */
 export interface ValidationErrorBody {
-  /** Pydantic default is an array; FastAPI HTTPException gives a string. */
-  detail: ValidationIssue[] | string;
+  detail: ValidationIssue[];
+}
+
+/** FastAPI's own errors (404, 405) carry a plain string; the client accepts both. */
+export interface HttpErrorBody {
+  detail: string;
 }
