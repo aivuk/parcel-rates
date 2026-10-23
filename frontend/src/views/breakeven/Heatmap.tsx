@@ -91,40 +91,8 @@ export function Heatmap({ res, meta }: HeatmapProps) {
   };
 
   // Boundaries where the winner changes: drawn in ink so regions read without colour.
-  // USPS against the rest is the breakeven itself (heavy line); UPS against FedEx is a thin line.
-  const boundaries: string[] = [];
-  const rivalEdges: string[] = [];
-  const edge = (a: Carrier | undefined, b: Carrier | undefined) => (a === "usps" || b === "usps" ? boundaries : rivalEdges);
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const here = grid[r]?.[c]?.winner?.carrier;
-      const right = grid[r]?.[c + 1]?.winner?.carrier;
-      const below = grid[r + 1]?.[c]?.winner?.carrier;
-      const x = AXIS_W + c * colW;
-      const y = HEAD_H + r * rowH;
-      if (c + 1 < cols && here !== right) edge(here, right).push(`M${x + colW},${y}v${rowH}`);
-      if (r + 1 < rows && here !== below) edge(here, below).push(`M${x},${y + rowH}h${colW}`);
-    }
-  }
-
-  // Name each run of one winner inside a column when it is tall enough to hold a label.
-  const runLabels: { x: number; y: number; carrier: Carrier }[] = [];
-  for (let c = 0; c < cols; c++) {
-    let start = 0;
-    for (let r = 1; r <= rows; r++) {
-      const prev = grid[r - 1]?.[c]?.winner?.carrier;
-      const cur = r < rows ? grid[r]?.[c]?.winner?.carrier : undefined;
-      if (cur === prev && r < rows) continue;
-      if (prev && (r - start) * rowH >= 26) {
-        runLabels.push({ x: AXIS_W + c * colW + colW / 2, y: HEAD_H + ((start + r) / 2) * rowH, carrier: prev });
-      }
-      start = r;
-    }
-  }
-
-  const weightTicks = res.weights_lb
-    .map((w, r) => ({ w, r }))
-    .filter(({ w, r }) => (rows > 40 ? r === 0 || w % 10 === 0 : true));
+  const deco = useMemo(() => decorations(grid, res.weights_lb, cols, colW, rowH), [grid, res.weights_lb, cols, colW, rowH]);
+  const { boundaries, rivalEdges, runLabels, weightTicks, colSeps } = deco;
 
   const tip = show && shownCell ? tooltipPos(show, colW, rowH, svgW) : null;
 
@@ -209,12 +177,12 @@ export function Heatmap({ res, meta }: HeatmapProps) {
             </g>
           ))}
           <path
-            d={res.distances_miles.slice(1).map((_, c) => `M${AXIS_W + (c + 1) * colW},${HEAD_H}v${rowH * rows}`).join("")}
+            d={colSeps}
             className="hm__colsep"
             aria-hidden="true"
           />
-          <path d={rivalEdges.join("")} className="hm__boundary hm__boundary--rival" aria-hidden="true" />
-          <path d={boundaries.join("")} className="hm__boundary" aria-hidden="true" />
+          <path d={rivalEdges} className="hm__boundary hm__boundary--rival" aria-hidden="true" />
+          <path d={boundaries} className="hm__boundary" aria-hidden="true" />
           <g aria-hidden="true">
             {runLabels.map((l, i) => (
               <text key={i} x={l.x} y={l.y} dy="0.35em" textAnchor="middle" className="hm__runlabel">
@@ -242,6 +210,53 @@ export function Heatmap({ res, meta }: HeatmapProps) {
       </div>
     </div>
   );
+}
+
+/**
+ * The static layers over the cells: winner boundaries (USPS against the rest heavy, UPS against
+ * FedEx thin), carrier names on tall runs, weight ticks and column separators. Pure, so the view
+ * memoizes it and hovering a cell does not recompute it.
+ */
+export function decorations(
+  grid: (BreakevenCell | null)[][],
+  weights: readonly number[],
+  cols: number,
+  colW: number,
+  rowH: number,
+) {
+  const rows = weights.length;
+  const boundaries: string[] = [];
+  const rivalEdges: string[] = [];
+  const edge = (a: Carrier | undefined, b: Carrier | undefined) => (a === "usps" || b === "usps" ? boundaries : rivalEdges);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const here = grid[r]?.[c]?.winner?.carrier;
+      const right = grid[r]?.[c + 1]?.winner?.carrier;
+      const below = grid[r + 1]?.[c]?.winner?.carrier;
+      const x = AXIS_W + c * colW;
+      const y = HEAD_H + r * rowH;
+      if (c + 1 < cols && here !== right) edge(here, right).push(`M${x + colW},${y}v${rowH}`);
+      if (r + 1 < rows && here !== below) edge(here, below).push(`M${x},${y + rowH}h${colW}`);
+    }
+  }
+
+  const runLabels: { x: number; y: number; carrier: Carrier }[] = [];
+  for (let c = 0; c < cols; c++) {
+    let start = 0;
+    for (let r = 1; r <= rows; r++) {
+      const prev = grid[r - 1]?.[c]?.winner?.carrier;
+      const cur = r < rows ? grid[r]?.[c]?.winner?.carrier : undefined;
+      if (cur === prev && r < rows) continue;
+      if (prev && (r - start) * rowH >= 26) {
+        runLabels.push({ x: AXIS_W + c * colW + colW / 2, y: HEAD_H + ((start + r) / 2) * rowH, carrier: prev });
+      }
+      start = r;
+    }
+  }
+
+  const weightTicks = weights.map((w, r) => ({ w, r })).filter(({ w, r }) => (rows > 40 ? r === 0 || w % 10 === 0 : true));
+  const colSeps = Array.from({ length: Math.max(0, cols - 1) }, (_, c) => `M${AXIS_W + (c + 1) * colW},${HEAD_H}v${rowH * rows}`).join("");
+  return { boundaries: boundaries.join(""), rivalEdges: rivalEdges.join(""), runLabels, weightTicks, colSeps };
 }
 
 function tooltipPos(at: { r: number; c: number }, colW: number, rowH: number, svgW: number) {
