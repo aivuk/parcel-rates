@@ -62,14 +62,13 @@ export function App() {
       )}
       <header className="masthead" {...inert}>
         <div className="masthead__inner">
+          <h1 className="masthead__title">Parcel Rates</h1>
           <p className="kicker masthead__edition">
+            <span className="masthead__barcode" aria-hidden="true" />
             {state.controls.year} published list prices · USPS, UPS, FedEx
           </p>
-          <h1 className="masthead__title">Parcel Rates</h1>
-          <span className="masthead__barcode" aria-hidden="true" />
           <p className="masthead__deck">
-            Which carrier is cheapest for each kind of parcel you ship, and does your flat shipping price still cover
-            the real cost after surcharges and yearly increases?
+            Which carrier is cheapest for each kind of parcel you ship, and does your flat price still cover the real cost?
           </p>
         </div>
       </header>

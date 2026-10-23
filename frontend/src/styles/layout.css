@@ -7,39 +7,38 @@
   border-bottom: 2px solid var(--mock);
 }
 
+/* One band of about 90 px: title and eyebrow on one line, the deck as one muted line. */
 .masthead {
   border-bottom: var(--rule-heavy);
-  padding: var(--space-5) var(--space-4) var(--space-4);
+  padding: var(--space-3) var(--space-4);
 }
 
 .masthead__inner {
   max-width: 80rem;
   margin: 0 auto;
-  display: grid;
-  gap: var(--space-2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-5);
 }
 
 .masthead__title {
   font-size: var(--text-2xl);
+  line-height: 1;
 }
 
-.masthead__inner {
-  grid-template-columns: minmax(0, 1fr) auto;
+.masthead__edition {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
-.masthead__inner > :not(.masthead__barcode) {
-  grid-column: 1;
-}
-
-/* The one decorative element on the page: a barcode stripe, generated in CSS, uneven bars
-   like a real symbol. Header only. */
+/* The one decorative element on the page: a small barcode mark in the eyebrow, generated in
+   CSS from uneven bars like a real symbol. */
 .masthead__barcode {
-  grid-column: 2;
-  grid-row: 1 / -1;
-  align-self: end;
-  width: clamp(5.5rem, 3rem + 12vw, 16rem);
-  height: clamp(2.25rem, 1.5rem + 3vw, 4.5rem);
-  opacity: 0.8;
+  flex: none;
+  width: 2.75rem;
+  height: 0.75rem;
   background: repeating-linear-gradient(
     90deg,
     var(--ink) 0 2px,
@@ -60,11 +59,14 @@
 }
 
 .masthead__deck {
-  font-family: var(--font-ui);
-  font-size: var(--text-base);
-  line-height: 1.35;
+  flex-basis: 100%;
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  line-height: 1.4;
   color: var(--ink-muted);
-  max-width: 56ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .layout {
@@ -217,15 +219,11 @@
 
 @media (min-width: 64rem) {
   .masthead {
-    padding: var(--space-6) var(--space-6) var(--space-5);
+    padding: var(--space-3) var(--space-6);
   }
 
   .masthead__title {
-    font-size: clamp(2.5rem, 1.5rem + 2vw, 3.5rem);
-  }
-
-  .masthead__deck {
-    font-size: var(--text-lg);
+    font-size: 2.5rem;
   }
 
   .mobile-bar,
