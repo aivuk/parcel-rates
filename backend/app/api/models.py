@@ -244,6 +244,17 @@ class Drivers(Out):
     speed: list[Driver]
 
 
+class FuelGroupUsed(Out):
+    default_percent: float | None
+    is_proxy: bool | None
+    applied_percent: float | None
+
+
+class FuelUsed(Out):
+    ground: FuelGroupUsed
+    express: FuelGroupUsed
+
+
 class YearRow(Out):
     year: int
     as_of: date | None
@@ -253,6 +264,7 @@ class YearRow(Out):
     change_vs_previous: Change | None
     announced_increase: Announced
     drivers: Drivers | None
+    fuel: FuelUsed | None
     warnings: list[str]
 
 

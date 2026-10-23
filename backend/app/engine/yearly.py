@@ -72,6 +72,26 @@ def conditions_in_force(tables: RateTables, carrier: str, year: int, controls: C
     }
 
 
+def fuel_used(tables: RateTables, carrier: str, year: int, controls: Controls) -> dict | None:
+    """Fuel percent per service group for the year: the table default, whether
+    it is a proxy, and the percent actually applied (override or default).
+    None for a carrier without a fuel surcharge (USPS)."""
+    if carrier not in tables.fuel_carriers:
+        return None
+    out = {}
+    override = controls.fuel_override_percent
+    for group in ("ground", "express"):
+        row = tables.fuel.get((carrier, year, group))
+        forced = getattr(override, group) if override is not None else None
+        default = float(row.default_percent) if row else None
+        out[group] = {
+            "default_percent": default,
+            "is_proxy": row.is_proxy if row else None,
+            "applied_percent": float(forced) if forced is not None else default,
+        }
+    return out
+
+
 def _drivers(
     tables: RateTables,
     parcels: list[Parcel],
@@ -147,6 +167,7 @@ def yearly(
                     tables, carrier, y, services, controls.usps_rate_card
                 ),
                 "drivers": None,
+                "fuel": fuel_used(tables, carrier, y, controls),
                 "warnings": (
                     [f"No {y} rules recorded for: {', '.join(missing)}; surcharges may be understated"]
                     if missing

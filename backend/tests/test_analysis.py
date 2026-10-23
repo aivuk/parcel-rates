@@ -184,3 +184,19 @@ def test_fuel_override_applies_to_every_year(tables, sample):
     over = yearly(tables, sample[:5], replace(controls, fuel_override_percent=FuelOverride(ground=0, express=0)))
     ups = next(c for c in over["carriers"] if c["carrier"] == "ups")
     assert all(y["summary"]["split"]["fuel"]["total"] == 0 for y in ups["years"])
+
+
+def test_yearly_reports_fuel_percent_per_year(tables, sample):
+    r = yearly(tables, sample[:5], Controls(year=2026))
+    by = {c["carrier"]: c for c in r["carriers"]}
+    assert all(y["fuel"] is None for y in by["usps"]["years"])
+    for y in by["ups"]["years"]:
+        row = tables.fuel[("ups", y["year"], "ground")]
+        assert y["fuel"]["ground"]["default_percent"] == float(row.default_percent)
+        assert y["fuel"]["ground"]["applied_percent"] == float(row.default_percent)
+        assert y["fuel"]["ground"]["is_proxy"] is True
+    from app.engine.types import FuelOverride
+
+    over = yearly(tables, sample[:5], Controls(year=2026, fuel_override_percent=FuelOverride(ground=15)))
+    fx = next(c for c in over["carriers"] if c["carrier"] == "fedex")["years"][0]["fuel"]
+    assert fx["ground"]["applied_percent"] == 15 and fx["express"]["applied_percent"] == fx["express"]["default_percent"]
