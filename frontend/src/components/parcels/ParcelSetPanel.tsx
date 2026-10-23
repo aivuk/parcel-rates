@@ -123,7 +123,7 @@ export function ParcelSetPanel({ set, status, zoneBands, onLoadSample, onLoadFil
         <div className="parcels__empty">
           <p className="parcels__empty-lead">No parcels loaded yet.</p>
           <p>
-            Questions 3 and 4 price your whole mix. Load the sample to explore, or upload a CSV with one row per kind
+            Questions 3 and 4 price your whole mix. Load the sample (an illustrative home-goods shop, not real data) to explore, or upload a CSV with one row per kind
             of parcel: weight, distance, home or business, speed, and how many you ship.
           </p>
         </div>
@@ -137,7 +137,7 @@ export function ParcelSetPanel({ set, status, zoneBands, onLoadSample, onLoadFil
         <div className="strip__main">
           <h2 id={headingId} className="kicker strip__title">
             Your parcels
-            <span className="strip__source"> · {set.source === "sample" ? "sample mix" : set.name}</span>
+            <span className="strip__source"> · {set.source === "sample" ? "sample mix, an example" : set.name}</span>
           </h2>
           <StripFacts summary={summary} />
         </div>
