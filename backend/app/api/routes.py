@@ -67,6 +67,7 @@ def to_controls(c: m.Controls, tables: RateTables, loc: list) -> EngineControls:
         fuel_override_percent=fuel,
         peak=c.peak,
         flat_price=c.flat_price,
+        free_shipping_over=c.free_shipping_over,
     )
 
 

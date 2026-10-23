@@ -26,6 +26,14 @@ Priority Mail and Priority Mail Express prices for the light parcels people
 choose to rush. Without them every expedited parcel would ship at $9.99 and
 show a loss no real shop would accept.
 
+Order value (issue #10). Every row carries the value of the order its parcel
+ships, so a free-shipping rule ("free shipping on orders of $75 or more") can be
+explored. It grows with the parcel's weight, as heavier home goods cost more:
+$9 per lb plus a log-normal basket of other items (median about $20), never
+under $12. The values come from a separate random stream, so adding them left
+every other column of the sample unchanged; the rule is off by default, so the
+default view below is unchanged too.
+
 Tuning target: the default view (2026, USPS commercial, default fuel, peak
 off, flat $9.99) opens near break-even overall for the cheapest carrier (blended
 margin within about $1 per parcel), with losses where they would be in reality.
@@ -41,6 +49,9 @@ Measured with the rate engine by ``--check`` (no engine or data change):
     -$6 to -$8, zones 5 to 8 -$1 to -$4 (about 65 % at a loss), next day
     -$4.41; gains: under 1 lb +$3.71, zones 1 to 4, two to three day +$8.22.
     USPS has no delivery area surcharge, so those parcels do not lose with USPS.
+    free shipping over $75 (off by default): 54 parcels ship free, revenue
+    $8.92 per parcel, USPS margin -$2.06; over $50: 118 free, -$4.28; over
+    $100: 35 free, -$1.45.
 
 Regenerate and measure (fixed seed, reproducible):
 
@@ -56,6 +67,7 @@ import sys
 from pathlib import Path
 
 SEED = 20261023
+ORDER_SEED = SEED + 10  # separate stream: order values never shift the other columns
 N = 200
 OUT = Path(__file__).resolve().parents[1] / "app" / "sample_parcels.csv"
 COLUMNS = [
@@ -70,6 +82,7 @@ COLUMNS = [
     "price_charged",
     "delivery_area",
     "nonstandard_packaging",
+    "order_value",
 ]
 CUBIC_FOOT = 1728
 
@@ -96,6 +109,11 @@ DISTANCES = [
 DELIVERY_AREA_ROWS = 5  # a handful: four delivery area, one extended
 EXPEDITED_ROWS = {"two_three_day": 12, "next_day": 3}  # about 4 % and 1 % of ~300 parcels
 EXPEDITED_PRICE = {"two_three_day": 19.99, "next_day": 39.99}
+
+
+def _order_value(rng: random.Random, weight_lb: float) -> float:
+    """Illustrative order value: $9 per lb plus a basket of other items, at least $12."""
+    return round(max(12.0, 9 * weight_lb + rng.lognormvariate(3.0, 0.6)), 2)
 
 
 def _pick(rng: random.Random, items, weight):
@@ -146,6 +164,9 @@ def generate() -> list[dict]:
         rows[i]["nonstandard_packaging"] = "true"
     for n, i in enumerate(rng.sample(range(N), DELIVERY_AREA_ROWS)):
         rows[i]["delivery_area"] = "das" if n < DELIVERY_AREA_ROWS - 1 else "extended"
+    order_rng = random.Random(ORDER_SEED)
+    for r in rows:
+        r["order_value"] = _order_value(order_rng, r["weight_lb"])
     return rows
 
 
@@ -162,6 +183,7 @@ def check() -> None:
     """Price the written sample at the default controls and print where it loses."""
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     from collections import defaultdict
+    from dataclasses import replace
     from decimal import Decimal
 
     from app.engine.blended import blended, per_parcel_quotes
@@ -201,6 +223,14 @@ def check() -> None:
         f"  best mix cost/parcel {b['cost_per_parcel']:6.2f} margin/parcel {b['margin_per_parcel']:+6.2f} "
         f"at a loss {b['loss_share']:.1%} {b['parcels_by_carrier']}"
     )
+
+    for threshold in (50, 75, 100):
+        free = blended(tables, parcels, replace(controls, free_shipping_over=threshold))
+        usps = next(c for c in free["carriers"] if c["carrier"] == "usps")
+        print(
+            f"free shipping over ${threshold}: {free['free_shipping']['parcels']} parcels free, "
+            f"revenue/parcel {free['revenue_per_parcel']}, USPS margin/parcel {usps['margin_per_parcel']:+.2f}"
+        )
 
     cheapest = min(r["carriers"], key=lambda c: c["cost_per_parcel"])["carrier"]
     quotes = per_parcel_quotes(tables, cheapest, parcels, controls)

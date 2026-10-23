@@ -35,6 +35,7 @@ class Parcel(BaseModel):
     price_charged: float | None = Field(default=None, ge=0)
     delivery_area: DeliveryArea = "none"
     nonstandard_packaging: bool = False
+    order_value: float | None = Field(default=None, ge=0, description="value of the order this parcel ships")
 
     @model_validator(mode="after")
     def _all_or_no_dimensions(self) -> "Parcel":
@@ -56,6 +57,9 @@ class Controls(BaseModel):
     fuel_override_percent: FuelOverride | None = None
     peak: bool = False
     flat_price: float = Field(default=9.99, ge=0)
+    free_shipping_over: float | None = Field(
+        default=None, ge=0, description="free shipping on orders of this value or more; needs order_value"
+    )
 
 
 class SegmentFilter(BaseModel):
@@ -209,10 +213,16 @@ class BestMix(Summary):
     parcels_by_carrier: dict[str, int]
 
 
+class FreeShipping(Out):
+    threshold: float
+    parcels: int
+
+
 class BlendedResponse(Out):
     year: int
     parcels_considered: int
     revenue_per_parcel: float
+    free_shipping: FreeShipping | None
     carriers: list[CarrierBlended]
     best_mix: BestMix
 

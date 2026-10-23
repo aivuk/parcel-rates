@@ -27,6 +27,7 @@ class Parcel:
     price_charged: float | None = None
     delivery_area: str = "none"
     nonstandard_packaging: bool = False
+    order_value: float | None = None  # value of the order the parcel ships, for free-shipping rules
 
     @property
     def has_dimensions(self) -> bool:
@@ -47,6 +48,8 @@ class Controls:
     fuel_override_percent: FuelOverride | None = None
     peak: bool = False
     flat_price: float = 9.99
+    # Free shipping on orders of this value or more (None: no such rule).
+    free_shipping_over: float | None = None
 
 
 @dataclass(frozen=True)

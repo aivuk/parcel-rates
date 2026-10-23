@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from decimal import ROUND_HALF_UP, Decimal
 
-from .quote import cheapest_for_carrier, price_charged
+from .quote import cheapest_for_carrier, price_charged, ships_free
 from .segments import SegmentFilter, matches
 from .tables import RateTables
 from .types import Controls, Parcel, Quote, Totals
@@ -103,10 +103,17 @@ def blended(
 
     revenue = sum((price_charged(p, controls) * p.quantity for p in selected), ZERO)
     n = sum(p.quantity for p in selected)
+    free = None
+    if controls.free_shipping_over is not None:
+        free = {
+            "threshold": controls.free_shipping_over,
+            "parcels": sum(p.quantity for p in selected if ships_free(p, controls)),
+        }
     return {
         "year": controls.year,
         "parcels_considered": n,
         "revenue_per_parcel": _r(revenue / n) if n else 0.0,
+        "free_shipping": free,
         "carriers": results,
         "best_mix": {**summarize(best, best_unavailable), "parcels_by_carrier": counts},
     }
