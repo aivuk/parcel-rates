@@ -24,14 +24,20 @@ test.describe("Q4, year over year", () => {
   test("the next-year slider updates the projection", async ({ page }) => {
     const projection = page.getByTestId("q4-projection");
     const before = await projection.innerText();
+    const basis = page.getByTestId("q4-projection-basis");
+    // Nothing beyond the loaded price lists is announced yet, so every carrier starts assumed.
+    await expect(basis).toContainText("assumed");
+    await expect(basis).not.toContainText("your override");
     const slider = page.getByRole("slider", { name: /^Increase for/ });
     await slider.focus();
     for (let i = 0; i < 20; i++) await page.keyboard.press("ArrowRight");
     await expect(projection).not.toHaveText(before);
+    await expect(basis).toContainText("your override");
     const reset = page.getByRole("button", { name: /^Reset to/ });
     await expect(reset).toBeVisible();
     await reset.click();
     await expect(projection).toHaveText(before);
+    await expect(basis).not.toContainText("your override");
   });
 
   test("driver chips switch the breakdown", async ({ page }) => {
