@@ -49,6 +49,11 @@ def values_of(rows: list[dict], table: str) -> list[str]:
     return out
 
 
+def without_dates(values: list[str]) -> list[str]:
+    """Drop the 'from <date>: ' prefix, so a moved window alone is not a change."""
+    return [v.split(": ", 1)[-1] for v in values]
+
+
 def cite(rows: list[dict]) -> str:
     row = rows[-1]
     page = row.get("source_page") or row.get("source_ref") or ""
@@ -72,8 +77,7 @@ def changes_for(carrier: str, table: str) -> list[str]:
                 lines.append(f"- {previous}→{current} **{label}**: rule removed (was {'; '.join(values_of(before[key], table))})")
             else:
                 old, new = values_of(before[key], table), values_of(after[key], table)
-                strip = lambda vs: [v.split(": ", 1)[-1] for v in vs]  # ignore the window dates themselves
-                if strip(old) != strip(new):
+                if without_dates(old) != without_dates(new):
                     lines.append(f"- {previous}→{current} **{label}**: {'; '.join(old)} → {'; '.join(new)} ({cite(after[key])})")
     return lines
 

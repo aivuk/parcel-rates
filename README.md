@@ -1,5 +1,7 @@
 # Parcel rates: USPS, UPS and FedEx list prices for a small online shop
 
+[![CI](https://github.com/aivuk/parcel-rates/actions/workflows/ci.yml/badge.svg)](https://github.com/aivuk/parcel-rates/actions/workflows/ci.yml)
+
 A dashboard that prices a shop's own parcels at the published prices of the
 three US parcel carriers, for every year from 2023 to 2026, and shows which
 carrier is cheapest, where the breakeven points are, how much of the bill is
@@ -253,6 +255,13 @@ runs the frontend alone on recorded API responses. The API contract is in
 
 ## Tests
 
+GitHub Actions (`.github/workflows/ci.yml`) runs lint, the data and backend
+suites, the frontend tests and build on Node 20.12, and `docker compose build`
+on every push and pull request. A separate job on `main` fetches the PDFs
+(cached by manifest checksum) and runs the data suite with
+`PARCEL_RATES_REQUIRE_RAW=1`; it reports but does not block, since the archive
+can be unreachable.
+
 | Suite | Command | What it covers |
 |---|---|---|
 | Data | `uv run pytest data/tests` (repository root) | Schema, parsers against golden cells, table invariants, manifest; citations whose PDF is not fetched are skipped |
@@ -260,6 +269,7 @@ runs the frontend alone on recorded API responses. The API contract is in
 | Backend | `cd backend && uv run pytest` | Rate engine against hand-computed quotes, rule resolution, analysis and API |
 | Frontend | `cd frontend && npm ci && npm test` | Components with Testing Library and the API contract test |
 | Frontend types | `cd frontend && npm run typecheck` | |
+| Lint | `uvx ruff check backend data` | pyflakes, core pycodestyle, import order, bugbear (config in `pyproject.toml`) |
 | End to end | `docker compose up -d --build`, then `cd frontend && npx playwright install chromium && npm run e2e` | Playwright at 1440 × 900 and 375 × 812 (touch): the four questions, global controls, URL state, CSV upload, the phone settings sheet, and axe on every view in light and dark |
 | Screenshots | same stack, `cd frontend && npm run e2e:update-screens` | Rewrites `frontend/e2e/screenshots/` (every view, both sizes, light and dark), reviewed in [docs/ux-review.md](docs/ux-review.md) |
 

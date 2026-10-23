@@ -6,8 +6,15 @@ from __future__ import annotations
 import pytest
 
 from data.pipeline.common import (
-    ADDRESS_TYPES, CARRIERS, COLUMNS, CURATED_TABLES, SURCHARGE_CONDITIONS, normalize_text,
-    processed_path, read_table, source_text,
+    ADDRESS_TYPES,
+    CARRIERS,
+    COLUMNS,
+    CURATED_TABLES,
+    SURCHARGE_CONDITIONS,
+    normalize_text,
+    processed_path,
+    read_table,
+    source_text,
 )
 from data.tests.raw import missing_raw
 

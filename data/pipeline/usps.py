@@ -17,7 +17,12 @@ from decimal import ROUND_DOWN, Decimal
 
 from data.pipeline import usps_rules as rules
 from data.pipeline.common import (
-    COLUMNS, RATE_CARDS, ZONES, money, raw_path, weight_label, write_table,
+    RATE_CARDS,
+    ZONES,
+    money,
+    raw_path,
+    weight_label,
+    write_table,
 )
 
 CARRIER = "usps"

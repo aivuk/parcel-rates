@@ -18,7 +18,13 @@ from pathlib import Path
 
 from data.pipeline import fedex_rules
 from data.pipeline.common import (
-    MAX_WEIGHT_LB, ZONES, html_text, money, raw_path, weight_label, write_table,
+    MAX_WEIGHT_LB,
+    ZONES,
+    html_text,
+    money,
+    raw_path,
+    weight_label,
+    write_table,
 )
 
 CARRIER = "fedex"
