@@ -89,7 +89,7 @@ Full findings in `docs/data/QUALITY.md`; sources per file in `data/raw/<carrier>
 - **Schema** for all processed tables and the parcel CSV is fixed in
   `docs/data/SCHEMA.md` before any parser is written.
 
-## 2026-10-23 — Data collection must be fully scripted (rule; discovery still open in #13)
+## 2026-10-23 — Data collection must be fully scripted (rule; discovery scripted in #13)
 
 - Every step of data collection, including finding the source URLs, must run
   from committed scripts without an LLM or agent, so the data can be rebuilt
@@ -100,6 +100,16 @@ Full findings in `docs/data/QUALITY.md`; sources per file in `data/raw/<carrier>
   with checksums, with no agent involved. Not done: the discovery step
   (Wayback lookups, file-name resolution) is still manual. It is tracked in
   #13, which the owner deferred to the extras.
+- 2026-10-24, #13: discovery is scripted (`data/collect/discover.py` over the
+  catalogue in `data/collect/sources.py`). The owner chose that the rules
+  reproduce the captures the data were built from exactly, rather than
+  re-pick by a simpler rule and re-verify every changed file. So each Wayback
+  entry carries a cut-off just after its capture, and `--newer` reports what
+  came later. Seven rows changed URL without changing bytes, each checked
+  against its SHA-256: five FedEx pages and one UPS PDF had a nearest-capture
+  timestamp rather than a real capture (one now answers 403), and the October
+  2026 Notice 123 moved from USPS's "current" URL, which is replaced at every
+  price change, to its stable Postal Explorer name.
 
 ## 2026-10-23 — Schema amendments before the parsers (issue #2, PR #15)
 

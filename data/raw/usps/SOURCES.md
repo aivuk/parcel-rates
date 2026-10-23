@@ -20,7 +20,9 @@ There was **no** USPS peak price change in autumn 2023 (see press release 2023-0
 ## A. Notice 123 "Price List" PDFs (one per price change)
 
 Source pattern: `https://pe.usps.com/Archive/PDF/DMMArchive<YYYYMMDD>/Notice123.pdf` (DMM archive,
-folder date = effective date), except the current one (`https://pe.usps.com/cpim/ftp/manuals/dmm300/notice123.pdf`)
+folder date = effective date), except the October 2026 one (`https://pe.usps.com/resources/PriceChange/Time-Limited%20OCT%202026%20Price%20Change%20-%20Notice123%20PDF%20-%20Final.pdf`;
+first taken from the "current" `https://pe.usps.com/cpim/ftp/manuals/dmm300/notice123.pdf`, which is replaced at every
+price change; the Postal Explorer file has the same SHA-256 and a stable name)
 and the April 2026 one (`https://pe.usps.com/resources/PriceChange/Transportation-Related%20Time-Limited%202026%20Price%20Change%20-%20Notice123%20PDF.pdf`).
 Method: direct download. Format: PDF, 62–76 pages, text-based (not scanned).
 
@@ -52,7 +54,7 @@ use the PDFs for the footnote rules and as a cross-check only.
 | 2026/notice123_2026-01-18.pdf | https://pe.usps.com/Archive/PDF/DMMArchive20260118/Notice123.pdf | 2026-01-18 |
 | 2026/notice123_2026-04-26_transportation.pdf | (resources/PriceChange URL above) | 2026-04-26 to 2027-01-17 (time-limited +8 %) |
 | 2026/notice123_2026-07-12.pdf | https://pe.usps.com/Archive/PDF/DMMArchive20260712/Notice123.pdf | 2026-07-12 |
-| 2026/notice123_2026-10-04_peak.pdf | https://pe.usps.com/cpim/ftp/manuals/dmm300/notice123.pdf (current) | 2026-10-04 to 2027-01-17 (peak) |
+| 2026/notice123_2026-10-04_peak.pdf | (resources/PriceChange "Time-Limited OCT 2026 ... Notice123 PDF - Final" URL above) | 2026-10-04 to 2027-01-17 (peak) |
 
 ## B. Price-file CSV zips (Postal Explorer "Price Files – CSV" / "Notice 123.zip")
 
@@ -88,8 +90,9 @@ programmatically, then read the numeric block; a float like `15.999000000000001`
 | 2026/price_files_csv_2026-10-04_peak.zip | `Time-Limited OCT 2026 Price Change - Notice 123 - Final.zip` | 2026-10-04 (peak) |
 
 Caveat: for each price change several revisions of the zip were published (draft → final). The
-one taken is the latest-dated file name seen in the Wayback CDX index; only the Oct 2026 one is
-labelled "Final" in its name. Verify against the PDF of the same date before trusting a cell.
+one taken is the one the Wayback CDX index first saw last, leaving out SKU files, drafts, redlines,
+proposals and the alternative scenarios; `usps_price_file` in `data/collect/sources.py` applies
+that rule, and it reproduces every row above. Verify against the PDF of the same date before trusting a cell.
 
 ## C. Announced average price increases (USPS national press releases, PDF versions)
 
