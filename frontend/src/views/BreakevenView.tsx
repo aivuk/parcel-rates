@@ -5,14 +5,16 @@ import type { BreakevenResponse, Carrier } from "../api/types";
 import { CARRIERS } from "../api/types";
 import { BreakevenTable } from "./breakeven/BreakevenTable";
 import { Heatmap } from "./breakeven/Heatmap";
-import { SAVING_LABELS, groundName, readout } from "./breakeven/readout";
+import { SAVING_LABELS, TIE_DOLLARS, groundName, isTie, readout } from "./breakeven/readout";
 import type { ViewProps } from "./types";
 import "../styles/views.css";
 import "./breakeven/breakeven.css";
 import { CARRIER_NAME, carriersForYear, missingCarriersNote } from "../lib/carriers";
+import { formatUsd } from "../lib/format";
 
 function Legend({ res, meta }: { res: BreakevenResponse; meta: ViewProps["meta"] }) {
   const winners = CARRIERS.filter((c) => res.cells.some((x) => x.winner?.carrier === c));
+  const ties = res.cells.some(isTie);
   return (
     <div className="hml" aria-label="Legend" role="group">
       <ul className="hml__carriers">
@@ -23,6 +25,12 @@ function Legend({ res, meta }: { res: BreakevenResponse; meta: ViewProps["meta"]
             cheapest
           </li>
         ))}
+        {ties && (
+          <li>
+            <span className="hml__sw hml__sw--tie" aria-hidden="true" />
+            <strong>Tie</strong> UPS and FedEx within {formatUsd(TIE_DOLLARS)}
+          </li>
+        )}
       </ul>
       <div className="hml__ramp">
         <span className="hml__ramplabel">Saving over the next cheapest:</span>

@@ -292,6 +292,7 @@ const checks = {
         ),
       }),
     ),
+    next_year_default_percent: nullable(num),
   }),
   validationError: obj({
     detail: arr(obj({ loc: arr((v, p) => (typeof v === "number" ? int(v, p) : str(v, p))), msg: str, type: str })),

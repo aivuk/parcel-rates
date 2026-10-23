@@ -123,6 +123,10 @@
   background: var(--carrier-fedex);
 }
 
+.hml__sw--tie {
+  background: repeating-linear-gradient(45deg, var(--carrier-ups) 0 3px, var(--carrier-fedex) 3px 6px);
+}
+
 .hml__ramp {
   display: flex;
   flex-wrap: wrap;
@@ -210,8 +214,21 @@
   pointer-events: none;
 }
 
+/* UPS against FedEx (and their ties): the dotted line the legend promises. */
+.hm__boundary--rival {
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
+
+.hm__tie--ups {
+  fill: color-mix(in oklch, var(--carrier-ups) 63%, var(--carrier-ups-wash));
+}
+
+.hm__tie--fedex {
+  fill: color-mix(in oklch, var(--carrier-fedex) 63%, var(--carrier-fedex-wash));
+}
+
 .hm__runlabel {
-  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
   fill: var(--ink);

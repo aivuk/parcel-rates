@@ -51,6 +51,18 @@ describe("BreakevenView", () => {
     expect(cells()[0]).toHaveAttribute("data-carrier", "usps");
   });
 
+  it("draws UPS/FedEx near-ties as a tie, in the legend, the tooltip and the cell's label", async () => {
+    setup();
+    await screen.findByTestId("breakeven-answer");
+    const ties = cells().filter((c) => c.hasAttribute("data-tie"));
+    expect(ties).toHaveLength(32);
+    expect(ties.every((c) => ["ups", "fedex"].includes(c.getAttribute("data-carrier")!))).toBe(true);
+    expect(screen.getByRole("group", { name: "Legend" })).toHaveTextContent("Tie UPS and FedEx within $0.10");
+    expect(ties[0]).toHaveAccessibleName(/, a tie$/);
+    fireEvent.focus(ties[0]!);
+    expect(screen.getByRole("status")).toHaveTextContent(/A tie: (UPS|FedEx) saves \$0\.0\d over (UPS|FedEx), under \$0\.10/);
+  });
+
   it("shows every carrier's total in the tooltip of a focused cell", async () => {
     setup();
     await screen.findByTestId("breakeven-answer");

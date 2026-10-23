@@ -35,14 +35,7 @@ export async function showView(page: Page, view: ViewId): Promise<void> {
     await expect(page.getByTestId("quote-answer")).toBeVisible();
     return;
   }
-  // Q4 asks twice: once with the controls, then again with the next-year increase its first
-  // answer suggests. Wait for the second, or the view is still dimmed as "stale".
-  const answer =
-    view === "yearly"
-      ? page.waitForResponse(
-          (r) => new URL(r.url()).pathname === "/api/yearly" && "next_year_increase_percent" in (r.request().postDataJSON() ?? {}),
-        )
-      : nextResponse(page, `/api/${view}`);
+  const answer = nextResponse(page, `/api/${view}`);
   await tab(page, view).click();
   expect((await answer).ok()).toBe(true);
   const id = { breakeven: "breakeven-answer", blended: "q3-answer", yearly: "q4-answer" }[view];

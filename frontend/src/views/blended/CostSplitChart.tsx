@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { BlendedResponse } from "../../api/types";
-import { OTHER_KIND, splitRows, surchargeKinds, type SplitRow } from "./logic";
+import { OTHER_KIND, allKinds, splitRows, surchargeKinds, type SplitRow } from "./logic";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { ChartFrame } from "../../components/ChartFrame";
 import { useCssColors } from "../../hooks/useCssColors";
@@ -53,6 +53,9 @@ export function CostSplitChart({ data }: { data: BlendedResponse }) {
   const kinds = surchargeKinds(data);
   const rows = splitRows(data, kinds, CARRIER_NAME);
   const segs = segmentsFor(kinds);
+  const tableKinds = allKinds(data);
+  const tableRows = splitRows(data, tableKinds, CARRIER_NAME);
+  const tableSegs = segmentsFor(tableKinds);
   const chartRows = rows.map((r) => {
     const o: Record<string, number | string> = { label: r.label, carrier: r.carrier };
     for (const s of segs) o[s.key] = s.value(r);
@@ -149,7 +152,7 @@ export function CostSplitChart({ data }: { data: BlendedResponse }) {
       <thead>
         <tr>
           <th scope="col">Carrier</th>
-          {segs.map((s) => (
+          {tableSegs.map((s) => (
             <th key={s.key} scope="col" className="num">
               {s.label}
             </th>
@@ -163,10 +166,10 @@ export function CostSplitChart({ data }: { data: BlendedResponse }) {
         </tr>
       </thead>
       <tbody>
-        {rows.map((r) => (
+        {tableRows.map((r) => (
           <tr key={r.carrier}>
             <th scope="row">{r.label}</th>
-            {segs.map((s) => (
+            {tableSegs.map((s) => (
               <td key={s.key} className="num">
                 {formatUsd(s.value(r))}
               </td>

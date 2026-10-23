@@ -17,6 +17,20 @@ export const groundName = (meta: Meta | null, c: Carrier, residential: boolean) 
 export const SAVING_STEPS = [1, 3, 10] as const;
 export const SAVING_LABELS = ["under $1", "$1–3", "$3–10", "$10 or more"] as const;
 
+/** UPS and FedEx closer than this are drawn as a tie: a few cents decide nothing, and on the
+ * map they made a band of thin alternating slivers. USPS cells are never merged, since where
+ * USPS stops winning is the question the map answers. */
+export const TIE_DOLLARS = 0.1;
+
+export function isTie(c: BreakevenCell | null): boolean {
+  const a = c?.winner?.carrier;
+  const b = c?.runner_up?.carrier;
+  return !!a && !!b && a !== "usps" && b !== "usps" && c!.saving < TIE_DOLLARS;
+}
+
+/** What a cell shows: its winner, or "tie" for a UPS/FedEx near-tie. */
+export const cellKey = (c: BreakevenCell | null): Carrier | "tie" | undefined => (isTie(c) ? "tie" : c?.winner?.carrier);
+
 export function savingLevel(saving: number): 0 | 1 | 2 | 3 {
   if (saving < SAVING_STEPS[0]) return 0;
   if (saving < SAVING_STEPS[1]) return 1;

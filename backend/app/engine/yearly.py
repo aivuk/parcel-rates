@@ -183,6 +183,7 @@ def yearly(
     next_year_override: bool = False,
 ) -> dict:
     result = []
+    last_costs: dict[str, Decimal] = {}  # unrounded, for the projection
     for carrier in tables.carriers():
         years = tables.years_for(carrier)
         per_year: dict[int, list[Quote | None]] = {}
@@ -239,24 +240,43 @@ def yearly(
             rows.append(row)
             prev_y, prev_cost, prev_conditions = y, cost, conditions
 
-        projected = None
         if rows and n:
-            projected = project_next_year(
-                tables,
-                carrier,
-                rows[-1],
-                prev_cost,
-                controls.usps_rate_card,
-                next_year_increase_percent,
-                next_year_override,
-            )
+            last_costs[carrier] = prev_cost
         result.append(
             {
                 "carrier": carrier,
                 "parcels_used": n,
                 "parcels_excluded": excluded,
                 "years": rows,
-                "projected": projected,
+                "projected": None,
             }
         )
-    return {"carriers": result}
+
+    default = default_increase(result)
+    slider = next_year_increase_percent if next_year_increase_percent is not None else default
+    for c in result:
+        if c["carrier"] in last_costs:
+            c["projected"] = project_next_year(
+                tables, c["carrier"], c["years"][-1], last_costs[c["carrier"]], controls.usps_rate_card,
+                slider, next_year_override,
+            )
+    return {"carriers": result, "next_year_default_percent": default}
+
+
+def default_increase(carriers: list[dict]) -> float | None:
+    """The next-year percentage used when the request gives none: the latest increase announced
+    by the carrier cheapest in the reference year (the latest year every carrier has prices for,
+    else the latest year any has). The UI's slider starts at this value."""
+    priced = [c for c in carriers if c["years"] and c["parcels_used"]]
+    if not priced:
+        return None
+    common = set.intersection(*({y["year"] for y in c["years"]} for c in priced))
+    ref = max(common) if common else max(y["year"] for c in priced for y in c["years"])
+    at_ref = [(row["cost_per_parcel"], c) for c in priced for row in c["years"] if row["year"] == ref]
+    if not at_ref:
+        return None
+    pick = min(at_ref, key=lambda x: x[0])[1]
+    return next(
+        (y["announced_increase"]["percent"] for y in reversed(pick["years"]) if y["announced_increase"]["percent"] is not None),
+        None,
+    )

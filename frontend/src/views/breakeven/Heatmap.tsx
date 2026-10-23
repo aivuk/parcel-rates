@@ -1,7 +1,7 @@
-import { useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import type { BreakevenCell, BreakevenResponse, Carrier, Meta } from "../../api/types";
 import { CARRIERS } from "../../api/types";
-import { cellGrid, groundName, savingLevel, zoneLabel } from "./readout";
+import { TIE_DOLLARS, cellGrid, cellKey, groundName, isTie, savingLevel, zoneLabel } from "./readout";
 import { useWidth } from "./useWidth";
 import { CARRIER_NAME } from "../../lib/carriers";
 import { formatInt, formatUsd } from "../../lib/format";
@@ -9,8 +9,9 @@ import { formatInt, formatUsd } from "../../lib/format";
 // The lightest step keeps 45 % of the carrier colour so cells read as the carrier, not as a pastel, on white.
 const LEVEL_MIX = [45, 63, 82, 100] as const;
 
-export function cellFill(c: BreakevenCell | null): string {
+export function cellFill(c: BreakevenCell | null, tiePattern = "hm-tie"): string {
   if (!c?.winner) return "var(--wash)";
+  if (isTie(c)) return `url(#${tiePattern})`;
   const v = `var(--carrier-${c.winner.carrier})`;
   const w = `var(--carrier-${c.winner.carrier}-wash)`;
   return `color-mix(in oklch, ${v} ${LEVEL_MIX[savingLevel(c.saving)]}%, ${w})`;
@@ -22,13 +23,17 @@ function cellLabel(c: BreakevenCell | null, meta: Meta | null, residential: bool
   if (!c.winner) return `${head}: no ground service can carry it`;
   const win = `${groundName(meta, c.winner.carrier, residential)} cheapest at ${formatUsd(c.winner.total)}`;
   const run = c.runner_up
-    ? `, ${formatUsd(c.saving)} less than ${groundName(meta, c.runner_up.carrier, residential)}`
+    ? `, ${formatUsd(c.saving)} less than ${groundName(meta, c.runner_up.carrier, residential)}${isTie(c) ? ", a tie" : ""}`
     : ", no other carrier to compare";
   return `${head}: ${win}${run}`;
 }
 
 const AXIS_W = 46;
 const HEAD_H = 38;
+const LABEL_PX = 11;
+const LABEL_PX_COMPACT = 10;
+
+export const runLabelText = (k: Carrier | "tie") => (k === "tie" ? "Tie" : CARRIER_NAME[k]);
 
 export interface HeatmapProps {
   res: BreakevenResponse;
@@ -53,6 +58,7 @@ export function Heatmap({ res, meta }: HeatmapProps) {
   /** Escape closes the tooltip but keeps the focus ring; any move or click opens it again. */
   const [tipDismissed, setTipDismissed] = useState(false);
   const cellRefs = useRef<(SVGRectElement | null)[]>([]);
+  const tiePattern = `hm-tie-${useId().replace(/:/g, "")}`;
 
   const ring = hover ?? (focused || pinned ? active : null);
   const show = hover ?? (!tipDismissed && (focused || pinned) ? active : null);
@@ -93,7 +99,11 @@ export function Heatmap({ res, meta }: HeatmapProps) {
   };
 
   // Boundaries where the winner changes: drawn in ink so regions read without colour.
-  const deco = useMemo(() => decorations(grid, res.weights_lb, cols, colW, rowH), [grid, res.weights_lb, cols, colW, rowH]);
+  const labelPx = compact ? LABEL_PX_COMPACT : LABEL_PX;
+  const deco = useMemo(
+    () => decorations(grid, res.weights_lb, cols, colW, rowH, labelPx),
+    [grid, res.weights_lb, cols, colW, rowH, labelPx],
+  );
   const { boundaries, rivalEdges, runLabels, weightTicks, colSeps } = deco;
 
   const tip = show && shownCell ? tooltipPos(show, colW, rowH, svgW) : null;
@@ -113,6 +123,13 @@ export function Heatmap({ res, meta }: HeatmapProps) {
           onKeyDown={onKeyDown}
           onPointerLeave={() => setHover(null)}
         >
+          <defs aria-hidden="true">
+            {/* A UPS/FedEx near-tie: stripes of both colours, so it reads as neither winning. */}
+            <pattern id={tiePattern} width={8} height={8} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <rect width={4} height={8} className="hm__tie hm__tie--ups" />
+              <rect x={4} width={4} height={8} className="hm__tie hm__tie--fedex" />
+            </pattern>
+          </defs>
           <g aria-hidden="true" className="hm__axis">
             {res.distances_miles.map((d, c) => {
               const band = res.breakeven_weight_lb[c];
@@ -151,12 +168,13 @@ export function Heatmap({ res, meta }: HeatmapProps) {
                     aria-selected={isActive}
                     tabIndex={isActive ? 0 : -1}
                     data-carrier={cell?.winner?.carrier ?? "none"}
+                    data-tie={isTie(cell) || undefined}
                     data-level={cell ? savingLevel(cell.saving) : 0}
                     x={AXIS_W + c * colW}
                     y={HEAD_H + r * rowH}
                     width={colW}
                     height={rowH}
-                    style={{ fill: cellFill(cell) }}
+                    style={{ fill: cellFill(cell, tiePattern) }}
                     className="hm__cell"
                     onPointerEnter={(e) => {
                       if (e.pointerType !== "mouse") return;
@@ -187,8 +205,8 @@ export function Heatmap({ res, meta }: HeatmapProps) {
           <path d={boundaries} className="hm__boundary" aria-hidden="true" />
           <g aria-hidden="true">
             {runLabels.map((l, i) => (
-              <text key={i} x={l.x} y={l.y} dy="0.35em" textAnchor="middle" className="hm__runlabel">
-                {CARRIER_NAME[l.carrier]}
+              <text key={i} x={l.x} y={l.y} dy="0.35em" textAnchor="middle" className="hm__runlabel" fontSize={labelPx}>
+                {runLabelText(l.carrier)}
               </text>
             ))}
           </g>
@@ -215,9 +233,10 @@ export function Heatmap({ res, meta }: HeatmapProps) {
 }
 
 /**
- * The static layers over the cells: winner boundaries (USPS against the rest heavy, UPS against
- * FedEx thin), carrier names on tall runs, weight ticks and column separators. Pure, so the view
- * memoizes it and hovering a cell does not recompute it.
+ * The static layers over the cells: winner boundaries (USPS against the rest heavy, UPS, FedEx
+ * and their near-ties against each other thin), carrier names on tall runs that fit their column,
+ * weight ticks and column separators. Pure, so the view memoizes it and hovering a cell does not
+ * recompute it.
  */
 export function decorations(
   grid: (BreakevenCell | null)[][],
@@ -225,16 +244,19 @@ export function decorations(
   cols: number,
   colW: number,
   rowH: number,
+  labelPx: number = LABEL_PX,
 ) {
   const rows = weights.length;
   const boundaries: string[] = [];
   const rivalEdges: string[] = [];
-  const edge = (a: Carrier | undefined, b: Carrier | undefined) => (a === "usps" || b === "usps" ? boundaries : rivalEdges);
+  type Key = ReturnType<typeof cellKey>;
+  const edge = (a: Key, b: Key) => (a === "usps" || b === "usps" ? boundaries : rivalEdges);
+  const key = (r: number, c: number) => cellKey(grid[r]?.[c] ?? null);
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
-      const here = grid[r]?.[c]?.winner?.carrier;
-      const right = grid[r]?.[c + 1]?.winner?.carrier;
-      const below = grid[r + 1]?.[c]?.winner?.carrier;
+      const here = key(r, c);
+      const right = key(r, c + 1);
+      const below = key(r + 1, c);
       const x = AXIS_W + c * colW;
       const y = HEAD_H + r * rowH;
       if (c + 1 < cols && here !== right) edge(here, right).push(`M${x + colW},${y}v${rowH}`);
@@ -242,14 +264,16 @@ export function decorations(
     }
   }
 
-  const runLabels: { x: number; y: number; carrier: Carrier }[] = [];
+  // A rough width for the bold label (about 0.6 em a character) with 2 px clear on each side.
+  const fits = (k: Carrier | "tie") => runLabelText(k).length * labelPx * 0.6 + 4 <= colW;
+  const runLabels: { x: number; y: number; carrier: Carrier | "tie" }[] = [];
   for (let c = 0; c < cols; c++) {
     let start = 0;
     for (let r = 1; r <= rows; r++) {
-      const prev = grid[r - 1]?.[c]?.winner?.carrier;
-      const cur = r < rows ? grid[r]?.[c]?.winner?.carrier : undefined;
+      const prev = key(r - 1, c);
+      const cur = r < rows ? key(r, c) : undefined;
       if (cur === prev && r < rows) continue;
-      if (prev && (r - start) * rowH >= 26) {
+      if (prev && (r - start) * rowH >= 26 && fits(prev)) {
         runLabels.push({ x: AXIS_W + c * colW + colW / 2, y: HEAD_H + ((start + r) / 2) * rowH, carrier: prev });
       }
       start = r;
@@ -268,6 +292,14 @@ function tooltipPos(at: { r: number; c: number }, colW: number, rowH: number, sv
   const y = HEAD_H + at.r * rowH;
   const below = y < 170;
   return { left, top: below ? y + rowH + 8 : y - 8, below };
+}
+
+function tipFoot(cell: BreakevenCell): string {
+  const { winner, runner_up: runnerUp } = cell;
+  if (!winner) return "No ground service can carry it";
+  if (!runnerUp) return `Only ${CARRIER_NAME[winner.carrier]} has a price here`;
+  const saves = `${CARRIER_NAME[winner.carrier]} saves ${formatUsd(cell.saving)} over ${CARRIER_NAME[runnerUp.carrier]}`;
+  return isTie(cell) ? `A tie: ${saves}, under ${formatUsd(TIE_DOLLARS)}` : saves;
 }
 
 export function Tooltip({ cell, meta, residential }: { cell: BreakevenCell; meta: Meta | null; residential: boolean }) {
@@ -292,11 +324,7 @@ export function Tooltip({ cell, meta, residential }: { cell: BreakevenCell; meta
         </tbody>
       </table>
       <p className="hm__tipfoot">
-        {cell.winner && cell.runner_up
-          ? `${CARRIER_NAME[cell.winner.carrier]} saves ${formatUsd(cell.saving)} over ${CARRIER_NAME[cell.runner_up.carrier]}`
-          : cell.winner
-            ? `Only ${CARRIER_NAME[cell.winner.carrier]} has a price here`
-            : "No ground service can carry it"}
+        {tipFoot(cell)}
       </p>
     </>
   );

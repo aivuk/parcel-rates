@@ -4,7 +4,7 @@ import { useApi, useLoad } from "../../api/ApiContext";
 import type { BlendedResponse, Carrier, Parcel, SegmentFilter } from "../../api/types";
 import type { ControlsState } from "../../state/urlState";
 import type { Meta } from "../../api/types";
-import { blendedAnswer, cleanSegment, totalQuantity, type BlendedAnswer } from "./logic";
+import { blendedAnswer, cleanSegment, soleWinner, totalQuantity, type BlendedAnswer } from "./logic";
 import { SegmentChips, describeSegment } from "./SegmentChips";
 import { CostSplitChart } from "./CostSplitChart";
 import { LoadProblem } from "../../components/LoadProblem";
@@ -135,6 +135,7 @@ function Body({
 function Answer({ data, answer, kicker }: { data: BlendedResponse; answer: BlendedAnswer; kicker: string }) {
   const { cheapest, others, mixSavingPerParcel, mixSavingTotal } = answer;
   const mix = data.best_mix;
+  const sole = soleWinner(data);
   const mixCounts = Object.entries(mix.parcels_by_carrier)
     .filter(([, n]) => n > 0)
     .sort((a, b) => b[1] - a[1]);
@@ -161,29 +162,38 @@ function Answer({ data, answer, kicker }: { data: BlendedResponse; answer: Blend
         {others.length > 0 && "."}
       </p>
       <FullQuestion id="blended" />
-      <div className="mix" data-testid="q3-mix">
-        <p className="mix__line">
-          <span className="mix__label">Best mix</span>{" "}
-          <span className="figure mix__figure">{formatUsd(mix.cost_per_parcel)}</span> per parcel, choosing the cheapest
-          carrier for each parcel:{" "}
-          {mixSavingPerParcel > 0 ? (
-            <>
-              <strong>{formatUsd(mixSavingPerParcel)} less per parcel</strong> than {carrierName(cheapest.carrier)} alone (
-              {formatUsd(mixSavingTotal)} on these parcels).
-            </>
-          ) : (
-            <>no saving over {carrierName(cheapest.carrier)} alone.</>
-          )}
-        </p>
-        <p className="mix__split">
-          {mixCounts.map(([c, n], i) => (
-            <span key={c}>
-              {i > 0 && " · "}
-              <span style={{ color: carrierVar(c as Carrier) }}>{carrierName(c)}</span> {formatInt(n)}
-            </span>
-          ))}
-        </p>
-      </div>
+      {sole ? (
+        <div className="mix" data-testid="q3-mix">
+          <p className="mix__line">
+            <span className="mix__label">Best mix:</span> {carrierName(sole)} wins every parcel, so choosing per parcel
+            saves nothing.
+          </p>
+        </div>
+      ) : (
+        <div className="mix" data-testid="q3-mix">
+          <p className="mix__line">
+            <span className="mix__label">Best mix</span>{" "}
+            <span className="figure mix__figure">{formatUsd(mix.cost_per_parcel)}</span> per parcel, choosing the cheapest
+            carrier for each parcel:{" "}
+            {mixSavingPerParcel > 0 ? (
+              <>
+                <strong>{formatUsd(mixSavingPerParcel)} less per parcel</strong> than {carrierName(cheapest.carrier)} alone (
+                {formatUsd(mixSavingTotal)} on these parcels).
+              </>
+            ) : (
+              <>no saving over {carrierName(cheapest.carrier)} alone.</>
+            )}
+          </p>
+          <p className="mix__split">
+            {mixCounts.map(([c, n], i) => (
+              <span key={c}>
+                {i > 0 && " · "}
+                <span style={{ color: carrierVar(c as Carrier) }}>{carrierName(c)}</span> {formatInt(n)}
+              </span>
+            ))}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -260,7 +270,7 @@ function Verdict({
         </thead>
         <tbody>
           {[...rows.map((r) => ({ key: r.carrier as string, name: carrierName(r.carrier), color: carrierVar(r.carrier), s: r })),
-            { key: "mix", name: "Best mix", color: "var(--ink)", s: data.best_mix }].map(({ key, name, color, s }) => (
+            ...(soleWinner(data) ? [] : [{ key: "mix", name: "Best mix", color: "var(--ink)", s: data.best_mix }])].map(({ key, name, color, s }) => (
             <tr key={key} data-testid={`margin-${key}`}>
               <th scope="row" style={{ color }}>
                 {name}
