@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+from typing import Annotated
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Body, Depends, Request
 
 from app.engine import breakeven as be
 from app.engine import segments as seg
@@ -18,6 +19,7 @@ from app.engine.types import Quote as EngineQuote
 from app.engine.yearly import yearly
 
 from . import models as m
+from .docs import QUOTE_EXAMPLE
 from .errors import invalid
 
 router = APIRouter(prefix="/api")
@@ -151,7 +153,10 @@ def sample_parcels(request: Request) -> dict:
 
 
 @router.post("/quote", response_model=m.QuoteResponse)
-def quote(body: m.QuoteRequest, tables: RateTables = Depends(get_tables)) -> dict:
+def quote(
+    body: Annotated[m.QuoteRequest, Body(examples=[QUOTE_EXAMPLE])],
+    tables: RateTables = Depends(get_tables),
+) -> dict:
     controls = to_controls(body.controls, tables, ["body", "controls"])
     quotes = quote_all(tables, to_parcel(body.parcel), controls)
     cheapest = cheapest_by_tier(quotes)

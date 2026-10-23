@@ -11,6 +11,7 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api import docs
 from app.api.errors import validation_handler
 from app.api.models import Parcel
 from app.api.routes import router
@@ -43,7 +44,14 @@ def create_app(tables: RateTables | None = None) -> FastAPI:
             app.state.tables = load_tables(data_dir())
         yield
 
-    app = FastAPI(title="Parcel rates API", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(
+        title="Parcel rates API",
+        version="0.1.0",
+        lifespan=lifespan,
+        openapi_url=docs.OPENAPI_URL,
+        docs_url=None,
+        redoc_url=None,
+    )
     app.state.tables = tables
     app.state.sample_parcels = load_sample_parcels()
     app.add_middleware(
@@ -54,6 +62,7 @@ def create_app(tables: RateTables | None = None) -> FastAPI:
     )
     app.add_exception_handler(RequestValidationError, validation_handler)
     app.include_router(router)
+    app.include_router(docs.router)
     return app
 
 

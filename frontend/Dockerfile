@@ -9,6 +9,6 @@ RUN npm run build
 
 FROM nginxinc/nginx-unprivileged:1.28-alpine
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY nginx/security-headers.conf /etc/nginx/snippets/security-headers.conf
+COPY nginx/security-headers.conf nginx/security-headers-base.conf /etc/nginx/snippets/
 COPY --from=build /src/dist /usr/share/nginx/html
 EXPOSE 8080

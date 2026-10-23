@@ -22,6 +22,12 @@ Only port 8088 is published. nginx serves the built dashboard and proxies
 rate tables are baked into the backend image; the app never fetches anything
 from the carriers at run time.
 
+The API can be tried directly at **http://localhost:8088/api/docs** (Swagger
+UI; "Try it out" on `POST /api/quote` is prefilled with the example from
+[docs/API.md](docs/API.md)). The schema is at `/api/openapi.json`. The docs page
+loads a pinned Swagger UI from jsDelivr, so it needs a network connection; the
+dashboard does not.
+
 ## What it looks like
 
 Captured by the Playwright suite against `docker compose up` with the sample
