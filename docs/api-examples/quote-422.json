@@ -1,0 +1,46 @@
+{
+ "request": {
+  "method": "POST",
+  "path": "/api/quote",
+  "body": {
+   "parcel": {
+    "weight_lb": 80,
+    "length_in": 14,
+    "width_in": 12,
+    "height_in": 10,
+    "distance_miles": 700,
+    "residential": true,
+    "speed": "overnight",
+    "delivery_area": "das"
+   },
+   "controls": {
+    "year": 2026
+   }
+  }
+ },
+ "response": {
+  "status": 422,
+  "body": {
+   "detail": [
+    {
+     "loc": [
+      "body",
+      "parcel",
+      "weight_lb"
+     ],
+     "msg": "weight_lb must be at most 70",
+     "type": "less_than_equal"
+    },
+    {
+     "loc": [
+      "body",
+      "parcel",
+      "speed"
+     ],
+     "msg": "speed must be one of 'ground', 'two_three_day' or 'next_day'",
+     "type": "literal_error"
+    }
+   ]
+  }
+ }
+}

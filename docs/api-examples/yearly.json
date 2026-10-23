@@ -1,0 +1,4466 @@
+{
+ "request": {
+  "method": "POST",
+  "path": "/api/yearly",
+  "body": {
+   "parcels": [
+    {
+     "weight_lb": 4.0,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 1205.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": true
+    },
+    {
+     "weight_lb": 5.3,
+     "length_in": 20.0,
+     "width_in": 20.0,
+     "height_in": 14.0,
+     "distance_miles": 34.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "das",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.8,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 1764.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 9.1,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 279.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.8,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 22.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 10.3,
+     "length_in": 22.0,
+     "width_in": 18.0,
+     "height_in": 12.0,
+     "distance_miles": 20.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.9,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 2187.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.5,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 1923.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": 12.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.1,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 2274.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.4,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 46.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 12.99,
+     "delivery_area": "das",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.0,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 529.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 12.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.4,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 958.0,
+     "residential": false,
+     "speed": "two_three_day",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.6,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 97.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 8.8,
+     "length_in": 22.0,
+     "width_in": 18.0,
+     "height_in": 12.0,
+     "distance_miles": 329.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 12.8,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 31.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 12.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.4,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 455.0,
+     "residential": true,
+     "speed": "next_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.0,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 66.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.6,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 2548.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.9,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 958.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.9,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 28.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.6,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 119.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 10.3,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 1518.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 12.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.4,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 2555.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 12.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 10.8,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 2037.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 7.9,
+     "length_in": 22.0,
+     "width_in": 18.0,
+     "height_in": 12.0,
+     "distance_miles": 568.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 8.7,
+     "length_in": 22.0,
+     "width_in": 18.0,
+     "height_in": 12.0,
+     "distance_miles": 1995.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.3,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1199.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": 14.99,
+     "delivery_area": "extended",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.7,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 276.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.4,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 42.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.3,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 2099.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 7.5,
+     "length_in": 18.0,
+     "width_in": 14.0,
+     "height_in": 8.0,
+     "distance_miles": 50.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 6.5,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 1290.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.5,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 1938.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 14.0,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 464.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.8,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 2201.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.1,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 1040.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.1,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 218.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.4,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 797.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "das",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 7.9,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 1077.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 9.3,
+     "length_in": 22.0,
+     "width_in": 18.0,
+     "height_in": 12.0,
+     "distance_miles": 1014.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.1,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1331.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 18.8,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 658.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 14.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.6,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1246.0,
+     "residential": false,
+     "speed": "next_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 11.9,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 2215.0,
+     "residential": false,
+     "speed": "two_three_day",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.3,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 948.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.5,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 273.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.6,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 374.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.5,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 284.0,
+     "residential": false,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.0,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 362.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.7,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1452.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 17.8,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 1616.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 10.3,
+     "length_in": 26.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 49.0,
+     "residential": true,
+     "speed": "next_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 14.7,
+     "length_in": 18.0,
+     "width_in": 14.0,
+     "height_in": 8.0,
+     "distance_miles": 23.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.6,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 287.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "extended",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 9.5,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 250.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.0,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 725.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.0,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 686.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.6,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 213.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.7,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 712.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.0,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 2047.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.9,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1664.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.7,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 983.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.4,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 830.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.4,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 828.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.9,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 59.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "das",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 14.9,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 918.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 19.1,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 1092.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.1,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 1122.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.9,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 613.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": true
+    },
+    {
+     "weight_lb": 1.7,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 229.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.4,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1480.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.9,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 2368.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.1,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 40.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.3,
+     "length_in": 20.0,
+     "width_in": 20.0,
+     "height_in": 14.0,
+     "distance_miles": 484.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.4,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 1202.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.6,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 115.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 17.4,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 107.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 18.9,
+     "length_in": 18.0,
+     "width_in": 14.0,
+     "height_in": 8.0,
+     "distance_miles": 1147.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.4,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 904.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.0,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 1236.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "das",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.9,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 496.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 9.4,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 299.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.6,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 143.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.9,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 171.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 11.4,
+     "length_in": 24.0,
+     "width_in": 16.0,
+     "height_in": 12.0,
+     "distance_miles": 1015.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 7.9,
+     "length_in": 22.0,
+     "width_in": 18.0,
+     "height_in": 12.0,
+     "distance_miles": 629.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.8,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 120.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.6,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 2087.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 9.0,
+     "length_in": 22.0,
+     "width_in": 18.0,
+     "height_in": 12.0,
+     "distance_miles": 217.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.4,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 1353.0,
+     "residential": true,
+     "speed": "next_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.7,
+     "length_in": 24.0,
+     "width_in": 16.0,
+     "height_in": 12.0,
+     "distance_miles": 102.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.0,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 1464.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 12.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 8.2,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 1233.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 13.2,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 13.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.6,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 39.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.8,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 36.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.7,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 2636.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 17.6,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 379.0,
+     "residential": true,
+     "speed": "next_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.2,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 267.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.1,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 19.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 14.5,
+     "length_in": 18.0,
+     "width_in": 14.0,
+     "height_in": 8.0,
+     "distance_miles": 103.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.9,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 1530.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.1,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 388.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 8.9,
+     "length_in": 18.0,
+     "width_in": 14.0,
+     "height_in": 8.0,
+     "distance_miles": 89.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 16.5,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 37.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.0,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 300.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 8.9,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 31.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.4,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 110.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.4,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 790.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "das",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 16.4,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 296.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 12.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.1,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 98.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 5.2,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 207.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.1,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 1325.0,
+     "residential": false,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 5.0,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 456.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 9.9,
+     "length_in": 18.0,
+     "width_in": 14.0,
+     "height_in": 8.0,
+     "distance_miles": 583.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 16.2,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 648.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 13.9,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 206.0,
+     "residential": true,
+     "speed": "next_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 16.9,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 1411.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.6,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 1579.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 8.6,
+     "length_in": 22.0,
+     "width_in": 18.0,
+     "height_in": 12.0,
+     "distance_miles": 701.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 14.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.9,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 88.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 12.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 10.2,
+     "length_in": 20.0,
+     "width_in": 20.0,
+     "height_in": 14.0,
+     "distance_miles": 1178.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 6.0,
+     "length_in": 20.0,
+     "width_in": 20.0,
+     "height_in": 14.0,
+     "distance_miles": 168.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.8,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 1407.0,
+     "residential": false,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.4,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 10.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 18.2,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 411.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "das",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.6,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1128.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 6.9,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 802.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.0,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 1485.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.2,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 80.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.3,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 801.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 15.2,
+     "length_in": 18.0,
+     "width_in": 14.0,
+     "height_in": 8.0,
+     "distance_miles": 673.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 5.9,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 891.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 19.1,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 2468.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.8,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 366.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.8,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 2123.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.2,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 2007.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.5,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1686.0,
+     "residential": true,
+     "speed": "next_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.1,
+     "length_in": 20.0,
+     "width_in": 20.0,
+     "height_in": 14.0,
+     "distance_miles": 330.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 12.8,
+     "length_in": 16.0,
+     "width_in": 12.0,
+     "height_in": 8.0,
+     "distance_miles": 1498.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.5,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 1504.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.2,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1369.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.2,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 1797.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.7,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 485.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.5,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 1758.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.5,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 198.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 12.3,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 1179.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.3,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 75.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.1,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 1958.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 7.2,
+     "length_in": 18.0,
+     "width_in": 14.0,
+     "height_in": 8.0,
+     "distance_miles": 453.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.6,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 14.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.3,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 1314.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.1,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1473.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.4,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 20.0,
+     "residential": true,
+     "speed": "next_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "das",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.7,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 2014.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.0,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 337.0,
+     "residential": true,
+     "speed": "next_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 19.8,
+     "length_in": 18.0,
+     "width_in": 14.0,
+     "height_in": 8.0,
+     "distance_miles": 172.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.9,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 292.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 16.0,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 118.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.6,
+     "length_in": 26.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 1396.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 11.3,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 1252.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.6,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 97.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 18.9,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 1883.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.8,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 214.0,
+     "residential": false,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.6,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 592.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.2,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 405.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.2,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 227.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 13.4,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 1689.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.0,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 271.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 15.8,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 100.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.1,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 878.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.1,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 216.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 14.4,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 45.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.6,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 11.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 6.8,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 24.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.4,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 150.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 12.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.3,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 2481.0,
+     "residential": false,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 18.9,
+     "length_in": 16.0,
+     "width_in": 16.0,
+     "height_in": 10.0,
+     "distance_miles": 2273.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.4,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 117.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.0,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 967.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.0,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1554.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "das",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.0,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 833.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.9,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 1194.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.7,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 2485.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 18.3,
+     "length_in": 20.0,
+     "width_in": 14.0,
+     "height_in": 10.0,
+     "distance_miles": 192.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.1,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 1795.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.2,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 33.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 14.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.5,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 2505.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 2,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.8,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 2322.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 1.3,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 684.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.7,
+     "length_in": 12.0,
+     "width_in": 9.0,
+     "height_in": 3.0,
+     "distance_miles": 1755.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.3,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 620.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 0.3,
+     "length_in": null,
+     "width_in": null,
+     "height_in": null,
+     "distance_miles": 1316.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": 7.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.6,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 18.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 2.7,
+     "length_in": 12.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 454.0,
+     "residential": false,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": 14.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.5,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 1763.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.1,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 385.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.3,
+     "length_in": 10.0,
+     "width_in": 8.0,
+     "height_in": 2.0,
+     "distance_miles": 1940.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 1,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 4.6,
+     "length_in": 14.0,
+     "width_in": 10.0,
+     "height_in": 4.0,
+     "distance_miles": 177.0,
+     "residential": true,
+     "speed": "ground",
+     "quantity": 3,
+     "price_charged": null,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    },
+    {
+     "weight_lb": 3.0,
+     "length_in": 10.0,
+     "width_in": 7.0,
+     "height_in": 5.0,
+     "distance_miles": 771.0,
+     "residential": true,
+     "speed": "two_three_day",
+     "quantity": 1,
+     "price_charged": 14.99,
+     "delivery_area": "none",
+     "nonstandard_packaging": false
+    }
+   ],
+   "controls": {
+    "usps_rate_card": "commercial"
+   },
+   "next_year_increase_percent": 5.9
+  }
+ },
+ "response": {
+  "status": 200,
+  "body": {
+   "carriers": [
+    {
+     "carrier": "usps",
+     "parcels_used": 300,
+     "parcels_excluded": 0,
+     "years": [
+      {
+       "year": 2023,
+       "as_of": "2023-07-09",
+       "cost_per_parcel": 17.8,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 5340.66,
+        "cost_per_parcel": 17.8,
+        "split": {
+         "base": {
+          "per_parcel": 16.38,
+          "total": 4912.66,
+          "share": 0.9199
+         },
+         "surcharges": {
+          "per_parcel": 1.43,
+          "total": 428.0,
+          "share": 0.0801
+         },
+         "fuel": {
+          "per_parcel": 0.0,
+          "total": 0.0,
+          "share": 0.0
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "nonstandard_volume",
+          "total": 400.0,
+          "per_parcel": 1.33,
+          "share_of_cost": 0.0749
+         },
+         {
+          "condition": "nonstandard_length",
+          "total": 28.0,
+          "per_parcel": 0.09,
+          "share_of_cost": 0.0052
+         }
+        ],
+        "margin_per_parcel": -7.69,
+        "total_margin": -2307.66,
+        "loss_share": 0.57,
+        "parcels_at_loss": 171
+       },
+       "services_used": [
+        "usps_ground_advantage",
+        "usps_priority_mail",
+        "usps_priority_mail_express"
+       ],
+       "change_vs_previous": null,
+       "announced_increase": {
+        "percent": 3.8,
+        "basis": "average_of_services",
+        "services": [
+         "usps_ground_advantage",
+         "usps_priority_mail",
+         "usps_priority_mail_express"
+        ],
+        "source_type": "primary"
+       },
+       "drivers": null,
+       "warnings": []
+      },
+      {
+       "year": 2024,
+       "as_of": "2024-01-21",
+       "cost_per_parcel": 18.53,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 5559.98,
+        "cost_per_parcel": 18.53,
+        "split": {
+         "base": {
+          "per_parcel": 16.84,
+          "total": 5051.98,
+          "share": 0.9086
+         },
+         "surcharges": {
+          "per_parcel": 1.69,
+          "total": 508.0,
+          "share": 0.0914
+         },
+         "fuel": {
+          "per_parcel": 0.0,
+          "total": 0.0,
+          "share": 0.0
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "nonstandard_volume",
+          "total": 480.0,
+          "per_parcel": 1.6,
+          "share_of_cost": 0.0863
+         },
+         {
+          "condition": "nonstandard_length",
+          "total": 28.0,
+          "per_parcel": 0.09,
+          "share_of_cost": 0.005
+         }
+        ],
+        "margin_per_parcel": -8.42,
+        "total_margin": -2526.98,
+        "loss_share": 0.59,
+        "parcels_at_loss": 177
+       },
+       "services_used": [
+        "usps_ground_advantage",
+        "usps_priority_mail",
+        "usps_priority_mail_express"
+       ],
+       "change_vs_previous": {
+        "from_year": 2023,
+        "dollars_per_parcel": 0.73,
+        "percent": 4.11
+       },
+       "announced_increase": {
+        "percent": 5.67,
+        "basis": "average_of_services",
+        "services": [
+         "usps_ground_advantage",
+         "usps_priority_mail",
+         "usps_priority_mail_express"
+        ],
+        "source_type": "primary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 0.35,
+          "change_total": 104.08
+         },
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 0.3,
+          "change_total": 90.65
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.06,
+          "change_total": 18.05
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.02,
+          "change_total": 6.54
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 0.21,
+          "change_total": 62.56
+         },
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 0.21,
+          "change_total": 62.43
+         },
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 0.16,
+          "change_total": 48.23
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.15,
+          "change_total": 46.1
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 0.52,
+          "change_total": 156.85
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 0.21,
+          "change_total": 62.47
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 0.51,
+          "change_total": 153.96
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": 0.12,
+          "change_total": 36.05
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": 0.1,
+          "change_total": 29.31
+         }
+        ]
+       },
+       "warnings": []
+      },
+      {
+       "year": 2025,
+       "as_of": "2025-01-19",
+       "cost_per_parcel": 19.04,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 5712.37,
+        "cost_per_parcel": 19.04,
+        "split": {
+         "base": {
+          "per_parcel": 17.35,
+          "total": 5204.37,
+          "share": 0.9111
+         },
+         "surcharges": {
+          "per_parcel": 1.69,
+          "total": 508.0,
+          "share": 0.0889
+         },
+         "fuel": {
+          "per_parcel": 0.0,
+          "total": 0.0,
+          "share": 0.0
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "nonstandard_volume",
+          "total": 480.0,
+          "per_parcel": 1.6,
+          "share_of_cost": 0.084
+         },
+         {
+          "condition": "nonstandard_length",
+          "total": 28.0,
+          "per_parcel": 0.09,
+          "share_of_cost": 0.0049
+         }
+        ],
+        "margin_per_parcel": -8.93,
+        "total_margin": -2679.37,
+        "loss_share": 0.6167,
+        "parcels_at_loss": 185
+       },
+       "services_used": [
+        "usps_ground_advantage",
+        "usps_priority_mail",
+        "usps_priority_mail_express"
+       ],
+       "change_vs_previous": {
+        "from_year": 2024,
+        "dollars_per_parcel": 0.51,
+        "percent": 2.74
+       },
+       "announced_increase": {
+        "percent": 3.43,
+        "basis": "average_of_services",
+        "services": [
+         "usps_ground_advantage",
+         "usps_priority_mail",
+         "usps_priority_mail_express"
+        ],
+        "source_type": "primary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 0.27,
+          "change_total": 79.48
+         },
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 0.15,
+          "change_total": 43.8
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.08,
+          "change_total": 24.88
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.01,
+          "change_total": 4.23
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 0.18,
+          "change_total": 54.44
+         },
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 0.15,
+          "change_total": 44.21
+         },
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 0.11,
+          "change_total": 33.6
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.07,
+          "change_total": 20.14
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 0.38,
+          "change_total": 115.07
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 0.13,
+          "change_total": 37.32
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 0.39,
+          "change_total": 115.64
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": 0.06,
+          "change_total": 18.85
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": 0.06,
+          "change_total": 17.9
+         }
+        ]
+       },
+       "warnings": []
+      },
+      {
+       "year": 2026,
+       "as_of": "2026-01-18",
+       "cost_per_parcel": 21.09,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 6325.56,
+        "cost_per_parcel": 21.09,
+        "split": {
+         "base": {
+          "per_parcel": 19.08,
+          "total": 5725.06,
+          "share": 0.9051
+         },
+         "surcharges": {
+          "per_parcel": 2.0,
+          "total": 600.5,
+          "share": 0.0949
+         },
+         "fuel": {
+          "per_parcel": 0.0,
+          "total": 0.0,
+          "share": 0.0
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "nonstandard_volume",
+          "total": 560.0,
+          "per_parcel": 1.87,
+          "share_of_cost": 0.0885
+         },
+         {
+          "condition": "nonstandard_length",
+          "total": 31.5,
+          "per_parcel": 0.11,
+          "share_of_cost": 0.005
+         },
+         {
+          "condition": "additional_handling_packaging",
+          "total": 9.0,
+          "per_parcel": 0.03,
+          "share_of_cost": 0.0014
+         }
+        ],
+        "margin_per_parcel": -10.98,
+        "total_margin": -3292.56,
+        "loss_share": 0.7133,
+        "parcels_at_loss": 214
+       },
+       "services_used": [
+        "usps_ground_advantage",
+        "usps_priority_mail",
+        "usps_priority_mail_express"
+       ],
+       "change_vs_previous": {
+        "from_year": 2025,
+        "dollars_per_parcel": 2.04,
+        "percent": 10.73
+       },
+       "announced_increase": {
+        "percent": 6.5,
+        "basis": "average_of_services",
+        "services": [
+         "usps_ground_advantage",
+         "usps_priority_mail",
+         "usps_priority_mail_express"
+        ],
+        "source_type": "primary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 0.93,
+          "change_total": 278.86
+         },
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 0.55,
+          "change_total": 165.48
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.51,
+          "change_total": 154.43
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.05,
+          "change_total": 14.42
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 0.81,
+          "change_total": 243.81
+         },
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 0.65,
+          "change_total": 195.49
+         },
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 0.33,
+          "change_total": 98.17
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.25,
+          "change_total": 75.72
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 1.5,
+          "change_total": 450.11
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 0.54,
+          "change_total": 163.08
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 1.77,
+          "change_total": 529.96
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": 0.14,
+          "change_total": 43.88
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": 0.13,
+          "change_total": 39.35
+         }
+        ]
+       },
+       "warnings": []
+      }
+     ],
+     "projected": {
+      "year": 2027,
+      "increase_percent": 5.9,
+      "cost_per_parcel": 22.33
+     }
+    },
+    {
+     "carrier": "ups",
+     "parcels_used": 300,
+     "parcels_excluded": 0,
+     "years": [
+      {
+       "year": 2023,
+       "as_of": "2022-12-27",
+       "cost_per_parcel": 33.15,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 9945.34,
+        "cost_per_parcel": 33.15,
+        "split": {
+         "base": {
+          "per_parcel": 23.64,
+          "total": 7091.1,
+          "share": 0.713
+         },
+         "surcharges": {
+          "per_parcel": 4.37,
+          "total": 1310.4,
+          "share": 0.1318
+         },
+         "fuel": {
+          "per_parcel": 5.15,
+          "total": 1543.84,
+          "share": 0.1552
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "residential",
+          "total": 1191.6,
+          "per_parcel": 3.97,
+          "share_of_cost": 0.1198
+         },
+         {
+          "condition": "delivery_area",
+          "total": 61.65,
+          "per_parcel": 0.21,
+          "share_of_cost": 0.0062
+         },
+         {
+          "condition": "additional_handling_packaging",
+          "total": 41.0,
+          "per_parcel": 0.14,
+          "share_of_cost": 0.0041
+         },
+         {
+          "condition": "delivery_area_extended",
+          "total": 16.15,
+          "per_parcel": 0.05,
+          "share_of_cost": 0.0016
+         }
+        ],
+        "margin_per_parcel": -23.04,
+        "total_margin": -6912.34,
+        "loss_share": 1.0,
+        "parcels_at_loss": 300
+       },
+       "services_used": [
+        "ups_3_day_select",
+        "ups_ground",
+        "ups_next_day_air_saver"
+       ],
+       "change_vs_previous": null,
+       "announced_increase": {
+        "percent": 6.9,
+        "basis": "all",
+        "services": [],
+        "source_type": "secondary"
+       },
+       "drivers": null,
+       "warnings": []
+      },
+      {
+       "year": 2024,
+       "as_of": "2024-07-01",
+       "cost_per_parcel": 34.61,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 10382.84,
+        "cost_per_parcel": 34.61,
+        "split": {
+         "base": {
+          "per_parcel": 25.08,
+          "total": 7524.77,
+          "share": 0.7247
+         },
+         "surcharges": {
+          "per_parcel": 4.71,
+          "total": 1412.35,
+          "share": 0.136
+         },
+         "fuel": {
+          "per_parcel": 4.82,
+          "total": 1445.72,
+          "share": 0.1392
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "residential",
+          "total": 1279.9,
+          "per_parcel": 4.27,
+          "share_of_cost": 0.1233
+         },
+         {
+          "condition": "delivery_area",
+          "total": 65.95,
+          "per_parcel": 0.22,
+          "share_of_cost": 0.0064
+         },
+         {
+          "condition": "additional_handling_packaging",
+          "total": 49.0,
+          "per_parcel": 0.16,
+          "share_of_cost": 0.0047
+         },
+         {
+          "condition": "delivery_area_extended",
+          "total": 17.5,
+          "per_parcel": 0.06,
+          "share_of_cost": 0.0017
+         }
+        ],
+        "margin_per_parcel": -24.5,
+        "total_margin": -7349.84,
+        "loss_share": 1.0,
+        "parcels_at_loss": 300
+       },
+       "services_used": [
+        "ups_3_day_select",
+        "ups_ground",
+        "ups_next_day_air_saver"
+       ],
+       "change_vs_previous": {
+        "from_year": 2023,
+        "dollars_per_parcel": 1.46,
+        "percent": 4.4
+       },
+       "announced_increase": {
+        "percent": 5.9,
+        "basis": "all",
+        "services": [],
+        "source_type": "secondary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 0.74,
+          "change_total": 223.11
+         },
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 0.45,
+          "change_total": 133.58
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.21,
+          "change_total": 61.43
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.06,
+          "change_total": 19.38
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 0.47,
+          "change_total": 141.32
+         },
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 0.45,
+          "change_total": 134.03
+         },
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 0.32,
+          "change_total": 96.43
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.22,
+          "change_total": 65.72
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 1.14,
+          "change_total": 341.98
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 0.32,
+          "change_total": 95.52
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 1.05,
+          "change_total": 314.73
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": 0.27,
+          "change_total": 79.72
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": 0.14,
+          "change_total": 43.05
+         }
+        ]
+       },
+       "warnings": []
+      },
+      {
+       "year": 2025,
+       "as_of": "2024-12-23",
+       "cost_per_parcel": 38.07,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 11419.68,
+        "cost_per_parcel": 38.07,
+        "split": {
+         "base": {
+          "per_parcel": 26.59,
+          "total": 7977.13,
+          "share": 0.6985
+         },
+         "surcharges": {
+          "per_parcel": 5.1,
+          "total": 1529.6,
+          "share": 0.1339
+         },
+         "fuel": {
+          "per_parcel": 6.38,
+          "total": 1912.95,
+          "share": 0.1675
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "residential",
+          "total": 1378.1,
+          "per_parcel": 4.59,
+          "share_of_cost": 0.1207
+         },
+         {
+          "condition": "delivery_area",
+          "total": 70.5,
+          "per_parcel": 0.24,
+          "share_of_cost": 0.0062
+         },
+         {
+          "condition": "additional_handling_packaging",
+          "total": 62.0,
+          "per_parcel": 0.21,
+          "share_of_cost": 0.0054
+         },
+         {
+          "condition": "delivery_area_extended",
+          "total": 19.0,
+          "per_parcel": 0.06,
+          "share_of_cost": 0.0017
+         }
+        ],
+        "margin_per_parcel": -27.96,
+        "total_margin": -8386.68,
+        "loss_share": 1.0,
+        "parcels_at_loss": 300
+       },
+       "services_used": [
+        "ups_3_day_select",
+        "ups_ground",
+        "ups_next_day_air_saver"
+       ],
+       "change_vs_previous": {
+        "from_year": 2024,
+        "dollars_per_parcel": 3.46,
+        "percent": 9.99
+       },
+       "announced_increase": {
+        "percent": 5.9,
+        "basis": "all",
+        "services": [],
+        "source_type": "secondary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 1.8,
+          "change_total": 540.29
+         },
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 1.0,
+          "change_total": 300.39
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.5,
+          "change_total": 149.42
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.16,
+          "change_total": 46.74
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 1.16,
+          "change_total": 347.72
+         },
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 1.02,
+          "change_total": 304.85
+         },
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 0.78,
+          "change_total": 234.4
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.5,
+          "change_total": 149.87
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 2.7,
+          "change_total": 809.18
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 0.76,
+          "change_total": 227.66
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 2.5,
+          "change_total": 748.05
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": 0.61,
+          "change_total": 184.01
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": 0.35,
+          "change_total": 104.78
+         }
+        ]
+       },
+       "warnings": []
+      },
+      {
+       "year": 2026,
+       "as_of": "2026-09-07",
+       "cost_per_parcel": 42.68,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 12803.29,
+        "cost_per_parcel": 42.68,
+        "split": {
+         "base": {
+          "per_parcel": 28.17,
+          "total": 8450.13,
+          "share": 0.66
+         },
+         "surcharges": {
+          "per_parcel": 5.44,
+          "total": 1631.05,
+          "share": 0.1274
+         },
+         "fuel": {
+          "per_parcel": 9.07,
+          "total": 2722.11,
+          "share": 0.2126
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "residential",
+          "total": 1469.0,
+          "per_parcel": 4.9,
+          "share_of_cost": 0.1147
+         },
+         {
+          "condition": "delivery_area",
+          "total": 75.3,
+          "per_parcel": 0.25,
+          "share_of_cost": 0.0059
+         },
+         {
+          "condition": "additional_handling_packaging",
+          "total": 66.5,
+          "per_parcel": 0.22,
+          "share_of_cost": 0.0052
+         },
+         {
+          "condition": "delivery_area_extended",
+          "total": 20.25,
+          "per_parcel": 0.07,
+          "share_of_cost": 0.0016
+         }
+        ],
+        "margin_per_parcel": -32.57,
+        "total_margin": -9770.29,
+        "loss_share": 1.0,
+        "parcels_at_loss": 300
+       },
+       "services_used": [
+        "ups_3_day_select",
+        "ups_ground",
+        "ups_next_day_air_saver"
+       ],
+       "change_vs_previous": {
+        "from_year": 2025,
+        "dollars_per_parcel": 4.61,
+        "percent": 12.12
+       },
+       "announced_increase": {
+        "percent": 5.9,
+        "basis": "all",
+        "services": [],
+        "source_type": "secondary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 2.4,
+          "change_total": 720.4
+         },
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 1.39,
+          "change_total": 417.19
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.62,
+          "change_total": 187.38
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.2,
+          "change_total": 58.64
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 1.51,
+          "change_total": 452.7
+         },
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 1.35,
+          "change_total": 403.34
+         },
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 1.09,
+          "change_total": 328.33
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.66,
+          "change_total": 199.24
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 3.59,
+          "change_total": 1077.46
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 1.02,
+          "change_total": 306.15
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 2.98,
+          "change_total": 892.75
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": 1.0,
+          "change_total": 300.66
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": 0.63,
+          "change_total": 190.2
+         }
+        ]
+       },
+       "warnings": []
+      }
+     ],
+     "projected": {
+      "year": 2027,
+      "increase_percent": 5.9,
+      "cost_per_parcel": 45.2
+     }
+    },
+    {
+     "carrier": "fedex",
+     "parcels_used": 300,
+     "parcels_excluded": 0,
+     "years": [
+      {
+       "year": 2023,
+       "as_of": "2023-01-02",
+       "cost_per_parcel": 33.65,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 10094.85,
+        "cost_per_parcel": 33.65,
+        "split": {
+         "base": {
+          "per_parcel": 24.13,
+          "total": 7238.36,
+          "share": 0.717
+         },
+         "surcharges": {
+          "per_parcel": 4.29,
+          "total": 1288.3,
+          "share": 0.1276
+         },
+         "fuel": {
+          "per_parcel": 5.23,
+          "total": 1568.19,
+          "share": 0.1553
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "residential",
+          "total": 1170.5,
+          "per_parcel": 3.9,
+          "share_of_cost": 0.116
+         },
+         {
+          "condition": "delivery_area",
+          "total": 61.65,
+          "per_parcel": 0.21,
+          "share_of_cost": 0.0061
+         },
+         {
+          "condition": "additional_handling_packaging",
+          "total": 40.0,
+          "per_parcel": 0.13,
+          "share_of_cost": 0.004
+         },
+         {
+          "condition": "delivery_area_extended",
+          "total": 16.15,
+          "per_parcel": 0.05,
+          "share_of_cost": 0.0016
+         }
+        ],
+        "margin_per_parcel": -23.54,
+        "total_margin": -7061.85,
+        "loss_share": 1.0,
+        "parcels_at_loss": 300
+       },
+       "services_used": [
+        "fedex_express_saver",
+        "fedex_ground",
+        "fedex_home_delivery",
+        "fedex_standard_overnight"
+       ],
+       "change_vs_previous": null,
+       "announced_increase": {
+        "percent": 6.9,
+        "basis": "all",
+        "services": [],
+        "source_type": "primary"
+       },
+       "drivers": null,
+       "warnings": []
+      },
+      {
+       "year": 2024,
+       "as_of": "2024-01-01",
+       "cost_per_parcel": 35.13,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 10538.34,
+        "cost_per_parcel": 35.13,
+        "split": {
+         "base": {
+          "per_parcel": 25.6,
+          "total": 7681.06,
+          "share": 0.7289
+         },
+         "surcharges": {
+          "per_parcel": 4.63,
+          "total": 1390.25,
+          "share": 0.1319
+         },
+         "fuel": {
+          "per_parcel": 4.89,
+          "total": 1467.03,
+          "share": 0.1392
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "residential",
+          "total": 1258.8,
+          "per_parcel": 4.2,
+          "share_of_cost": 0.1194
+         },
+         {
+          "condition": "delivery_area",
+          "total": 65.95,
+          "per_parcel": 0.22,
+          "share_of_cost": 0.0063
+         },
+         {
+          "condition": "additional_handling_packaging",
+          "total": 48.0,
+          "per_parcel": 0.16,
+          "share_of_cost": 0.0046
+         },
+         {
+          "condition": "delivery_area_extended",
+          "total": 17.5,
+          "per_parcel": 0.06,
+          "share_of_cost": 0.0017
+         }
+        ],
+        "margin_per_parcel": -25.02,
+        "total_margin": -7505.34,
+        "loss_share": 1.0,
+        "parcels_at_loss": 300
+       },
+       "services_used": [
+        "fedex_express_saver",
+        "fedex_ground",
+        "fedex_home_delivery",
+        "fedex_standard_overnight"
+       ],
+       "change_vs_previous": {
+        "from_year": 2023,
+        "dollars_per_parcel": 1.48,
+        "percent": 4.39
+       },
+       "announced_increase": {
+        "percent": 5.9,
+        "basis": "all",
+        "services": [],
+        "source_type": "primary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 0.75,
+          "change_total": 224.38
+         },
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 0.46,
+          "change_total": 137.55
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.21,
+          "change_total": 62.06
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.06,
+          "change_total": 19.5
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 0.49,
+          "change_total": 145.15
+         },
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 0.45,
+          "change_total": 135.26
+         },
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 0.32,
+          "change_total": 97.02
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.22,
+          "change_total": 66.06
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 1.15,
+          "change_total": 345.64
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 0.33,
+          "change_total": 97.85
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 1.05,
+          "change_total": 314.91
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": 0.29,
+          "change_total": 85.99
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": 0.14,
+          "change_total": 42.59
+         }
+        ]
+       },
+       "warnings": []
+      },
+      {
+       "year": 2025,
+       "as_of": "2025-01-06",
+       "cost_per_parcel": 38.6,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 11581.05,
+        "cost_per_parcel": 38.6,
+        "split": {
+         "base": {
+          "per_parcel": 27.14,
+          "total": 8143.11,
+          "share": 0.7031
+         },
+         "surcharges": {
+          "per_parcel": 5.0,
+          "total": 1499.0,
+          "share": 0.1294
+         },
+         "fuel": {
+          "per_parcel": 6.46,
+          "total": 1938.94,
+          "share": 0.1674
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "residential",
+          "total": 1348.4,
+          "per_parcel": 4.49,
+          "share_of_cost": 0.1164
+         },
+         {
+          "condition": "delivery_area",
+          "total": 70.8,
+          "per_parcel": 0.24,
+          "share_of_cost": 0.0061
+         },
+         {
+          "condition": "additional_handling_packaging",
+          "total": 61.0,
+          "per_parcel": 0.2,
+          "share_of_cost": 0.0053
+         },
+         {
+          "condition": "delivery_area_extended",
+          "total": 18.8,
+          "per_parcel": 0.06,
+          "share_of_cost": 0.0016
+         }
+        ],
+        "margin_per_parcel": -28.49,
+        "total_margin": -8548.05,
+        "loss_share": 1.0,
+        "parcels_at_loss": 300
+       },
+       "services_used": [
+        "fedex_express_saver",
+        "fedex_ground",
+        "fedex_home_delivery",
+        "fedex_standard_overnight"
+       ],
+       "change_vs_previous": {
+        "from_year": 2024,
+        "dollars_per_parcel": 3.48,
+        "percent": 9.89
+       },
+       "announced_increase": {
+        "percent": 5.9,
+        "basis": "all",
+        "services": [],
+        "source_type": "primary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 1.78,
+          "change_total": 532.62
+         },
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 1.05,
+          "change_total": 315.89
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.5,
+          "change_total": 149.26
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.15,
+          "change_total": 44.94
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 1.17,
+          "change_total": 351.22
+         },
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 1.04,
+          "change_total": 312.48
+         },
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 0.78,
+          "change_total": 233.71
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.49,
+          "change_total": 145.3
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 2.7,
+          "change_total": 808.21
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 0.78,
+          "change_total": 234.5
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 2.43,
+          "change_total": 727.73
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": 0.7,
+          "change_total": 209.43
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": 0.35,
+          "change_total": 105.55
+         }
+        ]
+       },
+       "warnings": []
+      },
+      {
+       "year": 2026,
+       "as_of": "2026-01-05",
+       "cost_per_parcel": 43.15,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 12945.93,
+        "cost_per_parcel": 43.15,
+        "split": {
+         "base": {
+          "per_parcel": 28.58,
+          "total": 8572.71,
+          "share": 0.6622
+         },
+         "surcharges": {
+          "per_parcel": 5.4,
+          "total": 1618.9,
+          "share": 0.1251
+         },
+         "fuel": {
+          "per_parcel": 9.18,
+          "total": 2754.32,
+          "share": 0.2128
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "residential",
+          "total": 1457.8,
+          "per_parcel": 4.86,
+          "share_of_cost": 0.1126
+         },
+         {
+          "condition": "delivery_area",
+          "total": 75.2,
+          "per_parcel": 0.25,
+          "share_of_cost": 0.0058
+         },
+         {
+          "condition": "additional_handling_packaging",
+          "total": 66.0,
+          "per_parcel": 0.22,
+          "share_of_cost": 0.0051
+         },
+         {
+          "condition": "delivery_area_extended",
+          "total": 19.9,
+          "per_parcel": 0.07,
+          "share_of_cost": 0.0015
+         }
+        ],
+        "margin_per_parcel": -33.04,
+        "total_margin": -9912.93,
+        "loss_share": 1.0,
+        "parcels_at_loss": 300
+       },
+       "services_used": [
+        "fedex_express_saver",
+        "fedex_ground",
+        "fedex_home_delivery",
+        "fedex_standard_overnight"
+       ],
+       "change_vs_previous": {
+        "from_year": 2025,
+        "dollars_per_parcel": 4.55,
+        "percent": 11.79
+       },
+       "announced_increase": {
+        "percent": 5.9,
+        "basis": "all",
+        "services": [],
+        "source_type": "primary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 2.34,
+          "change_total": 702.86
+         },
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 1.38,
+          "change_total": 412.38
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.63,
+          "change_total": 189.84
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.2,
+          "change_total": 59.8
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 1.48,
+          "change_total": 444.99
+         },
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 1.32,
+          "change_total": 395.34
+         },
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 1.08,
+          "change_total": 324.31
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.67,
+          "change_total": 200.24
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 3.57,
+          "change_total": 1072.36
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 0.98,
+          "change_total": 292.52
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 3.03,
+          "change_total": 909.66
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": 0.95,
+          "change_total": 285.41
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": 0.57,
+          "change_total": 169.81
+         }
+        ]
+       },
+       "warnings": []
+      },
+      {
+       "year": 2027,
+       "as_of": "2027-01-04",
+       "cost_per_parcel": 44.05,
+       "summary": {
+        "parcels_shipped": 300,
+        "parcels_unavailable": 0,
+        "total_cost": 13214.4,
+        "cost_per_parcel": 44.05,
+        "split": {
+         "base": {
+          "per_parcel": 30.13,
+          "total": 9039.36,
+          "share": 0.6841
+         },
+         "surcharges": {
+          "per_parcel": 4.55,
+          "total": 1366.2,
+          "share": 0.1034
+         },
+         "fuel": {
+          "per_parcel": 9.36,
+          "total": 2808.84,
+          "share": 0.2126
+         }
+        },
+        "surcharges_by_condition": [
+         {
+          "condition": "residential",
+          "total": 1366.2,
+          "per_parcel": 4.55,
+          "share_of_cost": 0.1034
+         }
+        ],
+        "margin_per_parcel": -33.94,
+        "total_margin": -10181.4,
+        "loss_share": 1.0,
+        "parcels_at_loss": 300
+       },
+       "services_used": [
+        "fedex_express_saver",
+        "fedex_ground",
+        "fedex_home_delivery",
+        "fedex_standard_overnight"
+       ],
+       "change_vs_previous": {
+        "from_year": 2026,
+        "dollars_per_parcel": 0.89,
+        "percent": 2.07
+       },
+       "announced_increase": {
+        "percent": 5.9,
+        "basis": "all",
+        "services": [],
+        "source_type": "primary"
+       },
+       "drivers": {
+        "weight_band": [
+         {
+          "segment": "10–20",
+          "parcels": 57,
+          "change_per_parcel": 0.4,
+          "change_total": 120.81
+         },
+         {
+          "segment": "5–10",
+          "parcels": 40,
+          "change_per_parcel": 0.22,
+          "change_total": 66.94
+         },
+         {
+          "segment": "1–5",
+          "parcels": 181,
+          "change_per_parcel": 0.14,
+          "change_total": 43.34
+         },
+         {
+          "segment": "≤1",
+          "parcels": 22,
+          "change_per_parcel": 0.13,
+          "change_total": 37.38
+         }
+        ],
+        "zone_band": [
+         {
+          "segment": "7–8",
+          "parcels": 85,
+          "change_per_parcel": 0.51,
+          "change_total": 154.16
+         },
+         {
+          "segment": "3–4",
+          "parcels": 74,
+          "change_per_parcel": 0.3,
+          "change_total": 91.72
+         },
+         {
+          "segment": "5–6",
+          "parcels": 81,
+          "change_per_parcel": 0.05,
+          "change_total": 14.17
+         },
+         {
+          "segment": "1–2",
+          "parcels": 60,
+          "change_per_parcel": 0.03,
+          "change_total": 8.42
+         }
+        ],
+        "residential": [
+         {
+          "segment": "residential",
+          "parcels": 224,
+          "change_per_parcel": 0.73,
+          "change_total": 220.82
+         },
+         {
+          "segment": "business",
+          "parcels": 76,
+          "change_per_parcel": 0.16,
+          "change_total": 47.65
+         }
+        ],
+        "speed": [
+         {
+          "segment": "ground",
+          "parcels": 262,
+          "change_per_parcel": 1.19,
+          "change_total": 357.92
+         },
+         {
+          "segment": "two_three_day",
+          "parcels": 29,
+          "change_per_parcel": -0.27,
+          "change_total": -80.06
+         },
+         {
+          "segment": "next_day",
+          "parcels": 9,
+          "change_per_parcel": -0.03,
+          "change_total": -9.39
+         }
+        ]
+       },
+       "warnings": [
+        "No 2027 rules recorded for: additional_handling_length, additional_handling_packaging, additional_handling_weight, additional_handling_width, delivery_area, delivery_area_extended, oversize; surcharges may be understated"
+       ]
+      }
+     ],
+     "projected": {
+      "year": 2028,
+      "increase_percent": 5.9,
+      "cost_per_parcel": 46.65
+     }
+    }
+   ]
+  }
+ }
+}
