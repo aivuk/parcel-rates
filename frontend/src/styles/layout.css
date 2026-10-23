@@ -21,7 +21,42 @@
 
 .masthead__title {
   font-size: var(--text-2xl);
-  letter-spacing: -0.02em;
+}
+
+.masthead__inner {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.masthead__inner > :not(.masthead__barcode) {
+  grid-column: 1;
+}
+
+/* The one decorative element on the page: a barcode stripe, generated in CSS, uneven bars
+   like a real symbol. Header only. */
+.masthead__barcode {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: end;
+  width: clamp(5.5rem, 3rem + 12vw, 16rem);
+  height: clamp(2.25rem, 1.5rem + 3vw, 4.5rem);
+  opacity: 0.8;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0 2px,
+    transparent 2px 4px,
+    var(--ink) 4px 7px,
+    transparent 7px 8px,
+    var(--ink) 8px 9px,
+    transparent 9px 12px,
+    var(--ink) 12px 16px,
+    transparent 16px 17px,
+    var(--ink) 17px 18px,
+    transparent 18px 21px,
+    var(--ink) 21px 23px,
+    transparent 23px 24px,
+    var(--ink) 24px 25px,
+    transparent 25px 29px
+  );
 }
 
 .masthead__deck {
