@@ -22,6 +22,48 @@ Only port 8088 is published. nginx serves the built dashboard and proxies
 rate tables are baked into the backend image; the app never fetches anything
 from the carriers at run time.
 
+## What it looks like
+
+Captured by the Playwright suite against `docker compose up` with the sample
+mix and the default controls (2026 prices, USPS commercial, $9.99 charged per
+parcel). The review of every capture, desktop and phone, light and dark, is in
+[docs/ux-review.md](docs/ux-review.md).
+
+**Q1. One parcel.** A 3 lb box going 600 miles to a home costs $8.95 with USPS
+Ground Advantage, $1.04 under the $9.99 the shop charges; FedEx Home Delivery
+and UPS Ground cost about $30, partly because they bill the box at its 6 lb
+dimensional weight. Each line item cites the rate file it came from.
+
+![Q1: the cheapest service for one parcel with its line items](docs/screenshots/q1-quote-desktop.png)
+
+**Q2. Breakevens.** For home delivery USPS Ground Advantage is cheapest at every
+weight up to 450 miles (zones 1-4); from 800 miles on it stops winning at 27 lb,
+UPS Ground or FedEx Home Delivery take over up to 50 lb, and USPS wins again
+from 51 lb.
+
+![Q2: weight by distance map of the cheapest ground carrier](docs/screenshots/q2-breakeven-desktop.png)
+
+**Q3. The whole mix.** Shipping all 307 sample parcels with USPS costs $10.98 a
+parcel against $31.14 with UPS and $31.22 with FedEx, yet the shop still loses
+$0.31 a parcel: 40 % of parcels (124 of 307) ship at a loss even with the
+cheapest carrier.
+
+![Q3: blended cost per carrier, the loss verdict and the cost split](docs/screenshots/q3-blended-desktop.png)
+
+**Q4. Year over year.** The same mix with USPS went from $9.17 in 2023 to $10.98
+in 2026 (+19.7 %), 3.3 points more than the +16.4 % USPS announced over those
+years; at its latest announced +6.5 % it would cost $11.70 in 2027.
+
+![Q4: cost per parcel by year against the announced increases](docs/screenshots/q4-yearly-desktop.png)
+
+**On a phone** the answer is on the first screen and the assumptions sit
+behind "Adjust" (left: Q1; right: Q3 in dark mode).
+
+<p>
+  <img src="docs/screenshots/q1-quote-mobile.png" alt="Q1 on a 375 px phone" width="300">
+  <img src="docs/screenshots/q3-blended-mobile-dark.png" alt="Q3 on a 375 px phone, dark mode" width="300">
+</p>
+
 ## The problem and the user
 
 The user is the owner of a small online shop that sends a few hundred to a few
@@ -183,7 +225,6 @@ Open issues in the repository, in rough priority order:
 - #11 next-year projection from announced increases.
 - #13 script the source discovery so data collection runs end to end without
   an agent.
-- #8 Playwright end-to-end tests at desktop and phone widths.
 
 ## Local development without Docker
 
@@ -212,10 +253,14 @@ runs the frontend alone on recorded API responses. The API contract is in
 | Backend | `cd backend && uv run pytest` | Rate engine against hand-computed quotes, rule resolution, analysis and API |
 | Frontend | `cd frontend && npm ci && npm test` | Components with Testing Library and the API contract test |
 | Frontend types | `cd frontend && npm run typecheck` | |
+| End to end | `docker compose up -d --build`, then `cd frontend && npx playwright install chromium && npm run e2e` | Playwright at 1440 × 900 and 375 × 812 (touch): the four questions, global controls, URL state, CSV upload, the phone settings sheet, and axe on every view in light and dark |
+| Screenshots | same stack, `cd frontend && npm run e2e:update-screens` | Rewrites `frontend/e2e/screenshots/` (every view, both sizes, light and dark), reviewed in [docs/ux-review.md](docs/ux-review.md) |
 
 Without the PDFs, the citation and PDF parser tests fail with a message
 telling you to fetch them; `ALLOW_MISSING_RAW=1` skips them on purpose
-instead. End-to-end Playwright tests come with issue #8.
+instead. The end-to-end suite targets `http://localhost:8088`; set
+`E2E_BASE_URL` to run it elsewhere, for example against the dev servers
+(`E2E_BASE_URL=http://localhost:5173 npm run e2e`).
 
 ## Repository layout
 
