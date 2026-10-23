@@ -78,6 +78,18 @@ describe("BlendedView", () => {
     expect(screen.getByTestId("q3-loss-share")).toHaveTextContent("10% of parcels (30 of 300)");
   });
 
+  it("says every parcel covers its cost when none ship at a loss", async () => {
+    const none: BlendedResponse = {
+      ...mockBlendedResponse,
+      carriers: mockBlendedResponse.carriers.map((c) => ({ ...c, margin_per_parcel: 3, loss_share: 0, parcels_at_loss: 0 })),
+      best_mix: { ...mockBlendedResponse.best_mix, margin_per_parcel: 4, loss_share: 0, parcels_at_loss: 0 },
+    };
+    const { client } = spyClient({ blended: () => none });
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} />);
+    expect(await screen.findByTestId("q3-loss-share")).toHaveTextContent(/^Every parcel covers its cost with USPS\.$/);
+    expect(screen.getByTestId("q3-loss-share")).not.toHaveTextContent("ship at a loss");
+  });
+
   it("re-queries with the segment when a chip is pressed, and drops it on All", async () => {
     const { client, blended } = spyClient({
       blended: (b) => (b.segment ? { ...mockBlendedResponse, parcels_considered: 22 } : mockBlendedResponse),

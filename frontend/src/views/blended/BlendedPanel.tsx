@@ -207,12 +207,18 @@ function Verdict({ data, answer, controls }: { data: BlendedResponse; answer: Bl
         )}
       </p>
       <p className="verdict__loss-share" data-testid="q3-loss-share">
-        <strong>{pct0(c.loss_share)}</strong> of parcels ({formatInt(c.parcels_at_loss)} of {formatInt(c.parcels_shipped)})
-        ship at a loss even with the cheapest carrier
-        {data.best_mix.loss_share !== c.loss_share && (
-          <>; {pct0(data.best_mix.loss_share)} with the best mix</>
+        {c.parcels_at_loss === 0 ? (
+          <>
+            Every parcel covers its cost with {carrierName(c.carrier)}
+            {data.best_mix.parcels_at_loss > 0 && <>; {pct0(data.best_mix.loss_share)} would lose money with the best mix</>}.
+          </>
+        ) : (
+          <>
+            <strong>{pct0(c.loss_share)}</strong> of parcels ({formatInt(c.parcels_at_loss)} of {formatInt(c.parcels_shipped)})
+            ship at a loss even with the cheapest carrier
+            {data.best_mix.loss_share !== c.loss_share && <>; {pct0(data.best_mix.loss_share)} with the best mix</>}.
+          </>
         )}
-        .
       </p>
       {mixedPrices && (
         <p className="verdict__note">
