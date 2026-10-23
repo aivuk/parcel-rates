@@ -356,13 +356,19 @@ export interface YearlyResponse {
 
 /* ---------- errors ---------- */
 
+/** One entry of a 422 body, as backend/app/api/errors.py writes it: always loc, msg and type. */
 export interface ValidationIssue {
   loc: (string | number)[];
-  msg: string;
-  type?: string;
+  msg: string; // written for the shop owner; parcel-list errors start "Parcel N: "
+  type: string; // the Pydantic error type, e.g. "less_than_equal"
 }
 
+/** 422 body. */
 export interface ValidationErrorBody {
-  /** Pydantic default is an array; FastAPI HTTPException gives a string. */
-  detail: ValidationIssue[] | string;
+  detail: ValidationIssue[];
+}
+
+/** FastAPI's own errors (404, 405) carry a plain string; the client accepts both. */
+export interface HttpErrorBody {
+  detail: string;
 }

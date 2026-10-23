@@ -8,6 +8,7 @@ import type {
   QuoteRequest,
   QuoteResponse,
   SampleParcels,
+  HttpErrorBody,
   ValidationErrorBody,
   ValidationIssue,
   YearlyRequest,
@@ -72,7 +73,7 @@ function isIssue(x: unknown): x is ValidationIssue {
 
 export function problemsFromBody(body: unknown): FieldProblem[] {
   if (typeof body !== "object" || body === null || !("detail" in body)) return [];
-  const detail = (body as ValidationErrorBody).detail;
+  const detail = (body as ValidationErrorBody | HttpErrorBody).detail;
   if (typeof detail === "string") return [{ field: "", message: detail }];
   if (!Array.isArray(detail)) return [];
   return detail.filter(isIssue).map((d) => ({ field: describeLoc(d.loc), message: d.msg }));
