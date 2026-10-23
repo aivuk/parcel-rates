@@ -58,9 +58,12 @@ export function ChartFrame({
   chart,
   table,
   aside,
+  controls,
 }: {
   title: string;
   summary: ReactNode;
+  /** Controls that change the chart (e.g. a scale toggle); shown in chart mode only. */
+  controls?: ReactNode;
   chart: ReactNode;
   table: ReactNode;
   aside?: ReactNode;
@@ -86,7 +89,14 @@ export function ChartFrame({
       </div>
       <figcaption className="chart__summary">{summary}</figcaption>
       <div id={bodyId} className="chart__body">
-        {asTable ? <div className="chart__table-wrap">{table}</div> : <div aria-hidden="true">{chart}</div>}
+        {asTable ? (
+          <div className="chart__table-wrap">{table}</div>
+        ) : (
+          <>
+            {controls && <div className="chart__controls">{controls}</div>}
+            <div aria-hidden="true">{chart}</div>
+          </>
+        )}
       </div>
       {aside}
     </figure>

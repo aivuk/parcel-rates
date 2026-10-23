@@ -1,8 +1,10 @@
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useState } from "react";
+import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { Carrier, YearlyResponse } from "../../api/types";
 import { formatUsd } from "../../lib/format";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { ChartFrame, useCssColors } from "../blended/common";
+import { ChipGroup } from "../blended/SegmentChips";
 import { carrierName, signedPct } from "../blended/money";
 import { announcedPath, biggestFuelStep, fuelSentence, referenceYear, type PointNote } from "./logic";
 
@@ -19,6 +21,9 @@ const COLOR_VARS = {
 } as const;
 
 /** Marker shape per carrier, so lines differ without colour. */
+type Scale = "dollars" | "index";
+export const toIndex = (n: number, base: number) => (base ? Math.round((n / base) * 1000) / 10 : 0);
+
 const SHAPE: Record<Carrier, "circle" | "square" | "triangle"> = { usps: "circle", ups: "square", fedex: "triangle" };
 const SHAPE_WORD: Record<Carrier, string> = { usps: "circles", ups: "squares", fedex: "triangles" };
 
@@ -40,6 +45,10 @@ function Marker({ cx, cy, shape, color, ring, r = 5 }: { cx: number; cy: number;
 export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointNote[] }) {
   const colors = useCssColors(COLOR_VARS);
   const narrow = useMediaQuery("(max-width: 39.999rem)");
+  // Index (first year = 100) puts every carrier's change on one scale; default on phones, where
+  // the dollar gap between USPS and the others flattens the slopes.
+  const [scaleChoice, setScaleChoice] = useState<Scale | null>(null);
+  const scale: Scale = scaleChoice ?? (narrow ? "index" : "dollars");
   const carriers = data.carriers.filter((c) => c.years.length > 0 && c.parcels_used > 0);
   const years = new Set<number>();
   for (const c of carriers) {
@@ -55,13 +64,17 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
     for (const c of carriers) {
       const row = c.years.find((y) => y.year === year);
       const last = c.years[c.years.length - 1]!;
-      o[c.carrier] = row ? row.cost_per_parcel : null;
-      o[`${c.carrier}_ann`] = paths.get(c.carrier)?.get(year) ?? null;
-      o[`${c.carrier}_proj`] =
-        year === last.year ? last.cost_per_parcel : c.projected && year === c.projected.year ? c.projected.cost_per_parcel : null;
+      const base = c.years[0]!.cost_per_parcel;
+      const v = (n: number | null | undefined) => (n == null ? null : scale === "index" ? toIndex(n, base) : n);
+      o[c.carrier] = v(row?.cost_per_parcel);
+      o[`${c.carrier}_ann`] = v(paths.get(c.carrier)?.get(year));
+      o[`${c.carrier}_proj`] = v(
+        year === last.year ? last.cost_per_parcel : c.projected && year === c.projected.year ? c.projected.cost_per_parcel : null,
+      );
     }
     return o;
   });
+  const fmt = (n: number) => (scale === "index" ? n.toFixed(1) : formatUsd(n));
 
   const ref = referenceYear(data);
   const fuelSteps = carriers.map((c) => biggestFuelStep(c, ref ?? undefined)).filter((s) => s !== null);
@@ -119,6 +132,11 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
 
   const chart = (
     <>
+      <p className="year-chart__scale-note">
+        {scale === "index"
+          ? `Index: each carrier's first year = 100, so 118 means 18% dearer.`
+          : "Dollars per parcel."}
+      </p>
       <ResponsiveContainer width="100%" height={narrow ? 280 : 340} initialDimension={{ width: 600, height: 320 }}>
         <LineChart data={rows} margin={{ top: 24, right: narrow ? 12 : 64, bottom: 4, left: 0 }}>
           <CartesianGrid vertical={false} stroke={colors.rule} />
@@ -134,7 +152,7 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
             padding={{ left: 12, right: 12 }}
           />
           <YAxis
-            tickFormatter={(v: number) => `$${v}`}
+            tickFormatter={(v: number) => (scale === "index" ? String(v) : `$${v}`)}
             tick={{ fill: colors.muted, fontSize: 12 }}
             axisLine={false}
             tickLine={false}
@@ -144,8 +162,9 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
           <Tooltip
             contentStyle={{ background: colors.sheet, border: `1px solid ${colors.rule}`, borderRadius: 2, fontSize: 13 }}
             labelStyle={{ color: colors.ink, fontWeight: 700 }}
-            formatter={(v, name) => [formatUsd(Number(v)), name]}
+            formatter={(v, name) => [fmt(Number(v)), name]}
           />
+          {scale === "index" && <ReferenceLine y={100} stroke={colors.muted} strokeDasharray="2 2" />}
           {carriers.map((c) => [
             <Line
               key={`${c.carrier}-ann`}
@@ -222,6 +241,9 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
             Cost / parcel
           </th>
           <th scope="col" className="num">
+            Index
+          </th>
+          <th scope="col" className="num">
             Change
           </th>
           <th scope="col" className="num">
@@ -242,6 +264,7 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
                 {noteAt.has(`${c.carrier}:${y.year}`) && " (see note)"}
               </td>
               <td className="num">{formatUsd(y.cost_per_parcel)}</td>
+              <td className="num">{toIndex(y.cost_per_parcel, c.years[0]!.cost_per_parcel).toFixed(1)}</td>
               <td className="num">{y.change_vs_previous?.percent != null ? signedPct(y.change_vs_previous.percent) : "—"}</td>
               <td className="num">{y.announced_increase.percent != null ? `${y.announced_increase.percent}%` : "—"}</td>
               <td className="num">
@@ -255,6 +278,7 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
                   <th scope="row">{carrierName(c.carrier)}</th>
                   <td>{c.projected.year} (projected)</td>
                   <td className="num">{formatUsd(c.projected.cost_per_parcel)}</td>
+                  <td className="num">{toIndex(c.projected.cost_per_parcel, c.years[0]!.cost_per_parcel).toFixed(1)}</td>
                   <td className="num">{signedPct(c.projected.increase_percent)}</td>
                   <td className="num">—</td>
                   <td className="num">—</td>
@@ -319,5 +343,26 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
     </div>
   );
 
-  return <ChartFrame title="Cost per parcel, year by year" summary={summary} chart={chart} table={table} aside={aside} />;
+  const scaleToggle = (
+    <ChipGroup<Scale>
+      legend="Scale"
+      value={scale}
+      onChange={setScaleChoice}
+      options={[
+        { value: "dollars", label: "Dollars" },
+        { value: "index", label: "Index (first year = 100)" },
+      ]}
+    />
+  );
+
+  return (
+    <ChartFrame
+      title="Cost per parcel, year by year"
+      summary={summary}
+      controls={scaleToggle}
+      chart={chart}
+      table={table}
+      aside={aside}
+    />
+  );
 }

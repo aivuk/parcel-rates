@@ -19,7 +19,10 @@ import {
   referenceYear,
   sortedDrivers,
   strongestDimension,
+  withinChange,
+  fastestSegment,
 } from "./logic";
+import { toIndex } from "./YearChart";
 import { niceTicks } from "./DriverChart";
 
 beforeEach(() => stubResizeObserver());
@@ -101,19 +104,30 @@ describe("YearlyView", () => {
       "true",
     );
     expect(screen.getByTestId("driver-sentence")).toHaveTextContent(
-      "Top driver: deliveries to homes (224 of them) added $3.59 per parcel of UPS's +$4.61 change from 2025 to 2026, 78% of it.",
+      "Largest contributor: deliveries to homes (224 of them) added $3.59 per parcel of UPS's +$4.61 change from 2025 to 2026, 78% of it. Its own parcels also changed fastest: +$4.81 each.",
     );
     await userEvent.click(within(screen.getByRole("group", { name: "Split by" })).getByRole("button", { name: "Weight" }));
     const fig = screen.getByRole("figure", { name: /what drove ups.s change, by weight/i });
     await userEvent.click(within(fig).getByRole("button", { name: "Show as table" }));
     const rows = within(within(fig).getByRole("table")).getAllByRole("row").slice(1).map((r) => r.textContent);
     expect(rows).toEqual([
-      "1–5 lb181+$2.40+$720.40",
-      "10–20 lb57+$1.39+$417.19",
-      "5–10 lb40+$0.62+$187.38",
-      "≤1 lb22+$0.20+$58.64",
-      "All parcels300+$4.61—",
+      "1–5 lb181+$2.40+$3.98+$720.40",
+      "10–20 lb57+$1.39+$7.32+$417.19",
+      "5–10 lb40+$0.62+$4.68+$187.38",
+      "≤1 lb22+$0.20+$2.67+$58.64",
+      "All parcels300+$4.61+$4.61—",
     ]);
+  });
+
+  it("switches the year chart between dollars and an index, desktop default dollars", async () => {
+    const { client } = spyClient();
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    await screen.findByTestId("q4-answer");
+    const scale = screen.getByRole("group", { name: "Scale" });
+    expect(within(scale).getByRole("button", { name: "Dollars" })).toHaveAttribute("aria-pressed", "true");
+    await userEvent.click(within(scale).getByRole("button", { name: /index/i }));
+    expect(within(scale).getByRole("button", { name: /index/i })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByText(/each carrier's first year = 100/)).toBeInTheDocument();
   });
 
   it("offers the year chart as a table with every year and the projection", async () => {
@@ -126,6 +140,7 @@ describe("YearlyView", () => {
     const table = within(fig).getByRole("table", { name: /cost per parcel by carrier and year/i });
     expect(within(table).getByRole("row", { name: /FedEx 2027 \(see note\)/ })).toHaveTextContent("$44.05");
     expect(within(table).getByRole("row", { name: /USPS 2027 \(projected\)/ })).toHaveTextContent("$22.33");
+    expect(within(table).getByRole("row", { name: /USPS 2026/ })).toHaveTextContent("$21.09118.5");
   });
 });
 
@@ -166,7 +181,8 @@ describe("yearly logic", () => {
     const row = carrier("ups").years.find((y) => y.year === 2026)!;
     expect(strongestDimension(row.drivers!)).toBe("residential");
     expect(driverSentence("ups", row, "speed")).toBe(
-      "Top driver: ground parcels (262 of them) added $2.98 per parcel of UPS's +$4.61 change from 2025 to 2026, 65% of it.",
+      "Largest contributor: ground parcels (262 of them) added $2.98 per parcel of UPS's +$4.61 change from 2025 to 2026, 65% of it. " +
+        "Fastest rising: next day parcels, +$21.13 each, but they are only 3% of the parcels (9), so they move the average less.",
     );
   });
 
@@ -181,6 +197,18 @@ describe("yearly logic", () => {
       "ups 2026",
     ]);
     expect(notes.filter((n) => n.kind === "warning").map((n) => `${n.carrier} ${n.year}`)).toEqual(["fedex 2027"]);
+  });
+
+  it("derives the change within a segment from its total and parcel count", () => {
+    const d: Driver = { segment: "next_day", parcels: 9, change_per_parcel: 0.63, change_total: 190.2 };
+    expect(withinChange(d)).toBe(21.13);
+    expect(withinChange({ ...d, parcels: 0 })).toBe(0);
+    const row = carrier("ups").years.find((y) => y.year === 2026)!;
+    expect(fastestSegment(row.drivers!.weight_band, 4.61)!.segment).toBe("10–20");
+  });
+
+  it("indexes to the first year", () => {
+    expect(toIndex(21.09, 17.8)).toBe(118.5);
   });
 
   it("makes round axis ticks that include zero", () => {

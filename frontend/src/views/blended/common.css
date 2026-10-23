@@ -285,3 +285,7 @@
   color: var(--ink);
   font-weight: 600;
 }
+
+.chart__controls {
+  margin-bottom: var(--space-3);
+}
