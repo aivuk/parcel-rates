@@ -241,6 +241,21 @@ before any parser agent was dispatched. From this point every big step
   pastel or beige on white. The Q4 "cost up" colour moved from rust to ochre
   to stay clear of the accent.
 
+## 2026-10-23 — Compact page top
+
+- Owner finding: after the shipping-label redesign too much of the first
+  screen went to the masthead, the assumptions strip, the parcel strip and a
+  three-line question, so the answer needed a scroll.
+- Changes: the masthead is one 90 px band (the barcode is a small mark in the
+  eyebrow); from 1280 px the assumptions return to a 260 px left rail, as the
+  first design specified, with the strip kept for 1024–1279 px and the sheet
+  below; control explanations move into one "About these assumptions"
+  disclosure; the parcel set shares the question tab row; each question's
+  heading is a one-line short form, with the full sentence as a muted caption
+  under the answer.
+- Effect at 1440 px: the Q1 answer moved from about 690 px to 360 px from the
+  top, and the Q3 loss verdict is now on the first screen.
+
 ## Decisions changed after reviewing agent output
 
 | Decision | What the agent produced | What changed, and why | Where |
