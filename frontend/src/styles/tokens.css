@@ -72,9 +72,10 @@
   --q3-sur-3: #6fb5bb;
   --q3-sur-4: #a9d3d5;
   --q3-fuel: #111111;
-  /* Q4 drivers: cost up (warm ochre) vs cost down (cool); neither is the loss/profit pair, and the
-     ochre stays clear of the safety-orange accent. */
-  --q4-up: #8a6100;
+  /* Q4 drivers: cost up (graphite) vs cost down (cool); neither is the loss/profit pair, and the
+     neutral is no carrier's colour (the earlier ochre read as UPS brown). Up and down also
+     differ in lightness, not only hue; both pass 3:1 on paper. */
+  --q4-up: #878d93;
   --q4-down: #2f6f86;
 }
 
@@ -113,6 +114,6 @@
   --q3-sur-3: #2f7a82;
   --q3-sur-4: #23565c;
   --q3-fuel: #c4c8cc;
-  --q4-up: #e0b04a;
+  --q4-up: #7a8087;
   --q4-down: #6fb6cf;
 }

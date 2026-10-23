@@ -216,8 +216,9 @@ default on phones, where the dollar gap between USPS and the others flattens
 the slopes. Points with a note carry a "!" badge; the notes are listed in
 plain words under the chart. "How much of the change is fuel?" sits right
 under the chart with a small per-year fuel table. The driver chart is a
-diverging bar chart from zero: warm `--q4-up` when a segment made parcels
-dearer, cool `--q4-down` when cheaper (neither is the loss/profit pair), sorted
+diverging bar chart from zero: graphite `--q4-up` when a segment made parcels
+dearer, cool `--q4-down` when cheaper (neither is the loss/profit pair nor a
+carrier colour), sorted
 by size. Each row label gives both the contribution to the total (what the
 bars show, they add up to the change) and the change per parcel within the
 segment ("each", `change_total / parcels`), so a small segment that rose fast
