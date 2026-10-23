@@ -6,13 +6,14 @@ import { useWidth } from "./useWidth";
 import { CARRIER_NAME } from "../../lib/carriers";
 import { formatInt, formatUsd } from "../../lib/format";
 
-const LEVEL_MIX = [22, 48, 74, 100] as const;
+// The lightest step keeps 45 % of the carrier colour so cells read as the carrier, not as a pastel, on white.
+const LEVEL_MIX = [45, 63, 82, 100] as const;
 
 export function cellFill(c: BreakevenCell | null): string {
   if (!c?.winner) return "var(--wash)";
   const v = `var(--carrier-${c.winner.carrier})`;
   const w = `var(--carrier-${c.winner.carrier}-wash)`;
-  return `color-mix(in srgb, ${v} ${LEVEL_MIX[savingLevel(c.saving)]}%, ${w})`;
+  return `color-mix(in oklch, ${v} ${LEVEL_MIX[savingLevel(c.saving)]}%, ${w})`;
 }
 
 function cellLabel(c: BreakevenCell | null, meta: Meta | null, residential: boolean): string {

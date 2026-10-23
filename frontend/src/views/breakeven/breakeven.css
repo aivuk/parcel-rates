@@ -133,15 +133,15 @@
 }
 
 .hml__step--0 {
-  background: color-mix(in srgb, var(--ink) 12%, var(--paper));
+  background: color-mix(in srgb, var(--ink) 45%, var(--paper));
 }
 
 .hml__step--1 {
-  background: color-mix(in srgb, var(--ink) 35%, var(--paper));
+  background: color-mix(in srgb, var(--ink) 63%, var(--paper));
 }
 
 .hml__step--2 {
-  background: color-mix(in srgb, var(--ink) 60%, var(--paper));
+  background: color-mix(in srgb, var(--ink) 82%, var(--paper));
 }
 
 .hml__step--3 {

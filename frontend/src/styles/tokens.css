@@ -16,9 +16,9 @@
   --carrier-usps: #1f4e9a;
   --carrier-ups: #7a4e0f;
   --carrier-fedex: #9c2a7e;
-  --carrier-usps-wash: #e3ebf8;
-  --carrier-ups-wash: #efe6da;
-  --carrier-fedex-wash: #f5e2ef;
+  --carrier-usps-wash: #d6e4fb;
+  --carrier-ups-wash: #f6dcae;
+  --carrier-fedex-wash: #f8d3ee;
 
   /* Money. --accent (safety orange) is the loss verdict and nothing else; on white it passes
      only as large text, so small loss text uses --loss, the same orange darkened. */
