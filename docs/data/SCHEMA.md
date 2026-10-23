@@ -40,7 +40,7 @@ same name. A carrier with no fuel surcharge ships a header-only file.
 | Field | Values |
 |---|---|
 | `carrier` | `usps`, `ups`, `fedex` |
-| `rate_card` | `retail` or `commercial`. USPS publishes both; small sellers using online postage pay commercial, so the dashboard defaults USPS to `commercial` with a control to switch to `retail`. UPS Daily Rates and FedEx Standard List Rates are what a shipper without a contract pays and are stored as `retail`. The README explains this. |
+| `rate_card` | USPS: `retail` (counter price) or `commercial` (online postage, the default for USPS in the dashboard, switchable to retail). UPS and FedEx: `list` (Daily Rates / Standard List Rates, what a shipper without a contract pays). `services.csv` explains in one line what each card means for each carrier. The README repeats this. |
 | `tier` | `ground`, `two_three_day`, `next_day` |
 | `service_id` | see `services.csv` |
 | `unit` | `usd` (flat amount) or `percent` |
@@ -55,7 +55,8 @@ same name. A carrier with no fuel surcharge ships a header-only file.
 | tier | tier | Speed tier the service competes in |
 | residential_allowed | bool | FedEx Ground is business only; Home Delivery is residential only |
 | business_allowed | bool | |
-| rate_cards | text | Comma-separated list of rate cards published for this service (`retail,commercial` for USPS, `retail` otherwise) |
+| rate_cards | text | Comma-separated list of rate cards published for this service: `retail,commercial` for USPS, `list` for UPS and FedEx |
+| rate_card_notes | text | One line per card, `card: meaning`, separated by `;`. E.g. USPS: `retail: price paid at the Post Office counter; commercial: price paid with online postage or shipping software, no contract needed`. UPS: `list: published Daily Rates for shippers without a negotiated contract` |
 | max_weight_lb | int | 70 for USPS, 150 for UPS and FedEx (the app caps at 70) |
 | notes | text | |
 
@@ -241,8 +242,9 @@ every change, not only base rates.
 | zone | int | |
 | min_miles | int | Inclusive |
 | max_miles | int | Inclusive; empty for the last band |
-| source_file | path | Must be a file fetched by the collection script |
-| source_quote | text | |
+| source_file | path | Must be a file listed in the manifest (add a row and run the fetcher; never download by hand) |
+| source_quote | text | Verbatim |
+| notes | text | e.g. how a band was derived when the carrier publishes zones only by ZIP pair |
 
 ## Raw manifest: data/raw/manifest.csv
 
@@ -275,4 +277,4 @@ and verifies checksums; issue #13 scripts the discovery that produces this file.
 | delivery_area | enum | Optional: `none` (default), `das`, `extended` |
 
 The USPS rate card (`commercial` default, `retail` optional) is a dashboard
-control, not a parcel column.
+control, not a parcel column. UPS and FedEx have a single `list` card.
