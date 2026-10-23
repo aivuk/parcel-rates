@@ -271,6 +271,13 @@
   gap: var(--space-2);
 }
 
+@media (max-width: 39.999rem) {
+  .strip__actions .btn {
+    min-height: 2.25rem;
+    padding-block: var(--space-1);
+  }
+}
+
 .parcels__details {
   display: grid;
   gap: var(--space-5);

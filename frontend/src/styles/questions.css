@@ -93,7 +93,7 @@
   font-size: var(--text-figure);
   font-weight: 500;
   font-variant-numeric: tabular-nums lining-nums;
-  line-height: 0.95;
+  line-height: 1;
   letter-spacing: -0.02em;
 }
 
@@ -110,12 +110,6 @@
   display: grid;
   gap: var(--space-2);
   max-width: var(--measure);
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 calc(1.5rem - 1px),
-      var(--rule) calc(1.5rem - 1px) 1.5rem
-    );
 }
 
 .answer-slot__figure {
@@ -143,5 +137,23 @@
 
   .questions__tab:nth-child(-n + 2) {
     border-bottom: 1px solid var(--rule);
+  }
+}
+
+@media (max-width: 39.999rem) {
+  .questions {
+    margin-top: var(--space-5);
+  }
+
+  .questions__panel {
+    padding-top: var(--space-4);
+  }
+
+  .questions__question {
+    font-size: var(--text-lg);
+  }
+
+  .answer-slot {
+    padding: var(--space-4);
   }
 }

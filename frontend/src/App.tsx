@@ -60,7 +60,7 @@ export function App() {
       </a>
       {mock && (
         <p className="mock-banner" role="note">
-          <strong>Mock data.</strong> Numbers come from a toy formula for design work, not from carrier price lists.
+          <strong>Mock data.</strong> Recorded example answers from the rate service; they do not change with your inputs.
         </p>
       )}
       <header className="masthead">
