@@ -3,12 +3,11 @@ data with a citation: each year's sentence must be on the cited page, the weight
 read from it, and every oversize row of that year carries that weight and quote."""
 from __future__ import annotations
 
-import os
-
 import pytest
 
 from data.pipeline import fedex_rules, ups_rules
 from data.pipeline.common import min_billable_lb, normalize_text, processed_path, read_table, source_text
+from data.tests.raw import missing_raw
 
 CITATIONS = {
     "ups": {year: {**spec, "file": ups_rules.GUIDES[year]["file"]} for year, spec in ups_rules.LPS_MIN_BILLABLE.items()},
@@ -23,9 +22,7 @@ def test_minimum_sentence_is_on_the_cited_page(owner, year, spec):
     try:
         text = normalize_text(source_text(spec["file"], spec["page"]))
     except FileNotFoundError as error:
-        if os.environ.get("ALLOW_MISSING_RAW") == "1":
-            pytest.skip(str(error))
-        pytest.fail(f"{error}. Run `python3 data/fetch_raw.py`, or set ALLOW_MISSING_RAW=1 to skip on purpose.")
+        missing_raw(error)
     for fragment in spec["quotes"]:
         assert normalize_text(fragment) in text, f"not on {spec['file']} p.{spec['page']}: {fragment}"
     assert min_billable_lb(spec["quotes"][-1]) == "90"
