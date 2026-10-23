@@ -1,0 +1,21 @@
+# Build context for the backend image is the repository root; it only needs
+# backend/ and data/processed/. Keep everything else out.
+.git
+.gitignore
+.claude
+**/.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.coverage
+**/htmlcov
+frontend
+docs
+data/raw
+data/tests
+data/pipeline
+data/*.py
+backend/tests
+backend/scripts
+README.md
+docker-compose.yml
