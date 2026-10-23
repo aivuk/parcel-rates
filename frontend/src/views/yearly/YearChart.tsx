@@ -138,7 +138,7 @@ export function YearChart({ data, notes }: { data: YearlyResponse; notes: PointN
           : "Dollars per parcel."}
       </p>
       <ResponsiveContainer width="100%" height={narrow ? 280 : 340} initialDimension={{ width: 600, height: 320 }}>
-        <LineChart data={rows} margin={{ top: 24, right: narrow ? 12 : 64, bottom: 4, left: 0 }}>
+        <LineChart accessibilityLayer={false} data={rows} margin={{ top: 24, right: narrow ? 12 : 64, bottom: 4, left: 0 }}>
           <CartesianGrid vertical={false} stroke={colors.rule} />
           <XAxis
             dataKey="year"

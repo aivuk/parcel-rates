@@ -43,7 +43,7 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
 
   const chart = (
     <ResponsiveContainer width="100%" height={rows.length * 64 + 36} initialDimension={{ width: 600, height: 240 }}>
-      <BarChart data={rows} layout="vertical" margin={{ top: 4, right: 16, bottom: 4, left: 0 }} barCategoryGap="30%">
+      <BarChart accessibilityLayer={false} data={rows} layout="vertical" margin={{ top: 4, right: 16, bottom: 4, left: 0 }} barCategoryGap="30%">
         <CartesianGrid horizontal={false} stroke={colors.rule} />
         <XAxis
           type="number"

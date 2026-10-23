@@ -101,7 +101,7 @@ export function CostSplitChart({ data }: { data: BlendedResponse }) {
   const chart = (
     <>
       <ResponsiveContainer width="100%" height={rows.length * 64 + 40} initialDimension={{ width: 600, height: 240 }}>
-        <BarChart data={chartRows} layout="vertical" margin={{ top: 4, right: 12, bottom: 4, left: 0 }} barCategoryGap="28%">
+        <BarChart accessibilityLayer={false} data={chartRows} layout="vertical" margin={{ top: 4, right: 12, bottom: 4, left: 0 }} barCategoryGap="28%">
           <CartesianGrid horizontal={false} stroke={colors.rule} />
           <XAxis
             type="number"
