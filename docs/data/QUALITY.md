@@ -15,7 +15,7 @@ records the decisions that follow from them.
 | Best format | CSV zip per price change (clean) | Text PDF only (tables span ~4 pages per service) | XLSX for 2022, 2025, 2026, 2027; text PDF for 2023, 2024 |
 | Surcharge rules | Footnotes in Notice 123 PDFs | Surcharge section of the same guide (3-column prose) | Yearly "surcharge and fee changes" PDFs (2022, 2024–2026) plus Service Guides |
 | Residential / delivery area | None (confirmed) | Residential, DAS, extended DAS amounts in guide; ZIP list not downloaded | Residential, DAS amounts; DAS ZIP lists downloaded for every year |
-| Dimensional weight | Over 1 cu ft, greater of actual and dim weight; divisor not printed in Notice 123 (reported 166, then 139 from 2026-07-12; unverified) | Divisor 139, round up to next pound (verified in 2026 guide) | Divisor 139 (verified in every Service Guide 2022–2026) |
+| Dimensional weight | Over 1,728 cu in, greater of actual and dim weight; divisor 166 (DMM 123 and 133, March 2024 capture) and 139 from 2026-07-12 (DMM, live), no zone restriction; verified | Divisor 139, round up to next pound (verified in 2026 guide) | Divisor 139 (verified in every Service Guide 2022–2026) |
 | Fuel surcharge | None | No weekly history retrievable; only index-to-percent tables | Weekly history page, one ~13-week snapshot saved per year |
 | Peak / demand surcharges | Peak price tables per season (2022, 2024, 2025, 2026; none in 2023) | Demand surcharge PDFs 2022–2024 | Dated notices; amounts inside Service Guides, not isolated |
 | Announced average increase | USPS press releases, per product (primary source) | Secondary news sources only (5.9% 2022, 6.9% 2023, 5.9% 2024–2026) | FedEx's own rate-change pages: 5.9% every year except 6.9% in 2023 (primary) |
@@ -39,8 +39,13 @@ records the decisions that follow from them.
   are footnotes beside the tables in the PDFs, which pdftotext interleaves
   with price rows. Reading them by hand into a curated table is faster and
   safer than parsing them.
-- **Gaps.** Dimensional weight divisor and zone scope are not printed in
-  Notice 123 (they live in the DMM). No bulk zone matrix without an order
+- **Dimensional weight, verified.** Notice 123 only states the one cubic
+  foot rule; the divisor is in the Domestic Mail Manual sections 123
+  (Priority Mail) and 133 (Ground Advantage). Saved under
+  `data/raw/usps/dmm/`: the March 2024 Wayback captures say "divide the
+  result by 166"; the 2026-10-22 live pages say "divide the result by 139"
+  with a `[7-12-26]` change marker. Neither restricts the rule by zone.
+- **Gaps.** No bulk zone matrix without an order
   form; the free per-origin zone chart is a form POST on postcalc.usps.com.
 - **Quirks.** 2026 has three states: January base, a time-limited +8%
   transportation surcharge from April, and the October peak table.
@@ -104,16 +109,21 @@ records the decisions that follow from them.
 5. **Announced increases.** FedEx and USPS from primary sources. UPS from
    trade press, marked as secondary in `announced_increase.csv`.
 6. **Dimensional weight.** Divisor 139 for UPS and FedEx on every billable
-   parcel. For USPS, dim weight applies only above 1 cu ft; the divisor is
-   recorded per year as reported (166, then 139 from July 2026) and flagged
-   unverified until checked against the DMM.
-7. **Raw files in git.** Everything parse-ready and small is committed. The
-   full-guide PDFs (UPS Daily Rates guides, FedEx Service Guides, and all but
-   the January and July 2023 USPS Notice 123 PDFs) are excluded by
-   `data/raw/.gitignore` because they total over 100 MB; their URLs and
-   retrieval method are in each `SOURCES.md`, and the pipeline's download
-   step re-fetches them when they are absent.
-8. **Zones.** Distance bands stand in for ZIP-to-ZIP zones (issue #9 is the
+   parcel. For USPS, dim weight applies only above 1,728 cubic inches, with
+   divisor 166 through 2026-07-11 and 139 from 2026-07-12, verified against
+   the DMM captures in `data/raw/usps/dmm/`.
+7. **Raw files in git.** Only the spreadsheets, CSV zips and small HTML
+   snapshots are committed (about 8 MB). No PDF is tracked. Every raw file,
+   tracked or not, is listed in `data/raw/manifest.csv` with its URL
+   (Wayback passthrough form where applicable), SHA-256 and size, and
+   `python3 data/fetch_raw.py` restores the missing ones one at a time with
+   a pause between requests, retrying with backoff, and verifies checksums.
+8. **Citations are tested.** Every hand-curated row (surcharges, fuel,
+   announced increases, dimensional weight, zone bands) cites a file, a
+   page and a verbatim quote containing the amount; a test opens the cited
+   page and checks the quote is there (skipped with a message when the raw
+   file has not been fetched).
+9. **Zones.** Distance bands stand in for ZIP-to-ZIP zones (issue #9 is the
    bonus). The band table is documented in `data/processed/zone_from_distance.csv`.
 
 ## Known limitations to state in the README
@@ -124,4 +134,3 @@ records the decisions that follow from them.
 - UPS announced-increase percentages come from trade press.
 - Peak surcharges are modelled as a toggle with that year's amounts, not by
   ship date.
-- USPS dimensional weight rules are reported, not verified against the DMM.

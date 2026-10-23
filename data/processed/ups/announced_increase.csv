@@ -1,0 +1,5 @@
+carrier,year,product_scope,rate_card,percent,source_type,source_file,source_ref,source_quote
+ups,2023,all,list,6.9,secondary,ups/2023/gri-2023-retaildive-ups-mirrors-fedex-6.9pct.html,,"Rates for UPS' Ground, Air and International services will increase by an average of 6.9%"
+ups,2024,all,list,5.9,secondary,ups/gri-history-2020-2027-ebblogistics.html,,"2024 5.9% December 26, 2023"
+ups,2025,all,list,5.9,secondary,ups/2025/gri-2025-retaildive-ups-5.9pct.html,,"UPS will increase rates for its ground, air and international shipping services by an average of 5.9%"
+ups,2026,all,list,5.9,secondary,ups/2026/gri-2026-supplychaindive-ups-5.9pct.html,,"UPS rates will increase by 5.9% on average for ground, air and international services"

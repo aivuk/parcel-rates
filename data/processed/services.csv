@@ -1,0 +1,15 @@
+carrier,service_id,display_name,tier,residential_allowed,business_allowed,rate_cards,rate_card_notes,max_weight_lb,notes
+usps,usps_ground_advantage,USPS Ground Advantage,ground,true,true,"retail,commercial","retail: price paid at the Post Office counter; commercial: price paid with online postage or shipping software, no contract needed",70,Launched 2023-07-09; replaced First-Class Package Service and Retail Ground
+usps,usps_priority_mail,Priority Mail,two_three_day,true,true,"retail,commercial","retail: price paid at the Post Office counter; commercial: price paid with online postage or shipping software, no contract needed",70,
+usps,usps_priority_mail_express,Priority Mail Express,next_day,true,true,"retail,commercial","retail: price paid at the Post Office counter; commercial: price paid with online postage or shipping software, no contract needed",70,Overnight to most locations; 1 to 2 days
+ups,ups_ground,UPS Ground,ground,true,true,list,list: published Daily Rates for shippers without a negotiated contract,150,Residential surcharge applies to home addresses
+ups,ups_3_day_select,UPS 3 Day Select,two_three_day,true,true,list,list: published Daily Rates for shippers without a negotiated contract,150,
+ups,ups_2nd_day_air,UPS 2nd Day Air,two_three_day,true,true,list,list: published Daily Rates for shippers without a negotiated contract,150,
+ups,ups_next_day_air_saver,UPS Next Day Air Saver,next_day,true,true,list,list: published Daily Rates for shippers without a negotiated contract,150,
+ups,ups_next_day_air,UPS Next Day Air,next_day,true,true,list,list: published Daily Rates for shippers without a negotiated contract,150,
+fedex,fedex_ground,FedEx Ground,ground,false,true,list,list: published Standard List Rates for shippers without a negotiated contract,150,Business addresses only
+fedex,fedex_home_delivery,FedEx Home Delivery,ground,true,false,list,list: published Standard List Rates for shippers without a negotiated contract,150,Residential addresses only; residential surcharge built into the surcharge table
+fedex,fedex_express_saver,FedEx Express Saver,two_three_day,true,true,list,list: published Standard List Rates for shippers without a negotiated contract,150,
+fedex,fedex_2day,FedEx 2Day,two_three_day,true,true,list,list: published Standard List Rates for shippers without a negotiated contract,150,
+fedex,fedex_standard_overnight,FedEx Standard Overnight,next_day,true,true,list,list: published Standard List Rates for shippers without a negotiated contract,150,
+fedex,fedex_priority_overnight,FedEx Priority Overnight,next_day,true,true,list,list: published Standard List Rates for shippers without a negotiated contract,150,

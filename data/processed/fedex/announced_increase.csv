@@ -1,0 +1,6 @@
+carrier,year,product_scope,rate_card,percent,source_type,source_file,source_ref,source_quote
+fedex,2023,all,list,6.9,primary,fedex/2023/rate-changes_page_wayback_2023-01-01.html,,"FedEx Express package and freight standard list rates for U.S., U.S. export, and U.S. import services, and FedEx Ground standard list rates will increase an average of 6.9%."
+fedex,2024,all,list,5.9,primary,fedex/2024/rate-changes_page_wayback_2024-04-07.html,,"FedEx Express package and freight standard list rates for U.S., U.S. export, and U.S. import services, and FedEx Ground standard list rates will increase an average of 5.9%."
+fedex,2025,all,list,5.9,primary,fedex/2025/rate-changes_page_wayback_2025-01-02.html,,"FedEx package and freight standard list rates for U.S., U.S. export, and U.S. import services will increase an average of 5.9%."
+fedex,2026,all,list,5.9,primary,fedex/2026/rate-changes_page_wayback_2026-01-24.html,,"FedEx package standard list rates for U.S., U.S. export, and U.S. import services will increase an average of 5.9%."
+fedex,2027,all,list,5.9,primary,fedex/2027/rate-changes_page_wayback_2026-10-11.html,,"FedEx package standard list rates for U.S., U.S. export, and U.S. import services will increase an average of 5.9%."

@@ -1,0 +1,26 @@
+carrier,service_id,rate_card,year,effective_date,zone,max_weight_lb,price,source_file,source_ref,checked_by
+ups,ups_next_day_air,list,2023,2022-12-27,8,1,98.29,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,52,agent 2026-10-23
+ups,ups_next_day_air,list,2023,2022-12-27,5,20,221.23,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,52,agent 2026-10-23
+ups,ups_next_day_air,list,2023,2022-12-27,4,50,374.86,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,53,agent 2026-10-23
+ups,ups_next_day_air,list,2023,2022-12-27,2,70,203.93,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,53,agent 2026-10-23
+ups,ups_next_day_air,list,2023,2022-12-27,8,70,667.35,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,53,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2023,2022-12-27,8,1,86.29,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,56,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2023,2022-12-27,5,20,211.34,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,56,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2023,2022-12-27,4,50,358.69,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,57,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2023,2022-12-27,2,70,189.99,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,57,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2023,2022-12-27,8,70,656.79,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,57,agent 2026-10-23
+ups,ups_2nd_day_air,list,2023,2022-12-27,8,1,37.93,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,64,agent 2026-10-23
+ups,ups_2nd_day_air,list,2023,2022-12-27,5,20,106.74,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,64,agent 2026-10-23
+ups,ups_2nd_day_air,list,2023,2022-12-27,4,50,146.45,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,65,agent 2026-10-23
+ups,ups_2nd_day_air,list,2023,2022-12-27,2,70,123.48,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,65,agent 2026-10-23
+ups,ups_2nd_day_air,list,2023,2022-12-27,8,70,483.80,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,65,agent 2026-10-23
+ups,ups_3_day_select,list,2023,2022-12-27,8,1,33.33,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,68,agent 2026-10-23
+ups,ups_3_day_select,list,2023,2022-12-27,5,20,69.41,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,68,agent 2026-10-23
+ups,ups_3_day_select,list,2023,2022-12-27,4,50,105.99,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,69,agent 2026-10-23
+ups,ups_3_day_select,list,2023,2022-12-27,2,70,84.79,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,69,agent 2026-10-23
+ups,ups_3_day_select,list,2023,2022-12-27,8,70,374.64,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,69,agent 2026-10-23
+ups,ups_ground,list,2023,2022-12-27,8,1,12.74,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,72,agent 2026-10-23
+ups,ups_ground,list,2023,2022-12-27,5,20,22.75,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,72,agent 2026-10-23
+ups,ups_ground,list,2023,2022-12-27,4,50,36.61,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,73,agent 2026-10-23
+ups,ups_ground,list,2023,2022-12-27,2,70,29.33,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,73,agent 2026-10-23
+ups,ups_ground,list,2023,2022-12-27,8,70,85.35,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,73,agent 2026-10-23

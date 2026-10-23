@@ -300,3 +300,17 @@ Oversize zones 3-4 $275→$290). Treat as unverified until `surcharge_and_fee_ch
 | Domestic fuel trigger-table PDFs for every change (e.g. 5-6-24, and the 2023 Jan/Apr tables) | CDX | `5-6-24` has only blocked captures; others not searched exhaustively |
 | U.S. package Demand/peak surcharge *amount tables* per year | rate-changes snapshots only carry the notice + link ("click here") | amounts live on linked pages / Service Guide "Demand Surcharge" sections (SG 2024 p.~119, SG 2025 p.~131, SG 2026 p.135) — not separately extracted |
 | FedEx newsroom press releases for each GRI | WebSearch found https://newsroom.fedex.com/newsroom/global-english/fedex-announces-adjusted-shipping-rates-fees-and-surcharges (2024 GRI) | not fetched; the GRI figures above are taken from FedEx's own rate-changes page snapshots instead |
+
+## Demand and peak surcharge pages (added 2026-10-23 by the parser work, issue #2)
+
+Fetched with `data/fetch_raw.py` from the Wayback Machine (fedex.com blocks this host).
+Exact URLs and checksums are in `../manifest.csv`; the Wayback timestamp in each URL
+redirects to the nearest capture of that date.
+
+| File | Season |
+|---|---|
+| 2023/peak-surcharges_page_wayback_2022-11.html | 2022-23 peak |
+| 2024/demand-surcharges_page_wayback_2023-12.html | 2023-24 demand (a 2023-11 capture returned a FedEx block page) |
+| 2025/demand-surcharges_page_wayback_2024-11.html | 2024-25 demand |
+| 2026/demand-surcharges_page_wayback_2025-11.html | 2025-26 demand |
+| 2027/demand-surcharges_page_wayback_2026-10.html | 2026-27 demand |
