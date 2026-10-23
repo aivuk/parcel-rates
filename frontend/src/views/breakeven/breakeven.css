@@ -330,10 +330,8 @@
   width: 100%;
 }
 
-.hmt__table caption {
-  text-align: left;
+.hmt__caption {
   color: var(--ink-muted);
-  padding: 0 0 var(--space-2);
   font-size: var(--text-xs);
 }
 

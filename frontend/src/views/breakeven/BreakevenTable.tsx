@@ -16,6 +16,7 @@ export function BreakevenTable({ res, meta, id }: { res: BreakevenResponse; meta
   const band = res.breakeven_weight_lb[col];
   const zones = band ? zoneLabel(band.zone_usps, band.zone_private) : "";
   const distance = res.distances_miles[col] ?? 0;
+  const caption = `Ground prices at ${formatInt(distance)} mi (${zones}), ${res.residential ? "home" : "business"} delivery, ${res.year}. Saving is against the next cheapest carrier.`;
 
   return (
     <div className="hmt" id={id}>
@@ -34,11 +35,12 @@ export function BreakevenTable({ res, meta, id }: { res: BreakevenResponse; meta
           })}
         </select>
       </div>
+      <p className="hmt__caption" aria-hidden="true">
+        {caption}
+      </p>
       <div className="hmt__scroll">
         <table className="hmt__table">
-          <caption>
-            Ground prices at {formatInt(distance)} mi ({zones}), {res.residential ? "home" : "business"} delivery, {res.year}.
-          </caption>
+          <caption className="visually-hidden">{caption}</caption>
           <thead>
             <tr>
               <th scope="col">Weight</th>
