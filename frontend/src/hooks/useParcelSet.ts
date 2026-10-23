@@ -40,6 +40,16 @@ function store(set: ParcelSet | null) {
   }
 }
 
+/** FileReader rather than Blob.text(): same result, and it also works in jsdom. */
+function readFileText(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(typeof reader.result === "string" ? reader.result : "");
+    reader.onerror = () => reject(reader.error ?? new Error("read failed"));
+    reader.readAsText(file);
+  });
+}
+
 export function useParcelSet() {
   const api = useApi();
   const [set, setSet] = useState<ParcelSet | null>(readStored);
@@ -73,7 +83,7 @@ export function useParcelSet() {
     setStatus({ kind: "loading", what: "file" });
     let text: string;
     try {
-      text = await file.text();
+      text = await readFileText(file);
     } catch {
       setStatus({ kind: "error", message: `${file.name} could not be read.`, problems: [], fileName: file.name });
       return;
