@@ -61,6 +61,7 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
   const uid = useId();
   const id = (s: string) => `${uid}-${s}`;
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) => onChange({ ...draft, [key]: value });
+  /** Error wiring for every input of a field; compound fields (lb + oz, L × W × H) share one message. */
   const described = (field: FormField) => (errors[field]?.length ? { "aria-describedby": id(`${field}-err`), "aria-invalid": true } : {});
   const weight = draftWeight(draft);
   const ozUsed = draft.oz.trim() !== "" && weight !== null && !Number.isNaN(weight);
@@ -91,7 +92,7 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
         </Field>
       )}
 
-      <fieldset className="control qf__group" {...described("weight")}>
+      <fieldset className="control qf__group">
         <legend className="control__label">Weight</legend>
         <div className="qf__pair">
           <label className="qf__unit">
@@ -101,7 +102,7 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
               value={draft.lb}
               onChange={(e) => set("lb", e.target.value)}
               aria-label="Weight in pounds"
-              aria-invalid={errors.weight?.length ? true : undefined}
+              {...described("weight")}
             />
             <span aria-hidden="true">lb</span>
           </label>
@@ -112,6 +113,7 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
               value={draft.oz}
               onChange={(e) => set("oz", e.target.value)}
               aria-label="Plus ounces"
+              {...described("weight")}
               placeholder="0"
             />
             <span aria-hidden="true">oz</span>
@@ -123,7 +125,7 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
         <Errors id={id("weight-err")} messages={errors.weight} />
       </fieldset>
 
-      <fieldset className="control qf__group" {...described("dims")}>
+      <fieldset className="control qf__group">
         <legend className="control__label">
           Box size <span className="qf__optional">optional, inches</span>
         </legend>
@@ -136,7 +138,7 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
                 value={draft[k]}
                 onChange={(e) => set(k, e.target.value)}
                 aria-label={`${k[0]!.toUpperCase()}${k.slice(1)} in inches`}
-                aria-invalid={errors.dims?.length ? true : undefined}
+                {...described("dims")}
               />
               {i < 2 && <span aria-hidden="true">×</span>}
             </label>
@@ -173,7 +175,7 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
         </label>
       </Field>
 
-      <fieldset className="control qf__group" {...described("residential")}>
+      <fieldset className="control qf__group">
         <legend className="control__label">Delivered to</legend>
         <div className="qf-seg qf-seg--2">
           {[
@@ -185,6 +187,7 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
                 type="radio"
                 name={id("res")}
                 checked={draft.residential === value}
+                {...described("residential")}
                 onChange={() => set("residential", value as boolean)}
               />
               <span>{label as string}</span>
@@ -194,12 +197,18 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
         <Errors id={id("residential-err")} messages={errors.residential} />
       </fieldset>
 
-      <fieldset className="control qf__group" {...described("speed")}>
+      <fieldset className="control qf__group">
         <legend className="control__label">Speed needed</legend>
         <div className="qf-seg qf-seg--3">
           {TIERS.map((t: Tier) => (
             <label key={t} className="qf-seg__opt">
-              <input type="radio" name={id("speed")} checked={draft.speed === t} onChange={() => set("speed", t)} />
+              <input
+                type="radio"
+                name={id("speed")}
+                checked={draft.speed === t}
+                onChange={() => set("speed", t)}
+                {...described("speed")}
+              />
               <span>{TIER_NAME[t]}</span>
             </label>
           ))}

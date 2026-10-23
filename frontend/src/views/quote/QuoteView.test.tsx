@@ -125,7 +125,16 @@ describe("QuoteView", () => {
     setup({ quote: async () => Promise.reject(new ApiError(422, "Some inputs were not accepted.", problems)) });
     const weight = screen.getByRole("group", { name: "Weight" });
     expect(await within(weight).findByText("weight_lb must be at most 70")).toBeInTheDocument();
-    expect(within(weight).getByLabelText("Weight in pounds")).toHaveAttribute("aria-invalid", "true");
+    for (const label of ["Weight in pounds", "Plus ounces"]) {
+      const input = within(weight).getByLabelText(label);
+      expect(input).toHaveAttribute("aria-invalid", "true");
+      expect(input).toHaveAccessibleDescription("weight_lb must be at most 70");
+    }
+    expect(weight).not.toHaveAttribute("aria-invalid");
+    expect(weight).not.toHaveAttribute("aria-describedby");
+    for (const radio of within(screen.getByRole("group", { name: "Speed needed" })).getAllByRole("radio")) {
+      expect(radio).toHaveAccessibleDescription(/speed must be one of/);
+    }
     expect(within(screen.getByRole("group", { name: "Speed needed" })).getByText(/speed must be one of/)).toBeInTheDocument();
     expect(screen.getByText(/Fix the input marked/)).toBeInTheDocument();
   });
@@ -137,7 +146,10 @@ describe("QuoteView", () => {
     fireEvent.change(screen.getByLabelText("Weight in pounds"), { target: { value: "" } });
     fireEvent.change(screen.getByLabelText("Height in inches"), { target: { value: "" } });
     expect(await screen.findByText("Enter the weight.")).toBeInTheDocument();
-    expect(screen.getByText("Give all three dimensions, or leave all three empty.")).toBeInTheDocument();
+    for (const label of ["Length in inches", "Width in inches", "Height in inches"]) {
+      expect(screen.getByLabelText(label)).toHaveAccessibleDescription("Give all three dimensions, or leave all three empty.");
+      expect(screen.getByLabelText(label)).toHaveAttribute("aria-invalid", "true");
+    }
     expect(quote).not.toHaveBeenCalled();
   });
 
