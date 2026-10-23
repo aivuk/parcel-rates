@@ -1,11 +1,12 @@
-import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ApiProvider } from "../../api/ApiContext";
 import { ApiError, createMockClient, problemsFromBody, type ApiClient } from "../../api/client";
 import { asQuoteResponse } from "../../api/guards";
 import { mockDefaultControls, mockMeta, mockQuote422Body, mockQuoteResponse } from "../../api/mocks";
 import quote2027Fx from "../../api/__fixtures__/quote-2027.json";
+import type { QuoteResponse } from "../../api/types";
 import type { ControlsState } from "../../state/urlState";
 import { QuoteView } from "../QuoteView";
 import { DEFAULT_DRAFT, draftToParcel, draftFromParcel } from "./draft";
@@ -177,6 +178,83 @@ describe("QuoteView", () => {
     expect(screen.getByLabelText("Distance")).toHaveValue("120");
     expect(screen.getByRole("radio", { name: "A business" })).toBeChecked();
     expect(screen.getByRole("radio", { name: "2–3 day" })).toBeChecked();
+  });
+});
+
+/** The fixture with the cheapest ground total replaced, to tell two answers apart. */
+function withGroundTotal(total: number): QuoteResponse {
+  const pick = mockQuoteResponse.cheapest_by_tier.ground!;
+  return {
+    ...mockQuoteResponse,
+    quotes: mockQuoteResponse.quotes.map((q) => (q.service_id === pick.service_id && q.tier === "ground" ? { ...q, total } : q)),
+    cheapest_by_tier: { ...mockQuoteResponse.cheapest_by_tier, ground: { ...pick, total } },
+  };
+}
+
+function deferred<T>() {
+  let resolve!: (v: T) => void;
+  const promise = new Promise<T>((r) => (resolve = r));
+  return { promise, resolve };
+}
+
+describe("QuoteView timing", () => {
+  afterEach(() => vi.useRealTimers());
+
+  it("waits for typing to settle before asking for a quote", async () => {
+    vi.useFakeTimers();
+    const quote = vi.fn(async () => mockQuoteResponse);
+    render(
+      <ApiProvider client={{ ...createMockClient(0), quote }}>
+        <QuoteView controls={mockDefaultControls} meta={mockMeta} parcels={null} debounceMs={300} initialDraft={FIXTURE_DRAFT} />
+      </ApiProvider>,
+    );
+    expect(quote).toHaveBeenCalledTimes(1); // the first parcel is priced at once
+    const lb = screen.getByLabelText("Weight in pounds");
+    fireEvent.change(lb, { target: { value: "5" } });
+    act(() => vi.advanceTimersByTime(200));
+    fireEvent.change(lb, { target: { value: "52" } });
+    act(() => vi.advanceTimersByTime(299));
+    expect(quote).toHaveBeenCalledTimes(1);
+    act(() => vi.advanceTimersByTime(1));
+    expect(quote).toHaveBeenCalledTimes(2);
+    expect(quote).toHaveBeenLastCalledWith(
+      expect.objectContaining({ parcel: expect.objectContaining({ weight_lb: 52 }) }),
+      expect.anything(),
+    );
+  });
+
+  it("shows the answer of the latest request even when an older one resolves last", async () => {
+    const first = deferred<QuoteResponse>();
+    const second = deferred<QuoteResponse>();
+    const quote = vi.fn().mockReturnValueOnce(first.promise).mockReturnValueOnce(second.promise);
+    render(
+      <ApiProvider client={{ ...createMockClient(0), quote }}>
+        <QuoteView controls={mockDefaultControls} meta={mockMeta} parcels={null} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
+      </ApiProvider>,
+    );
+    fireEvent.change(screen.getByLabelText("Weight in pounds"), { target: { value: "4" } });
+    await waitFor(() => expect(quote).toHaveBeenCalledTimes(2));
+    await act(async () => second.resolve(withGroundTotal(22.22)));
+    await act(async () => first.resolve(withGroundTotal(11.11)));
+    expect(screen.getByTestId("quote-answer")).toHaveTextContent("$22.22");
+  });
+
+  it("dims the previous answer while the next one loads", async () => {
+    const next = deferred<QuoteResponse>();
+    const quote = vi.fn().mockResolvedValueOnce(withGroundTotal(11.11)).mockReturnValueOnce(next.promise);
+    render(
+      <ApiProvider client={{ ...createMockClient(0), quote }}>
+        <QuoteView controls={mockDefaultControls} meta={mockMeta} parcels={null} debounceMs={0} initialDraft={FIXTURE_DRAFT} />
+      </ApiProvider>,
+    );
+    const answer = await screen.findByTestId("quote-answer");
+    expect(answer.closest(".is-stale")).toBeNull();
+    fireEvent.change(screen.getByLabelText("Weight in pounds"), { target: { value: "4" } });
+    await waitFor(() => expect(screen.getByTestId("quote-answer").closest(".is-stale")).not.toBeNull());
+    expect(screen.getByTestId("quote-answer")).toHaveTextContent("$11.11");
+    await act(async () => next.resolve(withGroundTotal(33.33)));
+    expect(screen.getByTestId("quote-answer")).toHaveTextContent("$33.33");
+    expect(screen.getByTestId("quote-answer").closest(".is-stale")).toBeNull();
   });
 });
 
