@@ -2,7 +2,7 @@ import { useEffect, useId, useState } from "react";
 import type { Meta } from "../../api/types";
 import type { Action, AppState } from "../../state/urlState";
 import { fuelDefault, yearOptions } from "../../lib/fuel";
-import { FuelSlider } from "./FuelSlider";
+import { FuelSlider, fuelAbout } from "./FuelSlider";
 import { CARRIER_NAME } from "../../lib/carriers";
 import { formatPercent, formatUsd } from "../../lib/format";
 
@@ -26,7 +26,7 @@ export function assumptionsLine(state: AppState): string {
     .join(" · ");
 }
 
-function PriceInput({ value, onCommit }: { value: number; onCommit: (n: number) => void }) {
+function PriceInput({ value, aboutId, onCommit }: { value: number; aboutId: string; onCommit: (n: number) => void }) {
   const id = useId();
   const [draft, setDraft] = useState(value.toFixed(2));
   const [problem, setProblem] = useState<string | null>(null);
@@ -56,7 +56,7 @@ function PriceInput({ value, onCommit }: { value: number; onCommit: (n: number) 
           autoComplete="off"
           value={draft}
           aria-invalid={problem ? true : undefined}
-          aria-describedby={`${id}-hint`}
+          aria-describedby={problem ? `${id}-error ${aboutId}` : aboutId}
           onChange={(e) => setDraft(e.target.value)}
           onBlur={commit}
           onKeyDown={(e) => {
@@ -64,9 +64,11 @@ function PriceInput({ value, onCommit }: { value: number; onCommit: (n: number) 
           }}
         />
       </div>
-      <p id={`${id}-hint`} className={problem ? "control__error" : "control__hint"}>
-        {problem ?? "A price_charged column in your CSV overrides this per parcel."}
-      </p>
+      {problem && (
+        <p id={`${id}-error`} className="control__error">
+          {problem}
+        </p>
+      )}
     </div>
   );
 }
@@ -77,6 +79,15 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
   const yearList = years.length > 0 ? years : [{ year: c.year, missing: [] }];
   const yearId = useId();
   const peakId = useId();
+  const aboutId = useId();
+  const about = {
+    ground: `${aboutId}-ground`,
+    express: `${aboutId}-express`,
+    peak: `${aboutId}-peak`,
+    price: `${aboutId}-price`,
+  };
+  const groundDefault = fuelDefault(meta, c.year, "ground");
+  const expressDefault = fuelDefault(meta, c.year, "express");
 
   return (
     <div className="rail__body">
@@ -144,18 +155,18 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
         <FuelSlider
           group="ground"
           label="Ground"
-          hint="ground services"
+          aboutId={about.ground}
           override={c.fuel_override_percent?.ground}
-          defaultInfo={fuelDefault(meta, c.year, "ground")}
+          defaultInfo={groundDefault}
           onChange={(percent) => dispatch({ type: "fuel", group: "ground", percent })}
           onReset={() => dispatch({ type: "fuelReset", group: "ground" })}
         />
         <FuelSlider
           group="express"
           label="Express"
-          hint="2–3 day and next day"
+          aboutId={about.express}
           override={c.fuel_override_percent?.express}
-          defaultInfo={fuelDefault(meta, c.year, "express")}
+          defaultInfo={expressDefault}
           onChange={(percent) => dispatch({ type: "fuel", group: "express", percent })}
           onReset={() => dispatch({ type: "fuelReset", group: "express" })}
         />
@@ -167,18 +178,31 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
           type="checkbox"
           role="switch"
           checked={c.peak}
-          aria-describedby={`${peakId}-hint`}
+          aria-describedby={about.peak}
           onChange={(e) => dispatch({ type: "peak", peak: e.target.checked })}
         />
         <label htmlFor={peakId} className="switch__label">
           Peak season surcharges
         </label>
-        <p id={`${peakId}-hint`} className="control__hint switch__hint">
-          Prices as of December 10, inside every carrier's peak window.
-        </p>
       </div>
 
-      <PriceInput value={c.flat_price} onCommit={(price) => dispatch({ type: "price", price })} />
+      <PriceInput value={c.flat_price} aboutId={about.price} onCommit={(price) => dispatch({ type: "price", price })} />
+
+      {/* The explanations stay out of the flow: values are always visible, the prose is one
+          disclosure away. Each control's aria-describedby still points at its line here. */}
+      <details className="rail__about">
+        <summary className="rail__about-summary">About these assumptions</summary>
+        <dl className="rail__about-list">
+          <dt>Fuel, ground</dt>
+          <dd id={about.ground}>{fuelAbout("ground services", groundDefault)}</dd>
+          <dt>Fuel, express</dt>
+          <dd id={about.express}>{fuelAbout("2–3 day and next day", expressDefault)}</dd>
+          <dt>Peak season</dt>
+          <dd id={about.peak}>Prices as of December 10, inside every carrier's peak window.</dd>
+          <dt>Flat price</dt>
+          <dd id={about.price}>A price_charged column in your CSV overrides this per parcel.</dd>
+        </dl>
+      </details>
     </div>
   );
 }

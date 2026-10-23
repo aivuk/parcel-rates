@@ -7,7 +7,8 @@ import { formatPercent } from "../../lib/format";
 export interface FuelSliderProps {
   group: FuelGroup;
   label: string;
-  hint: string;
+  /** Id of this slider's explanation in the rail's "About these assumptions" list. */
+  aboutId: string;
   override: number | undefined;
   defaultInfo: FuelDefaultInfo | null;
   onChange: (percent: number) => void;
@@ -16,7 +17,7 @@ export interface FuelSliderProps {
 
 const STEP = 0.25;
 
-export function FuelSlider({ group, label, hint, override, defaultInfo, onChange, onReset }: FuelSliderProps) {
+export function FuelSlider({ group, label, aboutId, override, defaultInfo, onChange, onReset }: FuelSliderProps) {
   const id = useId();
   const value = override ?? defaultInfo?.percent ?? 0;
   const isOverridden = override !== undefined;
@@ -40,7 +41,7 @@ export function FuelSlider({ group, label, hint, override, defaultInfo, onChange
           max={FUEL_MAX}
           step={STEP}
           value={value}
-          aria-describedby={`${id}-hint`}
+          aria-describedby={`${id}-hint ${aboutId}`}
           aria-valuetext={`${formatPercent(value)}${isOverridden ? "" : ", the year's default"}`}
           onChange={(e) => onChange(Number(e.target.value))}
         />
@@ -49,14 +50,7 @@ export function FuelSlider({ group, label, hint, override, defaultInfo, onChange
         )}
       </div>
       <div className="fuel__foot" id={`${id}-hint`}>
-        {defaultInfo ? (
-          <span>
-            Year default {formatPercent(defaultInfo.percent)}, {hint}
-            {defaultInfo.proxyCarriers.length > 0 && "; UPS uses the FedEx history"}
-          </span>
-        ) : (
-          <span>No published default for this year</span>
-        )}
+        {defaultInfo ? <span>Default {formatPercent(defaultInfo.percent)}</span> : <span>No published default</span>}
         {isOverridden && (
           <button type="button" className="btn btn--quiet fuel__reset" onClick={onReset}>
             Reset<span className="visually-hidden"> {label.toLowerCase()} fuel to the default</span>
@@ -65,4 +59,11 @@ export function FuelSlider({ group, label, hint, override, defaultInfo, onChange
       </div>
     </div>
   );
+}
+
+/** The prose behind a fuel slider, shown in the rail's "About these assumptions" list. */
+export function fuelAbout(hint: string, info: FuelDefaultInfo | null): string {
+  if (!info) return `No published default for this year; ${hint}.`;
+  const proxy = info.proxyCarriers.length > 0 ? "; UPS uses the FedEx history" : "";
+  return `Year default ${formatPercent(info.percent)}, ${hint}${proxy}.`;
 }
