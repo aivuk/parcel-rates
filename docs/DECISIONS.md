@@ -89,16 +89,17 @@ Full findings in `docs/data/QUALITY.md`; sources per file in `data/raw/<carrier>
 - **Schema** for all processed tables and the parcel CSV is fixed in
   `docs/data/SCHEMA.md` before any parser is written.
 
-## 2026-10-23 — Data collection is fully scripted (issue #13)
+## 2026-10-23 — Data collection must be fully scripted (rule; discovery still open in #13)
 
 - Every step of data collection, including finding the source URLs, must run
   from committed scripts without an LLM or agent, so the data can be rebuilt
   on another machine or refreshed next year. Triggered by the owner asking
   where the download scripts were: the survey agents had fetched with one-off
   calls and only a post-hoc fetcher existed.
-- `data/fetch_raw.py` restores every file in `data/raw/manifest.csv` with
-  checksums. Scripting the discovery step (Wayback lookups, file-name
-  resolution) is tracked in #13 and was left as a bonus by the owner.
+- Done: `data/fetch_raw.py` restores every file in `data/raw/manifest.csv`
+  with checksums, with no agent involved. Not done: the discovery step
+  (Wayback lookups, file-name resolution) is still manual. It is tracked in
+  #13, which the owner deferred to the extras.
 
 ## 2026-10-23 — Schema amendments before the parsers (issue #2, PR #15)
 
@@ -228,5 +229,5 @@ before any parser agent was dispatched. From this point every big step
 | Minimum billable weight | Engine priced oversize parcels at actual or dimensional weight | Review of PR #17 found the 90 lb minimum; added as cited data | Issue #18; PR #24 |
 
 The delivery-area opt-in is not in this table: the transcript shows the agent
-proposed it in the schema draft (agent log 2026-10-22 13:29) and the owner
+proposed it in the schema draft (agent log 2026-10-22 13:23) and the owner
 accepted it unchanged, so it is recorded above as a decision, not a reversal.
