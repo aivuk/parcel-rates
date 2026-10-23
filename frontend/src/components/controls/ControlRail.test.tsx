@@ -68,8 +68,21 @@ describe("ControlRail", () => {
     await userEvent.clear(price);
     await userEvent.type(price, "abc{Enter}");
     expect(price).toHaveAttribute("aria-invalid", "true");
-    expect(screen.getByText(/enter a price between/i)).toBeInTheDocument();
+    expect(screen.getByText(/enter an amount between/i)).toBeInTheDocument();
     expect(latest.controls.flat_price).toBe(12.4);
+  });
+
+  it("sets and clears a free-shipping threshold", async () => {
+    render(<Harness />);
+    const free = screen.getByRole("textbox", { name: /free shipping/i });
+    expect(free).toHaveValue("");
+    await userEvent.type(free, "75{Enter}");
+    expect(latest.controls.free_shipping_over).toBe(75);
+    await userEvent.clear(free);
+    await userEvent.type(free, "{Enter}");
+    expect(latest.controls.free_shipping_over).toBeUndefined();
+    await userEvent.type(free, "lots{Enter}");
+    expect(free).toHaveAttribute("aria-invalid", "true");
   });
 
   it("shows an error with a retry when the price lists fail to load", async () => {

@@ -26,7 +26,17 @@ def rate_card_for(service: Service, controls: Controls) -> str:
     return service.rate_cards[0]
 
 
+def ships_free(parcel: Parcel, controls: Controls) -> bool:
+    """The shop's free-shipping rule covers this parcel's order (needs an order value)."""
+    threshold = controls.free_shipping_over
+    return threshold is not None and parcel.order_value is not None and parcel.order_value >= threshold
+
+
 def price_charged(parcel: Parcel, controls: Controls) -> Decimal:
+    """What the customer paid for shipping: nothing under the free-shipping rule, else the
+    parcel's own price, else the flat price."""
+    if ships_free(parcel, controls):
+        return Decimal(0)
     value = parcel.price_charged if parcel.price_charged is not None else controls.flat_price
     return Decimal(str(value))
 

@@ -10,6 +10,8 @@ export interface ControlsState {
   peak: boolean;
   flat_price: number;
   fuel_override_percent?: { ground?: number; express?: number };
+  /** Free shipping on orders of this value or more; absent: no such rule. */
+  free_shipping_over?: number;
 }
 
 export function controlsFromMeta(d: MetaDefaults): ControlsState {
@@ -34,6 +36,7 @@ export const FALLBACK_CONTROLS: ControlsState = {
 export const FUEL_MIN = 0;
 export const FUEL_MAX = 40;
 export const PRICE_MAX = 1000;
+export const ORDER_VALUE_MAX = 100_000;
 
 const KEYS = {
   year: "year",
@@ -42,6 +45,7 @@ const KEYS = {
   fuelExpress: "fuel_express",
   peak: "peak",
   price: "price",
+  freeOver: "free_over",
   view: "view",
 } as const;
 
@@ -62,6 +66,7 @@ export function readState(search: string, defaults: ControlsState = FALLBACK_CON
   const ground = num(params, KEYS.fuelGround, FUEL_MIN, FUEL_MAX);
   const express = num(params, KEYS.fuelExpress, FUEL_MIN, FUEL_MAX);
   const price = num(params, KEYS.price, 0, PRICE_MAX);
+  const freeOver = num(params, KEYS.freeOver, 0, ORDER_VALUE_MAX);
   const view = params.get(KEYS.view);
   const fuel: Partial<Record<FuelGroup, number>> = {
     ...(ground !== undefined ? { ground } : {}),
@@ -73,6 +78,7 @@ export function readState(search: string, defaults: ControlsState = FALLBACK_CON
     peak: params.has(KEYS.peak) ? params.get(KEYS.peak) === "1" : defaults.peak,
     flat_price: price ?? defaults.flat_price,
     ...(Object.keys(fuel).length > 0 ? { fuel_override_percent: fuel } : {}),
+    ...(freeOver !== undefined ? { free_shipping_over: freeOver } : {}),
   };
   return { controls, view: (VIEWS as readonly string[]).includes(view ?? "") ? (view as ViewId) : "quote" };
 }
@@ -88,6 +94,7 @@ export function writeState(state: AppState, currentSearch = "", defaults: Contro
   if (c.fuel_override_percent?.express !== undefined) params.set(KEYS.fuelExpress, String(c.fuel_override_percent.express));
   if (c.peak !== defaults.peak) params.set(KEYS.peak, c.peak ? "1" : "0");
   if (c.flat_price !== defaults.flat_price) params.set(KEYS.price, String(c.flat_price));
+  if (c.free_shipping_over !== undefined) params.set(KEYS.freeOver, String(c.free_shipping_over));
   if (state.view !== "quote") params.set(KEYS.view, state.view);
   const out = params.toString();
   return out ? `?${out}` : "";
@@ -102,6 +109,7 @@ export type Action =
   | { type: "fuelReset"; group: FuelGroup }
   | { type: "peak"; peak: boolean }
   | { type: "price"; price: number }
+  | { type: "freeShipping"; over: number | null }
   | { type: "view"; view: ViewId }
   | { type: "replace"; state: AppState };
 
@@ -128,6 +136,10 @@ export function reducer(state: AppState, action: Action): AppState {
       return set({ ...state.controls, peak: action.peak });
     case "price":
       return set({ ...state.controls, flat_price: Math.min(PRICE_MAX, Math.max(0, action.price)) });
+    case "freeShipping": {
+      const { free_shipping_over: _old, ...rest } = state.controls;
+      return set(action.over === null ? rest : { ...rest, free_shipping_over: Math.min(ORDER_VALUE_MAX, Math.max(0, action.over)) });
+    }
     case "view":
       return { ...state, view: action.view };
     case "replace":

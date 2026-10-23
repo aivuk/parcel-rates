@@ -4,13 +4,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export const SHEET_QUERY = "(max-width: 63.999rem)";
 
 const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), details > summary, [tabindex]:not([tabindex="-1"])';
 
 /** Elements marked with this attribute become inert while the sheet is open. */
 export const INERT_WHILE_SHEET = "data-inert-while-sheet";
 
 function focusables(root: HTMLElement): HTMLElement[] {
-  return [...root.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => !el.closest("[hidden]"));
+  // Inside a closed <details> only its summary can take focus.
+  const shut = (el: HTMLElement) => el.tagName !== "SUMMARY" && el.closest("details:not([open])") !== null;
+  return [...root.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => !el.closest("[hidden]") && !shut(el));
 }
 
 /**

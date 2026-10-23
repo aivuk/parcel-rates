@@ -93,12 +93,14 @@ cost once surcharges and yearly price increases are included.
 | 4 | How did that blended cost change year by year, compared with the average increase the carriers announced, and which parcels drove it? | The cheapest carrier's change since the first year against the compounded announced increases, a year by year chart (dollars or index) with the announced path, how much of the biggest rise was fuel, the segments that drove each step, and a next-year slider that projects the cost. |
 
 Global controls: price year, USPS rate card, fuel surcharge override, peak
-season toggle, and the flat price charged per parcel.
+season toggle, the flat price charged per parcel, and an optional "free shipping
+from order value" rule (parcels whose `order_value` reaches it are charged $0).
 
 Parcel CSV columns: `weight_lb, length_in, width_in, height_in,
 distance_miles, residential, speed` (`ground`, `two_three_day`, `next_day`),
 plus optional `quantity`, `price_charged`, `delivery_area`,
-`nonstandard_packaging`. The full schema is in
+`nonstandard_packaging` and `order_value` (the order's value, for the
+"free shipping from $X" assumption). The full schema is in
 [docs/data/SCHEMA.md](docs/data/SCHEMA.md).
 
 **The sample mix** is an illustrative home-goods shop, an example and not real
@@ -113,7 +115,10 @@ $39.99 for next day, because real shops charge more for faster shipping. At the
 default controls (2026, USPS commercial, $9.99) the mix opens near break-even:
 USPS, the cheapest carrier, costs $10.98 per parcel against $10.67 charged on
 average (−$0.31 per parcel), and the 40 % of parcels shipped at a loss are
-mostly the bulky boxes, parcels over 5 lb and the far zones.
+mostly the bulky boxes, parcels over 5 lb and the far zones. Every row also
+carries an illustrative `order_value` (about $9 per lb plus a basket of other
+items); with free shipping from $75, 54 parcels ship free and the USPS margin
+falls to −$2.06 per parcel.
 
 ## Data provenance
 

@@ -36,7 +36,8 @@ says "label" before a word is read.
    on the left of the question tab row and Details / Replace CSV on its right
    (`useParcelSetUi` fills `QuestionTabs`' bar slots); share to homes, speed
    split and the full summary open under the row behind "Details".
-4. **Assumptions** (year, rate card, fuel, peak, flat price): from 80 rem
+4. **Assumptions** (year, rate card, fuel, peak, flat price and the optional
+   free-shipping threshold, which share one "pricing" field): from 80 rem
    (1280 px) a **260 px left rail**, sticky, the fields stacked with hairlines
    between them and styled like a label's header (uppercase `--text-xs` labels,
    bold values, no card); the questions start at the top beside it. From

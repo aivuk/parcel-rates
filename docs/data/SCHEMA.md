@@ -313,6 +313,7 @@ and verifies checksums; issue #13 scripts the discovery that produces this file.
 | speed | tier | Required |
 | quantity | int | Optional, default 1 |
 | price_charged | money | Optional; overrides the flat price control for that row |
+| order_value | money | Optional; value of the order the parcel ships. With the free-shipping control set, rows at or above it are charged $0 for shipping |
 | delivery_area | enum | Optional: `none` (default), `das`, `extended` |
 | nonstandard_packaging | bool | Optional, default `false`. Packaging that triggers handling fees: not a corrugated box, cylindrical, a can or wooden or metal box, liquids in glass |
 

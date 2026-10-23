@@ -447,3 +447,23 @@ fieldset.control > legend {
     margin-top: var(--space-1);
   }
 }
+
+/* Your shipping price: the flat price and the free-shipping threshold share one field. */
+.control--pricing {
+  gap: var(--space-4);
+}
+
+/* Strip: the two money fields stacked but compact, so the strip barely grows. */
+@media (min-width: 64rem) and (max-width: 79.999rem) {
+  .control--pricing {
+    gap: var(--space-2);
+  }
+
+  .control--pricing .money-input {
+    font-size: var(--text-lg);
+  }
+
+  .control--pricing .control {
+    gap: var(--space-1);
+  }
+}

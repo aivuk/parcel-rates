@@ -42,6 +42,23 @@ describe("URL state", () => {
   });
 });
 
+describe("free shipping in the URL", () => {
+  it("is off by default and round-trips a threshold", () => {
+    expect(readState("").controls.free_shipping_over).toBeUndefined();
+    const s = reducer(readState(""), { type: "freeShipping", over: 75 });
+    expect(writeState(s)).toBe("?free_over=75");
+    expect(readState("?free_over=75").controls.free_shipping_over).toBe(75);
+    expect(readState("?free_over=-3").controls.free_shipping_over).toBeUndefined();
+  });
+
+  it("turns off with null", () => {
+    const on = reducer(readState(""), { type: "freeShipping", over: 50 });
+    const off = reducer(on, { type: "freeShipping", over: null });
+    expect(off.controls).not.toHaveProperty("free_shipping_over");
+    expect(writeState(off)).toBe("");
+  });
+});
+
 describe("reducer", () => {
   it("sets and resets one fuel group without touching the other", () => {
     let s = reducer(base, { type: "fuel", group: "ground", percent: 20 });

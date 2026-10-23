@@ -11,7 +11,7 @@ import { LoadProblem } from "../../components/LoadProblem";
 import { NeedParcels, type ParcelActions } from "../../components/NeedParcels";
 import { useLastData } from "../../hooks/useLastData";
 import { carrierName, carrierVar } from "../../lib/carriers";
-import { formatInt, formatShare, formatUsd, marginClass, marginText, signedUsd } from "../../lib/format";
+import { formatInt, formatShare, formatUsd, formatUsdRound, marginClass, marginText, signedUsd } from "../../lib/format";
 
 export interface BlendedPanelProps extends ParcelActions {
   controls: ControlsState;
@@ -44,6 +44,7 @@ function Blended({ controls, meta, parcels }: { controls: ControlsState; meta: M
   );
   const data = useLastData(state);
   const total = useMemo(() => totalQuantity(parcels), [parcels]);
+  const hasOrderValues = useMemo(() => parcels.some((p) => p.order_value !== undefined), [parcels]);
   const loading = state.status === "loading";
 
   return (
@@ -56,6 +57,7 @@ function Blended({ controls, meta, parcels }: { controls: ControlsState; meta: M
           controls={controls}
           segment={clean}
           total={total}
+          hasOrderValues={hasOrderValues}
           chips={
             <SegmentChips
               value={segment}
@@ -76,6 +78,7 @@ function Body({
   controls,
   segment,
   total,
+  hasOrderValues,
   chips,
   stale,
 }: {
@@ -83,6 +86,7 @@ function Body({
   controls: ControlsState;
   segment: SegmentFilter | null;
   total: number;
+  hasOrderValues: boolean;
   chips: React.ReactNode;
   stale: boolean;
 }) {
@@ -102,7 +106,7 @@ function Body({
         </div>
       )}
 
-      {answer && <Verdict data={data} answer={answer} controls={controls} />}
+      {answer && <Verdict data={data} answer={answer} controls={controls} hasOrderValues={hasOrderValues} />}
 
       <section className="q-block" aria-label="Filter by kind of parcel">
         <div className="q-block__head">
@@ -184,7 +188,17 @@ function Answer({ data, answer, kicker }: { data: BlendedResponse; answer: Blend
   );
 }
 
-function Verdict({ data, answer, controls }: { data: BlendedResponse; answer: BlendedAnswer; controls: ControlsState }) {
+function Verdict({
+  data,
+  answer,
+  controls,
+  hasOrderValues,
+}: {
+  data: BlendedResponse;
+  answer: BlendedAnswer;
+  controls: ControlsState;
+  hasOrderValues: boolean;
+}) {
   const c = answer.cheapest;
   const loss = c.margin_per_parcel < 0;
   const charged = data.revenue_per_parcel;
@@ -223,10 +237,11 @@ function Verdict({ data, answer, controls }: { data: BlendedResponse; answer: Bl
           </>
         )}
       </p>
+      {data.free_shipping && <FreeShippingNote free={data.free_shipping} of={data.parcels_considered} hasOrderValues={hasOrderValues} />}
       {mixedPrices && (
         <p className="verdict__note">
-          You charge {formatUsd(charged)} per parcel on average: the flat {formatUsd(controls.flat_price)}, and your own
-          price on rows that have one.
+          You charge {formatUsd(charged)} per parcel on average: the flat {formatUsd(controls.flat_price)}, your own
+          price on rows that have one{data.free_shipping && data.free_shipping.parcels > 0 ? ", and $0 on free-shipping orders" : ""}.
         </p>
       )}
       <table className="ledger-table margin-table">
@@ -285,5 +300,36 @@ function Unavailable({ data }: { data: BlendedResponse }) {
         )}
       </ul>
     </div>
+  );
+}
+
+/** The free-shipping rule in words: how many parcels it covers, or why it covers none. */
+function FreeShippingNote({
+  free,
+  of,
+  hasOrderValues,
+}: {
+  free: NonNullable<BlendedResponse["free_shipping"]>;
+  of: number;
+  hasOrderValues: boolean;
+}) {
+  const rule = `orders of ${formatUsdRound(free.threshold)} or more`;
+  return (
+    <p className="verdict__note" data-testid="q3-free">
+      {!hasOrderValues ? (
+        <>
+          Free shipping on {rule} is on, but your parcels have no order_value column, so it changes nothing here.
+        </>
+      ) : free.parcels === 0 ? (
+        <>No order reaches {formatUsdRound(free.threshold)}, so no parcel ships free.</>
+      ) : (
+        <>
+          <strong>
+            {formatInt(free.parcels)} of {formatInt(of)} parcels ship free
+          </strong>
+          : {rule} pay nothing for shipping, and the margins above count them at $0.
+        </>
+      )}
+    </p>
   );
 }

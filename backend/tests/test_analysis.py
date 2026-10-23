@@ -10,7 +10,7 @@ import pytest
 from app.engine import segments as seg
 from app.engine.blended import blended
 from app.engine.breakeven import breakeven, default_distances, default_weights
-from app.engine.quote import cheapest_for_carrier
+from app.engine.quote import cheapest_for_carrier, price_charged
 from app.engine.types import Controls, Parcel
 from app.engine.yearly import allocate_cents, announced_increase, yearly
 from app.main import load_sample_parcels
@@ -86,6 +86,34 @@ def test_blended_margin_uses_price_charged_over_flat_price(tables):
     assert usps["margin_per_parcel"] == round((100 - cost + 0 - cost) / 2, 2)
     assert usps["loss_share"] == 0.5
     assert r["revenue_per_parcel"] == 50
+
+
+def test_free_shipping_over_threshold_charges_nothing():
+    rule = Controls(year=2026, flat_price=9.99, free_shipping_over=75)
+    assert price_charged(Parcel(1, 10, True, "ground", order_value=75), rule) == 0
+    assert price_charged(Parcel(1, 10, True, "ground", order_value=120, price_charged=19.99), rule) == 0
+    assert price_charged(Parcel(1, 10, True, "ground", order_value=74.99), rule) == Decimal("9.99")
+    assert price_charged(Parcel(1, 10, True, "ground", order_value=74.99, price_charged=19.99), rule) == Decimal("19.99")
+    # Without an order value the rule cannot apply; without a threshold there is no rule.
+    assert price_charged(Parcel(1, 10, True, "ground"), rule) == Decimal("9.99")
+    assert price_charged(Parcel(1, 10, True, "ground", order_value=500), Controls(year=2026)) == Decimal("9.99")
+
+
+def test_blended_counts_parcels_shipped_free(tables):
+    big = Parcel(weight_lb=1, distance_miles=10, residential=False, speed="ground", quantity=3, order_value=90)
+    small = Parcel(weight_lb=1, distance_miles=10, residential=False, speed="ground", order_value=20)
+    r = blended(tables, [big, small], Controls(year=2026, flat_price=10, free_shipping_over=50))
+    assert r["free_shipping"] == {"threshold": 50, "parcels": 3}
+    assert r["revenue_per_parcel"] == 2.5  # (3 × $0 + $10) / 4
+    assert blended(tables, [big, small], Controls(year=2026))["free_shipping"] is None
+
+
+def test_sample_has_order_values_and_rule_is_off_by_default(tables, sample):
+    assert all(p.order_value is not None and p.order_value > 0 for p in sample)
+    off = blended(tables, sample, Controls(year=2026))
+    on = blended(tables, sample, Controls(year=2026, free_shipping_over=75))
+    assert 0 < on["free_shipping"]["parcels"] < off["parcels_considered"]
+    assert on["revenue_per_parcel"] < off["revenue_per_parcel"]
 
 
 def test_blended_segment_filter(tables, sample):

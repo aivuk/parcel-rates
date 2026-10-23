@@ -6,6 +6,8 @@ const int = new Intl.NumberFormat("en-US");
 
 export const formatUsd = (n: number) => usd.format(n);
 export const formatInt = (n: number) => int.format(n);
+/** A threshold such as "$75" or "$49.50": whole dollars without cents. */
+export const formatUsdRound = (n: number) => (Number.isInteger(n) ? `$${int.format(n)}` : usd.format(n));
 /** Share 0..1 as "71%". */
 export const formatShare = (share: number) => `${Math.round(share * 100)}%`;
 export const formatPercent = (n: number) => `${Number.isInteger(n) ? n : n.toFixed(2).replace(/0$/, "")}%`;

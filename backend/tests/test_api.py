@@ -129,6 +129,19 @@ def test_blended(client):
     assert "must be one of" in msgs[("body", "segment", "zone_band")]
 
 
+def test_blended_free_shipping_rule(client):
+    parcels = [{**PARCEL, "order_value": 100, "quantity": 2}, {**PARCEL, "order_value": 10}]
+    body = client.post("/api/blended", json={"parcels": parcels,
+                                             "controls": {"flat_price": 9, "free_shipping_over": 50}}).json()
+    m.BlendedResponse.model_validate(body)
+    assert body["free_shipping"] == {"threshold": 50, "parcels": 2}
+    assert body["revenue_per_parcel"] == 3
+    msgs = _msgs(client.post("/api/blended", json={"parcels": [{**PARCEL, "order_value": -1}]}))
+    assert ("body", "parcels", 0, "order_value") in msgs
+    msgs = _msgs(client.post("/api/blended", json={"parcels": [PARCEL], "controls": {"free_shipping_over": -5}}))
+    assert ("body", "controls", "free_shipping_over") in msgs
+
+
 def test_yearly(client):
     body = client.post("/api/yearly", json={"parcels": load_sample_parcels()[:30],
                                             "next_year_increase_percent": 5}).json()

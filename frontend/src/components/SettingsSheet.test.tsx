@@ -44,15 +44,17 @@ describe("settings sheet on a phone", () => {
     renderApp();
     await userEvent.click(screen.getByRole("button", { name: "Adjust" }));
     const done = screen.getByRole("button", { name: "Done" });
-    const price = screen.getByRole("textbox", { name: /flat price/i });
+    // The last stop is the "About these assumptions" summary (jsdom cannot tab into a summary
+    // itself; e2e/mobile-sheet.spec.ts walks the real order in a browser).
+    const about = screen.getByText("About these assumptions");
     expect(done).toHaveFocus();
 
-    price.focus();
+    about.focus();
     await userEvent.tab();
     expect(done).toHaveFocus();
 
     await userEvent.tab({ shift: true });
-    expect(price).toHaveFocus();
+    expect(about).toHaveFocus();
   });
 
   it("returns focus to the opener and lifts inert on Escape and on Done", async () => {

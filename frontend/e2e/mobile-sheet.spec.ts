@@ -21,10 +21,14 @@ test.describe("Settings sheet on phones", () => {
     const inSheet = () => page.evaluate(() => !!document.activeElement?.closest('[role="dialog"]'));
     expect(await inSheet()).toBe(true);
     const first = await page.evaluate(() => document.activeElement?.outerHTML);
+    const visited = new Set<string>();
     for (let i = 0; i < 25; i++) {
       await page.keyboard.press("Tab");
       expect(await inSheet()).toBe(true);
+      visited.add(await page.evaluate(() => document.activeElement?.textContent?.trim() ?? ""));
     }
+    // The trap must not skip the disclosure at the end of the sheet.
+    expect(visited).toContain("About these assumptions");
     await page.keyboard.press("Shift+Tab");
     expect(await inSheet()).toBe(true);
     expect(first).toBeTruthy();
