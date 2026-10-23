@@ -171,7 +171,7 @@ def _surcharge_rows() -> list[dict]:
                     "source_quote": quote,
                     "notes": "Weight bands are billable weight steps (4-10 lbs = the 4 lb to 10 lb steps). "
                              "Flat-rate, Parcel Select and cubic-tier add-ons from the same release are omitted. "
-                             "Window ends at midnight Central on effective_to (exclusive).",
+                             "The release ends the prices at midnight Central on the day the January list starts; effective_to (inclusive) is the day before.",
                 })
     rows.append(dict(rules.TRANSPORTATION_2026))
     return rows

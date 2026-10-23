@@ -157,15 +157,20 @@ LARGE_PACKAGE = {
 # Demand (peak) surcharges, per package, from the demand-surcharge PDFs. Each
 # entry: the quote line holding the amounts, and the windows in column order.
 # The January 2023 PDF's text layer has no spaces; quotes reproduce it as read.
+# The January 15, 2023 update applies its post-peak amounts "until further notice"; the
+# next update (DEMAND24, p.5) starts its first window "January 14, 2024 until ...", so
+# they end the day before (effective_to is inclusive).
+DEMAND23_END = "2024-01-13"
+
 PEAK = {
     2023: {"file": DEMAND23, "note": "UPS Demand Surcharges, January 15, 2023 Update; quote reproduces the PDF text layer, which lacks spaces",
            "rows": [
                {"condition": "peak_additional_handling", "applies_to": "all", "page": 5,
                 "quote": "AdditionalHandling3 $6.50perpackage $3.50perpackage",
-                "windows": [("2022-10-30", "2023-01-14"), ("2023-01-15", "")]},
+                "windows": [("2022-10-30", "2023-01-14"), ("2023-01-15", DEMAND23_END)]},
                {"condition": "peak_oversize", "applies_to": "all", "page": 5,
                 "quote": "LargePackageSurcharge3 $70.00perpackage $40.00perpackage",
-                "windows": [("2022-10-30", "2023-01-14"), ("2023-01-15", "")]},
+                "windows": [("2022-10-30", "2023-01-14"), ("2023-01-15", DEMAND23_END)]},
            ]},
     2024: {"file": DEMAND24, "note": "UPS Demand Surcharges, July 15, 2024 Update",
            "rows": [
