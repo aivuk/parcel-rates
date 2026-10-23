@@ -222,34 +222,24 @@
   }
 }
 
-/* Loaded set: a one-line strip, details on demand */
-.parcels--loaded {
-  gap: var(--space-3);
-  padding-bottom: var(--space-4);
-}
-
+/* Loaded set: "307 parcels · sample mix" and its actions share the question tab row
+   (QuestionTabs bar slots); the details open under the row. */
 .strip {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-3) var(--space-5);
-}
-
-.strip__main {
-  display: grid;
-  gap: var(--space-1);
-  min-width: 0;
-}
-
-.strip__title {
+  align-items: baseline;
+  column-gap: 0.3em;
   font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.strip__count .figure {
+  font-size: var(--text-xl);
 }
 
 .strip__source {
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: none;
+  color: var(--ink-muted);
 }
 
 .strip__facts {
@@ -258,10 +248,7 @@
   align-items: baseline;
   gap: 0 var(--space-4);
   font-size: var(--text-sm);
-}
-
-.strip__count .figure {
-  font-size: var(--text-xl);
+  font-weight: 600;
 }
 
 .strip__actions {
@@ -270,17 +257,11 @@
   gap: var(--space-2);
 }
 
-@media (max-width: 39.999rem) {
-  .strip__actions .btn {
-    padding-block: var(--space-1);
-  }
-}
-
 .parcels__details {
   display: grid;
   gap: var(--space-5);
-  padding-top: var(--space-4);
-  border-top: 1px dashed var(--rule);
+  padding-block: var(--space-4) var(--space-5);
+  border-bottom: var(--rule-heavy);
 }
 
 .parcels__details[hidden] {

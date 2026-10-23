@@ -2,18 +2,59 @@
   margin-top: var(--space-6);
 }
 
-.questions__tabs {
+.main > .questions:first-child {
+  margin-top: 0;
+}
+
+/* One row: the parcel set on the left, the four tabs, the parcel actions on the right. Below
+   64 rem the parcel set and its actions take a row above the tabs. */
+.questions__bar {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "start tabs end";
+  align-items: stretch;
+  column-gap: var(--space-5);
   border-bottom: var(--rule-heavy);
 }
 
-.questions__tab {
+.questions__bar-start {
+  grid-area: start;
+  align-self: center;
+}
+
+.questions__bar-end {
+  grid-area: end;
+  align-self: center;
+}
+
+.questions__tabs {
+  grid-area: tabs;
   display: grid;
-  gap: 2px;
-  align-content: start;
-  min-height: 3.5rem;
-  padding: var(--space-2) var(--space-3) var(--space-3) 0;
+  grid-template-columns: repeat(4, minmax(0, max-content));
+  column-gap: var(--space-2);
+}
+
+@media (max-width: 63.999rem) {
+  .questions__bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "start end"
+      "tabs tabs";
+    row-gap: var(--space-2);
+  }
+
+  .questions__tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 0;
+  }
+}
+
+.questions__tab {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-height: 3rem;
+  padding: var(--space-3) var(--space-3) var(--space-3) 0;
   border: 0;
   background: transparent;
   text-align: left;
@@ -132,7 +173,10 @@
 /* Phones: the four tabs stay on one row (labels wrap), so the answer stays above the fold. */
 @media (max-width: 39.999rem) {
   .questions__tab {
-    padding-right: var(--space-2);
+    display: grid;
+    gap: 2px;
+    align-content: start;
+    padding: var(--space-2) var(--space-2) var(--space-3) 0;
   }
 
   .questions__tab::after {

@@ -2,7 +2,7 @@ import { useCallback, useId, useMemo, useRef, useState } from "react";
 import { useApi, useLoad } from "./api/ApiContext";
 import { isMockMode } from "./api/client";
 import { ControlRail, assumptionsLine } from "./components/controls/ControlRail";
-import { ParcelSetPanel } from "./components/parcels/ParcelSetPanel";
+import { useParcelSetUi } from "./components/parcels/ParcelSetPanel";
 import { QuestionTabs } from "./components/QuestionTabs";
 import { Footer } from "./components/Footer";
 import { useParcelSet } from "./hooks/useParcelSet";
@@ -41,6 +41,16 @@ export function App() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const openFilePicker = useCallback(() => fileInputRef.current?.click(), []);
+
+  const parcelUi = useParcelSetUi({
+    set: parcelSet.set,
+    status: parcelSet.status,
+    zoneBands: meta?.zone_bands,
+    onLoadSample: parcelSet.loadSample,
+    onLoadFile: parcelSet.loadFile,
+    onClear: parcelSet.clear,
+    fileInputRef,
+  });
 
   const viewProps: ViewProps = {
     controls: state.controls,
@@ -116,18 +126,13 @@ export function App() {
         </aside>
 
         <main id="main" className="main" tabIndex={-1} {...inert}>
-          <ParcelSetPanel
-            set={parcelSet.set}
-            status={parcelSet.status}
-            zoneBands={meta?.zone_bands}
-            onLoadSample={parcelSet.loadSample}
-            onLoadFile={parcelSet.loadFile}
-            onClear={parcelSet.clear}
-            fileInputRef={fileInputRef}
-          />
+          {parcelUi.panel}
           <QuestionTabs
             active={state.view}
             onSelect={(view) => dispatch({ type: "view", view })}
+            barStart={parcelUi.barStart}
+            barEnd={parcelUi.barEnd}
+            belowBar={parcelUi.belowBar}
             renderPanel={(id) => {
               const View = VIEW_COMPONENTS[id];
               return <View {...viewProps} />;
