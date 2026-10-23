@@ -31,14 +31,29 @@ fi
 outdir="$root/docs/agent-log"
 out="$outdir/$sid.md"
 mkdir -p "$outdir"
-trap 'rm -f "$out.tmp"' EXIT
+main=$(mktemp)
+trap 'rm -f "$out.tmp" "$main"' EXIT
+
+# Transcripts are JSONL but can hold a corrupt line (e.g. a record cut off
+# mid-write with the next one appended to it). Keep the lines that parse and
+# warn about the rest, so one bad line doesn't sink the whole export.
+clean() { # clean <jsonl file> ; valid records to stdout, one per line
+  local bad
+  bad=$(jq -nR '[inputs | (fromjson? | 0) // 1] | add // 0' "$1")
+  if (( bad > 0 )); then
+    echo "export-session: skipped $bad unparseable line(s) in $1" >&2
+  fi
+  jq -cR 'fromjson? // empty' "$1"
+}
 
 render() { # render <heading-prefix> ; records on stdin
   jq -rs --arg h "$1" -f "$filter"
 }
 
+clean "$tp" > "$main"
+
 meta() { # meta <jq expr> over the main transcript
-  jq -rs "$1" "$tp"
+  jq -rs "$1" "$main"
 }
 
 {
@@ -54,7 +69,7 @@ meta() { # meta <jq expr> over the main transcript
   echo "| Exported | $(date -u +%Y-%m-%dT%H:%M:%SZ) (reason: $reason) |"
   echo "| Source | \`$tp\` |"
   echo
-  jq -c 'select(.isSidechain != true)' "$tp" | render "##"
+  jq -c 'select(.isSidechain != true)' "$main" | render "##"
 
   # Subagent transcripts, newer layout: <transcript-dir>/<session-id>/subagents/agent-*.jsonl
   subdir="${tp%.jsonl}/subagents"
@@ -73,16 +88,16 @@ meta() { # meta <jq expr> over the main transcript
       echo
       echo "Type: \`${atype:-unknown}\` · Source: \`$f\`"
       echo
-      jq -c '.' "$f" | render "###"
+      clean "$f" | render "###"
     done
   fi
 
   # Subagent transcripts, older layout: sidechain records inside the main file.
-  for agent in $(jq -r 'select(.isSidechain == true) | .agentId // "sidechain"' "$tp" | sort -u); do
+  for agent in $(jq -r 'select(.isSidechain == true) | .agentId // "sidechain"' "$main" | sort -u); do
     echo; echo "---"; echo
     echo "## Subagent \`$agent\` (inline sidechain)"
     echo
-    jq -c --arg a "$agent" 'select(.isSidechain == true and ((.agentId // "sidechain") == $a))' "$tp" | render "###"
+    jq -c --arg a "$agent" 'select(.isSidechain == true and ((.agentId // "sidechain") == $a))' "$main" | render "###"
   done
 } | sed -e "s|${HOME}|~|g" > "$out.tmp"   # redact the home directory path
 mv "$out.tmp" "$out"
