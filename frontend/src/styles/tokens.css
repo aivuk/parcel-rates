@@ -2,38 +2,39 @@
 :root {
   color-scheme: light;
 
-  /* Paper and ink */
-  --paper: #f5f1e8;
-  --sheet: #fbf9f4;
-  --ink: #1c1b18;
-  --ink-muted: #5e5a50;
-  --rule: #d9d2c3;
-  --rule-strong: #1c1b18;
-  --wash: #ebe5d7; /* bar track, hover wash */
+  /* Paper and ink: label stock, cool neutrals only */
+  --paper: #ffffff;
+  --sheet: #f3f4f2;
+  --ink: #111111;
+  --ink-muted: #5b6066;
+  --rule: #d3d6d9; /* hairlines inside tables and lists */
+  --rule-strong: #111111;
+  --rule-heavy: 2px solid var(--rule-strong); /* between the zones of the page, like a label */
+  --wash: #e9ebec; /* bar track, hover wash */
 
   /* Carriers: one fixed colour each, used for text, bars, map cells and lines */
   --carrier-usps: #1f4e9a;
   --carrier-ups: #7a4e0f;
   --carrier-fedex: #9c2a7e;
-  --carrier-usps-wash: #dfe7f4;
-  --carrier-ups-wash: #efe4d2;
-  --carrier-fedex-wash: #f2dfec;
+  --carrier-usps-wash: #e3ebf8;
+  --carrier-ups-wash: #efe6da;
+  --carrier-fedex-wash: #f5e2ef;
 
-  /* Money */
-  --loss: #b3261e;
-  --loss-wash: #f7e1de;
+  /* Money. --accent (safety orange) is the loss verdict and nothing else; on white it passes
+     only as large text, so small loss text uses --loss, the same orange darkened. */
+  --accent: #e8590c;
+  --loss: #c2410c;
   --profit: #1d6b3f;
-  --profit-wash: #dcefe2;
 
   /* Status */
   --mock: #8a5a00;
-  --mock-wash: #fbefcf;
-  --focus: #1c1b18;
-  --focus-halo: #f5f1e8;
+  --focus: #111111;
+  --focus-halo: #ffffff;
 
   /* Type */
-  --font-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   --font-ui: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -55,63 +56,64 @@
 
   --rail-width: 19rem;
   --measure: 68ch;
-  --radius: 2px;
+  --radius: 0;
 
   --duration-fast: 120ms;
   --duration: 220ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
-  --shadow-sheet: 0 -12px 40px rgb(28 27 24 / 0.18);
+  --shadow-sheet: 0 -12px 40px rgb(17 17 17 / 0.18);
+  --backdrop: rgb(17 17 17 / 0.45);
 
   /* Q3 cost split: neutral base, a teal ramp for surcharge kinds (strongest = largest kind),
      ink for fuel. Teal sits outside the carrier and money hues. */
-  --q3-base: #b7ae9b;
+  --q3-base: #a9aeb3;
   --q3-sur-1: #0f5f68;
   --q3-sur-2: #2f8c95;
   --q3-sur-3: #6fb5bb;
   --q3-sur-4: #a9d3d5;
-  --q3-fuel: #1c1b18;
-  /* Q4 drivers: cost up (warm) vs cost down (cool); neither is the loss/profit pair. */
-  --q4-up: #a2541f;
+  --q3-fuel: #111111;
+  /* Q4 drivers: cost up (warm ochre) vs cost down (cool); neither is the loss/profit pair, and the
+     ochre stays clear of the safety-orange accent. */
+  --q4-up: #8a6100;
   --q4-down: #2f6f86;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --paper: #15140f;
-    --sheet: #1e1c17;
-    --ink: #ede8dc;
-    --ink-muted: #a9a292;
-    --rule: #3a362d;
-    --rule-strong: #ede8dc;
-    --wash: #2a2720;
+    --paper: #0f1113;
+    --sheet: #191c1f;
+    --ink: #eceeea;
+    --ink-muted: #a6acb2;
+    --rule: #34393e;
+    --rule-strong: #eceeea;
+    --wash: #23272b;
 
     --carrier-usps: #7fa8ee;
     --carrier-ups: #d9a35a;
     --carrier-fedex: #e68ac9;
-    --carrier-usps-wash: #1f2a3d;
-    --carrier-ups-wash: #33281a;
-    --carrier-fedex-wash: #382131;
+    --carrier-usps-wash: #18233a;
+    --carrier-ups-wash: #2c2318;
+    --carrier-fedex-wash: #301a2b;
 
-    --loss: #f2877e;
-    --loss-wash: #3d1d1a;
+    --accent: #e8590c;
+    --loss: #e8590c;
     --profit: #6fcb94;
-    --profit-wash: #183224;
 
     --mock: #e8b860;
-    --mock-wash: #3a2e14;
-    --focus: #ede8dc;
-    --focus-halo: #15140f;
+    --focus: #eceeea;
+    --focus-halo: #0f1113;
     --shadow-sheet: 0 -12px 40px rgb(0 0 0 / 0.5);
+    --backdrop: rgb(0 0 0 / 0.6);
 
-    --q3-base: #6e675a;
+    --q3-base: #6b7177;
     --q3-sur-1: #7fd0d6;
     --q3-sur-2: #4aa7b0;
     --q3-sur-3: #2f7a82;
     --q3-sur-4: #23565c;
-    --q3-fuel: #c9c1ae;
-    --q4-up: #e59a66;
+    --q3-fuel: #c4c8cc;
+    --q4-up: #e0b04a;
     --q4-down: #6fb6cf;
   }
 }

@@ -77,7 +77,7 @@
 /* The question is context; the answer figure below it is the largest thing in the section. */
 .questions__question {
   font-size: var(--text-xl);
-  font-weight: 500;
+  font-weight: 600;
   max-width: 40ch;
   line-height: 1.2;
 }
@@ -91,10 +91,9 @@
 .answer__figure {
   font-family: var(--font-display);
   font-size: var(--text-figure);
-  font-weight: 500;
+  font-weight: 700;
   font-variant-numeric: tabular-nums lining-nums;
   line-height: 1;
-  letter-spacing: -0.02em;
 }
 
 .answer__caption {

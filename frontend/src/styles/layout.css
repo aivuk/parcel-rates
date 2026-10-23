@@ -1,10 +1,10 @@
 .mock-banner {
   margin: 0;
   padding: var(--space-2) var(--space-4);
-  background: var(--mock-wash);
+  background: var(--sheet);
   color: var(--mock);
   font-size: var(--text-sm);
-  border-bottom: 1px solid var(--mock);
+  border-bottom: 2px solid var(--mock);
 }
 
 .masthead {
@@ -25,7 +25,7 @@
 }
 
 .masthead__deck {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: var(--text-base);
   line-height: 1.35;
   color: var(--ink-muted);
@@ -77,8 +77,8 @@
 
 .rail__status--error {
   padding: var(--space-3);
-  border-left: 3px solid var(--loss);
-  background: var(--loss-wash);
+  border-left: 4px solid var(--loss);
+  background: var(--sheet);
   color: var(--ink);
 }
 
@@ -132,7 +132,7 @@
   inset: 0;
   z-index: 30;
   border: 0;
-  background: rgb(28 27 24 / 0.4);
+  background: var(--backdrop);
   animation: fade var(--duration) var(--ease-out);
 }
 

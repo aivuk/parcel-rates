@@ -64,36 +64,35 @@
 /* The "does my price cover it" verdict: second only to the answer figure. */
 .verdict {
   margin-top: var(--space-6);
-  padding: var(--space-5);
-  border: 2px solid currentColor;
-  border-radius: var(--radius);
+  padding: var(--space-4) 0 0;
+  border-top: 6px solid currentColor;
   display: grid;
   gap: var(--space-2);
   max-width: 52rem;
 }
 
+/* Safety orange: the only place the accent appears. The figure is large text (AA 3:1). */
 .verdict--loss {
-  color: var(--loss);
-  background: var(--loss-wash);
+  color: var(--accent);
 }
 
 .verdict--profit {
   color: var(--profit);
-  background: var(--profit-wash);
 }
 
 .verdict__q {
   font-family: var(--font-ui);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--ink);
 }
 
 .verdict__figure {
   font-family: var(--font-display);
   font-size: var(--text-2xl);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.1;
   font-variant-numeric: tabular-nums lining-nums;
 }
@@ -111,6 +110,7 @@
 .verdict__loss-share strong {
   font-family: var(--font-display);
   font-size: var(--text-xl);
+  font-weight: 700;
   color: inherit;
 }
 

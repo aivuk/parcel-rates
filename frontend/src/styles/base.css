@@ -24,9 +24,9 @@ h2,
 h3 {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.05;
   margin: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 p {
@@ -83,7 +83,7 @@ select {
   top: var(--space-2);
 }
 
-/* Small caps label used as section kickers throughout the ledger */
+/* Small uppercase label, like the field names on a shipping label */
 .kicker {
   font-family: var(--font-ui);
   font-size: var(--text-xs);
@@ -95,10 +95,26 @@ select {
 
 .figure {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 700;
   font-variant-numeric: tabular-nums lining-nums;
   line-height: 1;
-  letter-spacing: -0.02em;
+}
+
+/* Receipt style: line items, tables and citations in the mono face. */
+.ledger-table,
+.qitems,
+.qdim__table,
+.hmt__table,
+.hm__tiptable,
+.fuel-strip,
+.minibars__table,
+cite {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+cite {
+  font-style: normal;
 }
 
 /* Buttons */
