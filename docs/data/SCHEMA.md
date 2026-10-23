@@ -57,7 +57,7 @@ same name. A carrier with no fuel surcharge ships a header-only file.
 | business_allowed | bool | |
 | rate_cards | text | Comma-separated list of rate cards published for this service: `retail,commercial` for USPS, `list` for UPS and FedEx |
 | rate_card_notes | text | One line per card, `card: meaning`, separated by `;`. E.g. USPS: `retail: price paid at the Post Office counter; commercial: price paid with online postage or shipping software, no contract needed`. UPS: `list: published Daily Rates for shippers without a negotiated contract` |
-| max_weight_lb | int | 70 for USPS, 150 for UPS and FedEx (the app caps at 70) |
+| max_weight_lb | int | 70 for USPS, 150 for UPS and FedEx. The app caps a parcel's actual weight at 70; UPS and FedEx steps above 70 price dimensional weight and the 90 lb minimum billable weight of large/oversize packages |
 | notes | text | |
 
 ## base_rates.csv (parsed, per carrier)
@@ -72,7 +72,7 @@ One row per price cell.
 | year | int | |
 | effective_date | date | |
 | zone | int | USPS 1–9 (rows for both 1 and 2 even when equal); UPS and FedEx 2–8 |
-| max_weight_lb | decimal | Upper bound of the weight step in pounds. USPS Ground Advantage ounce steps are `0.25`, `0.5`, `0.75`, `0.9999` (15.999 oz), then `1` … `70`. UPS and FedEx `1` … `70` |
+| max_weight_lb | decimal | Upper bound of the weight step in pounds. USPS Ground Advantage ounce steps are `0.25`, `0.5`, `0.75`, `0.9999` (15.999 oz), then `1` … `70`. UPS and FedEx `1` … `150` (every step the carrier publishes) |
 | price | money | |
 | source_file | path | Relative to `data/raw/` |
 | source_ref | text | Sheet name, or PDF file page index (1-based) |
@@ -92,7 +92,8 @@ Checks:
 
 - For each (carrier, service_id, rate_card, year): every zone in the carrier's
   range is present with the same set of weight steps, strictly increasing,
-  with no gaps up to 70 lb.
+  with no gaps up to the carrier's heaviest step: 70 lb for USPS, 150 lb for UPS
+  and FedEx (`MAX_WEIGHT_LB` in `data/pipeline/common.py`).
 - Within a zone, price is non-decreasing with weight. Within a weight step,
   price is non-decreasing with zone.
 - Prices have at most two decimals and no float artifacts (e.g. `15.999000000000001` in a weight label).
@@ -117,7 +118,7 @@ Checks:
 Mandatory cells for each (service_id, rate_card, year), because column and
 page shifts in the PDFs corrupt exactly these corners:
 
-1. heaviest weight step (70 lb) in the farthest zone
+1. heaviest weight step (70 lb USPS, 150 lb UPS and FedEx) in the farthest zone
 2. heaviest weight step in the nearest zone
 3. lightest weight step in the farthest zone
 4. at least two interior cells on different pages or sheets of the source
@@ -151,6 +152,7 @@ window.
 | amount | decimal | |
 | unit | unit | |
 | exclusive_group | text | Required, never empty. Rules in the same group do not stack; the highest matching amount applies. Rules in different groups stack |
+| min_billable_weight_lb | decimal | Empty = none. When this rule applies, the parcel's billable weight is at least this value; the base rate is priced at that weight. Set on every UPS Large Package and FedEx Oversize row (90 lb in every year); the citation for the minimum is in `notes` and is checked by `data/tests/test_min_billable.py` (`source_quote` stays the amount quote) |
 | effective_from | date | |
 | effective_to | date | Last day the rule applies (inclusive). Empty means open-ended |
 | fuel_applies | bool | Whether the carrier applies the fuel surcharge on top of this charge |
@@ -178,6 +180,11 @@ The engine applies these rules uniformly; every row must mean what its quote say
   feet `> min_volume_cuft`, using the dimensions as rounded by the carrier's dim_weight rule
   for `as_of`. A parcel without dimensions meets no dimension or volume threshold.
 - **Zone.** `zone_min <= zone <= zone_max`, each bound optional.
+- **Minimum billable weight.** When an applied rule (after `exclusive_group` resolution) has
+  `min_billable_weight_lb`, billable weight becomes max(billable, minimum) and the base rate
+  is the step for that weight; rules are then matched again at the raised weight. A minimum
+  of a rule that lost its exclusive group (e.g. Additional Handling beaten by Large Package)
+  does not apply, and no rule other than UPS Large Package / FedEx Oversize carries one.
 - **Peak add-ons.** `peak_additional_handling` applies only when a non-peak rule of
   condition `additional_handling_*` (or the UPS cubic-size additional handling recorded as
   `nonstandard_volume`) applied to the same parcel; `peak_oversize` only when an `oversize`

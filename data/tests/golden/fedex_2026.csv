@@ -29,3 +29,21 @@ fedex,fedex_ground,list,2026,2026-01-05,5,25,31.23,fedex/2026/FedEx_Standard_Lis
 fedex,fedex_home_delivery,list,2026,2026-01-05,5,25,31.23,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 Ground & FHD rates,agent 2026-10-23
 fedex,fedex_ground,list,2026,2026-01-05,3,30,27.25,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 Ground & FHD rates,agent 2026-10-23
 fedex,fedex_home_delivery,list,2026,2026-01-05,3,30,27.25,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_2day,list,2026,2026-01-05,8,150,1366.50,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_2day,list,2026,2026-01-05,2,150,298.50,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_2day,list,2026,2026-01-05,5,90,427.56,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_express_saver,list,2026,2026-01-05,8,150,1129.50,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_express_saver,list,2026,2026-01-05,2,150,277.50,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_express_saver,list,2026,2026-01-05,5,90,344.96,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_ground,list,2026,2026-01-05,8,150,185.15,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 Ground & FHD rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_ground,list,2026,2026-01-05,2,150,121.21,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 Ground & FHD rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_ground,list,2026,2026-01-05,5,90,81.48,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 Ground & FHD rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_home_delivery,list,2026,2026-01-05,8,150,185.15,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 Ground & FHD rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_home_delivery,list,2026,2026-01-05,2,150,121.21,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 Ground & FHD rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_home_delivery,list,2026,2026-01-05,5,90,81.48,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 Ground & FHD rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_priority_overnight,list,2026,2026-01-05,8,150,1858.50,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_priority_overnight,list,2026,2026-01-05,2,150,462.00,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_priority_overnight,list,2026,2026-01-05,5,90,857.14,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_standard_overnight,list,2026,2026-01-05,8,150,1720.50,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_standard_overnight,list,2026,2026-01-05,2,150,444.00,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"
+fedex,fedex_standard_overnight,list,2026,2026-01-05,5,90,810.90,fedex/2026/FedEx_Standard_List_Rates_2026.xlsx,2026 U.S. rates,"agent 2026-10-23 (pdftotext -layout / openpyxl, weights 90 and 150)"

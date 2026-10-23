@@ -24,7 +24,7 @@ KEY_COLUMNS = {
     "dim_weight": (),
 }
 VALUE_COLUMNS = {
-    "surcharges": ("amount", "unit", "fuel_applies"),
+    "surcharges": ("amount", "unit", "fuel_applies", "min_billable_weight_lb"),
     "fuel_surcharge": ("default_percent", "is_proxy"),
     "announced_increase": ("percent", "source_type"),
     "dim_weight": ("divisor", "min_volume_cuin", "rounding"),

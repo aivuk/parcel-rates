@@ -22,7 +22,11 @@ MANIFEST = RAW_DIR / "manifest.csv"
 CARRIERS = ("usps", "ups", "fedex")
 RATE_CARDS = {"usps": ("retail", "commercial"), "ups": ("list",), "fedex": ("list",)}
 ZONES = {"usps": range(1, 10), "ups": range(2, 9), "fedex": range(2, 9)}
-MAX_WEIGHT_LB = 70
+# Heaviest weight step parsed into base_rates, per carrier: what each carrier publishes.
+# The app caps a parcel's actual weight at 70 lb (USPS maximum); UPS and FedEx steps
+# above 70 lb price dimensional weight and the 90 lb minimum billable weight of
+# large/oversize packages.
+MAX_WEIGHT_LB = {"usps": 70, "ups": 150, "fedex": 150}
 USPS_OUNCE_STEPS = ("0.25", "0.5", "0.75", "0.9999")
 
 COLUMNS = {
@@ -42,7 +46,7 @@ COLUMNS = {
         "carrier", "year", "rate_card", "surcharge_id", "display_name", "condition",
         "applies_to", "address_type", "min_weight_lb", "max_weight_lb", "min_length_in",
         "min_width_in", "min_length_plus_girth_in", "min_volume_cuft", "zone_min", "zone_max",
-        "amount", "unit", "exclusive_group", "effective_from", "effective_to",
+        "amount", "unit", "exclusive_group", "min_billable_weight_lb", "effective_from", "effective_to",
         "fuel_applies", "source_file", "source_page", "source_quote", "notes",
     ],
     "fuel_surcharge": [
@@ -81,6 +85,20 @@ SURCHARGE_CONDITIONS = (
 def money(value: Decimal | str | float) -> str:
     """Format a price with exactly two decimals, rounding half up."""
     return str(Decimal(str(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
+
+
+MIN_BILLABLE_SENTENCE = re.compile(
+    r"minimum billable weight of (\d+) pounds"   # UPS: "... subject to a minimum billable weight of 90 pounds."
+    r"|subject to a (\d+)-lb\. minimum billable weight"  # FedEx: "... subject to a 90-lb. minimum billable weight."
+)
+
+
+def min_billable_lb(quote: str) -> str:
+    """The pound figure of a carrier's minimum-billable-weight sentence, e.g. '90'."""
+    match = MIN_BILLABLE_SENTENCE.search(quote)
+    if not match:
+        raise ValueError(f"no minimum billable weight in {quote!r}")
+    return match.group(1) or match.group(2)
 
 
 def weight_label(value: Decimal | str | float) -> str:

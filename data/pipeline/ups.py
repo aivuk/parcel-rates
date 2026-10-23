@@ -18,7 +18,7 @@ from decimal import Decimal
 
 from data.pipeline import ups_rules as rules
 from data.pipeline.common import (
-    MAX_WEIGHT_LB, ZONES, html_text, money, raw_path, weight_label, write_table,
+    MAX_WEIGHT_LB, ZONES, html_text, min_billable_lb, money, raw_path, weight_label, write_table,
 )
 
 PRICE = re.compile(r"^\$?\d{1,3}(?:,\d{3})*\.\d{2}$")
@@ -161,7 +161,7 @@ def service_on_page(lines: list[str]) -> str | None:
 
 
 def parse_guide(year: int) -> tuple[list[dict], list[dict]]:
-    """base_rates rows (<= 70 lb) and ak_hi_zone exception rows for one guide."""
+    """base_rates rows (1-150 lb) and ak_hi_zone exception rows for one guide."""
     import pdfplumber
 
     guide = rules.GUIDES[year]
@@ -200,7 +200,7 @@ def assemble_table(service_id: str, pages: list[PageTable], year: int) -> tuple[
             if weight in seen:
                 raise ParseError(f"{year} {service_id}: {weight} lb on pages {seen[weight]} and {table.page}")
             seen[weight] = table.page
-            if weight > MAX_WEIGHT_LB:
+            if weight > MAX_WEIGHT_LB[rules.CARRIER]:
                 continue
             for index, zone in zones.items():
                 rows.append({
@@ -218,7 +218,7 @@ def assemble_table(service_id: str, pages: list[PageTable], year: int) -> tuple[
 
 def ak_hi_exception(service_id: str, year: int, pages: list[PageTable], excluded: list[str]) -> dict:
     guide = rules.GUIDES[year]
-    page_list = ",".join(str(t.page) for t in pages if min(t.rows) <= MAX_WEIGHT_LB)
+    page_list = ",".join(str(t.page) for t in pages if min(t.rows) <= MAX_WEIGHT_LB[rules.CARRIER])
     if excluded:
         note = (f"Columns {', '.join(excluded)} (Alaska, Hawaii, Puerto Rico) sit in the same table as zones 2-8 "
                 f"and are not parsed into base_rates; excluded from the dashboard.")
@@ -311,6 +311,10 @@ def additional_handling_rows(year: int) -> list[dict]:
 
 def large_package_rows(year: int) -> list[dict]:
     spec = rules.LARGE_PACKAGE[year]
+    floor = rules.LPS_MIN_BILLABLE[year]
+    if floor["page"] != spec["page"]:
+        raise ValueError(f"{year}: minimum billable weight cited on p.{floor['page']}, amounts on p.{spec['page']}")
+    minimum = min_billable_lb(floor["quotes"][-1])
     rows = []
     for (address, criterion), quote in spec["quotes"].items():
         thresholds, note = rules.LPS_CRITERIA[criterion]
@@ -318,8 +322,9 @@ def large_package_rows(year: int) -> list[dict]:
             year, quote, spec["bands"], surcharge_id=f"ups_large_package_{address}_{criterion}_{year}",
             display_name="Large Package Surcharge", condition="oversize", applies_to="all", address_type=address,
             exclusive_group="ups_handling", source_page=str(spec["page"]),
-            notes=(f"{address.capitalize()} deliveries only. Criterion: {note}. Large Packages carry a 90 lb minimum "
-                   f"billable weight (not modelled). {rules.FUEL_NOTE[year]}"), **thresholds))
+            min_billable_weight_lb=minimum,
+            notes=(f"{address.capitalize()} deliveries only. Criterion: {note}. Minimum billable weight {minimum} lb "
+                   f"(p.{floor['page']}): \"{' '.join(floor['quotes'])}\" {rules.FUEL_NOTE[year]}"), **thresholds))
     return rows
 
 

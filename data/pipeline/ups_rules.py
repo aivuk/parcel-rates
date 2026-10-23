@@ -119,7 +119,8 @@ ADDITIONAL_HANDLING = {
 
 # ---------------------------------------------------------------------------
 # Large Package Surcharge (condition oversize), commercial and residential
-# amounts by zone band. Minimum billable weight 90 lb is noted, not modelled.
+# amounts by zone band. Every row also carries the guide's minimum billable
+# weight (LPS_MIN_BILLABLE).
 LPS_CRITERIA = {
     "length_plus_girth": ({"min_length_plus_girth_in": "130"}, "length plus girth exceeds 130 inches"),
     "length": ({"min_length_in": "96"}, "length exceeds 96 inches"),
@@ -152,6 +153,21 @@ LARGE_PACKAGE = {
         ("residential", "weight"): "– Weight $254.50 $274.50 $320.50 $331.00",
         ("residential", "cubic"): "– Cubic Size $254.50 $274.50 $320.50 $331.00"}},
 }
+
+# Minimum billable weight of a Large Package, from the same page as the amounts.
+# pdfplumber interleaves the sentence with the amounts column, so it is quoted as
+# the two verbatim fragments that hold it; the weight is read from the second.
+LPS_MIN_BILLABLE = {
+    2023: {"page": 131, "quotes": ("With the exception of UPS Ground with Freight Pricing packages, Large Packages are subject",
+                                   "to a minimum billable weight of 90 pounds.")},
+    2024: {"page": 131, "quotes": ("With the exception of UPS Ground with Freight Pricing packages, Large Packages are subject",
+                                   "to a minimum billable weight of 90 pounds.")},
+    2025: {"page": 183, "quotes": ("With the exception of UPS® Ground with Freight Pricing packages, Large Packages are subject",
+                                   "to a minimum billable weight of 90 pounds.")},
+    2026: {"page": 183, "quotes": ("With the exception of UPS® Ground with Freight Pricing packages, Large Packages are subject",
+                                   "to a minimum billable weight of 90 pounds.")},
+}
+
 
 # ---------------------------------------------------------------------------
 # Demand (peak) surcharges, per package, from the demand-surcharge PDFs. Each
