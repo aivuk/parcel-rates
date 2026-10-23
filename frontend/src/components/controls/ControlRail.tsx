@@ -53,7 +53,6 @@ function ZipField({ value, aboutId, onCommit }: { value: string | null; aboutId:
         inputMode="numeric"
         autoComplete="postal-code"
         maxLength={5}
-        placeholder="none"
         value={draft}
         aria-invalid={problem ? true : undefined}
         aria-describedby={problem ? `${id}-error ${aboutId}` : aboutId}
