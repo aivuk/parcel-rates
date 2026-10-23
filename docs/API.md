@@ -167,9 +167,14 @@ Weight bands: `≤1`, `1–5`, `5–10`, `10–20`, `20–70` lb. Zone bands: `1
   rounded up to the next weight step, dimensional). The row is the one whose
   window contains `as_of`. Weight steps are the service's own table steps, so
   USPS Ground Advantage keeps its ounce steps under 1 lb (and the USPS commercial
-  Priority Mail cards their 0.5 lb step). A billable weight above the heaviest
-  step makes the service unavailable; USPS caps dimensional weight at 70 lb
-  as its dim_weight row states.
+  Priority Mail cards their 0.5 lb step). UPS and FedEx tables run to 150 lb,
+  USPS to 70 lb; a billable weight above the heaviest step makes the service
+  unavailable; USPS caps dimensional weight at 70 lb as its dim_weight row states.
+- **Minimum billable weight**: when an applied surcharge rule carries
+  `min_billable_weight_lb` (UPS Large Package, FedEx Oversize: 90 lb), billable
+  weight is raised to it, the base is priced at that step and the surcharges
+  are matched again; the quote's `billable_weight_lb` shows the raised weight
+  and the base line item's label says "billed at the 90 lb minimum of the …".
 - **Base rate**: the first weight step `>= billable weight` in the zone, for
   the service, rate card (`list` for UPS and FedEx, the USPS control otherwise)
   and year.

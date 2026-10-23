@@ -32,8 +32,6 @@ LIMITATIONS = [
     "FedEx 2027 surcharges are incomplete (only the Home Delivery residential charge and January peak "
     "rows are recorded), so 2027 totals understate surcharges.",
     "Peak surcharges are modelled as a toggle that prices on December 10 of the year, not by ship date.",
-    "UPS and FedEx bill a large or oversize package at a minimum of 90 lb; that minimum is not modelled, "
-    "so the base rate of such parcels is understated (the surcharge itself is included).",
 ]
 SAMPLE_DESCRIPTION = (
     "Illustrative parcel mix for a small online shop selling apparel and home goods "

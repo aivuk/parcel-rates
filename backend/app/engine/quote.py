@@ -13,7 +13,7 @@ from .rules import (
     source_label,
     zone_for,
 )
-from .tables import TIERS, RateTables, Service
+from .tables import TIERS, RateTables, Service, SurchargeRule
 from .types import Controls, LineItem, Parcel, Quote, money
 
 ZERO = Decimal("0")
@@ -51,6 +51,17 @@ def _unavailable(service: Service, reason: str, zone=None, as_of=None, billable=
         unavailable_reason=reason,
         as_of=as_of,
     )
+
+
+def minimum_billable(applied: list[tuple[SurchargeRule, Decimal]]) -> tuple[Decimal, SurchargeRule] | None:
+    """The highest minimum billable weight among the applied surcharge rules
+    (UPS Large Package, FedEx Oversize: "billed at a minimum of 90 lb"), with
+    the rule that sets it; None when no applied rule carries one."""
+    best = None
+    for rule, _ in applied:
+        if rule.min_billable_weight_lb is not None and (best is None or rule.min_billable_weight_lb > best[0]):
+            best = (rule.min_billable_weight_lb, rule)
+    return best
 
 
 def quote_service(
@@ -94,27 +105,54 @@ def quote_service(
     billable = step.max_weight_lb
     base_price = money(step.price)
 
+    def surcharges_at(weight: Decimal, price: Decimal):
+        return match_surcharges(
+            tables,
+            service=service,
+            year=year,
+            rate_card=rate_card,
+            zone=zone,
+            billable=weight,
+            measured=measured,
+            parcel=parcel,
+            controls=controls,
+            as_of=as_of,
+            base_price=price,
+        )
+
+    applied = surcharges_at(billable, base_price)
+    base_label = f"{service.display_name} base rate (zone {zone}, {_fmt_weight(billable)} lb)"
+    raising = minimum_billable(applied)
+    if raising is not None and raising[0] > billable:
+        minimum, setter = raising
+        raised = tables.find_step(steps, minimum)
+        if raised is None:
+            return _unavailable(
+                service,
+                f"the {_fmt_weight(minimum)} lb minimum billable weight of the {setter.display_name} is above "
+                f"the heaviest published price ({_fmt_weight(steps[-1].max_weight_lb)} lb)",
+                zone=zone,
+                as_of=as_of,
+                dim=dim,
+            )
+        step = raised
+        billable = step.max_weight_lb
+        base_price = money(step.price)
+        # Re-match at the raised weight: percent amounts and weight bands follow the new base.
+        applied = surcharges_at(billable, base_price)
+        base_label = (
+            f"{service.display_name} base rate (zone {zone}), billed at the {_fmt_weight(minimum)} lb "
+            f"minimum of the {setter.display_name}"
+        )
+
     items: list[LineItem] = [
         LineItem(
             kind="base",
-            label=f"{service.display_name} base rate (zone {zone}, {_fmt_weight(billable)} lb)",
+            label=base_label,
             amount=base_price,
             source=source_label(step.source_file, step.source_ref),
         )
     ]
-    applied = match_surcharges(
-        tables,
-        service=service,
-        year=year,
-        rate_card=rate_card,
-        zone=zone,
-        billable=billable,
-        measured=measured,
-        parcel=parcel,
-        controls=controls,
-        as_of=as_of,
-        base_price=base_price,
-    )
     fuel_basis = base_price
     for rule, amount in applied:
         items.append(

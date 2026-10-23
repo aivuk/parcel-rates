@@ -105,6 +105,7 @@ class SurchargeRule:
     fuel_applies: bool
     source_file: str
     source_page: str
+    min_billable_weight_lb: Decimal | None = None
 
 
 @dataclass(frozen=True)
@@ -235,6 +236,7 @@ class RateTables:
                 fuel_applies=_bool(r.get("fuel_applies", "false")),
                 source_file=r.get("source_file", ""),
                 source_page=r.get("source_page", "") or "",
+                min_billable_weight_lb=_dec(r.get("min_billable_weight_lb", "")),
             )
             sur[(rule.carrier, rule.year)].append(rule)
 
