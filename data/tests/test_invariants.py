@@ -7,10 +7,13 @@ import warnings
 from collections import defaultdict
 from decimal import Decimal
 
-import pytest
-
 from data.pipeline.common import (
-    COLUMNS, EXCEPTION_KINDS, MAX_WEIGHT_LB, RATE_CARDS, USPS_OUNCE_STEPS, ZONES,
+    COLUMNS,
+    EXCEPTION_KINDS,
+    MAX_WEIGHT_LB,
+    RATE_CARDS,
+    USPS_OUNCE_STEPS,
+    ZONES,
     manifest_paths,
 )
 

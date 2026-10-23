@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Lint and Python tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.2
+        with:
+          python-version: "3.12"
+      - name: Lint
+        run: uvx ruff check backend data
+      - name: Data tests (PDF citations skipped, see README "Tests")
+        run: uv run pytest data/tests
+      - name: Backend tests
+        working-directory: backend
+        run: uv run pytest
+
+  frontend:
+    name: Frontend tests and build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "20.12" # the documented minimum
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run build
+
+  docker:
+    name: Docker build (reviewer run path)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker compose build
+
+  data-full:
+    name: Data tests with every PDF
+    # Fetching from the Wayback Machine can fail for reasons outside the repo;
+    # the job reports but does not block. PDFs are cached by manifest checksum,
+    # so the archive is only hit when the manifest changes.
+    if: github.event_name != 'pull_request'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.2
+        with:
+          python-version: "3.12"
+      - uses: actions/cache@v6
+        with:
+          path: data/raw/**/*.pdf
+          key: raw-pdfs-${{ hashFiles('data/raw/manifest.csv') }}
+      - name: Fetch raw files
+        run: python3 data/fetch_raw.py
+      - name: Data tests, missing PDFs fail
+        run: uv run pytest data/tests
+        env:
+          PARCEL_RATES_REQUIRE_RAW: "1"

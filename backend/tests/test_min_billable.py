@@ -23,8 +23,8 @@ def _fuel(carrier, year, group) -> Decimal:
     return Decimal(only(read_csv(f"{carrier}/fuel_surcharge.csv"), year=str(year), service_group=group)["default_percent"])
 
 
-def _dim(carrier, year, l, w, h) -> int:
-    return math.ceil(l * w * h / int(only(read_csv(f"{carrier}/dim_weight.csv"), year=str(year))["divisor"]))
+def _dim(carrier, year, length, w, h) -> int:
+    return math.ceil(length * w * h / int(only(read_csv(f"{carrier}/dim_weight.csv"), year=str(year))["divisor"]))
 
 
 def _in_zone(row, zone) -> bool:

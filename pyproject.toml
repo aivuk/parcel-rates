@@ -19,3 +19,20 @@ package = false
 [tool.pytest.ini_options]
 testpaths = ["data/tests"]
 addopts = "-ra"
+
+# One lint config for data/ and backend/ (backend/pyproject.toml has no [tool.ruff],
+# so ruff uses this one). Run with `uvx ruff check backend data`.
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
+# zip(strict=True) would change behaviour on uneven inputs; reviewed case by case instead.
+ignore = ["B905"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Body", "fastapi.Query"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app", "data"]

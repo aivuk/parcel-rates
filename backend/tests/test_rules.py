@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import math
-
-import pytest
 from datetime import date
 from decimal import Decimal
+
+import pytest
 
 from app.engine.quote import quote_service
 from app.engine.rules import resolve_dim_rule, zone_for

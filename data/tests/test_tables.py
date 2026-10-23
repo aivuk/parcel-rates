@@ -6,7 +6,11 @@ from collections import Counter
 import pytest
 
 from data.pipeline.common import (
-    CARRIERS, COLUMNS, RATE_CARDS, processed_path, read_table,
+    CARRIERS,
+    COLUMNS,
+    RATE_CARDS,
+    processed_path,
+    read_table,
 )
 
 TIERS = {"ground", "two_three_day", "next_day"}
@@ -81,7 +85,7 @@ def test_same_group_windows_do_not_overlap_with_different_amounts(carrier):
     for row in surcharges(carrier):
         by_scope.setdefault(tuple(row[c] for c in scope), []).append(row)
     problems = []
-    for key, rows in by_scope.items():
+    for rows in by_scope.values():
         rows.sort(key=lambda r: r["effective_from"])
         for a, b in zip(rows, rows[1:]):
             a_end = a["effective_to"] or "9999-12-31"

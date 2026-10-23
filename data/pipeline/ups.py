@@ -18,7 +18,14 @@ from decimal import Decimal
 
 from data.pipeline import ups_rules as rules
 from data.pipeline.common import (
-    MAX_WEIGHT_LB, ZONES, html_text, min_billable_lb, money, raw_path, weight_label, write_table,
+    MAX_WEIGHT_LB,
+    ZONES,
+    html_text,
+    min_billable_lb,
+    money,
+    raw_path,
+    weight_label,
+    write_table,
 )
 
 PRICE = re.compile(r"^\$?\d{1,3}(?:,\d{3})*\.\d{2}$")
