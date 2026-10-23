@@ -37,9 +37,21 @@ export function tierView(res: QuoteResponse, tier: Tier): TierView {
   return { ranked, unavailable: inTier.filter((q) => !q.available), alternatives };
 }
 
-/** Billable weight was set by the box's size rather than its weight, for at least one service. */
+/**
+ * Services whose billable weight is the dimensional weight, as the API reports it: billable equals
+ * the dimensional weight and that exceeds the actual weight. Uses only the API's numbers; when the
+ * actual weight rounded up to the service's step would give the same figure, the box is still
+ * reported as billed by size, which is equally true.
+ */
 export function dimDrivers(quotes: readonly Quote[], actualLb: number): Quote[] {
-  return quotes.filter((q) => q.available && q.dim_weight_lb !== null && q.dim_weight_lb > Math.ceil(actualLb - 1e-9));
+  return quotes.filter(
+    (q) =>
+      q.available &&
+      q.dim_weight_lb !== null &&
+      q.billable_weight_lb !== null &&
+      q.billable_weight_lb === q.dim_weight_lb &&
+      q.dim_weight_lb > actualLb,
+  );
 }
 
 /** Zone per carrier for the feedback under the distance input. */
