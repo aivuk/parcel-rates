@@ -5,7 +5,7 @@
 .questions__tabs {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-bottom: 1px solid var(--rule-strong);
+  border-bottom: var(--rule-heavy);
 }
 
 .questions__tab {
@@ -27,8 +27,8 @@
   position: absolute;
   left: 0;
   right: var(--space-3);
-  bottom: -1px;
-  height: 4px;
+  bottom: -2px;
+  height: 6px;
   background: var(--ink);
   transform: scaleX(0);
   transform-origin: left;

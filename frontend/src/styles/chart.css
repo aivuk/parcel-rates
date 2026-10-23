@@ -2,7 +2,7 @@
 .chart {
   margin: var(--space-7) 0 0;
   padding-top: var(--space-4);
-  border-top: 1px solid var(--rule);
+  border-top: var(--rule-heavy);
   display: grid;
   gap: var(--space-3);
   min-width: 0;

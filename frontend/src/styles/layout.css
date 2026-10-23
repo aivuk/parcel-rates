@@ -8,7 +8,7 @@
 }
 
 .masthead {
-  border-bottom: 4px solid var(--rule-strong);
+  border-bottom: var(--rule-heavy);
   padding: var(--space-5) var(--space-4) var(--space-4);
 }
 
@@ -247,7 +247,7 @@
 .footer {
   margin-top: var(--space-8);
   padding-top: var(--space-4);
-  border-top: 1px solid var(--rule-strong);
+  border-top: var(--rule-heavy);
   font-size: var(--text-sm);
   color: var(--ink-muted);
   display: grid;

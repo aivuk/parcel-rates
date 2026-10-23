@@ -2,7 +2,7 @@
   display: grid;
   gap: var(--space-5);
   padding-bottom: var(--space-6);
-  border-bottom: 1px solid var(--rule-strong);
+  border-bottom: var(--rule-heavy);
 }
 
 .parcels__head {

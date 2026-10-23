@@ -41,7 +41,7 @@
   grid-template-columns: minmax(15rem, 17rem) minmax(0, 1fr);
   gap: var(--space-7);
   align-items: start;
-  border-top: 1px solid var(--rule-strong);
+  border-top: var(--rule-heavy);
   padding-top: var(--space-5);
 }
 
