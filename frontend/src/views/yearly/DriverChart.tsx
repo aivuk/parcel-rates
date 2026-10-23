@@ -4,7 +4,7 @@ import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { formatUsd } from "../../lib/format";
 import { ChartFrame, useCssColors } from "../blended/common";
 import { carrierName, signedUsd } from "../blended/money";
-import { DIMENSION_LABEL, driverSentence, segmentLabel, sortedDrivers, type Dimension } from "./logic";
+import { DIMENSION_LABEL, driverSentence, segmentLabel, sortedDrivers, withinChange, type Dimension } from "./logic";
 
 const COLOR_VARS = { up: "--q4-up", down: "--q4-down", muted: "--ink-muted", ink: "--ink", rule: "--rule", sheet: "--sheet" } as const;
 
@@ -14,12 +14,12 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
   const list = sortedDrivers(row.drivers?.[dim] ?? []);
   const sentence = driverSentence(carrier, row, dim);
   const ch = row.change_vs_previous;
-  const rows = list.map((d) => ({ label: segmentLabel(dim, d.segment), value: d.change_per_parcel, parcels: d.parcels }));
+  const rows = list.map((d) => ({ label: segmentLabel(dim, d.segment), value: d.change_per_parcel, parcels: d.parcels, within: withinChange(d) }));
   const lo = Math.min(0, ...rows.map((r) => r.value));
   const hi = Math.max(0, ...rows.map((r) => r.value));
   const ticks = niceTicks(lo, hi, narrow ? 2 : 4);
   const domain: [number, number] = [ticks[0]!, ticks[ticks.length - 1]!];
-  const yWidth = narrow ? 142 : 180;
+  const yWidth = narrow ? 158 : 196;
   const byLabel = new Map(rows.map((r) => [r.label, r]));
 
   const tick = (props: { x?: number | string; y?: number | string; payload?: { value?: string } }) => {
@@ -28,18 +28,21 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
     if (!r) return <g />;
     return (
       <g transform={`translate(4,${y})`}>
-        <text x={0} y={-3} fill={colors.ink} fontSize={13} fontWeight={600} fontFamily="var(--font-ui)">
-          {r.label}
+        <text x={0} y={-11} fill={colors.ink} fontSize={13} fontWeight={600} fontFamily="var(--font-ui)">
+          {r.label} <tspan fill={colors.muted} fontWeight={400}>· {r.parcels}</tspan>
         </text>
-        <text x={0} y={13} fill={colors.muted} fontSize={12} fontFamily="var(--font-ui)">
-          {signedUsd(r.value)} · {r.parcels} parcels
+        <text x={0} y={5} fill={colors.ink} fontSize={12} fontFamily="var(--font-ui)">
+          {signedUsd(r.value)} of the total
+        </text>
+        <text x={0} y={20} fill={colors.muted} fontSize={12} fontFamily="var(--font-ui)">
+          {signedUsd(r.within)} each
         </text>
       </g>
     );
   };
 
   const chart = (
-    <ResponsiveContainer width="100%" height={rows.length * 48 + 36} initialDimension={{ width: 600, height: 240 }}>
+    <ResponsiveContainer width="100%" height={rows.length * 64 + 36} initialDimension={{ width: 600, height: 240 }}>
       <BarChart data={rows} layout="vertical" margin={{ top: 4, right: 16, bottom: 4, left: 0 }} barCategoryGap="30%">
         <CartesianGrid horizontal={false} stroke={colors.rule} />
         <XAxis
@@ -80,7 +83,10 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
             Parcels
           </th>
           <th scope="col" className="num">
-            Per parcel
+            Contribution per parcel (all)
+          </th>
+          <th scope="col" className="num">
+            Change per parcel in segment
           </th>
           <th scope="col" className="num">
             Total
@@ -93,6 +99,7 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
             <th scope="row">{segmentLabel(dim, d.segment)}</th>
             <td className="num">{d.parcels}</td>
             <td className="num">{signedUsd(d.change_per_parcel)}</td>
+            <td className="num">{signedUsd(withinChange(d))}</td>
             <td className="num">{signedUsd(d.change_total)}</td>
           </tr>
         ))}
@@ -100,6 +107,7 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
           <tr className="ledger-table__total">
             <th scope="row">All parcels</th>
             <td className="num">{list.reduce((n, d) => n + d.parcels, 0)}</td>
+            <td className="num">{signedUsd(ch.dollars_per_parcel)}</td>
             <td className="num">{signedUsd(ch.dollars_per_parcel)}</td>
             <td className="num">—</td>
           </tr>
@@ -114,7 +122,8 @@ export function DriverChart({ carrier, row, dim }: { carrier: Carrier; row: Year
         {sentence ?? "No change to break down."}
       </span>{" "}
       Bars add up to the {ch ? signedUsd(ch.dollars_per_parcel) : formatUsd(0)} per parcel change for {carrierName(carrier)}; to the right
-      a segment made parcels dearer, to the left cheaper.
+      a segment made parcels dearer, to the left cheaper. “Each” is the change for that segment’s own parcels, which does not
+      depend on how many of them you ship.
     </>
   );
 

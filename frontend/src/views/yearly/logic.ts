@@ -197,6 +197,19 @@ export function strongestDimension(d: Drivers): Dimension {
   return best;
 }
 
+/** Change per parcel *within* the segment: its own parcels' change, independent of its size. */
+export function withinChange(d: Driver): number {
+  return d.parcels > 0 ? Math.round((d.change_total / d.parcels) * 100) / 100 : 0;
+}
+
+/** The segment whose own parcels moved most in the direction of the overall change. */
+export function fastestSegment(list: Driver[], overall: number): Driver | null {
+  const withParcels = list.filter((d) => d.parcels > 0);
+  if (withParcels.length === 0) return null;
+  const sign = overall >= 0 ? 1 : -1;
+  return withParcels.reduce((best, d) => (sign * withinChange(d) > sign * withinChange(best) ? d : best));
+}
+
 export function driverSentence(carrier: Carrier, row: YearRow, dim: Dimension): string | null {
   const ch = row.change_vs_previous;
   const list = row.drivers?.[dim];
@@ -208,9 +221,18 @@ export function driverSentence(carrier: Carrier, row: YearRow, dim: Dimension): 
   const share = ch.dollars_per_parcel !== 0 ? Math.round((top.change_per_parcel / ch.dollars_per_parcel) * 100) : null;
   const shareText = share !== null && share > 0 ? `, ${share}% of it` : "";
   const direction = top.change_per_parcel >= 0 ? "added" : "took off";
+  const first =
+    `Largest contributor: ${what} (${top.parcels} of them) ${direction} ${formatUsd(Math.abs(top.change_per_parcel))} per parcel ` +
+    `of ${name}'s ${signedUsd(ch.dollars_per_parcel)} change from ${span}${shareText}.`;
+  const fast = fastestSegment(list, ch.dollars_per_parcel);
+  if (!fast) return first;
+  const verb = ch.dollars_per_parcel >= 0 ? "rising" : "falling";
+  if (fast.segment === top.segment) return `${first} Its own parcels also changed fastest: ${signedUsd(withinChange(fast))} each.`;
+  const fastWhat = segmentPhrase(dim, fast.segment);
+  const fastShare = Math.round((fast.parcels / list.reduce((n, d) => n + d.parcels, 0)) * 100);
   return (
-    `Top driver: ${what} (${top.parcels} of them) ${direction} ${formatUsd(Math.abs(top.change_per_parcel))} per parcel ` +
-    `of ${name}'s ${signedUsd(ch.dollars_per_parcel)} change from ${span}${shareText}.`
+    `${first} Fastest ${verb}: ${fastWhat}, ${signedUsd(withinChange(fast))} each, ` +
+    `but they are only ${fastShare}% of the parcels (${fast.parcels}), so they move the average less.`
   );
 }
 
