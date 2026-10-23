@@ -123,6 +123,9 @@ def _drivers(
     return out
 
 
+# Quotes every parcel for every carrier and year without caching: about 1 s per
+# 1,000 parcels on a laptop. Requests are capped at 10,000 parcels (api/models.py);
+# a small shop's monthly mix of a few thousand parcels answers in a few seconds.
 def yearly(
     tables: RateTables,
     parcels: list[Parcel],
