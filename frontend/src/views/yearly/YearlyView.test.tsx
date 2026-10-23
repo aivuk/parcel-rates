@@ -181,6 +181,11 @@ describe("yearly logic", () => {
     const same = mockYearlyResponse.carriers.filter((c) => c.carrier !== "fedex");
     expect(projectionSentence(same)).toBe("Each projection starts after that carrier’s last published year.");
     expect(projectionSentence(same.map((c) => ({ ...c, projected: null })))).toBeNull();
+    // A carrier projected later without published years to show for the gap names no years.
+    const gap = mockYearlyResponse.carriers.map((c) => (c.carrier === "fedex" ? { ...c, years: c.years.filter((y) => y.year < 2027) } : c));
+    expect(projectionSentence(gap)).toBe(
+      "Each projection starts after that carrier’s last published year: USPS and UPS project to 2027 and FedEx to 2028.",
+    );
   });
 
   it("compares carriers at the latest year they all publish", () => {

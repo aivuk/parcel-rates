@@ -107,14 +107,14 @@ export function projectionSentence(carriers: CarrierYears[]): string | null {
     const names = joinAnd(projected.filter((c) => c.projected!.year === y).map((c) => carrierName(c.carrier)));
     return i === 0 ? `${names} project to ${y}` : `${names} to ${y}`;
   });
-  const published = projected
-    .filter((c) => c.projected!.year > first)
-    .map((c) => {
-      const ahead = c.years.map((r) => r.year).filter((y) => y >= first);
-      const what = ahead.length === 1 ? "is a published price list" : "are published price lists";
-      return `${carrierName(c.carrier)} ${joinAnd(ahead.map(String))} ${what}`;
-    });
-  return `${base}: ${joinAnd(groups)}; ${joinAnd(published)}, not a projection.`;
+  const published = projected.flatMap((c) => {
+    const ahead = c.years.map((r) => r.year).filter((y) => y >= first);
+    if (ahead.length === 0) return [];
+    const what = ahead.length === 1 ? "is a published price list" : "are published price lists";
+    return [`${carrierName(c.carrier)} ${joinAnd(ahead.map(String))} ${what}`];
+  });
+  const why = published.length > 0 ? `; ${joinAnd(published)}, not a projection` : "";
+  return `${base}: ${joinAnd(groups)}${why}.`;
 }
 
 /** Default for the next-year slider: the pick carrier's latest announced increase. */
