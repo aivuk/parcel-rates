@@ -467,3 +467,13 @@ fieldset.control > legend {
     gap: var(--space-1);
   }
 }
+
+/* The ship-from ZIP shares the year's field: where and when the parcels are priced. */
+.control--where {
+  gap: var(--space-3);
+}
+
+.zip-input {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}

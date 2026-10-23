@@ -2,16 +2,17 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from decimal import Decimal
 
 from .rules import (
     fuel_percent,
     match_surcharges,
     measure,
+    parcel_zone,
     resolve_as_of,
     resolve_dim_rule,
     source_label,
-    zone_for,
 )
 from .tables import TIERS, RateTables, Service, SurchargeRule
 from .types import Controls, LineItem, Parcel, Quote, money
@@ -77,6 +78,13 @@ def minimum_billable(applied: list[tuple[SurchargeRule, Decimal]]) -> tuple[Deci
 def quote_service(
     tables: RateTables, service: Service, parcel: Parcel, controls: Controls, year: int | None = None
 ) -> Quote:
+    q = _quote_service(tables, service, parcel, controls, year)
+    return replace(q, zone_source=parcel_zone(tables, service.carrier, parcel)[1])
+
+
+def _quote_service(
+    tables: RateTables, service: Service, parcel: Parcel, controls: Controls, year: int | None = None
+) -> Quote:
     year = controls.year if year is None else year
     carrier = service.carrier
     as_of = resolve_as_of(tables, carrier, year, controls)
@@ -88,7 +96,7 @@ def quote_service(
     if not parcel.residential and not service.business_allowed:
         return _unavailable(service, f"{service.display_name} serves residential addresses only", as_of=as_of)
 
-    zone = zone_for(tables, carrier, parcel.distance_miles)
+    zone, _ = parcel_zone(tables, carrier, parcel)
     if zone is None:
         return _unavailable(service, "distance is outside every zone band", as_of=as_of)
 

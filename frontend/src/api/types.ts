@@ -30,7 +30,7 @@ export interface Parcel {
   length_in?: number; // all three or none; > 0
   width_in?: number;
   height_in?: number;
-  distance_miles: number; // >= 0
+  distance_miles?: number; // >= 0; needed unless destination_zip is given
   residential: boolean;
   speed: Tier;
   quantity?: number; // default 1, integer >= 1
@@ -38,6 +38,8 @@ export interface Parcel {
   delivery_area?: DeliveryArea; // default "none"
   nonstandard_packaging?: boolean; // default false
   order_value?: number; // >= 0; value of the order, for Controls.free_shipping_over
+  origin_zip?: string; // 5-digit ZIP; default Controls.origin_zip
+  destination_zip?: string; // 5-digit ZIP; with an origin, sets the zones (USPS chart, UPS/FedEx estimated)
 }
 
 /** A parcel as the server returns it (GET /sample-parcels): every key present, optionals null. */
@@ -46,7 +48,7 @@ export interface ParcelOut {
   length_in: number | null;
   width_in: number | null;
   height_in: number | null;
-  distance_miles: number;
+  distance_miles: number | null;
   residential: boolean;
   speed: Tier;
   quantity: number;
@@ -54,6 +56,8 @@ export interface ParcelOut {
   delivery_area: DeliveryArea;
   nonstandard_packaging: boolean;
   order_value: number | null;
+  origin_zip: string | null;
+  destination_zip: string | null;
 }
 
 export interface FuelOverride {
@@ -69,6 +73,7 @@ export interface Controls {
   peak?: boolean; // default false
   flat_price?: number; // default 9.99
   free_shipping_over?: number | null; // free shipping on orders of this value or more; absent/null: no rule
+  origin_zip?: string | null; // where the shop ships from (5-digit ZIP)
 }
 
 export interface SegmentFilter {
@@ -129,7 +134,11 @@ export interface Quote {
   available: boolean;
   unavailable_reason: string | null;
   as_of: string | null;
+  /** usps_chart: the USPS zone chart; zip_distance: estimated from the ZIPs' distance; distance: typed miles. */
+  zone_source: ZoneSource;
 }
+
+export type ZoneSource = "usps_chart" | "zip_distance" | "distance";
 
 export interface CarrierPick {
   carrier: Carrier;
@@ -191,6 +200,8 @@ export interface Meta {
   zone_bands: ZoneBand[];
   segments: { weight_bands: string[]; zone_bands: string[] };
   limitations: string[];
+  /** ZIP data on the server (issue #9); null: distances must be typed. */
+  zip_zones: { usps_effective_date: string; usps_origins: number; zip_points: number } | null;
 }
 
 /* ---------- GET /api/sample-parcels ---------- */
@@ -203,6 +214,8 @@ export interface SampleParcels {
 /* ---------- POST /api/quote ---------- */
 
 export interface QuoteResponse {
+  /** Typed, or between the two ZIPs' Census points. */
+  distance_miles: number;
   quotes: Quote[];
   /** Always all three tiers; null when no service of the tier can carry the parcel. */
   cheapest_by_tier: Record<Tier, CarrierPick | null>;

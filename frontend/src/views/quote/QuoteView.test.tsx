@@ -112,6 +112,35 @@ describe("QuoteView", () => {
     expect(tiers).toHaveTextContent(/Next day\s*USPS Priority Mail Express\s*\$61\.05/);
   });
 
+  it("prices from a destination ZIP and the ship-from ZIP, and says where each zone came from", async () => {
+    const fromZips: QuoteResponse = {
+      ...mockQuoteResponse,
+      distance_miles: 2453.1,
+      quotes: mockQuoteResponse.quotes.map((q) => ({
+        ...q,
+        zone: q.zone === null ? null : 8,
+        zone_source: q.carrier === "usps" ? ("usps_chart" as const) : ("zip_distance" as const),
+      })),
+    };
+    const { quote } = setup({ quote: async () => fromZips }, { ...mockDefaultControls, origin_zip: "10001" });
+    await screen.findByTestId("quote-answer");
+    await userEvent.type(screen.getByLabelText("Destination ZIP"), "90210");
+    await waitFor(() => expect(quote.mock.lastCall![0].parcel).toMatchObject({ destination_zip: "90210" }));
+    expect(quote.mock.lastCall![0].parcel).not.toHaveProperty("distance_miles");
+    expect(await screen.findByText("USPS zone 8 (zone chart) · UPS zone 8 (estimated) · FedEx zone 8 (estimated)")).toBeInTheDocument();
+    const miles = screen.getByLabelText(/^Distance/);
+    expect(miles).toBeDisabled();
+    expect(miles).toHaveValue("2,453");
+  });
+
+  it("asks for a ship-from ZIP when a destination ZIP has no origin", async () => {
+    const problems = problemsFromBody({ detail: [{ loc: ["body", "parcel", "origin_zip"], msg: "destination_zip needs an origin: give origin_zip here or in controls", type: "value_error" }] });
+    setup({ quote: async () => Promise.reject(new ApiError(422, "Some inputs were not accepted.", problems)) });
+    await userEvent.type(screen.getByLabelText("Destination ZIP"), "90210");
+    expect(await screen.findByText(/needs an origin/)).toBeInTheDocument();
+    expect(screen.getByLabelText("Destination ZIP")).toHaveAttribute("aria-invalid", "true");
+  });
+
   it("switches the speed from the other-speeds line", async () => {
     const { quote } = setup();
     await screen.findByTestId("quote-answer");
@@ -277,6 +306,13 @@ describe("draft", () => {
     const r = draftToParcel({ ...DEFAULT_DRAFT, lb: "1", oz: "8", length: "", width: "", height: "", distance: "-5" });
     expect(r.parcel).toMatchObject({ weight_lb: 1.5, distance_miles: -5 });
     expect(r.parcel).not.toHaveProperty("length_in");
+  });
+
+  it("uses a destination ZIP instead of the distance", () => {
+    const r = draftToParcel({ ...DEFAULT_DRAFT, toZip: " 90210 ", distance: "" });
+    expect(r.parcel).toMatchObject({ destination_zip: "90210" });
+    expect(r.parcel).not.toHaveProperty("distance_miles");
+    expect(draftToParcel({ ...DEFAULT_DRAFT, toZip: "9021" }).errors).toEqual({ toZip: "Enter a 5-digit ZIP code." });
   });
 
   it("accepts a decimal comma", () => {

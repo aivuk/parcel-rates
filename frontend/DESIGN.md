@@ -246,7 +246,11 @@ carry their source under the label in small muted type. Unavailable services are
 through and muted, with the reason in words. When dimensional weight sets the billable
 weight, a ruled note shows actual, dimensional and billable weight per service. Server
 422 messages appear under the input they concern, in `--loss`, and the input gets
-`aria-invalid`.
+`aria-invalid`. A "Destination ZIP" field sits above the distance (issue #9): when it
+is filled, with the "Ship from ZIP" assumption (beside the year in the rail or strip), the
+miles box is disabled and shows the distance between the two ZIPs, and the zone line under
+it names each carrier's zone with its source, "(zone chart)" for USPS and "(estimated)" for
+UPS and FedEx, so an estimate never reads as a carrier's own figure.
 
 **Q2.** The figure is the lightest weight at which USPS Ground Advantage stops being
 cheapest, with a caption naming the distances and rivals; one plain sentence per

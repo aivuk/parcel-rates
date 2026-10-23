@@ -85,6 +85,18 @@ describe("ControlRail", () => {
     expect(free).toHaveAttribute("aria-invalid", "true");
   });
 
+  it("sets and clears the ship-from ZIP", async () => {
+    render(<Harness />);
+    const from = screen.getByRole("textbox", { name: /ship from zip/i });
+    await userEvent.type(from, "10001{Enter}");
+    expect(latest.controls.origin_zip).toBe("10001");
+    await userEvent.clear(from);
+    await userEvent.type(from, "{Enter}");
+    expect(latest.controls.origin_zip).toBeUndefined();
+    await userEvent.type(from, "123{Enter}");
+    expect(from).toHaveAttribute("aria-invalid", "true");
+  });
+
   it("shows an error with a retry when the price lists fail to load", async () => {
     let retried = 0;
     render(

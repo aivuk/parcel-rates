@@ -21,6 +21,7 @@
  "response": {
   "status": 200,
   "body": {
+   "distance_miles": 700.0,
    "quotes": [
     {
      "carrier": "usps",
@@ -44,7 +45,8 @@
      "margin": -1.9,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-01-18"
+     "as_of": "2026-01-18",
+     "zone_source": "distance"
     },
     {
      "carrier": "ups",
@@ -92,7 +94,8 @@
      "margin": -33.48,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-09-07"
+     "as_of": "2026-09-07",
+     "zone_source": "distance"
     },
     {
      "carrier": "fedex",
@@ -140,7 +143,8 @@
      "margin": -33.87,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-01-05"
+     "as_of": "2026-01-05",
+     "zone_source": "distance"
     },
     {
      "carrier": "fedex",
@@ -155,7 +159,8 @@
      "margin": 0.0,
      "available": false,
      "unavailable_reason": "FedEx Ground serves business addresses only",
-     "as_of": "2026-01-05"
+     "as_of": "2026-01-05",
+     "zone_source": "distance"
     },
     {
      "carrier": "usps",
@@ -179,7 +184,8 @@
      "margin": -8.42,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-01-18"
+     "as_of": "2026-01-18",
+     "zone_source": "distance"
     },
     {
      "carrier": "ups",
@@ -227,7 +233,8 @@
      "margin": -90.74,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-09-07"
+     "as_of": "2026-09-07",
+     "zone_source": "distance"
     },
     {
      "carrier": "fedex",
@@ -275,7 +282,8 @@
      "margin": -102.59,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-01-05"
+     "as_of": "2026-01-05",
+     "zone_source": "distance"
     },
     {
      "carrier": "ups",
@@ -323,7 +331,8 @@
      "margin": -132.99,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-09-07"
+     "as_of": "2026-09-07",
+     "zone_source": "distance"
     },
     {
      "carrier": "fedex",
@@ -371,7 +380,8 @@
      "margin": -134.17,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-01-05"
+     "as_of": "2026-01-05",
+     "zone_source": "distance"
     },
     {
      "carrier": "usps",
@@ -395,7 +405,8 @@
      "margin": -51.06,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-01-18"
+     "as_of": "2026-01-18",
+     "zone_source": "distance"
     },
     {
      "carrier": "fedex",
@@ -443,7 +454,8 @@
      "margin": -259.95,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-01-05"
+     "as_of": "2026-01-05",
+     "zone_source": "distance"
     },
     {
      "carrier": "ups",
@@ -491,7 +503,8 @@
      "margin": -265.92,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-09-07"
+     "as_of": "2026-09-07",
+     "zone_source": "distance"
     },
     {
      "carrier": "fedex",
@@ -539,7 +552,8 @@
      "margin": -300.16,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-01-05"
+     "as_of": "2026-01-05",
+     "zone_source": "distance"
     },
     {
      "carrier": "ups",
@@ -587,7 +601,8 @@
      "margin": -303.25,
      "available": true,
      "unavailable_reason": null,
-     "as_of": "2026-09-07"
+     "as_of": "2026-09-07",
+     "zone_source": "distance"
     }
    ],
    "cheapest_by_tier": {

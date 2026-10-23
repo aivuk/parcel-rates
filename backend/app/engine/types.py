@@ -28,6 +28,10 @@ class Parcel:
     delivery_area: str = "none"
     nonstandard_packaging: bool = False
     order_value: float | None = None  # value of the order the parcel ships, for free-shipping rules
+    # Set by the API from origin and destination ZIPs (issue #9): the USPS zone from its chart, and
+    # whether distance_miles was computed from the two ZIPs rather than typed.
+    usps_zone: int | None = None
+    distance_from_zips: bool = False
 
     @property
     def has_dimensions(self) -> bool:
@@ -77,6 +81,7 @@ class Quote:
     available: bool
     unavailable_reason: str | None = None
     as_of: date | None = None
+    zone_source: str = "distance"  # usps_chart | zip_distance (estimated) | distance (typed miles)
 
     def amount_of(self, kind: str) -> Decimal:
         return sum((li.amount for li in self.line_items if li.kind == kind), Decimal("0"))

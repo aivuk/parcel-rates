@@ -12,6 +12,8 @@ export interface ControlsState {
   fuel_override_percent?: { ground?: number; express?: number };
   /** Free shipping on orders of this value or more; absent: no such rule. */
   free_shipping_over?: number;
+  /** Where the shop ships from (5-digit ZIP); with a destination ZIP it sets the zones. */
+  origin_zip?: string;
 }
 
 export function controlsFromMeta(d: MetaDefaults): ControlsState {
@@ -37,6 +39,7 @@ export const FUEL_MIN = 0;
 export const FUEL_MAX = 40;
 export const PRICE_MAX = 1000;
 export const ORDER_VALUE_MAX = 100_000;
+export const ZIP5 = /^\d{5}$/;
 
 const KEYS = {
   year: "year",
@@ -46,6 +49,7 @@ const KEYS = {
   peak: "peak",
   price: "price",
   freeOver: "free_over",
+  from: "from",
   view: "view",
 } as const;
 
@@ -67,6 +71,7 @@ export function readState(search: string, defaults: ControlsState = FALLBACK_CON
   const express = num(params, KEYS.fuelExpress, FUEL_MIN, FUEL_MAX);
   const price = num(params, KEYS.price, 0, PRICE_MAX);
   const freeOver = num(params, KEYS.freeOver, 0, ORDER_VALUE_MAX);
+  const from = params.get(KEYS.from);
   const view = params.get(KEYS.view);
   const fuel: Partial<Record<FuelGroup, number>> = {
     ...(ground !== undefined ? { ground } : {}),
@@ -79,6 +84,7 @@ export function readState(search: string, defaults: ControlsState = FALLBACK_CON
     flat_price: price ?? defaults.flat_price,
     ...(Object.keys(fuel).length > 0 ? { fuel_override_percent: fuel } : {}),
     ...(freeOver !== undefined ? { free_shipping_over: freeOver } : {}),
+    ...(from !== null && ZIP5.test(from) ? { origin_zip: from } : {}),
   };
   return { controls, view: (VIEWS as readonly string[]).includes(view ?? "") ? (view as ViewId) : "quote" };
 }
@@ -95,6 +101,7 @@ export function writeState(state: AppState, currentSearch = "", defaults: Contro
   if (c.peak !== defaults.peak) params.set(KEYS.peak, c.peak ? "1" : "0");
   if (c.flat_price !== defaults.flat_price) params.set(KEYS.price, String(c.flat_price));
   if (c.free_shipping_over !== undefined) params.set(KEYS.freeOver, String(c.free_shipping_over));
+  if (c.origin_zip !== undefined) params.set(KEYS.from, c.origin_zip);
   if (state.view !== "quote") params.set(KEYS.view, state.view);
   const out = params.toString();
   return out ? `?${out}` : "";
@@ -110,6 +117,7 @@ export type Action =
   | { type: "peak"; peak: boolean }
   | { type: "price"; price: number }
   | { type: "freeShipping"; over: number | null }
+  | { type: "originZip"; zip: string | null }
   | { type: "view"; view: ViewId }
   | { type: "replace"; state: AppState };
 
@@ -139,6 +147,10 @@ export function reducer(state: AppState, action: Action): AppState {
     case "freeShipping": {
       const { free_shipping_over: _old, ...rest } = state.controls;
       return set(action.over === null ? rest : { ...rest, free_shipping_over: Math.min(ORDER_VALUE_MAX, Math.max(0, action.over)) });
+    }
+    case "originZip": {
+      const { origin_zip: _old, ...rest } = state.controls;
+      return set(action.zip === null ? rest : { ...rest, origin_zip: action.zip });
     }
     case "view":
       return { ...state, view: action.view };

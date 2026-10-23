@@ -26,7 +26,8 @@ router = APIRouter(prefix="/api")
 
 LIMITATIONS = [
     "List prices only: a shipper with a negotiated contract pays less.",
-    "Zones are estimated from distance bands, not looked up from ZIP code pairs.",
+    "USPS zones come from its zone chart when origin and destination ZIP codes are given; UPS and FedEx zones are "
+    "estimated from the distance between the two ZIPs (or the miles typed), not looked up in their own charts.",
     "The UPS fuel surcharge default is a proxy taken from FedEx's published history.",
     "UPS announced increases come from trade press, not from UPS itself.",
     "UPS peak (demand) surcharge documents for the 2025-26 and 2026-27 seasons are not in the sources, "
@@ -71,8 +72,29 @@ def to_controls(c: m.Controls, tables: RateTables, loc: list) -> EngineControls:
     )
 
 
-def to_parcel(p: m.Parcel) -> EngineParcel:
-    return EngineParcel(**p.model_dump())
+def to_parcel(p: m.Parcel, tables: RateTables, origin_default: str | None, loc: list) -> EngineParcel:
+    """Engine parcel; with a destination ZIP, the distance between the two ZIPs' Census points and
+    the USPS zone from its chart (issue #9). Typed miles are the fallback."""
+    fields = p.model_dump(exclude={"origin_zip", "destination_zip"})
+    if p.destination_zip is None:
+        return EngineParcel(**fields)
+    origin = p.origin_zip or origin_default
+    if origin is None:
+        raise invalid(loc + ["origin_zip"], "destination_zip needs an origin: give origin_zip here or in controls")
+    zones = tables.zip_zones
+    if zones is None:
+        raise invalid(loc + ["destination_zip"], "ZIP codes are not available on this server; give distance_miles")
+    for field, value in (("origin_zip", origin), ("destination_zip", p.destination_zip)):
+        if zones.point(value) is None:
+            where = loc + [field] if field == "destination_zip" or p.origin_zip else ["body", "controls", "origin_zip"]
+            raise invalid(where, f"ZIP {value} is not in the ZIP code data")
+    miles = zones.miles(origin, p.destination_zip)
+    fields["distance_miles"] = round(miles, 1)
+    return EngineParcel(**fields, usps_zone=zones.usps_zone(origin, p.destination_zip), distance_from_zips=True)
+
+
+def to_parcels(parcels: list[m.Parcel], tables: RateTables, controls: m.Controls) -> list[EngineParcel]:
+    return [to_parcel(p, tables, controls.origin_zip, ["body", "parcels", i]) for i, p in enumerate(parcels)]
 
 
 def quote_out(q: EngineQuote) -> dict:
@@ -98,6 +120,7 @@ def quote_out(q: EngineQuote) -> dict:
         "total": float(q.total),
         "margin": float(q.margin),
         "available": q.available,
+        "zone_source": q.zone_source,
         "unavailable_reason": q.unavailable_reason,
         "as_of": q.as_of,
     }
@@ -135,6 +158,15 @@ def meta(tables: RateTables = Depends(get_tables)) -> dict:
             }
             for f in sorted(tables.fuel.values(), key=lambda f: (f.carrier, f.year, f.service_group))
         ],
+        "zip_zones": (
+            {
+                "usps_effective_date": tables.zip_zones.usps_effective,
+                "usps_origins": len(tables.zip_zones.usps_chart),
+                "zip_points": len(tables.zip_zones.points),
+            }
+            if tables.zip_zones
+            else None
+        ),
         "zone_bands": [
             {"carrier": b.carrier, "zone": b.zone, "min_miles": b.min_miles, "max_miles": b.max_miles}
             for c in tables.carriers()
@@ -159,9 +191,11 @@ def quote(
     tables: RateTables = Depends(get_tables),
 ) -> dict:
     controls = to_controls(body.controls, tables, ["body", "controls"])
-    quotes = quote_all(tables, to_parcel(body.parcel), controls)
+    parcel = to_parcel(body.parcel, tables, body.controls.origin_zip, ["body", "parcel"])
+    quotes = quote_all(tables, parcel, controls)
     cheapest = cheapest_by_tier(quotes)
     return {
+        "distance_miles": parcel.distance_miles,
         "quotes": [quote_out(q) for q in quotes],
         "cheapest_by_tier": {
             tier: ({"carrier": q.carrier, "service_id": q.service_id, "total": float(q.total)} if q else None)
@@ -194,7 +228,7 @@ def breakeven_get(
 def blended_route(body: m.BlendedRequest, tables: RateTables = Depends(get_tables)) -> dict:
     controls = to_controls(body.controls, tables, ["body", "controls"])
     segment = seg.SegmentFilter(**body.segment.model_dump()) if body.segment else None
-    return blended(tables, [to_parcel(p) for p in body.parcels], controls, segment)
+    return blended(tables, to_parcels(body.parcels, tables, body.controls), controls, segment)
 
 
 @router.post("/yearly", response_model=m.YearlyResponse)
@@ -202,7 +236,7 @@ def yearly_route(body: m.YearlyRequest, tables: RateTables = Depends(get_tables)
     controls = to_controls(body.controls, tables, ["body", "controls"])
     return yearly(
         tables,
-        [to_parcel(p) for p in body.parcels],
+        to_parcels(body.parcels, tables, body.controls),
         controls,
         body.next_year_increase_percent,
         body.next_year_override,

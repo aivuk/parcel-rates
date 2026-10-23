@@ -135,7 +135,7 @@ export function useParcelSetUi({ set, status, zoneBands, onLoadSample, onLoadFil
             <p className="parcels__empty-lead">No parcels loaded yet.</p>
             <p>
               Questions 3 and 4 price your whole mix. Load the sample (an illustrative home-goods shop, not real data) to explore, or upload a CSV with one row per kind
-              of parcel: weight, distance, home or business, speed, and how many you ship.
+              of parcel: weight, distance (or a destination ZIP), home or business, speed, and how many you ship.
             </p>
           </div>
         </section>

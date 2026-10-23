@@ -1,4 +1,4 @@
-import type { Carrier, LineItem, Quote, QuoteResponse, Tier } from "../../api/types";
+import type { Carrier, LineItem, Quote, QuoteResponse, Tier, ZoneSource } from "../../api/types";
 import type { FieldProblem } from "../../api/client";
 
 export interface Split {
@@ -55,13 +55,19 @@ export function dimDrivers(quotes: readonly Quote[], actualLb: number): Quote[] 
 }
 
 /** Zone per carrier for the feedback under the distance input. */
-export function zonesByCarrier(quotes: readonly Quote[]): Partial<Record<Carrier, number>> {
-  const out: Partial<Record<Carrier, number>> = {};
-  for (const q of quotes) if (q.zone !== null && out[q.carrier] === undefined) out[q.carrier] = q.zone;
+export interface CarrierZone {
+  zone: number;
+  source: ZoneSource;
+}
+
+export function zonesByCarrier(quotes: readonly Quote[]): Partial<Record<Carrier, CarrierZone>> {
+  const out: Partial<Record<Carrier, CarrierZone>> = {};
+  for (const q of quotes)
+    if (q.zone !== null && out[q.carrier] === undefined) out[q.carrier] = { zone: q.zone, source: q.zone_source };
   return out;
 }
 
-export type FormField = "weight" | "dims" | "distance" | "speed" | "residential" | "delivery_area" | "packaging";
+export type FormField = "weight" | "dims" | "distance" | "toZip" | "speed" | "residential" | "delivery_area" | "packaging";
 
 const FIELD_OF: Record<string, FormField> = {
   weight_lb: "weight",
@@ -69,6 +75,8 @@ const FIELD_OF: Record<string, FormField> = {
   width_in: "dims",
   height_in: "dims",
   distance_miles: "distance",
+  destination_zip: "toZip",
+  origin_zip: "toZip",
   speed: "speed",
   residential: "residential",
   delivery_area: "delivery_area",
@@ -84,7 +92,8 @@ export function problemsByField(problems: readonly FieldProblem[]): {
   const other: FieldProblem[] = [];
   for (const p of problems) {
     const last = p.field.split(" · ").pop() ?? "";
-    const field = p.field.startsWith("parcel") ? FIELD_OF[last] : undefined;
+    // The ship-from ZIP lives in the controls, but its problems concern the destination ZIP field here.
+    const field = p.field.startsWith("parcel") || last === "origin_zip" ? FIELD_OF[last] : undefined;
     if (field) byField[field] = [...(byField[field] ?? []), p.message];
     else other.push(p);
   }

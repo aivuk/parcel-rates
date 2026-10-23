@@ -559,3 +559,14 @@
     padding-inline: 0;
   }
 }
+
+.qf__zip {
+  max-width: 8rem;
+  letter-spacing: 0.04em;
+}
+
+.qf__input:disabled {
+  background: var(--sheet);
+  color: var(--ink-muted);
+  border-color: var(--rule);
+}

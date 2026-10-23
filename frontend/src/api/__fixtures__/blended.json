@@ -16,7 +16,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 49.43
+     "order_value": 49.43,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 10.5,
@@ -30,7 +32,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 99.13
+     "order_value": 99.13,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 9.7,
@@ -44,7 +48,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 129.57
+     "order_value": 129.57,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 7.0,
@@ -58,7 +64,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 93.46
+     "order_value": 93.46,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.1,
@@ -72,7 +80,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 68.08
+     "order_value": 68.08,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.5,
@@ -86,7 +96,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 51.82
+     "order_value": 51.82,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -100,7 +112,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 16.56
+     "order_value": 16.56,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 5.7,
@@ -114,7 +128,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 73.93
+     "order_value": 73.93,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.7,
@@ -128,7 +144,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 36.2
+     "order_value": 36.2,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.1,
@@ -142,7 +160,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 47.98
+     "order_value": 47.98,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.4,
@@ -156,7 +176,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 32.38
+     "order_value": 32.38,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.5,
@@ -170,7 +192,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 27.31
+     "order_value": 27.31,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.7,
@@ -184,7 +208,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 24.85
+     "order_value": 24.85,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.4,
@@ -198,7 +224,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 13.04
+     "order_value": 13.04,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.9,
@@ -212,7 +240,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 69.51
+     "order_value": 69.51,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -226,7 +256,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 31.72
+     "order_value": 31.72,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.5,
@@ -240,7 +272,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 58.45
+     "order_value": 58.45,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -254,7 +288,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 54.47
+     "order_value": 54.47,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 5.0,
@@ -268,7 +304,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 83.96
+     "order_value": 83.96,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.4,
@@ -282,7 +320,9 @@
      "price_charged": 39.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 46.42
+     "order_value": 46.42,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.6,
@@ -296,7 +336,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 47.79
+     "order_value": 47.79,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.2,
@@ -310,7 +352,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 40.34
+     "order_value": 40.34,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.2,
@@ -324,7 +368,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 38.76
+     "order_value": 38.76,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.7,
@@ -338,7 +384,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 39.81
+     "order_value": 39.81,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 10.3,
@@ -352,7 +400,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 131.36
+     "order_value": 131.36,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.0,
@@ -366,7 +416,9 @@
      "price_charged": 39.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 42.29
+     "order_value": 42.29,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.3,
@@ -380,7 +432,9 @@
      "price_charged": null,
      "delivery_area": "extended",
      "nonstandard_packaging": false,
-     "order_value": 22.82
+     "order_value": 22.82,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.2,
@@ -394,7 +448,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 159.75
+     "order_value": 159.75,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.3,
@@ -408,7 +464,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 65.06
+     "order_value": 65.06,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 11.4,
@@ -422,7 +480,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 139.51
+     "order_value": 139.51,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.3,
@@ -436,7 +496,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 50.56
+     "order_value": 50.56,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.5,
@@ -450,7 +512,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 16.2
+     "order_value": 16.2,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.3,
@@ -464,7 +528,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 33.96
+     "order_value": 33.96,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.0,
@@ -478,7 +544,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 72.45
+     "order_value": 72.45,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.6,
@@ -492,7 +560,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 81.21
+     "order_value": 81.21,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.0,
@@ -506,7 +576,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 30.03
+     "order_value": 30.03,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -520,7 +592,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 43.66
+     "order_value": 43.66,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.6,
@@ -534,7 +608,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 34.32
+     "order_value": 34.32,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -548,7 +624,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 39.77
+     "order_value": 39.77,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 10.4,
@@ -562,7 +640,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 109.41
+     "order_value": 109.41,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 5.0,
@@ -576,7 +656,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 93.9
+     "order_value": 93.9,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 5.2,
@@ -590,7 +672,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 61.31
+     "order_value": 61.31,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 11.9,
@@ -604,7 +688,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 163.5
+     "order_value": 163.5,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 11.4,
@@ -618,7 +704,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 122.69
+     "order_value": 122.69,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.1,
@@ -632,7 +720,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 40.24
+     "order_value": 40.24,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.7,
@@ -646,7 +736,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 21.17
+     "order_value": 21.17,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.1,
@@ -660,7 +752,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 40.97
+     "order_value": 40.97,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.9,
@@ -674,7 +768,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 30.14
+     "order_value": 30.14,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.4,
@@ -688,7 +784,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 17.4
+     "order_value": 17.4,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.5,
@@ -702,7 +800,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 72.18
+     "order_value": 72.18,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.4,
@@ -716,7 +816,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 27.49
+     "order_value": 27.49,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -730,7 +832,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 39.61
+     "order_value": 39.61,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.9,
@@ -744,7 +848,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 68.92
+     "order_value": 68.92,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.0,
@@ -758,7 +864,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 79.16
+     "order_value": 79.16,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.9,
@@ -772,7 +880,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 27.43
+     "order_value": 27.43,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 5.8,
@@ -786,7 +896,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 70.83
+     "order_value": 70.83,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.5,
@@ -800,7 +912,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 59.48
+     "order_value": 59.48,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.1,
@@ -814,7 +928,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 27.24
+     "order_value": 27.24,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -828,7 +944,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 24.16
+     "order_value": 24.16,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 7.9,
@@ -842,7 +960,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": true,
-     "order_value": 100.93
+     "order_value": 100.93,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.4,
@@ -856,7 +976,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 29.32
+     "order_value": 29.32,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.0,
@@ -870,7 +992,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 21.74
+     "order_value": 21.74,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -884,7 +1008,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 27.38
+     "order_value": 27.38,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.9,
@@ -898,7 +1024,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 62.96
+     "order_value": 62.96,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.6,
@@ -912,7 +1040,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 37.38
+     "order_value": 37.38,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.7,
@@ -926,7 +1056,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 27.62
+     "order_value": 27.62,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.4,
@@ -940,7 +1072,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 61.49
+     "order_value": 61.49,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.5,
@@ -954,7 +1088,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 20.21
+     "order_value": 20.21,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.5,
@@ -968,7 +1104,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 16.62
+     "order_value": 16.62,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 7.7,
@@ -982,7 +1120,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 104.31
+     "order_value": 104.31,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.8,
@@ -996,7 +1136,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 83.86
+     "order_value": 83.86,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 9.8,
@@ -1010,7 +1152,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 106.67
+     "order_value": 106.67,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.1,
@@ -1024,7 +1168,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 55.04
+     "order_value": 55.04,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 9.6,
@@ -1038,7 +1184,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 104.01
+     "order_value": 104.01,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.6,
@@ -1052,7 +1200,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 20.77
+     "order_value": 20.77,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.5,
@@ -1066,7 +1216,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 34.47
+     "order_value": 34.47,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.9,
@@ -1080,7 +1232,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 35.67
+     "order_value": 35.67,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 6.3,
@@ -1094,7 +1248,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 133.96
+     "order_value": 133.96,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.4,
@@ -1108,7 +1264,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 40.57
+     "order_value": 40.57,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.5,
@@ -1122,7 +1280,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 45.4
+     "order_value": 45.4,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.8,
@@ -1136,7 +1296,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 46.77
+     "order_value": 46.77,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.6,
@@ -1150,7 +1312,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 21.51
+     "order_value": 21.51,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.9,
@@ -1164,7 +1328,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 64.23
+     "order_value": 64.23,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.7,
@@ -1178,7 +1344,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 36.35
+     "order_value": 36.35,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -1192,7 +1360,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 32.29
+     "order_value": 32.29,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.6,
@@ -1206,7 +1376,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 19.35
+     "order_value": 19.35,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.7,
@@ -1220,7 +1392,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 62.36
+     "order_value": 62.36,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.2,
@@ -1234,7 +1408,9 @@
      "price_charged": null,
      "delivery_area": "das",
      "nonstandard_packaging": false,
-     "order_value": 46.16
+     "order_value": 46.16,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -1248,7 +1424,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 49.85
+     "order_value": 49.85,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.5,
@@ -1262,7 +1440,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 45.71
+     "order_value": 45.71,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 9.4,
@@ -1276,7 +1456,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 144.84
+     "order_value": 144.84,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 5.1,
@@ -1290,7 +1472,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 65.77
+     "order_value": 65.77,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.4,
@@ -1304,7 +1488,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 44.11
+     "order_value": 44.11,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.7,
@@ -1318,7 +1504,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 36.28
+     "order_value": 36.28,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -1332,7 +1520,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 18.58
+     "order_value": 18.58,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.6,
@@ -1346,7 +1536,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 34.61
+     "order_value": 34.61,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.9,
@@ -1360,7 +1552,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 30.07
+     "order_value": 30.07,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.3,
@@ -1374,7 +1568,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 41.64
+     "order_value": 41.64,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.9,
@@ -1388,7 +1584,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 39.93
+     "order_value": 39.93,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.1,
@@ -1402,7 +1600,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 48.66
+     "order_value": 48.66,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.3,
@@ -1416,7 +1616,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": true,
-     "order_value": 60.3
+     "order_value": 60.3,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -1430,7 +1632,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 28.97
+     "order_value": 28.97,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.6,
@@ -1444,7 +1648,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 29.59
+     "order_value": 29.59,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.8,
@@ -1458,7 +1664,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 98.31
+     "order_value": 98.31,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.9,
@@ -1472,7 +1680,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 24.01
+     "order_value": 24.01,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.9,
@@ -1486,7 +1696,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 31.1
+     "order_value": 31.1,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.4,
@@ -1500,7 +1712,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 27.19
+     "order_value": 27.19,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.8,
@@ -1514,7 +1728,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 53.59
+     "order_value": 53.59,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.9,
@@ -1528,7 +1744,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 21.52
+     "order_value": 21.52,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 10.3,
@@ -1542,7 +1760,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 130.84
+     "order_value": 130.84,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.5,
@@ -1556,7 +1776,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 19.44
+     "order_value": 19.44,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 10.3,
@@ -1570,7 +1792,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 96.57
+     "order_value": 96.57,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -1584,7 +1808,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 17.63
+     "order_value": 17.63,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -1598,7 +1824,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 25.14
+     "order_value": 25.14,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.3,
@@ -1612,7 +1840,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 17.36
+     "order_value": 17.36,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.3,
@@ -1626,7 +1856,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 45.57
+     "order_value": 45.57,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.9,
@@ -1640,7 +1872,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 70.79
+     "order_value": 70.79,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.6,
@@ -1654,7 +1888,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 16.03
+     "order_value": 16.03,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.7,
@@ -1668,7 +1904,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 50.43
+     "order_value": 50.43,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 10.9,
@@ -1682,7 +1920,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 113.76
+     "order_value": 113.76,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.6,
@@ -1696,7 +1936,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 21.38
+     "order_value": 21.38,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.5,
@@ -1710,7 +1952,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 56.86
+     "order_value": 56.86,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.2,
@@ -1724,7 +1968,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 52.81
+     "order_value": 52.81,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.6,
@@ -1738,7 +1984,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 47.71
+     "order_value": 47.71,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.1,
@@ -1752,7 +2000,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 33.6
+     "order_value": 33.6,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.4,
@@ -1766,7 +2016,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 38.32
+     "order_value": 38.32,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.5,
@@ -1780,7 +2032,9 @@
      "price_charged": 39.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 45.55
+     "order_value": 45.55,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.5,
@@ -1794,7 +2048,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 39.84
+     "order_value": 39.84,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.5,
@@ -1808,7 +2064,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 51.31
+     "order_value": 51.31,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.5,
@@ -1822,7 +2080,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 46.67
+     "order_value": 46.67,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.7,
@@ -1836,7 +2096,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 98.16
+     "order_value": 98.16,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.4,
@@ -1850,7 +2112,9 @@
      "price_charged": null,
      "delivery_area": "das",
      "nonstandard_packaging": false,
-     "order_value": 25.71
+     "order_value": 25.71,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 10.4,
@@ -1864,7 +2128,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 110.73
+     "order_value": 110.73,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.4,
@@ -1878,7 +2144,9 @@
      "price_charged": null,
      "delivery_area": "das",
      "nonstandard_packaging": false,
-     "order_value": 56.55
+     "order_value": 56.55,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.9,
@@ -1892,7 +2160,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 33.12
+     "order_value": 33.12,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 8.8,
@@ -1906,7 +2176,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 116.89
+     "order_value": 116.89,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.0,
@@ -1920,7 +2192,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 19.24
+     "order_value": 19.24,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.4,
@@ -1934,7 +2208,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 54.57
+     "order_value": 54.57,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.4,
@@ -1948,7 +2224,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 72.75
+     "order_value": 72.75,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.3,
@@ -1962,7 +2240,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 18.21
+     "order_value": 18.21,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.3,
@@ -1976,7 +2256,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 48.37
+     "order_value": 48.37,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.1,
@@ -1990,7 +2272,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 22.91
+     "order_value": 22.91,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.4,
@@ -2004,7 +2288,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 49.19
+     "order_value": 49.19,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.9,
@@ -2018,7 +2304,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 67.58
+     "order_value": 67.58,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.6,
@@ -2032,7 +2320,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 64.16
+     "order_value": 64.16,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 9.3,
@@ -2046,7 +2336,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 114.11
+     "order_value": 114.11,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.4,
@@ -2060,7 +2352,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 49.55
+     "order_value": 49.55,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 5.1,
@@ -2074,7 +2368,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 80.9
+     "order_value": 80.9,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 8.5,
@@ -2088,7 +2384,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 93.86
+     "order_value": 93.86,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.9,
@@ -2102,7 +2400,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 72.19
+     "order_value": 72.19,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -2116,7 +2416,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 48.56
+     "order_value": 48.56,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.4,
@@ -2130,7 +2432,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 98.79
+     "order_value": 98.79,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.5,
@@ -2144,7 +2448,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 40.77
+     "order_value": 40.77,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -2158,7 +2464,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 27.21
+     "order_value": 27.21,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.9,
@@ -2172,7 +2480,9 @@
      "price_charged": null,
      "delivery_area": "das",
      "nonstandard_packaging": false,
-     "order_value": 24.12
+     "order_value": 24.12,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.0,
@@ -2186,7 +2496,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 37.63
+     "order_value": 37.63,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.9,
@@ -2200,7 +2512,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 71.53
+     "order_value": 71.53,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 10.5,
@@ -2214,7 +2528,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 103.07
+     "order_value": 103.07,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.6,
@@ -2228,7 +2544,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 13.95
+     "order_value": 13.95,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 11.0,
@@ -2242,7 +2560,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 147.91
+     "order_value": 147.91,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.4,
@@ -2256,7 +2576,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 39.18
+     "order_value": 39.18,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.4,
@@ -2270,7 +2592,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 30.96
+     "order_value": 30.96,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.3,
@@ -2284,7 +2608,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 20.42
+     "order_value": 20.42,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.2,
@@ -2298,7 +2624,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 49.86
+     "order_value": 49.86,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 6.4,
@@ -2312,7 +2640,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 74.09
+     "order_value": 74.09,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.4,
@@ -2326,7 +2656,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 60.45
+     "order_value": 60.45,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -2340,7 +2672,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 54.58
+     "order_value": 54.58,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.1,
@@ -2354,7 +2688,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 23.86
+     "order_value": 23.86,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 8.1,
@@ -2368,7 +2704,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 86.5
+     "order_value": 86.5,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 11.5,
@@ -2382,7 +2720,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 114.94
+     "order_value": 114.94,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.8,
@@ -2396,7 +2736,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 48.81
+     "order_value": 48.81,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 6.7,
@@ -2410,7 +2752,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 82.01
+     "order_value": 82.01,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.5,
@@ -2424,7 +2768,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 12.0
+     "order_value": 12.0,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.3,
@@ -2438,7 +2784,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 37.85
+     "order_value": 37.85,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -2452,7 +2800,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 19.12
+     "order_value": 19.12,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.3,
@@ -2466,7 +2816,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 55.88
+     "order_value": 55.88,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.9,
@@ -2480,7 +2832,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 59.89
+     "order_value": 59.89,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 7.4,
@@ -2494,7 +2848,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 73.4
+     "order_value": 73.4,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.5,
@@ -2508,7 +2864,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 68.75
+     "order_value": 68.75,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 2.7,
@@ -2522,7 +2880,9 @@
      "price_charged": 19.99,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 39.71
+     "order_value": 39.71,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 3.8,
@@ -2536,7 +2896,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 42.58
+     "order_value": 42.58,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.4,
@@ -2550,7 +2912,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 26.34
+     "order_value": 26.34,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.4,
@@ -2564,7 +2928,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 17.27
+     "order_value": 17.27,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.7,
@@ -2578,7 +2944,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 25.29
+     "order_value": 25.29,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.7,
@@ -2592,7 +2960,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 48.36
+     "order_value": 48.36,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.3,
@@ -2606,7 +2976,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 45.83
+     "order_value": 45.83,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.7,
@@ -2620,7 +2992,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 39.07
+     "order_value": 39.07,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.4,
@@ -2634,7 +3008,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 58.38
+     "order_value": 58.38,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.4,
@@ -2648,7 +3024,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 21.14
+     "order_value": 21.14,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.9,
@@ -2662,7 +3040,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 32.41
+     "order_value": 32.41,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 9.1,
@@ -2676,7 +3056,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 105.35
+     "order_value": 105.35,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.6,
@@ -2690,7 +3072,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 27.3
+     "order_value": 27.3,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 0.8,
@@ -2704,7 +3088,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 21.25
+     "order_value": 21.25,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.2,
@@ -2718,7 +3104,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 24.11
+     "order_value": 24.11,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 4.9,
@@ -2732,7 +3120,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 97.72
+     "order_value": 97.72,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.4,
@@ -2746,7 +3136,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 46.01
+     "order_value": 46.01,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.9,
@@ -2760,7 +3152,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 32.98
+     "order_value": 32.98,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -2774,7 +3168,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 52.68
+     "order_value": 52.68,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 1.8,
@@ -2788,7 +3184,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 33.92
+     "order_value": 33.92,
+     "origin_zip": null,
+     "destination_zip": null
     },
     {
      "weight_lb": 5.4,
@@ -2802,7 +3200,9 @@
      "price_charged": null,
      "delivery_area": "none",
      "nonstandard_packaging": false,
-     "order_value": 68.0
+     "order_value": 68.0,
+     "origin_zip": null,
+     "destination_zip": null
     }
    ],
    "controls": {

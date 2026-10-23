@@ -1,8 +1,8 @@
 import { useId, type ReactNode } from "react";
-import type { Carrier, DeliveryArea, Parcel, Tier } from "../../api/types";
+import type { Carrier, DeliveryArea, Parcel, Tier, ZoneSource } from "../../api/types";
 import { CARRIERS, TIERS } from "../../api/types";
 import { draftFromParcel, draftWeight, type Draft } from "./draft";
-import type { FormField } from "./quoteModel";
+import type { CarrierZone, FormField } from "./quoteModel";
 import { CARRIER_NAME } from "../../lib/carriers";
 import { TIER_NAME } from "../../lib/format";
 
@@ -12,7 +12,9 @@ export interface QuoteFormProps {
   /** Messages per field: local shape checks and the server's 422 messages. */
   errors: Partial<Record<FormField, string[]>>;
   /** Zone per carrier from the last quote, shown under the distance. */
-  zones: Partial<Record<Carrier, number>> | null;
+  zones: Partial<Record<Carrier, CarrierZone>> | null;
+  /** Miles between the two ZIPs from the last quote, shown in the disabled distance box. */
+  zipMiles: number | null;
   parcels: Parcel[] | null;
 }
 
@@ -22,17 +24,26 @@ const AREA_LABEL: Record<DeliveryArea, string> = {
   extended: "Extended remote",
 };
 
-function zoneLine(zones: Partial<Record<Carrier, number>>): string | null {
+const SOURCE_WORD: Record<ZoneSource, string> = { usps_chart: "zone chart", zip_distance: "estimated", distance: "" };
+
+function zoneLine(zones: Partial<Record<Carrier, CarrierZone>>): string | null {
   const entries = CARRIERS.filter((c) => zones[c] !== undefined).map((c) => [c, zones[c]!] as const);
   if (entries.length === 0) return null;
-  const distinct = new Set(entries.map(([, z]) => z));
-  if (distinct.size === 1) return `Zone ${entries[0]![1]}${entries.length > 1 ? " for every carrier" : ` (${CARRIER_NAME[entries[0]![0]]})`}`;
-  return entries.map(([c, z]) => `${CARRIER_NAME[c]} zone ${z}`).join(" · ");
+  const fromZips = entries.some(([, z]) => z.source !== "distance");
+  if (fromZips) {
+    // From ZIP codes: say per carrier whether the zone is the USPS chart's or estimated from distance.
+    return entries.map(([c, z]) => `${CARRIER_NAME[c]} zone ${z.zone} (${SOURCE_WORD[z.source]})`).join(" · ");
+  }
+  const distinct = new Set(entries.map(([, z]) => z.zone));
+  if (distinct.size === 1)
+    return `Zone ${entries[0]![1].zone}${entries.length > 1 ? " for every carrier" : ` (${CARRIER_NAME[entries[0]![0]]})`}`;
+  return entries.map(([c, z]) => `${CARRIER_NAME[c]} zone ${z.zone}`).join(" · ");
 }
 
 function parcelLabel(p: Parcel, i: number): string {
   const dims = p.length_in ? ` · ${p.length_in}×${p.width_in}×${p.height_in} in` : "";
-  return `#${i + 1}: ${p.weight_lb} lb${dims} · ${p.distance_miles} mi · ${p.residential ? "home" : "business"} · ${TIER_NAME[p.speed]}`;
+  const where = p.destination_zip ? `to ${p.destination_zip}` : `${p.distance_miles} mi`;
+  return `#${i + 1}: ${p.weight_lb} lb${dims} · ${where} · ${p.residential ? "home" : "business"} · ${TIER_NAME[p.speed]}`;
 }
 
 const MAX_PICKS = 300;
@@ -58,7 +69,7 @@ function Field({ label, htmlFor, children, hint }: { label: string; htmlFor?: st
   );
 }
 
-export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteFormProps) {
+export function QuoteForm({ draft, onChange, errors, zones, zipMiles, parcels }: QuoteFormProps) {
   const uid = useId();
   const id = (s: string) => `${uid}-${s}`;
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) => onChange({ ...draft, [key]: value });
@@ -150,7 +161,33 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
       </fieldset>
 
       <Field
-        label="Distance"
+        label="Destination ZIP"
+        htmlFor={id("toZip")}
+        hint={
+          <>
+            <p className="control__hint">
+              Optional. With your ship-from ZIP (in the assumptions), USPS uses its zone chart; UPS and FedEx zones are
+              estimated from the distance between the two ZIPs.
+            </p>
+            <Errors id={id("toZip-err")} messages={errors.toZip} />
+          </>
+        }
+      >
+        <input
+          id={id("toZip")}
+          className="qf__input qf__zip"
+          inputMode="numeric"
+          autoComplete="postal-code"
+          maxLength={5}
+          placeholder="e.g. 90210"
+          value={draft.toZip}
+          onChange={(e) => set("toZip", e.target.value)}
+          {...described("toZip")}
+        />
+      </Field>
+
+      <Field
+        label={draft.toZip.trim() ? "Distance between the ZIP areas" : "Distance"}
         htmlFor={id("distance")}
         hint={
           <>
@@ -168,7 +205,8 @@ export function QuoteForm({ draft, onChange, errors, zones, parcels }: QuoteForm
             id={id("distance")}
             className="qf__input"
             inputMode="decimal"
-            value={draft.distance}
+            disabled={draft.toZip.trim() !== ""}
+            value={draft.toZip.trim() ? (zipMiles !== null ? Math.round(zipMiles).toLocaleString("en-US") : "") : draft.distance}
             onChange={(e) => set("distance", e.target.value)}
             {...described("distance")}
           />

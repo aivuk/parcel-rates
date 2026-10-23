@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .rules import zone_for
+from .rules import parcel_zone
 from .tables import RateTables
 from .types import Parcel
 
@@ -46,7 +46,7 @@ def weight_band(parcel: Parcel) -> str:
 
 
 def zone_band(tables: RateTables, parcel: Parcel) -> str:
-    zone = zone_for(tables, SEGMENT_CARRIER, parcel.distance_miles)
+    zone, _ = parcel_zone(tables, SEGMENT_CARRIER, parcel)
     for label, low, high in ZONE_BANDS:
         if zone is not None and low <= zone <= high:
             return label

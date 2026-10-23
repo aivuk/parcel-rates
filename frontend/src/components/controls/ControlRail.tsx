@@ -5,7 +5,7 @@ import { fuelDefault, yearOptions } from "../../lib/fuel";
 import { FuelSlider, fuelAbout } from "./FuelSlider";
 import { CARRIER_NAME } from "../../lib/carriers";
 import { formatPercent, formatUsd, formatUsdRound } from "../../lib/format";
-import { ORDER_VALUE_MAX, PRICE_MAX } from "../../state/urlState";
+import { ORDER_VALUE_MAX, PRICE_MAX, ZIP5 } from "../../state/urlState";
 
 export interface ControlRailProps {
   state: AppState;
@@ -23,9 +23,53 @@ export function assumptionsLine(state: AppState): string {
     ? `fuel ${[o.ground, o.express].map((v) => (v === undefined ? "default" : formatPercent(v))).join(" / ")}`
     : "fuel default";
   const free = c.free_shipping_over !== undefined ? `free from ${formatUsdRound(c.free_shipping_over)}` : null;
-  return [String(c.year), `USPS ${c.usps_rate_card}`, fuel, c.peak ? "peak" : null, `${formatUsd(c.flat_price)} charged`, free]
+  return [String(c.year), c.origin_zip ? `from ${c.origin_zip}` : null, `USPS ${c.usps_rate_card}`, fuel, c.peak ? "peak" : null, `${formatUsd(c.flat_price)} charged`, free]
     .filter(Boolean)
     .join(" · ");
+}
+
+function ZipField({ value, aboutId, onCommit }: { value: string | null; aboutId: string; onCommit: (zip: string | null) => void }) {
+  const id = useId();
+  const [draft, setDraft] = useState(value ?? "");
+  const [problem, setProblem] = useState<string | null>(null);
+  useEffect(() => setDraft(value ?? ""), [value]);
+  const commit = () => {
+    const zip = draft.trim();
+    if (zip !== "" && !ZIP5.test(zip)) {
+      setProblem("Enter a 5-digit ZIP code, or leave it empty");
+      return;
+    }
+    setProblem(null);
+    onCommit(zip === "" ? null : zip);
+  };
+  return (
+    <div className="control">
+      <label htmlFor={id} className="control__label">
+        Ship from ZIP
+      </label>
+      <input
+        id={id}
+        className="select zip-input"
+        inputMode="numeric"
+        autoComplete="postal-code"
+        maxLength={5}
+        placeholder="none"
+        value={draft}
+        aria-invalid={problem ? true : undefined}
+        aria-describedby={problem ? `${id}-error ${aboutId}` : aboutId}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") commit();
+        }}
+      />
+      {problem && (
+        <p id={`${id}-error`} className="control__error">
+          {problem}
+        </p>
+      )}
+    </div>
+  );
 }
 
 interface MoneyFieldProps {
@@ -109,6 +153,7 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
     peak: `${aboutId}-peak`,
     price: `${aboutId}-price`,
     free: `${aboutId}-free`,
+    from: `${aboutId}-from`,
   };
   const groundDefault = fuelDefault(meta, c.year, "ground");
   const expressDefault = fuelDefault(meta, c.year, "express");
@@ -129,23 +174,26 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
         </div>
       )}
 
-      <div className="control">
-        <label htmlFor={yearId} className="control__label">
-          Price list year
-        </label>
-        <select
-          id={yearId}
-          className="select"
-          value={c.year}
-          onChange={(e) => dispatch({ type: "year", year: Number(e.target.value) })}
-        >
-          {yearList.map(({ year, missing }) => (
-            <option key={year} value={year}>
-              {year}
-              {missing.length > 0 ? ` (no ${missing.map((m) => CARRIER_NAME[m]).join(", ")})` : ""}
-            </option>
-          ))}
-        </select>
+      <div className="control control--where">
+        <div className="control">
+          <label htmlFor={yearId} className="control__label">
+            Price list year
+          </label>
+          <select
+            id={yearId}
+            className="select"
+            value={c.year}
+            onChange={(e) => dispatch({ type: "year", year: Number(e.target.value) })}
+          >
+            {yearList.map(({ year, missing }) => (
+              <option key={year} value={year}>
+                {year}
+                {missing.length > 0 ? ` (no ${missing.map((m) => CARRIER_NAME[m]).join(", ")})` : ""}
+              </option>
+            ))}
+          </select>
+        </div>
+        <ZipField value={c.origin_zip ?? null} aboutId={about.from} onCommit={(zip) => dispatch({ type: "originZip", zip })} />
       </div>
 
       <fieldset className="control segmented">
@@ -236,6 +284,12 @@ export function ControlRail({ state, dispatch, meta, metaStatus, onRetryMeta }: 
       <details className="rail__about">
         <summary className="rail__about-summary">About these assumptions</summary>
         <dl className="rail__about-list">
+          <dt>Ship from</dt>
+          <dd id={about.from}>
+            The ZIP code your parcels leave from. With a destination ZIP (in question 1, or a destination_zip column in
+            your CSV), USPS uses its zone chart; UPS and FedEx zones are estimated from the distance between the two ZIPs.
+            Leave it empty to work with distances.
+          </dd>
           <dt>Fuel, ground</dt>
           <dd id={about.ground}>{fuelAbout("ground services", groundDefault)}</dd>
           <dt>Fuel, express</dt>
