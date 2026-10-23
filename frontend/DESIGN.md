@@ -179,7 +179,9 @@ carrier names, colours and years in `src/lib/carriers.ts`, hooks (`useDebounced`
 
 **Q3, blended cost.** Answer first: the cheapest single carrier and its blended
 cost per parcel (`--text-figure`), the others with their gap, then the
-"best mix" (cheapest carrier per parcel) and its saving. Directly under it, the
+"best mix" (cheapest carrier per parcel) and its saving, or a single line when one
+carrier wins every parcel (the margin table then drops its duplicate "Best mix"
+row). Directly under it, the
 verdict answers "does my shipping price cover the cost?" under a heavy rule in
 the money colour (`--accent` for a loss, `--profit` otherwise; no wash), figure
 at `--text-2xl` in the same colour, with the share of
@@ -192,8 +194,10 @@ screen. Then the stacked cost split.
 
 - Cost split colours (tokens in `src/styles/tokens.css`): neutral `--q3-base` for the
   base rate, a single teal ramp `--q3-sur-1..4` for surcharge kinds (darkest =
-  largest kind; beyond three kinds they fold into "Other surcharges"), and
-  `--q3-fuel` (ink) for fuel. Teal sits outside the carrier and money hues.
+  largest kind), and `--q3-fuel` (ink) for fuel. Teal sits outside the carrier
+  and money hues. A kind under 2 % of the longest bar would be a sliver, and
+  beyond three kinds there is no room, so those fold into "Other surcharges";
+  the table still lists every kind.
   Each carrier's row label carries its name, total and surcharge/fuel shares,
   so the split reads without the legend.
 
@@ -268,8 +272,11 @@ distance band (neighbouring bands that read the same are merged) follows. The ma
 hand-built SVG: rows are weights, columns the zone-band midpoints, cell colour is the
 winner's carrier colour mixed with its wash in four fixed saving steps (under $1,
 $1–3, $3–10, $10+), so the legend means the same on every map. A heavy ink line marks
-where USPS stops or starts winning and a dotted line where UPS and FedEx swap; runs
-tall enough carry the carrier name. Colour is therefore never the only cue. The grid is
+where USPS stops or starts winning and a dotted line where UPS and FedEx swap. UPS and
+FedEx within $0.10 are drawn as a tie (stripes of both colours, "Tie" in the legend and
+the tooltip), which keeps a few cents from cutting the 27–50 lb band into slivers; USPS
+cells are never merged. Runs tall enough carry the carrier name when it fits the
+column (10 px on phones). Colour is therefore never the only cue. The grid is
 a roving-tabindex `role="grid"` (arrows, Home/End, PageUp/PageDown, Escape closes the
 tooltip); hover, tap or focus shows every carrier's total. "Show as table" swaps the
 map for a sticky-header table. At 375 px the map fits without horizontal scroll (columns

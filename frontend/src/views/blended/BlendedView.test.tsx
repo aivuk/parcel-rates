@@ -44,11 +44,10 @@ describe("BlendedView", () => {
     expect(screen.getByText(/Blended over every parcel/)).toHaveTextContent("UPS $31.14 (+$20.16), FedEx $31.22 (+$20.24).");
     expect(blended).toHaveBeenCalledWith(expect.objectContaining({ parcels: sampleParcels, controls }), expect.anything());
     expect(blended.mock.calls[0]![0]).not.toHaveProperty("segment");
-    const mix = screen.getByTestId("q3-mix");
-    expect(mix).toHaveTextContent("$10.98");
-    expect(mix).toHaveTextContent("no saving over USPS alone.");
-    expect(mix).not.toHaveTextContent("less per parcel");
-    expect(mix).toHaveTextContent(/^.*USPS 307$/);
+    // USPS wins every parcel: one line instead of a mix that repeats USPS, and no duplicate table row.
+    expect(screen.getByTestId("q3-mix")).toHaveTextContent(/^Best mix: USPS wins every parcel, so choosing per parcel saves nothing\.$/);
+    expect(screen.queryByTestId("margin-mix")).not.toBeInTheDocument();
+    expect(screen.getByTestId("margin-usps")).toBeInTheDocument();
   });
 
   it("shows the best mix saving when choosing per parcel is cheaper", async () => {
@@ -67,6 +66,7 @@ describe("BlendedView", () => {
     expect(mix).toHaveTextContent("$9.87");
     expect(mix).toHaveTextContent("$1.11 less per parcel than USPS alone ($341.27 on these parcels)");
     expect(mix).toHaveTextContent("USPS 280 · FedEx 17 · UPS 10");
+    expect(screen.getByTestId("margin-mix")).toHaveTextContent("$9.87");
   });
 
   it("says plainly whether the flat price covers the cost and how many parcels lose money", async () => {
@@ -195,31 +195,42 @@ describe("blended logic", () => {
     expect(a.mixSavingTotal).toBe(0);
   });
 
-  it("shows up to four surcharge kinds without folding", () => {
+  it("folds surcharge kinds too small to see into Other surcharges", () => {
+    // On a $31 axis, additional handling ($0.20), delivery area ($0.12) and extended ($0.03) are slivers.
     const k = surchargeKinds(mockBlendedResponse);
-    expect(k.shown).toEqual(["residential", "additional_handling_packaging", "delivery_area", "delivery_area_extended"]);
-    expect(k.folded).toEqual([]);
+    expect(k.shown).toEqual(["residential"]);
+    expect(k.folded).toEqual(["additional_handling_packaging", "delivery_area", "delivery_area_extended"]);
     const ups = splitRows(mockBlendedResponse, k, CARRIER_NAME).find((r) => r.carrier === "ups")!;
     expect(ups.kinds.residential).toBe(5.25);
-    expect(ups.kinds).not.toHaveProperty(OTHER_KIND);
+    expect(ups.kinds[OTHER_KIND]).toBeCloseTo(0.35, 6);
+    const usps = splitRows(mockBlendedResponse, k, CARRIER_NAME).find((r) => r.carrier === "usps")!;
+    expect(usps.kinds[OTHER_KIND]).toBeCloseTo(0.03, 6);
   });
 
-  it("keeps the three biggest surcharge kinds and folds the rest", () => {
-    const extra = { condition: "nonstandard_length", total: 4.5, per_parcel: 0.01, share_of_cost: 0.0013 };
+  it("keeps at most three visible surcharge kinds and folds the rest", () => {
+    const kind = (condition: string, per_parcel: number) => ({ condition, per_parcel, total: per_parcel * 307, share_of_cost: 0 });
+    const many = [kind("residential", 5), kind("delivery_area", 4), kind("additional_handling_packaging", 3), kind("large_package", 2), kind("peak", 1)];
     const r: BlendedResponse = {
       ...mockBlendedResponse,
-      carriers: mockBlendedResponse.carriers.map((c) =>
-        c.carrier === "usps" ? { ...c, surcharges_by_condition: [...c.surcharges_by_condition, extra] } : c,
-      ),
+      carriers: mockBlendedResponse.carriers.map((c) => (c.carrier === "ups" ? { ...c, surcharges_by_condition: many } : c)),
     };
     const k = surchargeKinds(r);
-    expect(k.shown).toEqual(["residential", "additional_handling_packaging", "delivery_area"]);
-    expect(k.folded).toEqual(expect.arrayContaining(["nonstandard_length", "delivery_area_extended"]));
-    const usps = splitRows(r, k, CARRIER_NAME).find((rw) => rw.carrier === "usps")!;
-    expect(usps.kinds.additional_handling_packaging).toBe(0.03);
-    expect(usps.kinds[OTHER_KIND]).toBe(0.01);
+    expect(k.shown).toEqual(["residential", "delivery_area", "additional_handling_packaging"]);
+    expect(k.folded).toEqual(["large_package", "peak", "delivery_area_extended"]);
     const ups = splitRows(r, k, CARRIER_NAME).find((rw) => rw.carrier === "ups")!;
-    expect(ups.kinds[OTHER_KIND]).toBe(0.03);
+    expect(ups.kinds[OTHER_KIND]).toBe(3);
+  });
+
+  it("lists every surcharge kind in the table, folded or not", async () => {
+    const { client } = spyClient();
+    renderWith(client, <BlendedView controls={controls} meta={meta} parcels={sampleParcels} {...parcelActions} />);
+    await screen.findByTestId("q3-answer");
+    const figure = screen.getByRole("figure", { name: /what each parcel costs, by part/i });
+    await userEvent.click(within(figure).getByRole("button", { name: "Show as table" }));
+    const table = within(figure).getByRole("table");
+    const heads = within(table).getAllByRole("columnheader").map((h) => h.textContent);
+    expect(heads).not.toContain("Other surcharges");
+    expect(heads.length).toBe(1 + 1 + 4 + 1 + 2); // carrier, base, four kinds, fuel, total, share
   });
 
   it("sends no segment when every group is All", () => {
