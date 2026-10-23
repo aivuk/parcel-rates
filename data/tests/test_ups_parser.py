@@ -142,7 +142,7 @@ def test_fuel_rows_parse_and_lower_median():
     assert ups.lower_median([Decimal("16.25"), Decimal("16.00"), Decimal("16.00"), Decimal("16.50")]) == Decimal("16.00")
 
 
-def test_real_2026_ground_page_when_available():
+def test_real_2026_ground_page():
     pdfplumber = pytest.importorskip("pdfplumber")
     try:
         path = raw_path(ups.rules.GUIDES[2026]["file"])
