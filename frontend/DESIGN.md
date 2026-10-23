@@ -98,6 +98,10 @@ hue-true tints chosen for white paper, not the old beige-cast ones: USPS
 `#D6E4FB` / `#18233A`, UPS `#F6DCAE` / `#2C2318`, FedEx `#F8D3EE` / `#301A2B`
 (light / dark). The Q2 heatmap mixes them in oklch and its lightest saving
 step keeps 45 % of the carrier colour, so no cell goes pastel on white.
+The washes appear only mixed into heatmap cells, never on their own: the Q1
+bars fill the surcharge hatch and the fuel segment with the neutral `--wash`
+and an outline in the carrier colour, so no warm tint (the UPS wash is a light
+brown) shows anywhere as a surface.
 
 ## Type
 

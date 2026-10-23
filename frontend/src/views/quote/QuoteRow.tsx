@@ -1,7 +1,7 @@
 import { useId } from "react";
 import type { Quote } from "../../api/types";
 import { splitOf } from "./quoteModel";
-import { CARRIER_NAME, carrierVar, carrierWashVar } from "../../lib/carriers";
+import { CARRIER_NAME, carrierVar } from "../../lib/carriers";
 import { formatUsd } from "../../lib/format";
 
 /** Base, surcharges and fuel as one bar; widths are shares of `scale` (the dearest row's total). */
@@ -17,12 +17,12 @@ export function StackedBar({ quote, scale }: { quote: Quote; scale: number }) {
         className="qbar__part qbar__part--surcharge"
         style={{
           width: pct(s.surcharges),
-          backgroundImage: `repeating-linear-gradient(135deg, ${carrierVar(c)} 0 2px, ${carrierWashVar(c)} 2px 5px)`,
+          backgroundImage: `repeating-linear-gradient(135deg, ${carrierVar(c)} 0 2px, var(--wash) 2px 5px)`,
         }}
       />
       <span
         className="qbar__part qbar__part--fuel"
-        style={{ width: pct(s.fuel), background: carrierWashVar(c), borderColor: carrierVar(c) }}
+        style={{ width: pct(s.fuel), background: "var(--wash)", borderColor: carrierVar(c) }}
       />
     </span>
   );
