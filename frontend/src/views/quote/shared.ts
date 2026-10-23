@@ -7,13 +7,17 @@ import type { Carrier, Meta } from "../../api/types";
 import { CARRIERS } from "../../api/types";
 import { formatUsd } from "../../lib/format";
 
+/** Margins that round to $0.00 are break-even: no sign, no profit or loss colour. */
+const BREAK_EVEN = 0.005;
+const isBreakEven = (margin: number) => Math.abs(margin) < BREAK_EVEN;
+
 /** "+$1.58 margin" / "−$1.90 loss": sign and word, never colour alone. */
 export function marginText(margin: number): string {
-  if (Math.abs(margin) < 0.005) return "$0.00, break-even";
+  if (isBreakEven(margin)) return "$0.00, break-even";
   return margin > 0 ? `+${formatUsd(margin)} margin` : `−${formatUsd(-margin)} loss`;
 }
 
-export const marginClass = (margin: number) => (margin < -0.004 ? "is-loss" : margin > 0.004 ? "is-profit" : "");
+export const marginClass = (margin: number) => (isBreakEven(margin) ? "" : margin < 0 ? "is-loss" : "is-profit");
 
 /** Carriers that publish prices for `year`; all three when meta is not loaded yet. */
 export function carriersForYear(meta: Meta | null, year: number): Carrier[] {
