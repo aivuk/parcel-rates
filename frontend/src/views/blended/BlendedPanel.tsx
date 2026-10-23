@@ -136,8 +136,8 @@ function Answer({ data, answer, kicker }: { data: BlendedResponse; answer: Blend
   return (
     <div className="answer q3-answer">
       <p className="kicker">{kicker}</p>
-      <p className="answer__figure" data-testid="q3-answer">
-        <span className="carrier-tag" style={{ color: carrierVar(cheapest.carrier) }}>
+      <p className="answer__figure answer__figure--stamp" data-testid="q3-answer">
+        <span className="carrier-tag" style={{ backgroundColor: carrierVar(cheapest.carrier) }}>
           {carrierName(cheapest.carrier)}
         </span>{" "}
         {formatUsd(cheapest.cost_per_parcel)}

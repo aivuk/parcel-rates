@@ -161,3 +161,28 @@
     padding: var(--space-4);
   }
 }
+
+/* Q3 and Q4: the answer as a stamp, paper on an ink block, like the service-class box on a
+   label. The carrier name sits in its own carrier-coloured box (paper text on the carrier
+   colour passes AA in both themes); the carrier colours are too dark to read on the ink. */
+.answer__figure--stamp {
+  justify-self: start;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.22em;
+  padding: 0.1em 0.22em 0.08em;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.answer__figure--stamp .carrier-tag {
+  align-self: center;
+  padding: 0 0.12em;
+  border: 2px solid var(--paper);
+  color: var(--paper);
+}
+
+.answer__figure--stamp .answer__unit {
+  color: var(--paper);
+}

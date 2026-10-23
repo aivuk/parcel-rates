@@ -114,8 +114,8 @@ function Body({
         </p>
         {change ? (
           <>
-            <p className="answer__figure" data-testid="q4-answer">
-              <span className="carrier-tag" style={{ color: carrierVar(pick.carrier) }}>
+            <p className="answer__figure answer__figure--stamp" data-testid="q4-answer">
+              <span className="carrier-tag" style={{ backgroundColor: carrierVar(pick.carrier) }}>
                 {carrierName(pick.carrier)}
               </span>{" "}
               {signedPct(change.percent)}
@@ -152,8 +152,8 @@ function Body({
           </>
         ) : (
           <>
-            <p className="answer__figure" data-testid="q4-single-year">
-              <span className="carrier-tag" style={{ color: carrierVar(pick.carrier) }}>
+            <p className="answer__figure answer__figure--stamp" data-testid="q4-single-year">
+              <span className="carrier-tag" style={{ backgroundColor: carrierVar(pick.carrier) }}>
                 {carrierName(pick.carrier)}
               </span>{" "}
               {formatUsd(rowCost(pick, ref))}
