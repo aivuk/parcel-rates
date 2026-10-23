@@ -140,6 +140,15 @@ A 4 px base (`--space-1` … `--space-8`: 4, 8, 12, 16, 24, 32, 48, 72 px) with 
 deliberate jump to 48-72 px between sections, so sections read as zones.
 Corners are square. Separation comes from rules, not from boxes or shadows.
 
+## Light and dark
+
+The theme follows the system setting until the owner chooses: a "Dark mode" toggle at the
+right of the masthead (a small labelled box, filled when on, `aria-pressed`) switches it and
+remembers the choice in local storage. `public/theme.js`, a same-origin script in the head
+(the CSP forbids inline ones), sets `data-theme` on `<html>` before the first paint; the dark
+tokens apply under `:root[data-theme="dark"]`, and the charts re-read their colours when the
+attribute changes.
+
 ## Texture
 
 One small CSS-generated barcode mark (`repeating-linear-gradient` of uneven ink

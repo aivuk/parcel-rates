@@ -5,6 +5,7 @@ import { ControlRail, assumptionsLine } from "./components/controls/ControlRail"
 import { useParcelSetUi } from "./components/parcels/ParcelSetPanel";
 import { QuestionTabs } from "./components/QuestionTabs";
 import { Footer } from "./components/Footer";
+import { ThemeToggle } from "./components/ThemeToggle";
 import { useParcelSet } from "./hooks/useParcelSet";
 import { useUrlState } from "./hooks/useUrlState";
 import { useMediaQuery } from "./hooks/useMediaQuery";
@@ -77,6 +78,7 @@ export function App() {
             <span className="masthead__barcode" aria-hidden="true" />
             {state.controls.year} published list prices · USPS, UPS, FedEx
           </p>
+          <ThemeToggle />
           <p className="masthead__deck">
             Which carrier is cheapest for each kind of parcel you ship, and does your flat price still cover the real cost?
           </p>

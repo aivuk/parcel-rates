@@ -78,41 +78,41 @@
   --q4-down: #2f6f86;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --paper: #0f1113;
-    --sheet: #191c1f;
-    --ink: #eceeea;
-    --ink-muted: #a6acb2;
-    --rule: #34393e;
-    --rule-strong: #eceeea;
-    --wash: #23272b;
+/* Dark: set by public/theme.js from the saved choice or the system setting, and by the
+   masthead toggle (src/lib/theme.ts). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0f1113;
+  --sheet: #191c1f;
+  --ink: #eceeea;
+  --ink-muted: #a6acb2;
+  --rule: #34393e;
+  --rule-strong: #eceeea;
+  --wash: #23272b;
 
-    --carrier-usps: #7fa8ee;
-    --carrier-ups: #d9a35a;
-    --carrier-fedex: #e68ac9;
-    --carrier-usps-wash: #18233a;
-    --carrier-ups-wash: #2c2318;
-    --carrier-fedex-wash: #301a2b;
+  --carrier-usps: #7fa8ee;
+  --carrier-ups: #d9a35a;
+  --carrier-fedex: #e68ac9;
+  --carrier-usps-wash: #18233a;
+  --carrier-ups-wash: #2c2318;
+  --carrier-fedex-wash: #301a2b;
 
-    --accent: #e8590c;
-    --loss: #e8590c;
-    --profit: #6fcb94;
+  --accent: #e8590c;
+  --loss: #e8590c;
+  --profit: #6fcb94;
 
-    --mock: #e8b860;
-    --focus: #eceeea;
-    --focus-halo: #0f1113;
-    --shadow-sheet: 0 -12px 40px rgb(0 0 0 / 0.5);
-    --backdrop: rgb(0 0 0 / 0.6);
+  --mock: #e8b860;
+  --focus: #eceeea;
+  --focus-halo: #0f1113;
+  --shadow-sheet: 0 -12px 40px rgb(0 0 0 / 0.5);
+  --backdrop: rgb(0 0 0 / 0.6);
 
-    --q3-base: #6b7177;
-    --q3-sur-1: #7fd0d6;
-    --q3-sur-2: #4aa7b0;
-    --q3-sur-3: #2f7a82;
-    --q3-sur-4: #23565c;
-    --q3-fuel: #c4c8cc;
-    --q4-up: #e0b04a;
-    --q4-down: #6fb6cf;
-  }
+  --q3-base: #6b7177;
+  --q3-sur-1: #7fd0d6;
+  --q3-sur-2: #4aa7b0;
+  --q3-sur-3: #2f7a82;
+  --q3-sur-4: #23565c;
+  --q3-fuel: #c4c8cc;
+  --q4-up: #e0b04a;
+  --q4-down: #6fb6cf;
 }

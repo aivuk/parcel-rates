@@ -58,6 +58,44 @@
   );
 }
 
+/* Light / dark: a small labelled box, filled when dark mode is on. */
+.theme-toggle {
+  margin-left: auto;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2rem;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--ink);
+  background: transparent;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background: var(--wash);
+}
+
+.theme-toggle__box {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1.5px solid currentColor;
+}
+
+.theme-toggle[aria-pressed="true"] .theme-toggle__box {
+  background: currentColor;
+}
+
+@media (pointer: coarse) {
+  .theme-toggle {
+    min-height: 44px;
+  }
+}
+
 .masthead__deck {
   flex-basis: 100%;
   margin-top: var(--space-1);
