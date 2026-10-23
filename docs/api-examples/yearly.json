@@ -2682,6 +2682,7 @@
         "source_type": "primary"
        },
        "drivers": null,
+       "fuel": null,
        "warnings": []
       },
       {
@@ -2837,6 +2838,7 @@
          }
         ]
        },
+       "fuel": null,
        "warnings": []
       },
       {
@@ -2992,6 +2994,7 @@
          }
         ]
        },
+       "fuel": null,
        "warnings": []
       },
       {
@@ -3153,6 +3156,7 @@
          }
         ]
        },
+       "fuel": null,
        "warnings": []
       }
      ],
@@ -3237,6 +3241,18 @@
         "source_type": "secondary"
        },
        "drivers": null,
+       "fuel": {
+        "ground": {
+         "default_percent": 18.0,
+         "is_proxy": true,
+         "applied_percent": 18.0
+        },
+        "express": {
+         "default_percent": 19.25,
+         "is_proxy": true,
+         "applied_percent": 19.25
+        }
+       },
        "warnings": []
       },
       {
@@ -3399,6 +3415,18 @@
           "change_total": 43.05
          }
         ]
+       },
+       "fuel": {
+        "ground": {
+         "default_percent": 16.25,
+         "is_proxy": true,
+         "applied_percent": 16.25
+        },
+        "express": {
+         "default_percent": 16.0,
+         "is_proxy": true,
+         "applied_percent": 16.0
+        }
        },
        "warnings": []
       },
@@ -3563,6 +3591,18 @@
          }
         ]
        },
+       "fuel": {
+        "ground": {
+         "default_percent": 20.5,
+         "is_proxy": true,
+         "applied_percent": 20.5
+        },
+        "express": {
+         "default_percent": 19.25,
+         "is_proxy": true,
+         "applied_percent": 19.25
+        }
+       },
        "warnings": []
       },
       {
@@ -3726,6 +3766,18 @@
          }
         ]
        },
+       "fuel": {
+        "ground": {
+         "default_percent": 26.25,
+         "is_proxy": true,
+         "applied_percent": 26.25
+        },
+        "express": {
+         "default_percent": 28.75,
+         "is_proxy": true,
+         "applied_percent": 28.75
+        }
+       },
        "warnings": []
       }
      ],
@@ -3811,6 +3863,18 @@
         "source_type": "primary"
        },
        "drivers": null,
+       "fuel": {
+        "ground": {
+         "default_percent": 18.0,
+         "is_proxy": false,
+         "applied_percent": 18.0
+        },
+        "express": {
+         "default_percent": 19.25,
+         "is_proxy": false,
+         "applied_percent": 19.25
+        }
+       },
        "warnings": []
       },
       {
@@ -3974,6 +4038,18 @@
           "change_total": 42.59
          }
         ]
+       },
+       "fuel": {
+        "ground": {
+         "default_percent": 16.25,
+         "is_proxy": false,
+         "applied_percent": 16.25
+        },
+        "express": {
+         "default_percent": 16.0,
+         "is_proxy": false,
+         "applied_percent": 16.0
+        }
        },
        "warnings": []
       },
@@ -4139,6 +4215,18 @@
          }
         ]
        },
+       "fuel": {
+        "ground": {
+         "default_percent": 20.5,
+         "is_proxy": false,
+         "applied_percent": 20.5
+        },
+        "express": {
+         "default_percent": 19.25,
+         "is_proxy": false,
+         "applied_percent": 19.25
+        }
+       },
        "warnings": []
       },
       {
@@ -4303,6 +4391,18 @@
          }
         ]
        },
+       "fuel": {
+        "ground": {
+         "default_percent": 26.25,
+         "is_proxy": false,
+         "applied_percent": 26.25
+        },
+        "express": {
+         "default_percent": 28.75,
+         "is_proxy": false,
+         "applied_percent": 28.75
+        }
+       },
        "warnings": []
       },
       {
@@ -4448,6 +4548,18 @@
           "change_total": -9.39
          }
         ]
+       },
+       "fuel": {
+        "ground": {
+         "default_percent": 26.25,
+         "is_proxy": true,
+         "applied_percent": 26.25
+        },
+        "express": {
+         "default_percent": 28.75,
+         "is_proxy": true,
+         "applied_percent": 28.75
+        }
        },
        "warnings": [
         "No 2027 rules recorded for: additional_handling_length, additional_handling_packaging, additional_handling_weight, additional_handling_width, delivery_area, delivery_area_extended, oversize; surcharges may be understated"

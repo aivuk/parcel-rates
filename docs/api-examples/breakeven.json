@@ -1188,13 +1188,13 @@
      "runner_up": {
       "carrier": "fedex",
       "service_id": "fedex_home_delivery",
-      "total": 103.01
+      "total": 44.93
      },
-     "saving": 63.41,
+     "saving": 5.33,
      "totals": {
       "usps": 39.6,
-      "fedex": 103.01,
-      "ups": 104.19
+      "fedex": 44.93,
+      "ups": 45.49
      }
     },
     {
@@ -2728,13 +2728,13 @@
      "runner_up": {
       "carrier": "fedex",
       "service_id": "fedex_home_delivery",
-      "total": 103.01
+      "total": 44.93
      },
-     "saving": 59.43,
+     "saving": 1.35,
      "totals": {
       "usps": 43.58,
-      "fedex": 103.01,
-      "ups": 104.19
+      "fedex": 44.93,
+      "ups": 45.49
      }
     },
     {
@@ -4268,13 +4268,13 @@
      "runner_up": {
       "carrier": "fedex",
       "service_id": "fedex_home_delivery",
-      "total": 117.59
+      "total": 54.15
      },
-     "saving": 67.93,
+     "saving": 4.49,
      "totals": {
       "usps": 49.66,
-      "fedex": 117.59,
-      "ups": 118.49
+      "fedex": 54.15,
+      "ups": 54.41
      }
     },
     {
@@ -5806,15 +5806,15 @@
       "total": 61.07
      },
      "runner_up": {
-      "carrier": "fedex",
-      "service_id": "fedex_home_delivery",
-      "total": 126.76
+      "carrier": "ups",
+      "service_id": "ups_ground",
+      "total": 63.26
      },
-     "saving": 65.69,
+     "saving": 2.19,
      "totals": {
       "usps": 61.07,
-      "fedex": 126.76,
-      "ups": 127.34
+      "ups": 63.26,
+      "fedex": 63.31
      }
     },
     {
@@ -7341,20 +7341,20 @@
      "zone_usps": 5,
      "zone_private": 5,
      "winner": {
-      "carrier": "usps",
-      "service_id": "usps_ground_advantage",
-      "total": 82.96
-     },
-     "runner_up": {
       "carrier": "fedex",
       "service_id": "fedex_home_delivery",
-      "total": 146.07
+      "total": 75.06
      },
-     "saving": 63.11,
+     "runner_up": {
+      "carrier": "ups",
+      "service_id": "ups_ground",
+      "total": 75.14
+     },
+     "saving": 0.08,
      "totals": {
-      "usps": 82.96,
-      "fedex": 146.07,
-      "ups": 146.16
+      "fedex": 75.06,
+      "ups": 75.14,
+      "usps": 82.96
      }
     },
     {
@@ -8881,20 +8881,20 @@
      "zone_usps": 6,
      "zone_private": 6,
      "winner": {
-      "carrier": "usps",
-      "service_id": "usps_ground_advantage",
-      "total": 101.8
-     },
-     "runner_up": {
       "carrier": "ups",
       "service_id": "ups_ground",
-      "total": 163.47
+      "total": 92.45
      },
-     "saving": 61.67,
+     "runner_up": {
+      "carrier": "fedex",
+      "service_id": "fedex_home_delivery",
+      "total": 92.45
+     },
+     "saving": 0.0,
      "totals": {
-      "usps": 101.8,
-      "ups": 163.47,
-      "fedex": 163.47
+      "ups": 92.45,
+      "fedex": 92.45,
+      "usps": 101.8
      }
     },
     {
@@ -10421,20 +10421,20 @@
      "zone_usps": 7,
      "zone_private": 7,
      "winner": {
-      "carrier": "usps",
-      "service_id": "usps_ground_advantage",
-      "total": 120.32
-     },
-     "runner_up": {
       "carrier": "ups",
       "service_id": "ups_ground",
-      "total": 184.16
+      "total": 109.99
      },
-     "saving": 63.84,
+     "runner_up": {
+      "carrier": "fedex",
+      "service_id": "fedex_home_delivery",
+      "total": 110.19
+     },
+     "saving": 0.2,
      "totals": {
-      "usps": 120.32,
-      "ups": 184.16,
-      "fedex": 184.36
+      "ups": 109.99,
+      "fedex": 110.19,
+      "usps": 120.32
      }
     },
     {
@@ -11961,20 +11961,20 @@
      "zone_usps": 8,
      "zone_private": 8,
      "winner": {
-      "carrier": "usps",
-      "service_id": "usps_ground_advantage",
-      "total": 139.14
-     },
-     "runner_up": {
       "carrier": "fedex",
       "service_id": "fedex_home_delivery",
-      "total": 195.73
+      "total": 121.55
      },
-     "saving": 56.59,
+     "runner_up": {
+      "carrier": "ups",
+      "service_id": "ups_ground",
+      "total": 122.16
+     },
+     "saving": 0.61,
      "totals": {
-      "usps": 139.14,
-      "fedex": 195.73,
-      "ups": 196.33
+      "fedex": 121.55,
+      "ups": 122.16,
+      "usps": 139.14
      }
     },
     {
