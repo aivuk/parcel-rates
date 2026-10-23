@@ -31,6 +31,8 @@ QUOTE_EXAMPLE = {
     "controls": {"year": 2026},
 }
 
+# Built once from the constants above; never interpolate request data into these
+# templates, they are not escaped.
 DOCS_HTML = f"""<!doctype html>
 <html lang="en">
 <head>
