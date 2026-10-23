@@ -3,8 +3,8 @@
 USPS: the real zone chart for the origin's 3-digit prefix (data/processed/usps/zone_chart.csv,
 collected by data/collect/usps_zones.py). UPS and FedEx publish zone charts too, but not in a
 form a script may collect, so their zone is estimated: the great-circle distance between the
-two ZIPs' Census points (data/processed/zip_points.csv, data/collect/zip_points.py), then the
-same distance bands as typed miles.
+centres of the two ZIPs' 3-digit prefixes (Census points, data/processed/zip_points.csv,
+data/collect/zip_points.py), then the same distance bands as typed miles.
 """
 
 from __future__ import annotations
@@ -55,11 +55,25 @@ class ZipZones:
             return ZipPoint(*self.centres[code[:3]], "zip3")
         return None
 
+    def prefix_point(self, value: str) -> tuple[float, float] | None:
+        """The centre of the ZIP's 3-digit prefix, or its own point when the prefix has none."""
+        code = zip5(value)
+        if code is None:
+            return None
+        if code[:3] in self.centres:
+            return self.centres[code[:3]]
+        point = self.point(code)
+        return (point.lat, point.lon) if point else None
+
     def miles(self, origin: str, destination: str) -> float | None:
-        a, b = self.point(origin), self.point(destination)
+        """Miles between the two ZIPs' prefix centres. Zone charts are defined per 3-digit prefix,
+        and measured against them (docs/data/ZONE_ACCURACY.md) prefix centres reproduce the USPS
+        chart for 97.4 % of prefix pairs and the archived UPS charts for 90.8 %, against 92.3 %
+        and 90.4 % with each ZIP's own point."""
+        a, b = self.prefix_point(origin), self.prefix_point(destination)
         if a is None or b is None:
             return None
-        return great_circle_miles((a.lat, a.lon), (b.lat, b.lon))
+        return great_circle_miles(a, b)
 
     def usps_zone(self, origin: str, destination: str) -> int | None:
         o, d = zip5(origin), zip5(destination)

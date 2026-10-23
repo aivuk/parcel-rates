@@ -187,7 +187,7 @@ export function QuoteForm({ draft, onChange, errors, zones, zipMiles, parcels }:
       </Field>
 
       <Field
-        label={draft.toZip.trim() ? "Distance, from the ZIPs" : "Distance"}
+        label={draft.toZip.trim() ? "Distance between the ZIP areas" : "Distance"}
         htmlFor={id("distance")}
         hint={
           <>

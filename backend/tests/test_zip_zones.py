@@ -31,6 +31,13 @@ def test_points_fall_back_to_the_zip3_centre(tables):
     assert z.point("abc") is None
 
 
+def test_miles_are_between_prefix_centres(tables):
+    z = tables.zip_zones
+    # Two ZIPs in the same prefix are in the same place for zoning, like the carriers' charts.
+    assert z.miles("10001", "10002") == 0
+    assert z.miles("10001", "90210") == z.miles("10099", "90299")
+
+
 def test_usps_zone_from_the_chart(tables):
     z = tables.zip_zones
     assert z.usps_zone("10001", "90210") == 8
