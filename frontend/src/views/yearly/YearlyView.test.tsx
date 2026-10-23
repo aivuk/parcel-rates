@@ -142,6 +142,19 @@ describe("YearlyView", () => {
     expect(screen.queryByTestId("q4-answer")).not.toBeInTheDocument();
   });
 
+  it("lists parcels a carrier cannot ship in every year", async () => {
+    const withGap = {
+      carriers: mockYearlyResponse.carriers.map((c) =>
+        c.carrier === "fedex" ? { ...c, parcels_used: 288, parcels_excluded: 12 } : c,
+      ),
+    };
+    const { client } = spyClient({ yearly: () => withGap });
+    renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
+    const note = await screen.findByText(/parcels it cannot ship in every year/);
+    expect(note.closest("li")).toHaveTextContent("FedEx: 12 parcels it cannot ship in every year are left out, so its years compare the same 288 parcels.");
+    expect(screen.getAllByText(/cannot ship in every year/)).toHaveLength(1);
+  });
+
   it("offers the year chart as a table with every year and the projection", async () => {
     const { client } = spyClient();
     renderWith(client, <YearlyView controls={controls} meta={meta} parcels={sampleParcels} />);
