@@ -139,9 +139,11 @@ window.
 | display_name | text | Carrier's own name |
 | condition | enum | `residential`, `delivery_area`, `delivery_area_extended`, `additional_handling_weight`, `additional_handling_length`, `additional_handling_width`, `additional_handling_packaging`, `oversize`, `nonstandard_length`, `nonstandard_volume`, `peak_residential`, `peak_additional_handling`, `peak_oversize`, `peak_base`, `transportation_time_limited` |
 | applies_to | text | `all`, `ground`, `air`, or a comma-separated list of `service_id` |
+| address_type | enum | `any`, `residential` or `commercial`. Carriers price delivery-area and large-package surcharges differently for homes and businesses; a rule only applies to parcels of its address type |
 | min_weight_lb | decimal | Billable weight threshold |
 | max_weight_lb | decimal | For banded tables such as USPS peak add-ons |
 | min_length_in | decimal | Longest side |
+| min_width_in | decimal | Second-longest side (UPS and FedEx additional handling: over 30 in) |
 | min_length_plus_girth_in | decimal | |
 | min_volume_cuft | decimal | |
 | zone_min | int | |
@@ -157,9 +159,13 @@ window.
 | source_quote | text | Verbatim snippet containing the amount |
 | notes | text | |
 
-Peak rules apply only when the dashboard's peak toggle is on. Residential rules
-apply to residential parcels. Delivery area rules apply when the parcel's
-`delivery_area` is `das` or `extended`.
+Peak rules apply only when the dashboard's peak toggle is on. Rules with
+`address_type` `residential` or `commercial` apply only to parcels of that kind.
+Delivery area rules apply when the parcel's `delivery_area` is `das` or
+`extended`. `additional_handling_packaging` rules apply when the parcel is
+flagged `nonstandard_packaging` (UPS and FedEx: non-corrugated or cylindrical
+packaging; USPS from 2026: tubes or rolls, cans, wooden or metal boxes, liquids
+in glass).
 
 ## fuel_surcharge.csv (curated, per carrier)
 
@@ -195,7 +201,7 @@ quotes carry no fuel line.
 | year | int | |
 | product_scope | text | `all`, a `service_id`, or the carrier's product name |
 | rate_card | id | Empty means all |
-| percent | decimal | |
+| percent | decimal | Negative for a decrease (USPS Ground Advantage launch, July 2023); the citation quote then reads "decrease N percent" |
 | source_type | enum | `primary` (carrier document) or `secondary` (trade press) |
 | source_file | path | |
 | source_ref | text | |
@@ -275,6 +281,7 @@ and verifies checksums; issue #13 scripts the discovery that produces this file.
 | quantity | int | Optional, default 1 |
 | price_charged | money | Optional; overrides the flat price control for that row |
 | delivery_area | enum | Optional: `none` (default), `das`, `extended` |
+| nonstandard_packaging | bool | Optional, default `false`. Packaging that triggers handling fees: not a corrugated box, cylindrical, a can or wooden or metal box, liquids in glass |
 
 The USPS rate card (`commercial` default, `retail` optional) is a dashboard
 control, not a parcel column. UPS and FedEx have a single `list` card.

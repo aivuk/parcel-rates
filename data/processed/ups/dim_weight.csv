@@ -1,0 +1,5 @@
+carrier,year,effective_from,effective_to,divisor,min_volume_cuin,rounding,source_file,source_ref,source_quote
+ups,2023,2022-12-27,,139,0,round each dimension to the nearest whole inch; round dimensional weight up to the next whole pound,ups/2023/ups-2023-rate-and-service-guide-daily-rates.pdf,20,Divide the cubic size in inches by 139
+ups,2024,2024-07-01,,139,0,round each dimension to the nearest whole inch; round dimensional weight up to the next whole pound,ups/2024/ups-2024-rate-and-service-guide-daily-rates-updated-2024-07-01.pdf,20,Divide the cubic size in inches by 139
+ups,2025,2024-12-23,,139,0,round each dimension to the nearest whole inch; round dimensional weight up to the next whole pound,ups/2025/ups-2025-rate-and-service-guide-daily-rates-2024-12-23.pdf,21,by 139 for Domestic and 139 for
+ups,2026,2026-09-07,,139,0,round each fractional dimension up to the next whole inch (1.1 counts as 2); round dimensional weight up to the next whole pound,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,21,Divide the cubic size in inches by 139

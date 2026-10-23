@@ -1,0 +1,27 @@
+carrier,service_id,rate_card,year,effective_date,zone,max_weight_lb,price,source_file,source_ref,checked_by
+ups,ups_next_day_air,list,2026,2026-09-07,8,1,115.30,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,61,agent 2026-10-23
+ups,ups_next_day_air,list,2026,2026-09-07,5,20,264.59,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,61,agent 2026-10-23
+ups,ups_next_day_air,list,2026,2026-09-07,4,50,448.74,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,62,agent 2026-10-23
+ups,ups_next_day_air,list,2026,2026-09-07,2,70,243.07,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,62,agent 2026-10-23
+ups,ups_next_day_air,list,2026,2026-09-07,8,70,791.96,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,62,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2026,2026-09-07,8,1,102.87,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,69,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2026,2026-09-07,5,20,252.20,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,69,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2026,2026-09-07,4,50,428.02,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,70,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2026,2026-09-07,2,70,226.04,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,70,agent 2026-10-23
+ups,ups_next_day_air_saver,list,2026,2026-09-07,8,70,778.57,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,70,agent 2026-10-23
+ups,ups_2nd_day_air,list,2026,2026-09-07,8,1,46.67,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,81,agent 2026-10-23
+ups,ups_2nd_day_air,list,2026,2026-09-07,5,20,130.63,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,81,agent 2026-10-23
+ups,ups_2nd_day_air,list,2026,2026-09-07,4,50,170.82,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,82,agent 2026-10-23
+ups,ups_2nd_day_air,list,2026,2026-09-07,2,70,145.75,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,82,agent 2026-10-23
+ups,ups_2nd_day_air,list,2026,2026-09-07,8,70,589.72,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,82,agent 2026-10-23
+ups,ups_3_day_select,list,2026,2026-09-07,8,1,40.83,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,87,agent 2026-10-23
+ups,ups_3_day_select,list,2026,2026-09-07,5,20,84.09,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,87,agent 2026-10-23
+ups,ups_3_day_select,list,2026,2026-09-07,4,50,123.28,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,88,agent 2026-10-23
+ups,ups_3_day_select,list,2026,2026-09-07,2,70,98.62,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,88,agent 2026-10-23
+ups,ups_3_day_select,list,2026,2026-09-07,8,70,456.71,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,88,agent 2026-10-23
+ups,ups_ground,list,2026,2026-09-07,8,1,15.03,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,91,agent 2026-10-23
+ups,ups_ground,list,2026,2026-09-07,5,20,26.97,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,91,agent 2026-10-23
+ups,ups_ground,list,2026,2026-09-07,4,50,43.61,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,92,agent 2026-10-23
+ups,ups_ground,list,2026,2026-09-07,2,70,34.87,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,92,agent 2026-10-23
+ups,ups_ground,list,2026,2026-09-07,8,70,103.11,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,92,agent 2026-10-23
+ups,ups_ground,list,2026,2026-09-07,2,1,11.99,ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.pdf,91,agent 2026-10-23

@@ -1,84 +1,98 @@
 """Diff consecutive years of every curated table and write docs/data/RULE_CHANGES.md.
 
+A rule is identified by its key columns (what it applies to and its thresholds).
+For each key, all rows of a year are kept in effective-date order, so rules with
+several windows inside a year (peak seasons, mid-year changes, the USPS divisor
+change) are compared window by window instead of overwriting each other.
+
 Usage: uv run python -m data.pipeline.report_changes
 """
 from __future__ import annotations
 
 from collections import defaultdict
-from pathlib import Path
 
 from data.pipeline.common import CARRIERS, CURATED_TABLES, DATA_DIR, processed_path, read_table
 
 OUT = DATA_DIR.parent / "docs" / "data" / "RULE_CHANGES.md"
 
+THRESHOLDS = ("min_weight_lb", "max_weight_lb", "min_length_in", "min_width_in",
+              "min_length_plus_girth_in", "min_volume_cuft", "zone_min", "zone_max")
 KEY_COLUMNS = {
-    "surcharges": ("rate_card", "condition", "applies_to", "exclusive_group", "zone_min", "zone_max",
-                   "min_weight_lb", "max_weight_lb", "min_length_in", "min_length_plus_girth_in", "min_volume_cuft"),
+    "surcharges": ("rate_card", "condition", "applies_to", "address_type", "exclusive_group", *THRESHOLDS),
     "fuel_surcharge": ("service_group",),
     "announced_increase": ("product_scope", "rate_card"),
-    "dim_weight": ("effective_from",),
+    "dim_weight": (),
 }
 VALUE_COLUMNS = {
-    "surcharges": ("amount", "unit", "fuel_applies", "effective_from", "effective_to"),
+    "surcharges": ("amount", "unit", "fuel_applies"),
     "fuel_surcharge": ("default_percent", "is_proxy"),
     "announced_increase": ("percent", "source_type"),
     "dim_weight": ("divisor", "min_volume_cuin", "rounding"),
 }
 
 
+def label_of(key: tuple, table: str) -> str:
+    parts = [f"{col}={val}" if col in THRESHOLDS else val
+             for col, val in zip(KEY_COLUMNS[table], key) if val]
+    return " / ".join(parts) or table
+
+
+def values_of(rows: list[dict], table: str) -> list[str]:
+    ordered = sorted(rows, key=lambda r: r.get("effective_from", ""))
+    out = []
+    for row in ordered:
+        text = ", ".join(f"{c} {row[c]}" for c in VALUE_COLUMNS[table] if row.get(c, ""))
+        window = row.get("effective_from", "")
+        if len(ordered) > 1 and window:
+            text = f"from {window}: {text}"
+        out.append(text)
+    return out
+
+
+def cite(rows: list[dict]) -> str:
+    row = rows[-1]
+    page = row.get("source_page") or row.get("source_ref") or ""
+    return f"{row.get('source_file', '')}{' p.' + str(page) if page else ''}"
+
+
 def changes_for(carrier: str, table: str) -> list[str]:
-    rows = read_table(processed_path(carrier, table))
-    by_year: dict[int, dict[tuple, dict]] = defaultdict(dict)
-    for row in rows:
+    by_year: dict[int, dict[tuple, list[dict]]] = defaultdict(lambda: defaultdict(list))
+    for row in read_table(processed_path(carrier, table)):
         key = tuple(row.get(column, "") for column in KEY_COLUMNS[table])
-        by_year[int(row["year"])][key] = row
+        by_year[int(row["year"])][key].append(row)
     lines: list[str] = []
     years = sorted(by_year)
     for previous, current in zip(years, years[1:]):
         before, after = by_year[previous], by_year[current]
         for key in sorted(set(before) | set(after), key=str):
-            old, new = before.get(key), after.get(key)
-            label = " / ".join(part for part in key if part) or table
-            if old is None:
-                lines.append(f"- {previous}→{current} **{label}**: new rule, {describe(new, table)} ({cite(new)})")
-            elif new is None:
-                lines.append(f"- {previous}→{current} **{label}**: rule removed (was {describe(old, table)})")
+            label = label_of(key, table)
+            if key not in before:
+                lines.append(f"- {previous}→{current} **{label}**: new rule, {'; '.join(values_of(after[key], table))} ({cite(after[key])})")
+            elif key not in after:
+                lines.append(f"- {previous}→{current} **{label}**: rule removed (was {'; '.join(values_of(before[key], table))})")
             else:
-                diffs = [f"{column} {old[column]} → {new[column]}" for column in VALUE_COLUMNS[table]
-                         if old.get(column, "") != new.get(column, "")]
-                if diffs:
-                    lines.append(f"- {previous}→{current} **{label}**: {', '.join(diffs)} ({cite(new)})")
+                old, new = values_of(before[key], table), values_of(after[key], table)
+                strip = lambda vs: [v.split(": ", 1)[-1] for v in vs]  # ignore the window dates themselves
+                if strip(old) != strip(new):
+                    lines.append(f"- {previous}→{current} **{label}**: {'; '.join(old)} → {'; '.join(new)} ({cite(after[key])})")
     return lines
-
-
-def describe(row: dict, table: str) -> str:
-    return ", ".join(f"{column} {row[column]}" for column in VALUE_COLUMNS[table] if row.get(column, ""))
-
-
-def cite(row: dict) -> str:
-    page = row.get("source_page") or row.get("source_ref") or ""
-    return f"{row.get('source_file', '')}{' p.' + str(page) if page else ''}"
 
 
 def main() -> None:
     parts = ["# Rule changes between consecutive price years", "",
              "Generated by `uv run python -m data.pipeline.report_changes` from the curated tables.",
-             "Every parameter that moves a parcel's price and changed between years is listed here;",
-             "the engine must resolve each by year and effective date.", ""]
+             "Every price-moving parameter that changed between years is listed; the engine resolves",
+             "each one by year and effective date. A changed threshold shows as a removed rule plus a new rule.", ""]
     for carrier in CARRIERS:
-        parts.append(f"## {carrier.upper()}")
-        parts.append("")
-        any_lines = False
+        parts += [f"## {carrier.upper()}", ""]
+        found = False
         for table in CURATED_TABLES:
             lines = changes_for(carrier, table)
             if lines:
-                any_lines = True
-                parts.append(f"### {table}")
-                parts.extend(lines)
-                parts.append("")
-        if not any_lines:
-            parts.append("_No curated rows yet._")
-            parts.append("")
+                found = True
+                parts += [f"### {table}", *lines, ""]
+        if not found:
+            parts += ["_No curated rows yet._", ""]
     OUT.write_text("\n".join(parts) + "\n", encoding="utf-8")
     print(f"wrote {OUT.relative_to(DATA_DIR.parent)}")
 

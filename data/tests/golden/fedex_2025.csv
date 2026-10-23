@@ -1,0 +1,31 @@
+carrier,service_id,rate_card,year,effective_date,zone,max_weight_lb,price,source_file,source_ref,checked_by
+fedex,fedex_priority_overnight,list,2025,2025-01-06,8,70,754.03,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_priority_overnight,list,2025,2025-01-06,2,70,233.02,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_priority_overnight,list,2025,2025-01-06,8,1,106.55,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_priority_overnight,list,2025,2025-01-06,5,25,287.45,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_priority_overnight,list,2025,2025-01-06,3,30,152.70,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_standard_overnight,list,2025,2025-01-06,8,70,736.17,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_standard_overnight,list,2025,2025-01-06,2,70,214.12,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_standard_overnight,list,2025,2025-01-06,8,1,95.35,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_standard_overnight,list,2025,2025-01-06,5,25,269.32,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_standard_overnight,list,2025,2025-01-06,3,30,148.03,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_2day,list,2025,2025-01-06,8,70,557.65,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_2day,list,2025,2025-01-06,2,70,137.94,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_2day,list,2025,2025-01-06,8,1,43.54,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_2day,list,2025,2025-01-06,5,25,145.41,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_2day,list,2025,2025-01-06,3,30,85.23,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_express_saver,list,2025,2025-01-06,8,70,506.17,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_express_saver,list,2025,2025-01-06,2,70,126.40,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_express_saver,list,2025,2025-01-06,8,1,39.86,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_express_saver,list,2025,2025-01-06,5,25,112.34,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_express_saver,list,2025,2025-01-06,3,30,79.85,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 U.S. rates,agent 2026-10-23
+fedex,fedex_ground,list,2025,2025-01-06,8,70,97.79,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_home_delivery,list,2025,2025-01-06,8,70,97.79,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_ground,list,2025,2025-01-06,2,70,32.75,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_home_delivery,list,2025,2025-01-06,2,70,32.75,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_ground,list,2025,2025-01-06,8,1,14.17,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_home_delivery,list,2025,2025-01-06,8,1,14.17,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_ground,list,2025,2025-01-06,5,25,29.32,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_home_delivery,list,2025,2025-01-06,5,25,29.32,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_ground,list,2025,2025-01-06,3,30,25.88,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23
+fedex,fedex_home_delivery,list,2025,2025-01-06,3,30,25.88,fedex/2025/FedEx_Standard_List_Rates_2025.xlsx,2025 Ground & FHD rates,agent 2026-10-23

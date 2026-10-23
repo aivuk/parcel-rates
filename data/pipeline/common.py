@@ -7,6 +7,7 @@ refuses files that are not in the manifest or not on disk.
 from __future__ import annotations
 
 import csv
+import html
 import re
 from decimal import ROUND_HALF_UP, Decimal
 from functools import lru_cache
@@ -39,8 +40,8 @@ COLUMNS = {
     ],
     "surcharges": [
         "carrier", "year", "rate_card", "surcharge_id", "display_name", "condition",
-        "applies_to", "min_weight_lb", "max_weight_lb", "min_length_in",
-        "min_length_plus_girth_in", "min_volume_cuft", "zone_min", "zone_max",
+        "applies_to", "address_type", "min_weight_lb", "max_weight_lb", "min_length_in",
+        "min_width_in", "min_length_plus_girth_in", "min_volume_cuft", "zone_min", "zone_max",
         "amount", "unit", "exclusive_group", "effective_from", "effective_to",
         "fuel_applies", "source_file", "source_page", "source_quote", "notes",
     ],
@@ -61,6 +62,7 @@ COLUMNS = {
         "carrier", "zone", "min_miles", "max_miles", "source_file", "source_quote", "notes",
     ],
 }
+ADDRESS_TYPES = ("any", "residential", "commercial")
 CURATED_TABLES = ("surcharges", "fuel_surcharge", "announced_increase", "dim_weight")
 EXCEPTION_KINDS = (
     "ak_hi_zone", "rounding_artifact", "non_monotonic", "missing_cell",
@@ -152,20 +154,27 @@ def normalize_text(text: str) -> str:
     return _WHITESPACE.sub(" ", text).strip().lower()
 
 
-def pdf_page_text(path: Path, page: int) -> str:
-    """Text of a 1-based page index, via pdfplumber."""
+@lru_cache(maxsize=4)
+def _open_pdf(path: Path):
     import pdfplumber
 
-    with pdfplumber.open(path) as pdf:
-        if page < 1 or page > len(pdf.pages):
-            raise IndexError(f"{path.name} has {len(pdf.pages)} pages, asked for {page}")
-        return pdf.pages[page - 1].extract_text() or ""
+    return pdfplumber.open(path)
+
+
+@lru_cache(maxsize=2048)
+def pdf_page_text(path: Path, page: int) -> str:
+    """Text of a 1-based page index, via pdfplumber. Open documents and extracted
+    pages are cached, so citing many rows from one guide stays fast."""
+    pdf = _open_pdf(path)
+    if page < 1 or page > len(pdf.pages):
+        raise IndexError(f"{path.name} has {len(pdf.pages)} pages, asked for {page}")
+    return pdf.pages[page - 1].extract_text() or ""
 
 
 def html_text(path: Path) -> str:
     raw = path.read_text(encoding="utf-8", errors="replace")
     raw = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", raw, flags=re.S | re.I)
-    return re.sub(r"<[^>]+>", " ", raw)
+    return html.unescape(re.sub(r"<[^>]+>", " ", raw))
 
 
 def xlsx_text(path: Path, sheet: str | None = None) -> str:

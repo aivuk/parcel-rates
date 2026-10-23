@@ -6,7 +6,7 @@ from __future__ import annotations
 import pytest
 
 from data.pipeline.common import (
-    CARRIERS, COLUMNS, CURATED_TABLES, SURCHARGE_CONDITIONS, normalize_text,
+    ADDRESS_TYPES, CARRIERS, COLUMNS, CURATED_TABLES, SURCHARGE_CONDITIONS, normalize_text,
     processed_path, read_table, source_text,
 )
 
@@ -29,7 +29,7 @@ def curated_rows():
 
 def amount_variants(value: str) -> set[str]:
     """'6.55' may be printed as '$6.55' or '6.55'; '5.9' as '5.9%'; '166' as '166'."""
-    value = value.strip()
+    value = value.strip().lstrip("-")  # a decrease is quoted as "decrease 3.2 percent"
     variants = {value}
     try:
         number = float(value)
@@ -47,6 +47,9 @@ def test_quote_is_in_cited_source(owner, table, row):
     assert list(row.keys()) == COLUMNS[table], f"{table} columns differ from schema"
     if table == "surcharges":
         assert row["condition"] in SURCHARGE_CONDITIONS, row["condition"]
+        assert row["address_type"] in ADDRESS_TYPES, f"address_type must be one of {ADDRESS_TYPES}: {row['surcharge_id']}"
+        if row["condition"] == "additional_handling_width":
+            assert row["min_width_in"], f"width rule without min_width_in: {row['surcharge_id']}"
     quote = row["source_quote"]
     assert quote.strip(), f"{table}: empty source_quote"
     amount = row.get(AMOUNT_COLUMN.get(table, ""), "")
