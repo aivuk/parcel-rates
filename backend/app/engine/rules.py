@@ -111,6 +111,7 @@ class Measured:
     dims: tuple[Decimal, Decimal, Decimal] | None  # sorted, longest first
     dim_weight: Decimal | None
     weight: Decimal  # max(actual, dim weight) before stepping
+    actual: Decimal = Decimal(0)
 
     @property
     def volume_cuin(self) -> Decimal | None:
@@ -130,7 +131,7 @@ class Measured:
 def measure(parcel: Parcel, rule: DimRule | None) -> Measured:
     actual = Decimal(str(parcel.weight_lb))
     if not parcel.has_dimensions:
-        return Measured(None, None, actual)
+        return Measured(None, None, actual, actual)
     dims = sorted(
         (round_dimension(v, rule) for v in (parcel.length_in, parcel.width_in, parcel.height_in)),
         reverse=True,
@@ -145,7 +146,7 @@ def measure(parcel: Parcel, rule: DimRule | None) -> Measured:
             if cap is not None and dim_weight > cap:
                 dim_weight = cap
     weight = max(actual, dim_weight) if dim_weight is not None else actual
-    return Measured(dims_t, dim_weight, weight)
+    return Measured(dims_t, dim_weight, weight, actual)
 
 
 # ---- surcharges -----------------------------------------------------------
@@ -166,10 +167,20 @@ def address_matches(rule: SurchargeRule, residential: bool) -> bool:
     return rule.address_type == ("residential" if residential else "commercial")
 
 
+def weight_met(rule: SurchargeRule, billable: Decimal, actual: Decimal) -> bool:
+    """docs/data/SCHEMA.md: with max_weight_lb the row is a band matched
+    inclusively on billable weight (empty min = no lower bound); with only
+    min_weight_lb it is strictly greater than the actual weight."""
+    if rule.max_weight_lb is not None:
+        low_ok = rule.min_weight_lb is None or billable >= rule.min_weight_lb
+        return low_ok and billable <= rule.max_weight_lb
+    if rule.min_weight_lb is not None:
+        return actual > rule.min_weight_lb
+    return True
+
+
 def thresholds_met(rule: SurchargeRule, billable: Decimal, m: Measured, zone: int) -> bool:
-    if rule.min_weight_lb is not None and billable < rule.min_weight_lb:
-        return False
-    if rule.max_weight_lb is not None and billable > rule.max_weight_lb:
+    if not weight_met(rule, billable, m.actual):
         return False
     if rule.zone_min is not None and zone < rule.zone_min:
         return False

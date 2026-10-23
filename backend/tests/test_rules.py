@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import math
+
+import pytest
 from datetime import date
 from decimal import Decimal
 
@@ -244,3 +246,35 @@ def test_fedex_ground_business_only_and_home_delivery_residential_only(tables):
     assert not hd.available and "residential" in hd.unavailable_reason
     assert quote_service(tables, tables.services["fedex_ground"], office, Controls(year=2026)).available
     assert quote_service(tables, tables.services["fedex_home_delivery"], home, Controls(year=2026)).available
+
+
+# ---- weight thresholds (docs/data/SCHEMA.md) ----------------------------------
+def _conditions(q):
+    return {li.condition for li in q.line_items if li.kind == "surcharge"}
+
+
+@pytest.mark.parametrize("carrier_service", ["ups_ground", "fedex_ground"])
+def test_additional_handling_weight_is_strictly_more_than_50_lb_actual(tables, carrier_service):
+    svc = tables.services[carrier_service]
+    at_50 = Parcel(weight_lb=50.0, distance_miles=700, residential=False, speed="ground")
+    over = Parcel(weight_lb=50.1, distance_miles=700, residential=False, speed="ground")
+    assert "additional_handling_weight" not in _conditions(quote_service(tables, svc, at_50, Controls(year=2026)))
+    assert "additional_handling_weight" in _conditions(quote_service(tables, svc, over, Controls(year=2026)))
+
+
+def test_dim_weight_does_not_trigger_additional_handling_weight(tables):
+    # 30 x 20 x 14 = 8400 cu in / 139 -> 61 lb billable, but only 10 lb actual
+    parcel = Parcel(weight_lb=10, length_in=30, width_in=20, height_in=14, distance_miles=700,
+                    residential=False, speed="ground")
+    q = quote_service(tables, tables.services["ups_ground"], parcel, Controls(year=2026))
+    assert q.billable_weight_lb > 50
+    assert "additional_handling_weight" not in _conditions(q)
+
+
+@pytest.mark.parametrize("weight, band", [(2.5, "w0_3"), (3.5, "w4_10"), (10, "w4_10"), (10.5, "w11_25")])
+def test_usps_peak_bands_are_inclusive_on_billable_weight(tables, weight, band):
+    parcel = Parcel(weight_lb=weight, distance_miles=100, residential=True, speed="ground")
+    q = quote_service(tables, tables.services["usps_ground_advantage"], parcel, Controls(year=2026, peak=True))
+    peak = [li.surcharge_id for li in q.line_items if li.condition == "peak_base"]
+    assert len(peak) == 1 and f"_{band}_" in peak[0]
+

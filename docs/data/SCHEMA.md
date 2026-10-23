@@ -140,8 +140,8 @@ window.
 | condition | enum | `residential`, `delivery_area`, `delivery_area_extended`, `additional_handling_weight`, `additional_handling_length`, `additional_handling_width`, `additional_handling_packaging`, `oversize`, `nonstandard_length`, `nonstandard_volume`, `peak_residential`, `peak_additional_handling`, `peak_oversize`, `peak_base`, `transportation_time_limited` |
 | applies_to | text | `all`, `ground`, `air`, or a comma-separated list of `service_id` |
 | address_type | enum | `any`, `residential` or `commercial`. Carriers price delivery-area and large-package surcharges differently for homes and businesses; a rule only applies to parcels of its address type |
-| min_weight_lb | decimal | Billable weight threshold |
-| max_weight_lb | decimal | For banded tables such as USPS peak add-ons |
+| min_weight_lb | decimal | Lower weight threshold; see "Matching rules" below for which weight and whether it is inclusive |
+| max_weight_lb | decimal | Upper end of a weight band (USPS peak add-ons); its presence makes the row a band |
 | min_length_in | decimal | Longest side |
 | min_width_in | decimal | Second-longest side (UPS and FedEx additional handling: over 30 in) |
 | min_length_plus_girth_in | decimal | |
@@ -152,12 +152,36 @@ window.
 | unit | unit | |
 | exclusive_group | text | Required, never empty. Rules in the same group do not stack; the highest matching amount applies. Rules in different groups stack |
 | effective_from | date | |
-| effective_to | date | Empty means open-ended |
+| effective_to | date | Last day the rule applies (inclusive). Empty means open-ended |
 | fuel_applies | bool | Whether the carrier applies the fuel surcharge on top of this charge |
 | source_file | path | |
 | source_page | int | File page index, 1-based; empty for HTML or XLSX |
 | source_quote | text | Verbatim snippet containing the amount |
 | notes | text | |
+
+### Matching rules
+
+The engine applies these rules uniformly; every row must mean what its quote says under them.
+
+- **Windows.** A row applies on `as_of` when `effective_from <= as_of <= effective_to`.
+  `effective_to` is inclusive in every table (surcharges, dim_weight): it is the last day
+  the rule applies. A document that ends prices "at midnight on Jan. 19" (the day the next
+  list starts) is recorded with `effective_to` = Jan. 18.
+- **Weight.** When `max_weight_lb` is set the row is a band, matched inclusively on billable
+  weight: `min_weight_lb <= billable <= max_weight_lb`, an empty `min_weight_lb` meaning no
+  lower bound (USPS peak add-ons: "4-10 lbs" = the 4 lb to 10 lb steps). When only
+  `min_weight_lb` is set it is strictly greater than the parcel's actual weight (UPS and
+  FedEx additional handling "more than 50 lb", UPS 2026 Large Package "more than 110 lb");
+  dimensional weight never triggers it.
+- **Dimensions and volume** are strict: longest side `> min_length_in`, second-longest side
+  `> min_width_in`, longest + 2 x (other two) `> min_length_plus_girth_in`, volume in cubic
+  feet `> min_volume_cuft`, using the dimensions as rounded by the carrier's dim_weight rule
+  for `as_of`. A parcel without dimensions meets no dimension or volume threshold.
+- **Zone.** `zone_min <= zone <= zone_max`, each bound optional.
+- **Peak add-ons.** `peak_additional_handling` applies only when a non-peak rule of
+  condition `additional_handling_*` (or the UPS cubic-size additional handling recorded as
+  `nonstandard_volume`) applied to the same parcel; `peak_oversize` only when an `oversize`
+  rule applied. Both carry no thresholds of their own.
 
 Peak rules apply only when the dashboard's peak toggle is on. Rules with
 `address_type` `residential` or `commercial` apply only to parcels of that kind.
@@ -211,14 +235,16 @@ quotes carry no fuel line.
 
 Dimensional weight parameters change over time (USPS moved from 166 to 139
 on 2026-07-12), so rows carry an effective window and the engine resolves the
-row by `as_of` date.
+row by `as_of` date: the row whose window (inclusive at both ends) contains it.
+Windows of one carrier must not overlap with different parameters; USPS repeats
+an identical row under several year labels, which is allowed.
 
 | Column | Type | Notes |
 |---|---|---|
 | carrier | id | |
 | year | int | |
 | effective_from | date | |
-| effective_to | date | Empty means open-ended |
+| effective_to | date | Last day the row applies (inclusive). Empty means open-ended |
 | divisor | int | |
 | min_volume_cuin | int | 0 for UPS and FedEx; 1728 for USPS |
 | rounding | text | e.g. "round each dimension to nearest inch, round dim weight up to next pound" |
