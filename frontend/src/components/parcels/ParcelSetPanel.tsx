@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type ReactNode, type RefObject } from "react";
 import type { ZoneBand } from "../../api/types";
 import { TIERS } from "../../api/types";
 import { CSV_TEMPLATE } from "../../lib/parcelCsv";
@@ -46,13 +46,10 @@ function Problems({ status }: { status: Extract<ParcelSetStatus, { kind: "error"
   );
 }
 
-/** One line: count, share to homes, speed split. */
+/** One line: share to homes and speed split, at the top of the details. */
 function StripFacts({ summary }: { summary: Summary }) {
   return (
     <p className="strip__facts">
-      <span className="strip__count">
-        <span className="figure">{formatInt(summary.parcels)}</span> parcels
-      </span>
       <span>{formatShare(summary.residentialShare)} to homes</span>
       <span>
         {TIERS.filter((t) => summary.byTier[t] > 0)
@@ -63,7 +60,17 @@ function StripFacts({ summary }: { summary: Summary }) {
   );
 }
 
-export function ParcelSetPanel({ set, status, zoneBands, onLoadSample, onLoadFile, onClear, fileInputRef }: ParcelSetPanelProps) {
+/** The parcel set's pieces. Without a set: the full panel (load, upload, template). With one:
+ *  a heading and the actions that sit in the question bar, and what goes under the bar
+ *  (problems, the details on demand). */
+export interface ParcelSetUi {
+  panel: ReactNode | null;
+  barStart: ReactNode | null;
+  barEnd: ReactNode | null;
+  belowBar: ReactNode | null;
+}
+
+export function useParcelSetUi({ set, status, zoneBands, onLoadSample, onLoadFile, onClear, fileInputRef }: ParcelSetPanelProps): ParcelSetUi {
   const fileId = useId();
   const headingId = useId();
   const detailsId = useId();
@@ -91,8 +98,8 @@ export function ParcelSetPanel({ set, status, zoneBands, onLoadSample, onLoadFil
       }}
     />
   );
-  const uploadLabel = (text: string) => (
-    <label htmlFor={fileId} className="btn file-btn">
+  const uploadLabel = (text: string, extra = "") => (
+    <label htmlFor={fileId} className={`btn file-btn ${extra}`}>
       {busy && status.what === "file" ? "Reading file…" : text}
     </label>
   );
@@ -109,67 +116,78 @@ export function ParcelSetPanel({ set, status, zoneBands, onLoadSample, onLoadFil
   const problems = (status.kind === "error" || status.kind === "notice") && <Problems status={status} />;
 
   if (!set || !summary) {
-    return (
-      <section className="parcels" aria-labelledby={headingId} aria-busy={busy}>
-        <header className="parcels__head">
-          <h2 id={headingId} className="parcels__title">
-            Your parcels
-          </h2>
-          <div className="parcels__actions">
-            {sampleButton}
-            {fileInput}
-            {uploadLabel("Upload CSV")}
-            {templateLink}
+    return {
+      panel: (
+        <section className="parcels" aria-labelledby={headingId} aria-busy={busy}>
+          <header className="parcels__head">
+            <h2 id={headingId} className="parcels__title">
+              Your parcels
+            </h2>
+            <div className="parcels__actions">
+              {sampleButton}
+              {fileInput}
+              {uploadLabel("Upload CSV")}
+              {templateLink}
+            </div>
+          </header>
+          {problems}
+          <div className="parcels__empty">
+            <p className="parcels__empty-lead">No parcels loaded yet.</p>
+            <p>
+              Questions 3 and 4 price your whole mix. Load the sample (an illustrative home-goods shop, not real data) to explore, or upload a CSV with one row per kind
+              of parcel: weight, distance, home or business, speed, and how many you ship.
+            </p>
           </div>
-        </header>
-        {problems}
-        <div className="parcels__empty">
-          <p className="parcels__empty-lead">No parcels loaded yet.</p>
-          <p>
-            Questions 3 and 4 price your whole mix. Load the sample (an illustrative home-goods shop, not real data) to explore, or upload a CSV with one row per kind
-            of parcel: weight, distance, home or business, speed, and how many you ship.
-          </p>
-        </div>
-      </section>
-    );
+        </section>
+      ),
+      barStart: null,
+      barEnd: null,
+      belowBar: null,
+    };
   }
 
-  return (
-    <section className="parcels parcels--loaded" aria-labelledby={headingId} aria-busy={busy}>
-      <div className="strip">
-        <div className="strip__main">
-          <h2 id={headingId} className="kicker strip__title">
-            Your parcels
-            <span className="strip__source"> · {set.source === "sample" ? "sample mix, an example" : set.name}</span>
-          </h2>
+  return {
+    panel: null,
+    barStart: (
+      <h2 id={headingId} className="strip" aria-busy={busy}>
+        <span className="visually-hidden">Your parcels: </span>
+        <span className="strip__count">
+          <span className="figure">{formatInt(summary.parcels)}</span> parcels
+        </span>
+        <span className="strip__source"> · {set.source === "sample" ? "sample mix" : set.name}</span>
+      </h2>
+    ),
+    barEnd: (
+      <div className="strip__actions">
+        <button
+          type="button"
+          className="btn btn--small"
+          aria-expanded={expanded}
+          aria-controls={detailsId}
+          onClick={() => setExpanded((e) => !e)}
+        >
+          {expanded ? "Hide details" : "Details"}
+        </button>
+        {fileInput}
+        {uploadLabel("Replace CSV", "btn--small")}
+      </div>
+    ),
+    belowBar: (
+      <>
+        {problems}
+        <section id={detailsId} className="parcels__details" aria-labelledby={headingId} hidden={!expanded}>
           <StripFacts summary={summary} />
-        </div>
-        <div className="strip__actions">
-          <button
-            type="button"
-            className="btn"
-            aria-expanded={expanded}
-            aria-controls={detailsId}
-            onClick={() => setExpanded((e) => !e)}
-          >
-            {expanded ? "Hide details" : "Details"}
-          </button>
-          {fileInput}
-          {uploadLabel("Replace CSV")}
-        </div>
-      </div>
-      {problems}
-      <div id={detailsId} className="parcels__details" hidden={!expanded}>
-        {set.description && <p className="parcels__source">{set.description}</p>}
-        <ParcelSummary summary={summary} />
-        <div className="parcels__actions">
-          {sampleButton}
-          {templateLink}
-          <button type="button" className="btn btn--quiet" onClick={onClear}>
-            Clear the set
-          </button>
-        </div>
-      </div>
-    </section>
-  );
+          {set.description && <p className="parcels__source">{set.description}</p>}
+          <ParcelSummary summary={summary} />
+          <div className="parcels__actions">
+            {sampleButton}
+            {templateLink}
+            <button type="button" className="btn btn--quiet" onClick={onClear}>
+              Clear the set
+            </button>
+          </div>
+        </section>
+      </>
+    ),
+  };
 }

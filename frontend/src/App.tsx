@@ -2,7 +2,7 @@ import { useCallback, useId, useMemo, useRef, useState } from "react";
 import { useApi, useLoad } from "./api/ApiContext";
 import { isMockMode } from "./api/client";
 import { ControlRail, assumptionsLine } from "./components/controls/ControlRail";
-import { ParcelSetPanel } from "./components/parcels/ParcelSetPanel";
+import { useParcelSetUi } from "./components/parcels/ParcelSetPanel";
 import { QuestionTabs } from "./components/QuestionTabs";
 import { Footer } from "./components/Footer";
 import { useParcelSet } from "./hooks/useParcelSet";
@@ -42,6 +42,16 @@ export function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const openFilePicker = useCallback(() => fileInputRef.current?.click(), []);
 
+  const parcelUi = useParcelSetUi({
+    set: parcelSet.set,
+    status: parcelSet.status,
+    zoneBands: meta?.zone_bands,
+    onLoadSample: parcelSet.loadSample,
+    onLoadFile: parcelSet.loadFile,
+    onClear: parcelSet.clear,
+    fileInputRef,
+  });
+
   const viewProps: ViewProps = {
     controls: state.controls,
     meta,
@@ -62,14 +72,13 @@ export function App() {
       )}
       <header className="masthead" {...inert}>
         <div className="masthead__inner">
+          <h1 className="masthead__title">Parcel Rates</h1>
           <p className="kicker masthead__edition">
+            <span className="masthead__barcode" aria-hidden="true" />
             {state.controls.year} published list prices · USPS, UPS, FedEx
           </p>
-          <h1 className="masthead__title">Parcel Rates</h1>
-          <span className="masthead__barcode" aria-hidden="true" />
           <p className="masthead__deck">
-            Which carrier is cheapest for each kind of parcel you ship, and does your flat shipping price still cover
-            the real cost after surcharges and yearly increases?
+            Which carrier is cheapest for each kind of parcel you ship, and does your flat price still cover the real cost?
           </p>
         </div>
       </header>
@@ -117,18 +126,13 @@ export function App() {
         </aside>
 
         <main id="main" className="main" tabIndex={-1} {...inert}>
-          <ParcelSetPanel
-            set={parcelSet.set}
-            status={parcelSet.status}
-            zoneBands={meta?.zone_bands}
-            onLoadSample={parcelSet.loadSample}
-            onLoadFile={parcelSet.loadFile}
-            onClear={parcelSet.clear}
-            fileInputRef={fileInputRef}
-          />
+          {parcelUi.panel}
           <QuestionTabs
             active={state.view}
             onSelect={(view) => dispatch({ type: "view", view })}
+            barStart={parcelUi.barStart}
+            barEnd={parcelUi.barEnd}
+            belowBar={parcelUi.belowBar}
             renderPanel={(id) => {
               const View = VIEW_COMPONENTS[id];
               return <View {...viewProps} />;

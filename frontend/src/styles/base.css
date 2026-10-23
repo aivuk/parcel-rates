@@ -153,6 +153,11 @@ cite {
   box-shadow: inset 0 -3px 0 var(--ink-muted);
 }
 
+.btn--small {
+  min-height: 2.25rem;
+  padding: var(--space-1) var(--space-3);
+}
+
 .btn--quiet {
   border-color: transparent;
   text-decoration: underline;

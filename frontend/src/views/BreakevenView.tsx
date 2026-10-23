@@ -1,3 +1,4 @@
+import { FullQuestion } from "./FullQuestion";
 import { useId, useState } from "react";
 import { useApi, useLoad } from "../api/ApiContext";
 import type { BreakevenResponse, Carrier } from "../api/types";
@@ -103,6 +104,7 @@ export function BreakevenView({ controls, meta }: ViewProps) {
               {r.figure}
             </p>
             <p className="answer__caption bv__caption">{r.caption}</p>
+            <FullQuestion id="breakeven" />
           </div>
           {r.lines.length > 0 && (
             <ul className="bv__lines" aria-label="Breakeven by distance">

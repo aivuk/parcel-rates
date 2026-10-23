@@ -226,8 +226,64 @@ fieldset.control > legend {
   cursor: pointer;
 }
 
-.switch__hint {
-  grid-column: 1 / -1;
+/* "About these assumptions": the prose behind the controls, one disclosure away. */
+.rail__about {
+  font-size: var(--text-xs);
+}
+
+.rail__about-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2rem;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  list-style: none;
+}
+
+.rail__about-summary::-webkit-details-marker {
+  display: none;
+}
+
+.rail__about-summary::before {
+  content: "+";
+  display: inline-grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid currentColor;
+  font-size: 0.75rem;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.rail__about[open] > .rail__about-summary::before {
+  content: "\2212";
+}
+
+.rail__about-summary:hover {
+  color: var(--ink);
+}
+
+.rail__about-list {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-1) var(--space-3);
+  margin: var(--space-2) 0 0;
+  line-height: 1.45;
+}
+
+.rail__about-list dt {
+  font-weight: 600;
+}
+
+.rail__about-list dd {
+  margin: 0;
+  color: var(--ink-muted);
+  max-width: 60ch;
 }
 
 /* Money input */
@@ -290,9 +346,14 @@ fieldset.control > legend {
     padding-top: var(--space-3);
   }
 
-  .rail__body > .rail__status {
+  .rail__body > .rail__status,
+  .rail__body > .rail__about {
     grid-column: 1 / -1;
     margin: 0 0 var(--space-3);
+  }
+
+  .rail__body > .rail__about {
+    margin: var(--space-2) 0 0;
   }
 
   .rail__body > .control {
@@ -354,5 +415,35 @@ fieldset.control > legend {
     font-weight: 700;
     background: var(--sheet);
     padding-inline: var(--space-2);
+  }
+}
+
+/* Wide screens: the same fields stacked in the left rail, a hairline under each. Under, not
+   over: a fieldset's legend sits in its top edge, so a top line would cross it. */
+@media (min-width: 80rem) {
+  .rail__body {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 0;
+  }
+
+  .rail__body > .control,
+  .rail__body > .control:first-child,
+  .rail__body > .rail__status + .control {
+    padding: var(--space-3) 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .control--fuel {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-2);
+  }
+
+  .rail__about-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rail__about-list dd + dt {
+    margin-top: var(--space-1);
   }
 }

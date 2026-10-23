@@ -17,20 +17,21 @@ function renderApp(client: ApiClient = createMockClient(0)) {
 describe("App", () => {
   beforeEach(() => window.history.replaceState(null, "", "/"));
 
-  it("loads the sample mix as a one-line strip, with the full summary on demand", async () => {
+  it("loads the sample mix into the tab row, with the full summary on demand", async () => {
     renderApp();
     expect(screen.getByText("No parcels loaded yet.")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Load sample mix" }));
-    const section = await screen.findByRole("region", { name: /your parcels/i });
-    const strip = await within(section).findByText(/to homes/);
-    expect(strip.closest("p")).toHaveTextContent(/^307 parcels\d+% to homes/);
-    expect(within(section).getByRole("heading", { name: /your parcels/i })).toHaveTextContent("Your parcels · sample mix, an example");
-    expect(within(section).queryByRole("table", { name: /weight/i })).not.toBeInTheDocument();
+    const heading = await screen.findByRole("heading", { name: /^your parcels:/i });
+    expect(heading).toHaveTextContent("Your parcels: 307 parcels · sample mix");
+    expect(screen.queryByText("No parcels loaded yet.")).not.toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: /your parcels/i })).not.toBeInTheDocument();
 
-    const details = within(section).getByRole("button", { name: "Details" });
+    const details = screen.getByRole("button", { name: "Details" });
     expect(details).toHaveAttribute("aria-expanded", "false");
     await userEvent.click(details);
     expect(details).toHaveAttribute("aria-expanded", "true");
+    const section = screen.getByRole("region", { name: /your parcels/i });
+    expect(within(section).getByText(/to homes/).closest("p")).toHaveTextContent(/^\d+% to homes/);
     expect(within(section).getByText(/^An illustrative home-goods shop, an example, not real shipping data/)).toBeInTheDocument();
     expect(within(section).getByRole("table", { name: /weight/i })).toBeInTheDocument();
     const zones = within(section).getByRole("table", { name: /distance/i });
@@ -44,8 +45,7 @@ describe("App", () => {
     await userEvent.click(screen.getByRole("tab", { name: /blended cost/i }));
     const panel = screen.getByRole("tabpanel");
     await userEvent.click(within(panel).getByRole("button", { name: "Load the sample mix" }));
-    const section = await screen.findByRole("region", { name: /your parcels/i });
-    expect((await within(section).findByText(/to homes/)).closest("p")).toHaveTextContent(/^307 parcels/);
+    expect(await screen.findByRole("heading", { name: /^your parcels:/i })).toHaveTextContent("307 parcels");
     expect(await within(screen.getByRole("tabpanel")).findByTestId("q3-answer")).toHaveTextContent("USPS $10.98 per parcel");
   });
 
@@ -80,7 +80,7 @@ describe("App", () => {
     const params = new URLSearchParams(window.location.search);
     expect(params.get("year")).toBe("2025");
     expect(params.get("view")).toBe("blended");
-    expect(screen.getByRole("tabpanel")).toHaveTextContent(/Across all your parcels/);
+    expect(screen.getByRole("tabpanel")).toHaveTextContent(/What your parcels cost per carrier/);
   });
 
   it("restores state from a shared link", async () => {
