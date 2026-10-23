@@ -173,3 +173,12 @@ On it.
     assert [t.role for t in s.turns] == ["User", "User", "Assistant"]
     assert a.user_kind(s.turns[0]) == ("event", "Local command /model")
     assert len(s.prompts) == 1 and a.first_line(s.prompts[0]) == "continue working on issues 28 and 29"
+
+
+def test_index_lists_sessions_oldest_first(tmp_path):
+    logs = tmp_path / "logs"
+    logs.mkdir()
+    (logs / "aaa-later.md").write_text(LOG.replace("2026-10-22T12:00:00.000Z", "2026-10-23T09:00:00.000Z"), encoding="utf-8")
+    (logs / "zzz-earlier.md").write_text(LOG, encoding="utf-8")
+    _, sessions = a.build(logs, tmp_path / "out")
+    assert [s.sid for s in sessions] == ["zzz-earlier", "aaa-later"]

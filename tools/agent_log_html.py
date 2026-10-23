@@ -586,7 +586,7 @@ def render_index(sessions: list[Session]) -> str:
         )
     body = f"""<header class="mast"><h1>How it was built</h1>
 <p class="mast__deck">The Claude Code sessions that built this repository, exported by the SessionEnd hook to
-<code>docs/agent-log/</code>, newest first. A local view for people with access to the repository.</p></header>
+<code>docs/agent-log/</code>, oldest first. A local view for people with access to the repository.</p></header>
 <main class="sessions"><ol class="sessions__list">{"".join(rows)}</ol>
 <h2 class="all__h">All sessions together</h2>{render_stats(total)}</main>"""
     return page("How it was built", body)
@@ -693,7 +693,7 @@ addEventListener("hashchange", () => {
 def build(log_dir: Path, out_dir: Path) -> tuple[Path, list[Session]]:
     sessions = [parse_session(p) for p in sorted(log_dir.glob("*.md")) if p.name != "README.md"]
     sessions = [s for s in sessions if s.prompts]
-    sessions.sort(key=lambda s: s.meta.get("Started", ""), reverse=True)
+    sessions.sort(key=lambda s: s.meta.get("Started", ""))
     (out_dir / "sessions").mkdir(parents=True, exist_ok=True)
     (out_dir / "assets").mkdir(parents=True, exist_ok=True)
     (out_dir / "assets" / "style.css").write_text(CSS.strip() + "\n", encoding="utf-8")
