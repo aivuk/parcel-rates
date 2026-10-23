@@ -278,3 +278,14 @@ def test_usps_peak_bands_are_inclusive_on_billable_weight(tables, weight, band):
     peak = [li.surcharge_id for li in q.line_items if li.condition == "peak_base"]
     assert len(peak) == 1 and f"_{band}_" in peak[0]
 
+
+def test_dim_rule_is_the_row_whose_window_contains_as_of(tables):
+    for carrier in ("usps", "ups", "fedex"):
+        for year in tables.years_for(carrier):
+            as_of = tables.base_effective[(carrier, year)]
+            rows = [r for r in tables.dim_rules[carrier]
+                    if (r.effective_from is None or r.effective_from <= as_of)
+                    and (r.effective_to is None or as_of <= r.effective_to)]
+            assert rows, (carrier, year)
+            assert len({(r.divisor, r.min_volume_cuin, r.rounding) for r in rows}) == 1, (carrier, year)
+            assert resolve_dim_rule(tables, carrier, year, as_of) in rows

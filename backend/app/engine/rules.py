@@ -68,19 +68,20 @@ def resolve_as_of(tables: RateTables, carrier: str, year: int, controls: Control
 
 # ---- dimensional weight ---------------------------------------------------
 def resolve_dim_rule(tables: RateTables, carrier: str, year: int, as_of: date) -> DimRule | None:
-    """Row whose window contains as_of; latest effective_from wins, then the
-    row labelled with the requested year."""
-    rows = tables.dim_rules.get(carrier, [])
-    matching = [r for r in rows if in_window(as_of, r.effective_from, r.effective_to)]
-    if not matching:
-        # as_of earlier than every window: use the year's own row(s).
-        matching = [r for r in rows if r.year == year]
+    """The row whose window (inclusive) contains as_of.
+
+    USPS repeats an identical row under several year labels; the row labelled
+    with the requested year is preferred, and identical duplicates are fine.
+    Rows that disagree inside one window are a data error."""
+    matching = [r for r in tables.dim_rules.get(carrier, []) if in_window(as_of, r.effective_from, r.effective_to)]
     if not matching:
         return None
-    return max(
-        matching,
-        key=lambda r: (r.effective_from or date.min, r.year == year, r.year),
-    )
+    own = [r for r in matching if r.year == year]
+    if own:
+        matching = own
+    if len({(r.divisor, r.min_volume_cuin, r.rounding) for r in matching}) > 1:
+        raise ValueError(f"{carrier} dim_weight rows overlap on {as_of} with different rules")
+    return matching[0]
 
 
 def rounds_dimensions_up(rule: DimRule) -> bool:

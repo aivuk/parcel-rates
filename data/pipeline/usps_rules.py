@@ -6,10 +6,10 @@ Nothing here is computed: the amounts are typed from the cited page.
 
 Conventions
 - `year` is the price-list label (2023 = the 2023-07-09 Ground Advantage launch tables).
-- Peak and time-limited windows use the dates the press release names: the
-  January price list takes effect on the `effective_to` date itself ("remain in
-  place until midnight Central on Jan. 19, 2025"), so treat `effective_to` as
-  exclusive for the `peak_base` and `transportation_time_limited` rows.
+- `effective_to` is inclusive everywhere (docs/data/SCHEMA.md). The press
+  releases end peak and time-limited prices "until midnight Central on Jan. 19,
+  2025", the day the January list takes effect, so the last day those prices
+  apply, and the `effective_to` written here, is the day before (2025-01-18).
 - Weight bands (`min_weight_lb`/`max_weight_lb`) are billable weight steps:
   "4-10 lbs" means the 4 lb to 10 lb steps, i.e. actual weight over 3 lb up to 10 lb.
 """
@@ -93,7 +93,7 @@ NONSTANDARD = {
 PEAK = {
     2024: {
         "source_file": "usps/2024/press_2024-09-05_peak2024_temporary_rates.pdf",
-        "effective_from": "2024-10-06", "effective_to": "2025-01-19",
+        "effective_from": "2024-10-06", "effective_to": "2025-01-18",
         "rows": [
             # commercial, page 1
             ("commercial", (PM, GA), 1, 4, "", "3", "0.30", 1, "$0.30 cents increase for Zones 1-4, 0-3 lbs"),
@@ -142,7 +142,7 @@ PEAK = {
     },
     2025: {
         "source_file": "usps/2025/press_2025-08-08_peak2025_temporary_rates.pdf",
-        "effective_from": "2025-10-05", "effective_to": "2026-01-18",
+        "effective_from": "2025-10-05", "effective_to": "2026-01-17",
         "rows": [
             # retail, page 1 (Ground Advantage zones 5-9 continues on page 2)
             ("retail", (PM, GA), 1, 4, "", "3", "0.40", 1, "$0.40 cents increase for Zones 1-4, 0-3 lbs"),
@@ -190,7 +190,7 @@ PEAK = {
     },
     2026: {
         "source_file": "usps/2026/press_2026-08-25_peak2026_temporary_rates.pdf",
-        "effective_from": "2026-10-04", "effective_to": "2027-01-17",
+        "effective_from": "2026-10-04", "effective_to": "2027-01-16",
         "rows": [
             # retail, page 1 (Ground Advantage zones 5-9 continues on page 2)
             ("retail", (PM, GA), 1, 4, "", "3", "0.50", 1, "$0.50 increase for Zones 1-4, 0-3 lbs"),
@@ -245,13 +245,13 @@ TRANSPORTATION_2026 = {
     "display_name": "Transportation-Related Time-Limited Price Change",
     "condition": "transportation_time_limited", "applies_to": ",".join(SERVICES),
     "amount": "8", "unit": "percent", "exclusive_group": "usps_transportation",
-    "effective_from": "2026-04-26", "effective_to": "2027-01-17", "fuel_applies": "false",
+    "effective_from": "2026-04-26", "effective_to": "2027-01-16", "fuel_applies": "false",
     "source_file": "usps/2026/press_2026-03-25_apr2026_transportation_time_limited.pdf", "source_page": 1,
     "source_quote": ("an 8 percent increase that would affect base postage prices on the following retail and "
                      "commercial domestic competitive products: Priority Mail Express, Priority Mail, USPS Ground "
                      "Advantage, and Parcel Select"),
     "notes": ("Applied to the base postage of the January 2026 list; the April 2026 Notice 123 prints the "
-              "resulting tables. Window ends at midnight Central on 2027-01-17 (treat effective_to as exclusive)."),
+              "resulting tables. The release ends it at midnight Central on 2027-01-17, so the last day it applies (effective_to, inclusive) is 2027-01-16."),
 }
 
 # ---------------------------------------------------------------------------

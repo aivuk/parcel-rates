@@ -372,7 +372,7 @@ def dim_weight() -> list[dict]:
     for year, spec in rules.DIM_WEIGHT.items():
         guide = rules.GUIDES[year]
         rows.append({"carrier": rules.CARRIER, "year": str(year), "effective_from": guide["effective_date"],
-                     "effective_to": "", "divisor": "139", "min_volume_cuin": "0", "rounding": spec["rounding"],
+                     "effective_to": guide_end(year), "divisor": "139", "min_volume_cuin": "0", "rounding": spec["rounding"],
                      "source_file": guide["file"], "source_ref": str(spec["page"]), "source_quote": spec["quote"]})
     return rows
 
