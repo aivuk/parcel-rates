@@ -70,6 +70,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Restore raw files from the newest cache
+        id: restore
         uses: actions/cache/restore@v6
         with:
           path: data/raw/**/*.pdf
@@ -78,7 +79,10 @@ jobs:
       - name: Fetch raw files missing from the cache
         run: python3 data/fetch_raw.py
       - name: Save raw files, including a partial fetch
-        if: ${{ always() && hashFiles('data/raw/**/*.pdf') != '' }}
+        # Skipped when nothing new was fetched: the key would already exist.
+        if: >-
+          ${{ always() && hashFiles('data/raw/**/*.pdf') != ''
+          && format('raw-pdfs-{0}', hashFiles('data/raw/**/*.pdf')) != steps.restore.outputs.cache-matched-key }}
         uses: actions/cache/save@v6
         with:
           path: data/raw/**/*.pdf
