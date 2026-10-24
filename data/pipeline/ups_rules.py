@@ -19,6 +19,8 @@ G26 = "ups/2026/ups-2026-rate-and-service-guide-daily-rates-updated-2026-09-07.p
 DEMAND23 = "ups/2023/ups-demand-surcharges-2023-01-15-update.pdf"
 DEMAND24 = "ups/2024/ups-demand-surcharges-2024-07-15-update.pdf"
 DEMAND25 = "ups/2025/ups-demand-surcharges-2024-09-16-update-peak-2024-25.pdf"
+DEMAND25_26 = "ups/2025/ups-demand-surcharges-2025-08-28-update-peak-2025-26.pdf"
+DEMAND26_27 = "ups/2026/ups-demand-surcharges-2026-08-26-update-peak-2026-27.pdf"
 
 # The guide used for each price year and the effective date printed in it.
 GUIDES = {
@@ -170,16 +172,40 @@ LPS_MIN_BILLABLE = {
 
 
 # ---------------------------------------------------------------------------
-# Demand (peak) surcharges, per package, from the demand-surcharge PDFs. Each
-# entry: the quote line holding the amounts, and the windows in column order.
+# Demand (peak) surcharges, per package, from the demand-surcharge PDFs. Per price year,
+# one entry per document: the quote line holding the amounts, and the windows in column
+# order (None for a column outside the year). A window belongs to every year whose price
+# list is in force during part of it: UPS 2025 prices start 2024-12-23 and 2026 prices
+# 2025-12-22, so a window spanning those dates is listed under both years. The 2026-27
+# season ends in January 2027, which has no UPS price list in the data, so all of it is
+# listed under 2026.
 # The January 2023 PDF's text layer has no spaces; quotes reproduce it as read.
 # The January 15, 2023 update applies its post-peak amounts "until further notice"; the
 # next update (DEMAND24, p.5) starts its first window "January 14, 2024 until ...", so
 # they end the day before (effective_to is inclusive).
 DEMAND23_END = "2024-01-13"
+AIR_NOTE = ("applies to all UPS Air packages, residential or not; the 'All Other UPS Air' row (2nd Day Air, "
+            "3 Day Select) carries the same amounts")
+
+
+def demand_2025_26(other_windows: list, air_windows: list) -> dict:
+    """The August 28, 2025 update (2025-26 season), with the windows one price year takes."""
+    return {"file": DEMAND25_26, "note": "UPS Demand Surcharges, August 28, 2025 Update (2025-26 peak season)",
+            "rows": [
+                {"condition": "peak_additional_handling", "applies_to": "all", "page": 1,
+                 "quote": "Additional Handling2 $8.25 per package $10.80 per package $8.25 per package",
+                 "windows": other_windows},
+                {"condition": "peak_oversize", "applies_to": "all", "page": 1,
+                 "quote": "Large Package Surcharge2 $90.50 per package $107.00 per package $90.50 per package",
+                 "windows": other_windows},
+                {"condition": "peak_residential", "applies_to": GROUND, "page": 2,
+                 "quote": "UPS Ground Residential $0.40 $0.60 $0.40", "windows": air_windows},
+                {"condition": "peak_base", "applies_to": AIR_AND_3DS, "page": 2,
+                 "quote": "UPS Next Day Air $1.10 $2.05 $1.10", "windows": air_windows, "note": AIR_NOTE},
+            ]}
 
 PEAK = {
-    2023: {"file": DEMAND23, "note": "UPS Demand Surcharges, January 15, 2023 Update; quote reproduces the PDF text layer, which lacks spaces",
+    2023: [{"file": DEMAND23, "note": "UPS Demand Surcharges, January 15, 2023 Update; quote reproduces the PDF text layer, which lacks spaces",
            "rows": [
                {"condition": "peak_additional_handling", "applies_to": "all", "page": 5,
                 "quote": "AdditionalHandling3 $6.50perpackage $3.50perpackage",
@@ -187,8 +213,8 @@ PEAK = {
                {"condition": "peak_oversize", "applies_to": "all", "page": 5,
                 "quote": "LargePackageSurcharge3 $70.00perpackage $40.00perpackage",
                 "windows": [("2022-10-30", "2023-01-14"), ("2023-01-15", DEMAND23_END)]},
-           ]},
-    2024: {"file": DEMAND24, "note": "UPS Demand Surcharges, July 15, 2024 Update",
+           ]}],
+    2024: [{"file": DEMAND24, "note": "UPS Demand Surcharges, July 15, 2024 Update",
            "rows": [
                {"condition": "peak_additional_handling", "applies_to": "all", "page": 5,
                 "quote": "Additional $3.50 per package $7.75 per package $9.95 per package $7.75 per package",
@@ -202,9 +228,9 @@ PEAK = {
                {"condition": "peak_base", "applies_to": AIR_AND_3DS, "page": 6,
                 "quote": "UPS Next Day Air $1.00 $2.00 $1.00",
                 "windows": [("2024-10-27", "2024-11-23"), ("2024-11-24", "2024-12-28"), None],
-                "note": "applies to all UPS Air packages, residential or not; the 'All Other UPS Air' row (2nd Day Air, 3 Day Select) carries the same amounts"},
-           ]},
-    2025: {"file": DEMAND25, "note": "UPS Demand Surcharges, September 16, 2024 Update (2024-25 peak season); no 2025-26 peak-season document was retrieved",
+                "note": AIR_NOTE},
+           ]}],
+    2025: [{"file": DEMAND25, "note": "UPS Demand Surcharges, September 16, 2024 Update (2024-25 peak season)",
            "rows": [
                {"condition": "peak_additional_handling", "applies_to": "all", "page": 5,
                 "quote": "Additional $3.50 per package $7.75 per package $9.95 per package $7.75 per package",
@@ -218,8 +244,28 @@ PEAK = {
                {"condition": "peak_base", "applies_to": AIR_AND_3DS, "page": 6,
                 "quote": "UPS Next Day Air $1.00 $2.00 $1.00",
                 "windows": [None, ("2024-11-24", "2024-12-28"), ("2024-12-29", "2025-01-18")],
-                "note": "applies to all UPS Air packages, residential or not; the 'All Other UPS Air' row (2nd Day Air, 3 Day Select) carries the same amounts"},
+                "note": AIR_NOTE},
            ]},
+           demand_2025_26([("2025-09-28", "2025-11-22"), ("2025-11-23", "2025-12-27"), None],
+                          [("2025-10-26", "2025-11-22"), ("2025-11-23", "2025-12-27"), None])],
+    2026: [demand_2025_26([None, ("2025-11-23", "2025-12-27"), ("2025-12-28", "2026-01-17")],
+                          [None, ("2025-11-23", "2025-12-27"), ("2025-12-28", "2026-01-17")]),
+           {"file": DEMAND26_27, "note": "UPS Demand Surcharges, August 26, 2026 Update (2026-27 peak season)",
+            "rows": [
+                {"condition": "peak_additional_handling", "applies_to": "all", "page": 1,
+                 "quote": "Additional Handling2 $8.75 per package $11.90 per package $8.75 per package",
+                 "windows": [("2026-09-27", "2026-11-21"), ("2026-11-22", "2026-12-26"), ("2026-12-27", "2027-01-16")]},
+                {"condition": "peak_oversize", "applies_to": "all", "page": 1,
+                 "quote": "Large Package Surcharge2 $96.25 per package $117.50 per package $96.25 per package",
+                 "windows": [("2026-09-27", "2026-11-21"), ("2026-11-22", "2026-12-26"), ("2026-12-27", "2027-01-16")]},
+                {"condition": "peak_residential", "applies_to": GROUND, "page": 2,
+                 "quote": "UPS Ground Residential $0.50 $0.75 $0.50",
+                 "windows": [("2026-10-25", "2026-11-21"), ("2026-11-22", "2026-12-26"), ("2026-12-27", "2027-01-16")]},
+                {"condition": "peak_base", "applies_to": AIR_AND_3DS, "page": 2,
+                 "quote": "UPS Next Day Air $1.35 $2.50 $1.35",
+                 "windows": [("2026-10-25", "2026-11-21"), ("2026-11-22", "2026-12-26"), ("2026-12-27", "2027-01-16")],
+                 "note": AIR_NOTE},
+            ]}],
 }
 
 # ---------------------------------------------------------------------------
@@ -280,15 +326,6 @@ EXCEPTION_NOTES = [
      "note": "No all-customer peak residential surcharge in the January 15, 2023 demand-surcharge update: the "
              "residential demand surcharge applies only to shippers billed for more than 20,000 packages in a week, "
              "tiered by volume over baseline, so no peak_residential row is curated for 2023."},
-    {"year": "2026", "kind": "other", "source_file": G26, "source_ref": "182",
-     "note": "2026-27 demand surcharges were announced (trade press, checked 2026-10-23: from 2026-09-27 for Additional "
-             "Handling, Large Package and Over Maximum; from 2026-10-25 for Ground Residential and Air) but the UPS "
-             "document is not in the current sources: the guide only says 'Refer to ups.com/peaksurcharges', ups.com "
-             "blocks this host and the Wayback Machine was offline when checked. No 2026 peak rows until the document is "
-             "added through the manifest."},
-    {"year": "2025", "kind": "other", "source_file": DEMAND25, "source_ref": "1",
-     "note": "Peak rows for 2025 cover only the tail of the 2024-25 season (through January 18, 2025); the "
-             "2025-26 peak-season update is not in the current sources."},
 ]
 
 

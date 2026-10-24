@@ -135,14 +135,33 @@ All prices come from the carriers' own published rate documents:
 **Collection.** Every raw file is listed in
 [data/raw/manifest.csv](data/raw/manifest.csv) with its URL, retrieval method,
 SHA-256 and size, and each carrier folder has a `SOURCES.md` describing what
-each file is. `python3 data/fetch_raw.py` restores missing files one at a
-time, with a pause and jitter between requests, backoff on errors, an
-identifying User-Agent and checksum verification. UPS and FedEx block direct
-downloads from scripts, so 78 of the 135 files are fetched through the Wayback
-Machine (`method=wayback`).
+each file is. No step needs an agent: two commands rebuild `data/raw/` and the
+manifest from a clean clone.
 
-**What is committed.** Spreadsheets, CSV zips and small HTML snapshots (58
-files, about 9 MB) are in git. The PDFs (77 files, about 137 MB) are not; run
+```sh
+uv run python -m data.collect.discover --write   # find every source, write the manifest
+python3 data/fetch_raw.py                        # download what is not in git, check every checksum
+```
+
+Discovery (issue #13) works from the catalogue in
+[data/collect/sources.csv](data/collect/sources.csv) and the rules in
+[data/collect/sources.py](data/collect/sources.py): each file's publisher URL
+and the rule that picks it. UPS and FedEx block scripted downloads and replace
+files in place, so 85 of the 143 files come from the Wayback Machine
+(`method=wayback`). For those, discovery asks the archive's CDX index and takes
+the latest good capture before the entry's cut-off. USPS price-file names are
+read from the CDX listing of Postal Explorer's price-change folder (the last
+final "Notice 123" zip of each price change). Both scripts are sequential and
+polite: a 3 to 5 s pause with jitter, backoff on 429 and 5xx, and an
+identifying User-Agent. The fetcher never re-downloads a file whose checksum
+matches. `--check` (the default) compares discovery with the committed manifest
+without writing anything. `--newer` also lists captures newer than each
+cut-off, which is where a refresh starts. The tests replay recorded CDX answers
+(`data/tests/fixtures/cdx.json.gz`), so they check offline that discovery
+rebuilds the committed manifest row for row.
+
+**What is committed.** Spreadsheets, CSV zips and small HTML snapshots (64
+files, about 11 MB) are in git. The PDFs (79 files, about 137 MB) are not; run
 `python3 data/fetch_raw.py` to get them. The processed tables in
 `data/processed/` are committed, so the app and the backend tests never need
 the raw files.
@@ -239,9 +258,6 @@ away in the controls.
 - The UPS fuel surcharge default is a proxy taken from FedEx's published
   history (no UPS history is retrievable); the slider overrides it.
 - UPS announced increases come from trade press, not from UPS itself.
-- UPS peak (demand) surcharge documents for the 2025-26 and 2026-27 seasons
-  are not in the sources, so UPS 2025 and 2026 peak quotes carry no peak
-  charges.
 - FedEx 2027 surcharges are incomplete (only the Home Delivery residential
   charge and January peak rows), so 2027 totals understate surcharges.
 - Peak surcharges are a toggle that prices on December 10 of the year, not by
@@ -259,13 +275,12 @@ The same list is returned by `GET /api/meta` and shown in the app.
 
 ## What I would improve next
 
-Open issues in the repository, in rough priority order:
+In rough priority order:
 
-- #14 capture the UPS 2025-26 and 2026-27 demand surcharge documents.
 - Real UPS and FedEx zones through their official rating APIs (with the
   shop's own API keys), replacing the distance estimate where keys are given.
-- #13 script the source discovery so data collection runs end to end without
-  an agent.
+- A scheduled discovery run with `--newer`, so a new carrier document opens a
+  pull request instead of waiting for someone to look.
 
 ## Local development without Docker
 
