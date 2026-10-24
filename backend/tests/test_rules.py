@@ -170,13 +170,21 @@ def test_peak_moves_as_of_to_december_10(tables):
     assert peak_rows[0]["surcharge_id"] not in {li.surcharge_id for li in off.line_items}
 
 
-def test_peak_rows_outside_their_window_do_not_apply(tables):
-    # The 2025-labelled UPS peak rows cover the 2024-25 season only.
+def test_ups_peak_follows_each_seasons_document(tables):
+    # Peak prices on December 10: the 2024-25, 2025-26 and 2026-27 demand-surcharge updates
+    # put Ground Residential at $0.50, $0.60 and $0.75 in their December window.
     parcel = Parcel(weight_lb=2, distance_miles=700, residential=True, speed="ground")
-    q = quote_service(tables, tables.services["ups_ground"], parcel, Controls(year=2025, peak=True))
+    for year, amount in [(2024, "0.50"), (2025, "0.60"), (2026, "0.75")]:
+        q = quote_service(tables, tables.services["ups_ground"], parcel, Controls(year=year, peak=True))
+        peak = [li for li in q.line_items if li.condition == "peak_residential"]
+        assert [li.amount for li in peak] == [Decimal(amount)], year
+
+
+def test_peak_rows_outside_their_window_do_not_apply(tables):
+    # Without the peak toggle a 2025 quote prices on the year's effective date, outside every window.
+    parcel = Parcel(weight_lb=2, distance_miles=700, residential=True, speed="ground")
+    q = quote_service(tables, tables.services["ups_ground"], parcel, Controls(year=2025))
     assert not any(li.condition and li.condition.startswith("peak_") for li in q.line_items)
-    q24 = quote_service(tables, tables.services["ups_ground"], parcel, Controls(year=2024, peak=True))
-    assert any(li.condition == "peak_residential" for li in q24.line_items)
 
 
 def test_usps_2026_transportation_increase_by_window(tables):

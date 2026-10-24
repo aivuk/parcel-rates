@@ -337,9 +337,13 @@ def large_package_rows(year: int) -> list[dict]:
 
 
 def peak_rows(year: int) -> list[dict]:
-    spec = rules.PEAK.get(year)
-    if not spec:
-        return []
+    rows = []
+    for spec in rules.PEAK.get(year, []):
+        rows += peak_rows_from(year, spec)
+    return rows
+
+
+def peak_rows_from(year: int, spec: dict) -> list[dict]:
     rows = []
     for item in spec["rows"]:
         amounts = rules.amounts_in(item["quote"])

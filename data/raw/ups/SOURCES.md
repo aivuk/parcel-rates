@@ -130,8 +130,26 @@ Access notes (important for re-fetching):
   6.77 MB, "Updated March 31, 2025".
 
 ### 2025/ups-demand-surcharges-2024-09-16-update-peak-2024-25.pdf
-- URL: https://www.ups.com/assets/resources/webcontent/en_US/PeakDemandSurcharges_US.pdf (Wayback 20250724231137)
-- PDF, 6 pages, "September 16, 2024 Update" (covers the 2024–2025 peak season). No 2025-dated update found.
+- URL: https://www.ups.com/assets/resources/webcontent/en_US/PeakDemandSurcharges_US.pdf (Wayback 20241226133044;
+  first recorded as 20250724231137, a timestamp the archive redirected to the nearest capture, which now answers
+  403. The capture taken since has the same SHA-256.)
+- PDF, 6 pages, "September 16, 2024 Update" (covers the 2024–2025 peak season).
+
+### 2025/ups-demand-surcharges-2025-08-28-update-peak-2025-26.pdf
+- URL: https://assets.ups.com/adobe/assets/urn:aaid:aem:2c542692-de10-4fa3-b507-3b4f181e0953/original/as/demand-surcharges-us-en.pdf
+  (Wayback 20251009053423). From 2025 the PDF lives at this address; the old `PeakDemandSurcharges_US.pdf` URL
+  has no good capture after December 2024 and redirects here (capture 20260216054153). Added for issue #14,
+  found by `data/collect/discover.py`.
+- PDF, 3 pages, "August 28, 2025 Update" (2025–26 season). Page 1: Additional Handling, Large Package and Over
+  Maximum for 9/28/25–11/22/25, 11/23/25–12/27/25, 12/28/25–1/17/26. Page 2: Ground Residential, Ground Saver
+  and Air for October 26 – November 22, November 23 – December 27, December 28, 2025 – January 17, 2026. Pages
+  2–3: the higher-volume shipper tables (not modelled).
+
+### 2026/ups-demand-surcharges-2026-08-26-update-peak-2026-27.pdf
+- URL: the same `demand-surcharges-us-en.pdf` (Wayback 20261009161904). Added for issue #14.
+- PDF, 3 pages, "August 26, 2026 Update" (2026–27 season), same layout: windows 9/27/26–11/21/26,
+  11/22/26–12/26/26, 12/27/26–1/16/27 on page 1 and October 25 – November 21, November 22 – December 26,
+  December 27, 2026 – January 16, 2027 on page 2.
 
 ### 2025/ups-fuel-surcharge-update-eff-2025-05-12.pdf
 - URL: https://assets.ups.com/adobe/assets/urn:aaid:aem:022a1e4c-5cb6-42a8-996a-00e98ae4e29f/original/as/fuel_surcharge_update.pdf
@@ -206,6 +224,6 @@ Access notes (important for re-fetching):
   typically ZIP/XLS downloads behind ups.com — not located in this timebox. Surcharge amounts are inside the
   guides (pages listed above).
 - Original (December) editions for 2024 and 2026 guides (only mid/late-year updates captured).
-- Later demand-surcharge updates within 2022/2023 and any 2025-dated update.
+- Later demand-surcharge updates within 2022/2023.
 - The separate "Retail Rates" guides (UPS Store counter prices) exist for every year at
   `webcontent/en_US/retail_rates.pdf` (Wayback) but were not downloaded — the task scope is Daily Rates.
