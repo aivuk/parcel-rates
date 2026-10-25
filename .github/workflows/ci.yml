@@ -58,8 +58,9 @@ jobs:
   data-full:
     name: Data tests with every PDF
     # Fetching from the Wayback Machine can fail for reasons outside the repo;
-    # the job reports but does not block. PDFs are cached by manifest checksum,
-    # so the archive is only hit when the manifest changes.
+    # the job reports but does not block. The PDFs are cached under a key built
+    # from their own contents and saved even when a fetch fails or a newer push
+    # cancels the run, so each run downloads only what no earlier run got.
     if: github.event_name != 'pull_request'
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -68,12 +69,24 @@ jobs:
       - uses: astral-sh/setup-uv@v10.3.2
         with:
           python-version: "3.12"
-      - uses: actions/cache@v6
+      - name: Restore raw files from the newest cache
+        id: restore
+        uses: actions/cache/restore@v6
         with:
           path: data/raw/**/*.pdf
-          key: raw-pdfs-${{ hashFiles('data/raw/manifest.csv') }}
-      - name: Fetch raw files
+          key: raw-pdfs-
+          restore-keys: raw-pdfs-
+      - name: Fetch raw files missing from the cache
         run: python3 data/fetch_raw.py
+      - name: Save raw files, including a partial fetch
+        # Skipped when nothing new was fetched: the key would already exist.
+        if: >-
+          ${{ always() && hashFiles('data/raw/**/*.pdf') != ''
+          && format('raw-pdfs-{0}', hashFiles('data/raw/**/*.pdf')) != steps.restore.outputs.cache-matched-key }}
+        uses: actions/cache/save@v6
+        with:
+          path: data/raw/**/*.pdf
+          key: raw-pdfs-${{ hashFiles('data/raw/**/*.pdf') }}
       - name: Data tests, missing PDFs fail
         run: uv run pytest data/tests
         env:
