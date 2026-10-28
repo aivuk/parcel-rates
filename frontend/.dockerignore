@@ -1,6 +1,0 @@
-node_modules
-dist
-e2e
-*.tsbuildinfo
-.env*
-Dockerfile
