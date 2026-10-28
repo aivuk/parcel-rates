@@ -32,7 +32,10 @@ and quoted text and counts what runs inside `$( … )`); and the subagents group
 did (reviewed a pull request, researched sources, fetched data, wrote Python, wrote
 TypeScript / React, wrote tests, Docker/CI/docs), from their task, their tools and the files
 they wrote, which is finer than their agent type (most are `general-purpose`).
-It is a local viewer for people with access to the repository; nothing is published.
+The pages are published at <https://parcels.vaz.io/agent-log/>: the frontend image
+(`frontend/Dockerfile`) renders them at build time and nginx serves them under
+`/agent-log/`, so each deploy publishes the sessions committed at that point. To
+render them locally:
 
 ```sh
 uv run tools/agent_log_html.py --open   # writes build/agent-log/ (git-ignored) and opens it

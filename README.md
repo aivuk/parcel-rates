@@ -352,15 +352,17 @@ prompts, the agent's responses and its tool calls. Home directory paths are
 redacted. [docs/DECISIONS.md](docs/DECISIONS.md) is the running log of the
 decisions those conversations led to.
 
-To browse the logs, render them as local HTML pages (needs
-[uv](https://docs.astral.sh/uv/)):
+The logs are browsable at **<https://parcels.vaz.io/agent-log/>**: the sessions
+in order, each with its prompts in a sidebar, the answers, collapsible thinking
+and tool calls, the subagent transcripts, and statistics on tool use. The pages
+are rendered by `tools/agent_log_html.py` when the frontend image is built, so
+every deploy publishes the sessions committed at that point. To render them
+locally (needs [uv](https://docs.astral.sh/uv/)):
 
 ```sh
 uv run tools/agent_log_html.py --open
 ```
 
-This writes `build/agent-log/` (git-ignored) and opens its index: the sessions
-in order, each with its prompts in a sidebar, the answers, collapsible thinking
-and tool calls, the subagent transcripts, and statistics on tool use. Without
+This writes `build/agent-log/` (git-ignored) and opens its index; without
 `--open` it prints the path to `index.html`. More in
 [docs/agent-log/README.md](docs/agent-log/README.md).

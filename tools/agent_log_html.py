@@ -2,9 +2,10 @@
 # requires-python = ">=3.10"
 # dependencies = ["markdown-it-py>=3"]
 # ///
-"""Render the exported agent sessions (docs/agent-log/*.md) as local HTML pages.
+"""Render the exported agent sessions (docs/agent-log/*.md) as static HTML pages.
 
-A local viewer for people with access to the repository; nothing is published. The
+The same pages are built into the frontend image (frontend/Dockerfile) and published
+at https://parcels.vaz.io/agent-log/; this script also runs them locally. The
 SessionEnd hook (.claude/hooks/export-session.sh) writes one Markdown file per session;
 this script reads those files back into turns (prompts, answers, thinking, tool calls with
 their results, subagents) and writes a browsable site:

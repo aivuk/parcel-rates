@@ -1,8 +1,8 @@
 name: parcel-rates
 
 # Reviewer run path: `docker compose up --build`, then open http://localhost:8088
-# Only the frontend (nginx) is published; it serves the dashboard and proxies
-# /api to the backend over the compose network.
+# Only the frontend (nginx) is published; it serves the dashboard and the agent
+# log (/agent-log/) and proxies /api to the backend over the compose network.
 services:
   backend:
     build:
@@ -14,7 +14,8 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: .
+      dockerfile: frontend/Dockerfile
     image: parcel-rates-frontend
     ports:
       - "8088:8080"
